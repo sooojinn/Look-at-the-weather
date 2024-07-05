@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import PageTitle from '../components/common/PageTitle';
 
 export default function Signup() {
   const [showTerms, setShowTerms] = useState(false);
@@ -25,15 +25,7 @@ export default function Signup() {
 
   return (
     <div>
-      <div className="flex justify-between border-b-2 px-5 py-4">
-        <Link to="/">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#171719" />
-          </svg>
-        </Link>
-        <div>회원가입</div>
-        <div className="w-6 h-6"></div>
-      </div>
+      <PageTitle title="회원가입" />
       <form className="px-5" onSubmit={handleSubmit}>
         {/* 로그인 */}
         <div>
@@ -63,7 +55,7 @@ export default function Signup() {
             <input
               type="text"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="(예시) abcde@naver.com"
+              placeholder="인증번호를 입력해 주세요."
             />
             <button
               type="button"
@@ -81,7 +73,7 @@ export default function Signup() {
           <input
             type="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="(예시) abcde@naver.com"
+            placeholder="영문/숫자/특수문자 2가지 이상 조합 (8~15자)"
           />
         </div>
         {/* 비밀번호 확인 */}
@@ -92,7 +84,7 @@ export default function Signup() {
           <input
             type="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="(예시) abcde@naver.com"
+            placeholder="비밀번호를 한번 더 입력해 주세요."
           />
         </div>
         {/* 이름 */}
@@ -103,7 +95,7 @@ export default function Signup() {
           <input
             type="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="(예시) abcde@naver.com"
+            placeholder="이름(성별)을 입력해 주세요."
           />
         </div>
         {/* 닉네임 */}
@@ -115,7 +107,7 @@ export default function Signup() {
             <input
               type="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="(예시) abcde@naver.com"
+              placeholder="한/영 10자 이내,특수문자,공백 불가"
             />
             <button
               type="button"
@@ -154,7 +146,7 @@ export default function Signup() {
         )}
         <button
           type="submit"
-          className="w-full bg-interactive-light hover:bg-primary-lightest hover:text-white rounded-lg py-3 px-4 whitespace-nowrap"
+          className="font-bold w-full bg-interactive-light hover:bg-primary-lightest hover:text-white rounded-lg py-3 px-4 whitespace-nowrap"
         >
           가입하기
         </button>
