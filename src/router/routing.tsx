@@ -11,6 +11,7 @@ import Signup from '../pages/Signup.tsx';
 import PostDetail from '../pages/PostDetail.tsx';
 import PostWrite from '../pages/PostWrite.tsx';
 import Post from '../pages/Post.tsx';
+import ProfileEdit from '../pages/ProfileEdit.tsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: '/mypage', element: <Mypage /> },
       { path: '/passwordreset', element: <PasswordReset /> },
       { path: '/post', element: <Post /> },
+      { path: '/profileedit', element: <ProfileEdit /> },
       { path: '/postwrite', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
       { path: '*', element: <NotFound /> },
