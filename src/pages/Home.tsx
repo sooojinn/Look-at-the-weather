@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { BASEURL } from '../constants/constants';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import FooterNavi from '../components/common/FooterNavi';
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
@@ -8,16 +12,27 @@ export default function Home() {
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      setTimeout(() => setShowLoginForm(true), 500);
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = Cookies.get('refreshToken');
+    if (accessToken && refreshToken) {
+      setIsLoggedIn(true);
+    } else {
+      setShowLoginForm(true);
     }
-  }, [isLoggedIn]);
+  }, []);
 
-  const handleLogin = (data: any) => {
-    // 로그인 처리 로직
-    console.log(data);
-    setIsLoggedIn(true);
-    setShowLoginForm(false);
+  const handleLogin = async (data: any) => {
+    try {
+      const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
+      const { accessToken, refreshToken } = response.data;
+      localStorage.setItem('accessToken', accessToken);
+      Cookies.set('refreshToken', refreshToken);
+      console.log(data);
+      setIsLoggedIn(true);
+      setShowLoginForm(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -99,6 +114,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <FooterNavi />
     </div>
   );
 }
