@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { BASEURL } from '../constants/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import FooterNavi from '../components/common/FooterNavi';
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
@@ -113,6 +114,7 @@ export default function Home() {
           </div>
         )}
       </div>
+      <FooterNavi />
     </div>
   );
 }
