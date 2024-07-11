@@ -212,7 +212,7 @@ export default function Signup() {
             })}
           />
           {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message?.toString()}</p>}
-          {!errors.confirmPassword && watch('confirmPassword') && (
+          {!errors.confirmPassword && watch('confirmPassword') && watch('confirmPassword') === watch('password') && (
             <p className="text-green-500">비밀번호가 일치합니다.</p>
           )}
         </div>
