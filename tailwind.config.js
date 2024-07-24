@@ -3,6 +3,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        assistive: '#C7C8C9',
+
         background: {
           default: '#dfdfeo',
           light: '#f7f7f8',
@@ -29,6 +31,11 @@ export default {
           lighter: '#005eeeb',
           light: '#0054d1',
         },
+      },
+      height: {
+        '292px': '292px',
+        '60px': '60px',
+        '312px': '312px',
       },
     },
   },
