@@ -32,12 +32,9 @@ export default {
           light: '#0054d1',
         },
       },
-      height: {
-        '292px': '292px',
-        '60px': '60px',
-        '312px': '312px',
-      },
     },
   },
   plugins: [],
+  purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
+  mode: 'jit',
 };
