@@ -13,7 +13,7 @@ export default function Header({ children }: HeaderProps) {
   const navigate = useNavigate();
   const handleBackBtn = () => navigate(-1);
   return (
-    <header className="flex justify-between border-b-[1px] px-5 py-4 text-xl">
+    <header className="w-full sticky top-0 bg-white flex justify-between border-b px-5 py-4 text-xl">
       <div className="w-6 h-6">
         {/* 메인 페이지가 아니면 뒤로가기 버튼 생성 */}
         <button className={`${isMainPage ? 'hidden' : 'block'}`} onClick={handleBackBtn}>
