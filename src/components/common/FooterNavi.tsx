@@ -25,7 +25,7 @@ export default function FooterNavi() {
           key={navItem.path}
           to={navItem.path}
           className={({ isActive }) =>
-            `flex flex-col items-center ${isActive ? 'text-primary-lightest' : 'text-assistive'}`
+            `flex flex-col items-center w-14 ${isActive ? 'text-primary-lightest' : 'text-assistive'}`
           }
         >
           {({ isActive }) => {
