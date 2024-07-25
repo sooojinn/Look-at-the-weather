@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PageTitle from '../components/common/PageTitle';
+import Header from '../components/common/Header';
 import { BASEURL } from '../constants/constants';
 
 export default function FindPassword() {
@@ -31,7 +31,7 @@ export default function FindPassword() {
 
   return (
     <div className="flex flex-col h-screen">
-      <PageTitle title="비밀번호 찾기" />
+      <Header>비밀번호 찾기</Header>
       <form className="flex flex-col justify-between h-screen px-5" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block mb-2 my-4 text-gray-600 font-bold">

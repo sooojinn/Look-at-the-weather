@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PageTitle from '../components/common/PageTitle';
+import Header from '../components/common/Header';
 import { BASEURL } from '../constants/constants';
 
 export default function FindEmail() {
@@ -38,7 +38,7 @@ export default function FindEmail() {
 
   return (
     <div className="flex flex-col h-screen">
-      <PageTitle title="이메일 찾기" />
+      <Header>이메일 찾기</Header>
       {email ? (
         <div className="flex flex-col justify-between h-screen  flex-grow px-5">
           <div className="mt-5">

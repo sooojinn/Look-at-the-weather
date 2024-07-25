@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import FooterNavi from '../components/common/FooterNavi';
-import PageTitle from '../components/common/PageTitle';
+import Header from '../components/common/Header';
 import LoginForm from '../components/login/LoginForm';
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* 로고와 날씨 정보 */}
       <div className="w-full sticky top-0 bg-white">
-        <PageTitle title="로고" />
+        <Header>로고</Header>
         {/* <div className="w-full p-4 mt-6 text-xl font-bold flex justify-center items-center ">로고</div> */}
         <div className="w-full p-4 bg-blue-200 h-[292px]">날씨 정보</div>
       </div>

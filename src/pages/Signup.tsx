@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import PageTitle from '../components/common/PageTitle';
+import Header from '../components/common/Header';
 import { BASEURL } from '../constants/constants';
 import { useNavigate } from 'react-router-dom';
 
@@ -113,7 +113,7 @@ export default function Signup() {
 
   return (
     <div>
-      <PageTitle title="회원가입" />
+      <Header>회원가입</Header>
       <form className="px-5" onSubmit={handleSubmit(onSubmit)}>
         {/* 이메일 */}
         <div>

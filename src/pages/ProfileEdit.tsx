@@ -1,9 +1,9 @@
-import PageTitle from '../components/common/PageTitle';
+import Header from '../components/common/Header';
 
 export default function ProfileEdit() {
   return (
     <div className="flex flex-col justify-between h-screen">
-      <PageTitle title="개인정보 수정" />
+      <Header>개인정보 수정</Header>
       <form className="flex flex-col px-5">
         <div>
           <label className="block mb-2 my-4 text-gray-600 font-bold">
