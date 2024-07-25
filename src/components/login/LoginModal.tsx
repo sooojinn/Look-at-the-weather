@@ -29,7 +29,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     <>
       {/* 배경 흐리게 */}
       <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-      <div className={'max-w-md absolute bottom-0 left-0 w-full bg-white p-5 shadow-md z-20'}>
+      <div className={'max-w-md absolute bottom-0 w-full h-[470px] bg-white p-5 shadow-md z-20'}>
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="">
             <label className="block mb-2 text-gray-600 font-bold">
