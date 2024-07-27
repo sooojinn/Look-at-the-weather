@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'SpoqaHanSansNeo-Bold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @layer components {
   .post-list {
     display: grid;
