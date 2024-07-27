@@ -1,0 +1,30 @@
+# .github/workflows/create-issue-branch.yml
+name: Create Issue Branch
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create a new branch for the issue
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          ISSUE_TITLE=${{ github.event.issue.title }}
+          BRANCH_NAME="issue ${ISSUE_TITLE// /-}(${ISSUE_NUMBER})"
+
+          echo "Creating branch: $BRANCH_NAME"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
+
+      - name: Add a comment to the issue
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: 'Branch [$BRANCH_NAME](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME) created for issue #${ISSUE_NUMBER}.'
