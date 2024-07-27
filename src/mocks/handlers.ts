@@ -1,5 +1,6 @@
 import { HttpResponse, http } from 'msw';
 import { BASEURL } from '../constants/constants';
+import { generateMockPosts } from './mockPostData';
 
 type EmailFindRequestBody = {
   name: string;
@@ -21,6 +22,11 @@ type EmailVerifyRequestBody = {
   email: string;
   code: string;
 };
+
+// interface RequestLocationDTO {
+//   latitude: number;
+//   longitude: number;
+// }
 
 export const handlers = [
   // 회원가입
@@ -145,4 +151,50 @@ export const handlers = [
       });
     }
   }),
+
+  // 메인 페이지 오늘의 베스트 코디 목록 조회
+  http.get(`${BASEURL}/api/v1/posts/liked`, async ({ request }) => {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '0');
+    const size = parseInt(url.searchParams.get('size') || '10');
+
+    // 페이지와 사이즈 값 유효성 검사
+    if (isNaN(page) || isNaN(size) || page < 0 || size <= 0) {
+      return HttpResponse.json(
+        {
+          errorCode: 'ERROR_SEARCH_FILTER',
+          errorMessage: '게시글 조회 실패',
+        },
+        { status: 400 },
+      );
+    }
+
+    // 모의 데이터 생성
+    const mockPosts = generateMockPosts(size);
+
+    return HttpResponse.json(mockPosts, { status: 200 });
+  }),
+
+  // // 현재 위치 조회
+  // http.post(`${BASEURL}/api/v1/locations`, async ({ request }) => {
+  //   const body = (await request.json()) as RequestLocationDTO;
+  //   const { latitude, longitude } = body;
+
+  //   // 위도와 경도 정보의 유효성 검사
+  //   if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) {
+  //     return HttpResponse.json(
+  //       {
+  //         errorCode: 'INVALID_INPUT',
+  //         errorMessage: '위도와 경도 정보가 유효하지 않습니다.',
+  //       },
+  //       { status: 400 },
+  //     );
+  //   }
+
+  //   const locationResponse = {
+  //     location: '서울시 강남구',
+  //   };
+
+  //   return HttpResponse.json(locationResponse, { status: 200 });
+  // }),
 ];

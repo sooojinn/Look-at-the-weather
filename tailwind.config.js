@@ -2,8 +2,12 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        'spoqa-han-sans': ['SpoqaHanSansNeo-Bold', 'sans-serif'],
+      },
       colors: {
         assistive: '#C7C8C9',
+        alternative: '#858588',
 
         background: {
           default: '#dfdfeo',
