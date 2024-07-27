@@ -14,6 +14,8 @@ export default function Home() {
     const refreshToken = Cookies.get('refreshToken');
     if (accessToken && refreshToken) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
 
