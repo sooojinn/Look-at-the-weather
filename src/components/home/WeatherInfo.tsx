@@ -10,7 +10,7 @@ interface Location {
   location: string;
 }
 
-// 위도와 경도를 보내면 지명을 응답하는 API
+// 위도와 경도를 보내면 위치 정보('OO시 OO구')를 응답하는 API
 const getLocation = async (geoPoint: GeoPoint): Promise<Location> => {
   const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
     headers: {
@@ -43,6 +43,7 @@ export default function WeatherInfo() {
   }, []);
 
   useEffect(() => {
+    // 위도, 경도 데이터가 존재할 때
     if (geoPoint) {
       // 위도와 경도로부터 위치 정보('OO시 OO구') 가져오기
       const fetchLocation = async () => {
@@ -60,6 +61,7 @@ export default function WeatherInfo() {
         // 위도와 경도를 좌표로 변환한 값
         const grid = dfs_xy_conv('toXY', geoPoint.latitude, geoPoint.longitude);
         console.log('변환된 좌표:', grid.x, grid.y);
+
         try {
           const nextWeatherInfo = await getWeatherInfo(grid.x as number, grid.y as number);
           setWeatherInfo(nextWeatherInfo);
@@ -73,7 +75,7 @@ export default function WeatherInfo() {
       fetchLocation();
       fetchWeatherInfo();
     }
-  }, [geoPoint]); // geoPoint가 변경될 때마다 useEffect 실행
+  }, [geoPoint]); // geoPoint가 변경되고 난 후 실행
 
   return (
     <div className="w-full bg-blue-200 h-[292px]">
