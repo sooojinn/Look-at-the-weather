@@ -1,7 +1,4 @@
-interface GeoPoint {
-  latitude: number;
-  longitude: number;
-}
+import { GeoPoint } from '../config/types';
 
 type ConversionCode = 'toXY' | 'toLL';
 

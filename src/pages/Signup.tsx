@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Header from '../components/common/Header';
-import { BASEURL } from '../constants/constants';
+import { BASEURL } from '../config/constants';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {

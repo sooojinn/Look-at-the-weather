@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SERVICE_KEY, WEATHER_API_URL } from '../constants/constants';
+import { SERVICE_KEY, WEATHER_API_URL } from '../config/constants';
+import { WeatherInfo } from '../config/types';
 
 interface WeatherApiResponse {
   response: {
@@ -43,10 +44,6 @@ interface ForecastType {
   getBaseTime(): string;
   filterCategories: FilterCategories;
   filterForecast(items: ForecastItem[], category: string): ForecastItem | undefined;
-}
-
-interface WeatherInfo {
-  [key: string]: string | number | null;
 }
 
 function getCurrentDateInfo() {

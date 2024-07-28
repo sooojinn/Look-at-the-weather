@@ -1,21 +1,13 @@
 import { useEffect, useState } from 'react';
-import { BASEURL } from '../../constants/constants';
+import { BASEURL } from '../../config/constants';
 import axios from 'axios';
 import { dfs_xy_conv, fetchGeoPoint } from '../../lib/geo';
 import { getWeatherInfo } from '../../lib/weather';
 import compassIcon from '../../assets/compass_icon.svg';
-
-interface GeoPoint {
-  latitude: number;
-  longitude: number;
-}
+import { GeoPoint, WeatherInfo } from '../../config/types';
 
 interface Location {
   location: string;
-}
-
-interface WeatherInfo {
-  [key: string]: string | number | null;
 }
 
 // 위도와 경도를 보내면 지명을 응답하는 API
