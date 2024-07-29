@@ -25,6 +25,7 @@ export default function useWeatherData() {
     currentTemp: hourlyWeatherQuery.data?.currentTemp,
     minTemp: dailyWeatherQuery.data?.minTemp,
     maxTemp: dailyWeatherQuery.data?.maxTemp,
+    weatherType: dailyWeatherQuery.data?.weatherType,
     isLoading: locationQuery.isLoading || hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
   };
 }

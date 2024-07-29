@@ -32,20 +32,16 @@ interface ForecastItem {
   ny: number;
 }
 
-interface CategoryInfo {
-  name: string;
-  func: (value: string) => number | string;
-}
-
 interface FilterCategories {
-  [key: string]: CategoryInfo;
+  [key: string]: { name: string };
 }
 
 interface ForecastType {
-  getBaseTime(): string;
   filterCategories: FilterCategories;
   filterForecast(items: ForecastItem[], category: string): ForecastItem | undefined;
 }
+
+type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet' | 'showers';
 
 function getCurrentDateInfo() {
   const now = new Date();
@@ -63,67 +59,10 @@ function getCurrentDateInfo() {
 
 // 시간별 예보 (기온, 하늘 상태, 강수 형태)
 const hourly: ForecastType = {
-  getBaseTime() {
-    const { hours } = getCurrentDateInfo();
-    // 예보 발표 시각 (매일 3시간 간격)
-    const baseTimes = [2, 5, 8, 11, 14, 17, 20, 23];
-
-    // 발표 시각은 현재 시각보다 작은 값 중 가장 큰 값
-    // 발표 자료엔 발표 시각의 1시간 이후부터의 데이터가 있기 때문에 현재 시각과 발표 시각이 같으면 안 됨
-    // ex. 5시 발표 자료에는 6시 이후부터의 데이터가 있음. 따라서 현재 시각이 5시 mm분일 때는 2시 발표 자료 중 예보 시각이 5시인 데이터가 가장 최신 데이터임.
-    const baseTime =
-      baseTimes.reverse().find((time) => {
-        return hours > time;
-      }) || 23;
-
-    return baseTime.toString().padStart(2, '0') + '00'; // HH00 형태
-  },
-
   filterCategories: {
-    // 기온
-    TMP: {
-      name: 'currentTemp',
-      func(value: string) {
-        return parseInt(value);
-      },
-    },
-    // 하늘 상태
-    SKY: {
-      name: 'sky',
-      func(value: string) {
-        switch (+value) {
-          case 1:
-            return '맑음';
-          // 2는 원래 없음
-          case 3:
-            return '구름 많음';
-          case 4:
-            return '흐림';
-          default:
-            return '결과값 없음';
-        }
-      },
-    },
-    // 강수 형태
-    PTY: {
-      name: 'precipType',
-      func(value: string) {
-        switch (+value) {
-          case 0:
-            return '없음';
-          case 1:
-            return '비';
-          case 2:
-            return '비/눈';
-          case 3:
-            return '눈';
-          case 4:
-            return '소나기';
-          default:
-            return '결과값 없음';
-        }
-      },
-    },
+    TMP: { name: 'currentTemp' }, // 기온
+    SKY: { name: 'sky' }, // 하늘 상태
+    PTY: { name: 'precipType' }, // 강수 형태
   },
 
   filterForecast(items: ForecastItem[], category: string) {
@@ -135,29 +74,9 @@ const hourly: ForecastType = {
 
 // 일별 예보 (일 최저기온, 일 최고기온)
 const daily: ForecastType = {
-  getBaseTime() {
-    const { hours, minutes } = getCurrentDateInfo();
-    // 00:00 ~ 02:10는 전날의 23시 발표 자료를, 02:11 ~ 23:59는 당일의 2시 발표 자료를 패칭함
-    // 당일의 일 최저기온 데이터는 2시에 발표되는 게 마지막, 그 이후의 시각에 발표되는 자료부터는 익일의 최저기온 데이터밖에 없음
-    // 2시 발표 자료는 2시 10분 이후부터 api로 접근 가능
-    return hours < 2 || (hours === 2 && minutes <= 10) ? '2300' : '0200';
-  },
-
   filterCategories: {
-    // 일 최저기온
-    TMN: {
-      name: 'minTemp',
-      func(value: string) {
-        return parseInt(value);
-      },
-    },
-    // 일 최고기온
-    TMX: {
-      name: 'maxTemp',
-      func(value: string) {
-        return parseInt(value);
-      },
-    },
+    TMN: { name: 'minTemp' }, // 일 최저기온
+    TMX: { name: 'maxTemp' }, // 일 최고기온
   },
 
   filterForecast(items: ForecastItem[], category: string) {
@@ -167,11 +86,38 @@ const daily: ForecastType = {
   },
 };
 
+// 현재 위치의 nx. ny 좌표를 구함
 async function getGrid() {
   const geoPoint = await fetchGeoPoint();
   const { x: nx, y: ny } = dfs_xy_conv('toXY', geoPoint.latitude, geoPoint.longitude);
 
   return { nx, ny };
+}
+
+// 시간별 예보의 base_time(발표 시각)을 구하는 함수
+function getHourlyForecastBaseTime() {
+  const { hours } = getCurrentDateInfo();
+  // 예보 발표 시각 (매일 3시간 간격)
+  const baseTimes = [2, 5, 8, 11, 14, 17, 20, 23];
+
+  // 발표 시각은 현재 시각보다 작은 값 중 가장 큰 값
+  // 발표 자료엔 발표 시각의 1시간 이후부터의 데이터가 있기 때문에 현재 시각과 발표 시각이 같으면 안 됨
+  // ex. 5시 발표 자료에는 6시 이후부터의 데이터가 있음. 따라서 현재 시각이 5시 mm분일 때는 2시 발표 자료 중 예보 시각이 5시인 데이터가 가장 최신 데이터임.
+  const baseTime =
+    baseTimes.reverse().find((time) => {
+      return hours > time;
+    }) || 23;
+
+  return baseTime.toString().padStart(2, '0') + '00'; // HH00 형태
+}
+
+// 일별 예보의 base_time(발표 시각)을 구하는 함수
+function getDailyForecastBaseTime() {
+  const { hours, minutes } = getCurrentDateInfo();
+  // 00:00 ~ 02:10는 전날의 23시 발표 자료를, 02:11 ~ 23:59는 당일의 2시 발표 자료를 패칭함
+  // 당일의 일 최저기온 데이터는 2시에 발표되는 게 마지막, 그 이후의 시각에 발표되는 자료부터는 익일의 최저기온 데이터밖에 없음
+  // 2시 발표 자료는 2시 10분 이후부터 api로 접근 가능
+  return hours < 2 || (hours === 2 && minutes <= 10) ? '2300' : '0200';
 }
 
 // base_date(발표 날짜)를 구하는 함수
@@ -191,8 +137,7 @@ function getBaseDate(baseTime: string): string {
 }
 
 // 단기예보 api로 현재 위치의 날씨 데이터를 받아옴
-export async function getWeatherForecasts(forecastType: ForecastType): Promise<ForecastItem[]> {
-  const baseTime = forecastType.getBaseTime();
+export async function getWeatherForecasts(baseTime: string): Promise<ForecastItem[]> {
   const baseDate = getBaseDate(baseTime);
 
   const { nx, ny } = await getGrid();
@@ -247,16 +192,42 @@ function extractWeatherInfo(forecastType: ForecastType, items: ForecastItem[]) {
   return weatherInfo;
 }
 
-// 현재 위치(nx, ny)의 시간별 날씨 정보(기온, 하늘 상태, 강수 형태)를 얻는 함수
-// 시간별 예보 데이터(기온, 하늘 상태, 강수 형태)와 일별 예보 데이터(일 최저기온, 최고기온)는
-// 최신 데이터의 base_time이 다르기 때문에 따로 패칭
+// 시간별 날씨 정보(기온, 하늘 상태, 강수 형태)를 얻는 함수
 export async function getHourlyWeatherInfo() {
-  const forecasts = await getWeatherForecasts(hourly);
-  return extractWeatherInfo(hourly, forecasts);
+  const baseTime = getHourlyForecastBaseTime();
+  const forecasts = await getWeatherForecasts(baseTime);
+
+  const weatherInfo = extractWeatherInfo(hourly, forecasts);
+  const { sky, precipType } = weatherInfo;
+
+  let weatherType: WeatherType | null = null;
+
+  if (precipType === 1 || precipType === 4) {
+    weatherType = 'rain';
+  } else if (precipType === 2) {
+    weatherType = 'sleet';
+  } else if (precipType === 3) {
+    weatherType = 'snow';
+  } else if (sky === 1) {
+    weatherType = 'clear';
+  } else if (sky === 3) {
+    weatherType = 'partly_cloudy';
+  } else if (sky === 4) {
+    weatherType = 'cloudy';
+  }
+
+  weatherInfo.weatherType = weatherType;
+
+  console.log(weatherInfo);
+  return weatherInfo;
 }
 
-// 현재 위치(nx, ny)의 일별 날씨 정보(일 최저기온, 일 최고기온)를 얻는 함수
+// 일별 날씨 정보(일 최저기온, 일 최고기온)를 얻는 함수
 export async function getDailyWeatherInfo() {
-  const forecast = await getWeatherForecasts(daily);
-  return extractWeatherInfo(daily, forecast);
+  const baseTime = getDailyForecastBaseTime();
+  const forecast = await getWeatherForecasts(baseTime);
+
+  const weatherInfo = extractWeatherInfo(daily, forecast);
+
+  return weatherInfo;
 }
