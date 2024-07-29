@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { GeoPoint } from '../config/types';
+import { BASEURL } from '../config/constants';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환
@@ -7,8 +9,8 @@ type ConversionCode = 'toXY' | 'toLL';
 interface DfsResult {
   lat: number;
   lng: number;
-  x?: number;
-  y?: number;
+  x: number;
+  y: number;
 }
 
 // geolocation api로 현재 위치의 위도와 경도를 구함
@@ -29,6 +31,22 @@ export function fetchGeoPoint(): Promise<GeoPoint> {
     }
   });
 }
+
+// 위치 정보('OO시 OO구')를 반환하는 함수
+export const fetchLocation = async (): Promise<string | undefined> => {
+  const geoPoint = await fetchGeoPoint();
+  try {
+    const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return response.data.location;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // 위도와 경도를 단기예보 좌표로 변환
 export function dfs_xy_conv(code: ConversionCode, v1: number, v2: number): DfsResult {
@@ -57,7 +75,7 @@ export function dfs_xy_conv(code: ConversionCode, v1: number, v2: number): DfsRe
   let ro = Math.tan(Math.PI * 0.25 + olat * 0.5);
   ro = (re * sf) / Math.pow(ro, sn);
 
-  const rs: DfsResult = { lat: 0, lng: 0 };
+  const rs: DfsResult = { lat: 0, lng: 0, x: 0, y: 0 };
 
   if (code === 'toXY') {
     rs.lat = v1;

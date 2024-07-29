@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { SERVICE_KEY, WEATHER_API_URL } from '../config/constants';
 import { WeatherInfo } from '../config/types';
+import { dfs_xy_conv, fetchGeoPoint } from './geo';
 
 interface WeatherApiResponse {
   response: {
@@ -166,6 +167,13 @@ const daily: ForecastType = {
   },
 };
 
+async function getGrid() {
+  const geoPoint = await fetchGeoPoint();
+  const { x: nx, y: ny } = dfs_xy_conv('toXY', geoPoint.latitude, geoPoint.longitude);
+
+  return { nx, ny };
+}
+
 // base_date(발표 날짜)를 구하는 함수
 function getBaseDate(baseTime: string): string {
   const { now } = getCurrentDateInfo();
@@ -183,9 +191,11 @@ function getBaseDate(baseTime: string): string {
 }
 
 // 단기예보 api로 현재 위치의 날씨 데이터를 받아옴
-export async function getWeatherForecasts(forecastType: ForecastType, nx: number, ny: number): Promise<ForecastItem[]> {
+export async function getWeatherForecasts(forecastType: ForecastType): Promise<ForecastItem[]> {
   const baseTime = forecastType.getBaseTime();
   const baseDate = getBaseDate(baseTime);
+
+  const { nx, ny } = await getGrid();
 
   console.log('발표날짜: ', baseDate);
   console.log('발표시간: ', baseTime);
@@ -221,37 +231,32 @@ export async function getWeatherForecasts(forecastType: ForecastType, nx: number
   }
 }
 
-// 응답 받은 예보 데이터 중 필요한 정보만 추출, 가공
+// 응답 받은 예보 데이터 중 필요한 항목만 추출
 function extractWeatherInfo(forecastType: ForecastType, items: ForecastItem[]) {
   const categories = forecastType.filterCategories;
 
   const weatherInfo: WeatherInfo = {};
 
   for (const category in categories) {
-    // 필요한 예보 데이터 필터링
     const filteredItem = forecastType.filterForecast(items, category);
     const value = filteredItem?.fcstValue;
 
-    // 데이터를 보기 쉽게 가공
     const categoryInfo = forecastType.filterCategories[category];
-    weatherInfo[categoryInfo.name] = value ? categoryInfo.func(value) : null;
+    weatherInfo[categoryInfo.name] = value ? parseInt(value) : null;
   }
   return weatherInfo;
 }
 
-// 현재 위치(nx, ny)의 날씨 정보를 얻는 함수
-export async function getWeatherInfo(nx: number, ny: number) {
-  // 시간별 예보 데이터(기온, 하늘 상태, 강수 형태)와 일별 예보 데이터(일 최저기온, 최고기온)는
-  // 최신 데이터의 base_time이 다르기 때문에 따로 패칭
-  const [hourlyForecasts, dailyForecasts] = await Promise.all([
-    getWeatherForecasts(hourly, nx, ny),
-    getWeatherForecasts(daily, nx, ny),
-  ]);
+// 현재 위치(nx, ny)의 시간별 날씨 정보(기온, 하늘 상태, 강수 형태)를 얻는 함수
+// 시간별 예보 데이터(기온, 하늘 상태, 강수 형태)와 일별 예보 데이터(일 최저기온, 최고기온)는
+// 최신 데이터의 base_time이 다르기 때문에 따로 패칭
+export async function getHourlyWeatherInfo() {
+  const forecasts = await getWeatherForecasts(hourly);
+  return extractWeatherInfo(hourly, forecasts);
+}
 
-  const weatherInfo = {
-    ...extractWeatherInfo(hourly, hourlyForecasts),
-    ...extractWeatherInfo(daily, dailyForecasts),
-  };
-
-  return weatherInfo;
+// 현재 위치(nx, ny)의 일별 날씨 정보(일 최저기온, 일 최고기온)를 얻는 함수
+export async function getDailyWeatherInfo() {
+  const forecast = await getWeatherForecasts(daily);
+  return extractWeatherInfo(daily, forecast);
 }
