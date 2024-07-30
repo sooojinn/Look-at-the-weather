@@ -27,8 +27,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE=${{ github.event.issue.title }}
-          BRANCH_NAME="issue-${ISSUE_TITLE// /-}#${ISSUE_NUMBER}"
+          ISSUE_LABEL=${{ github.event.issue.labels }}
+          BRANCH_NAME="${ISSUE_LABEL}/issue-${ISSUE_NUMBER}"
 
           echo "Creating branch: $BRANCH_NAME"
           git checkout -b $BRANCH_NAME
