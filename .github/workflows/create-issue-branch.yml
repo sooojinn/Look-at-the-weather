@@ -1,20 +1,31 @@
+name: Create Issue Branch
+
 on:
-  # The issue.opened event below is only needed for the "immediate" mode.
-  # The issue.assigned event below is only needed for the default ("auto") mode.
   issues:
     types: [opened, assigned]
-  # The issue_comment.created event below is only needed for the ChatOps mode.
   issue_comment:
     types: [created]
-  # The pull_request events below are only needed for pull-request related features.
   pull_request:
     types: [opened, closed]
+
+permissions:
+  contents: write
 
 jobs:
   create_issue_branch_job:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@main
+        id: create_issue_branch
+        uses: robvanderleek/create-issue-branch@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug Information
+        run: |
+          echo "Issue Number: ${{ github.event.issue.number }}"
+          echo "Issue Title: ${{ github.event.issue.title }}"
+          echo "Branch Name: ${{ steps.create_issue_branch.outputs.branchName }}"
