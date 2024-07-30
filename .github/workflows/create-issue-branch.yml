@@ -1,14 +1,16 @@
 name: Create Issue Branch
 on:
   issues:
-    types: [assigned]
+    types: [opened]
 
 jobs:
   create_issue_branch_job:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@main
+        uses: robvanderleek/create-issue-branch@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Echo branch name
