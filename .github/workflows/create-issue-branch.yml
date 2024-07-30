@@ -3,6 +3,7 @@ name: Create Issue Branch
 on:
   issues:
     types: [opened]
+  branches: -label
 
 permissions:
   issues: write
@@ -27,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_LABEL=$(echo "${{ github.event.issue.labels }}" | jq -r '.[0].name')
+          ISSUE_LABEL=${{ github.event.issue.labels }}
           BRANCH_NAME="${ISSUE_LABEL}/issue-${ISSUE_NUMBER}"
 
           echo "Creating branch: $BRANCH_NAME"
