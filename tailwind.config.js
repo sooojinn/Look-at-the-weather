@@ -5,6 +5,11 @@ export default {
       fontFamily: {
         'spoqa-han-sans': ['SpoqaHanSansNeo-Bold', 'sans-serif'],
       },
+      backgroundImage: {
+        'weather-light-gradient': 'linear-gradient(118.17deg, #F5AF16 -4.95%, #FFEA73 101.98%)',
+        'weather-normal-gradient': 'linear-gradient(118.17deg, #29ACFF -4.95%, #BAE1FA 101.98%)',
+        'weather-dark-gradient': 'linear-gradient(118.17deg, #0E3363 -4.95%, #4484D9 101.98%)',
+      },
       colors: {
         assistive: '#C7C8C9',
         alternative: '#858588',

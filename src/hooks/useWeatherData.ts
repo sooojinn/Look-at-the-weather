@@ -11,21 +11,21 @@ export default function useWeatherData() {
   const hourlyWeatherQuery = useQuery({
     queryKey: ['hourlyWeather'],
     queryFn: getHourlyWeatherInfo,
-    staleTime: 1000 * 60 * 60 * 1, // 1시간
+    // staleTime: 1000 * 60 * 60 * 1, // 1시간
   });
 
   const dailyWeatherQuery = useQuery({
     queryKey: ['dailyWeather'],
     queryFn: getDailyWeatherInfo,
-    staleTime: 1000 * 60 * 60 * 3, // 3시간
+    // staleTime: 1000 * 60 * 60 * 3, // 3시간
   });
 
   return {
     location: locationQuery.data,
     currentTemp: hourlyWeatherQuery.data?.currentTemp,
+    weatherType: hourlyWeatherQuery.data?.weatherType,
     minTemp: dailyWeatherQuery.data?.minTemp,
     maxTemp: dailyWeatherQuery.data?.maxTemp,
-    weatherType: dailyWeatherQuery.data?.weatherType,
     isLoading: locationQuery.isLoading || hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
   };
 }

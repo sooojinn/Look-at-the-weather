@@ -41,7 +41,7 @@ interface ForecastType {
   filterForecast(items: ForecastItem[], category: string): ForecastItem | undefined;
 }
 
-type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet' | 'showers';
+type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
 
 function getCurrentDateInfo() {
   const now = new Date();
@@ -187,7 +187,7 @@ function extractWeatherInfo(forecastType: ForecastType, items: ForecastItem[]) {
     const value = filteredItem?.fcstValue;
 
     const categoryInfo = forecastType.filterCategories[category];
-    weatherInfo[categoryInfo.name] = value ? parseInt(value) : null;
+    weatherInfo[categoryInfo.name] = value ?? null;
   }
   return weatherInfo;
 }
@@ -202,17 +202,17 @@ export async function getHourlyWeatherInfo() {
 
   let weatherType: WeatherType | null = null;
 
-  if (precipType === 1 || precipType === 4) {
+  if (precipType === '1' || precipType === '4') {
     weatherType = 'rain';
-  } else if (precipType === 2) {
+  } else if (precipType === '2') {
     weatherType = 'sleet';
-  } else if (precipType === 3) {
+  } else if (precipType === '3') {
     weatherType = 'snow';
-  } else if (sky === 1) {
+  } else if (sky === '1') {
     weatherType = 'clear';
-  } else if (sky === 3) {
+  } else if (sky === '3') {
     weatherType = 'partly_cloudy';
-  } else if (sky === 4) {
+  } else if (sky === '4') {
     weatherType = 'cloudy';
   }
 
