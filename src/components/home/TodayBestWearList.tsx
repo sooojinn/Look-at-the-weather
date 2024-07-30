@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { BASEURL } from '../../constants/constants';
 import { useEffect, useState } from 'react';
+import { PostList } from '../post/postList';
 
-interface PostMeta {
+export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: string;
@@ -43,35 +44,6 @@ export default function TodayBestWearList() {
         <p>Today Best Wear</p>
       </div>
       {postList && <PostList postList={postList} />}
-    </div>
-  );
-}
-
-interface PostListProps {
-  postList: PostMeta[];
-}
-
-export function PostList({ postList }: PostListProps) {
-  return (
-    <div className="w-full post-list">
-      {postList.map((post) => {
-        const tags = [...post.WeatherTag, ...post.TempTag, post.SeasonTag];
-        return (
-          <div className="min-h-[312px] h-auto" key={post.postId}>
-            <img src={post.thumbnail} className="w-full h-[232px] object-cover" alt="thumbnail" />
-            <div className="mt-2.5 px-5">
-              <div className="text-sm">{post.location}</div>
-              <div>
-                {tags.map((tag, index) => (
-                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-alternative">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-      })}
     </div>
   );
 }
