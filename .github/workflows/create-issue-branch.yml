@@ -1,31 +1,21 @@
 name: Create Issue Branch
-
 on:
   issues:
-    types: [opened, assigned]
+    types: [assigned]
   issue_comment:
     types: [created]
   pull_request:
-    types: [opened, closed]
-
+    types: [closed]
 permissions:
+  id-token: write
   contents: write
-
+  issues: write
+  pull-requests: write
 jobs:
   create_issue_branch_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Create Issue Branch
-        id: create_issue_branch
-        uses: robvanderleek/create-issue-branch@v4
+        uses: robvanderleek/create-issue-branch@v1.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Debug Information
-        run: |
-          echo "Issue Number: ${{ github.event.issue.number }}"
-          echo "Issue Title: ${{ github.event.issue.title }}"
-          echo "Branch Name: ${{ steps.create_issue_branch.outputs.branchName }}"
