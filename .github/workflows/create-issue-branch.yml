@@ -27,15 +27,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          first_label=$(echo "${{ github.event.issue.labels }}" | jq -r '.[] | .name | first')
-
-          if [[ "$first_label" == "feat" ]]; then
-            branch_name="feat/issue-${issue_number}"
-          else
-            branch_name="other/${first_label}/issue-${issue_number}"
-          fi
-
-          echo "Creating branch: $branch_name"
+          ISSUE_LABEL=${{ github.event.issue.labels }}
+          BRANCH_NAME="${ISSUE_LABEL}/issue#${ISSUE_NUMBER}"
 
           echo "Creating branch: $BRANCH_NAME"
           git checkout -b $BRANCH_NAME
