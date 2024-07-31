@@ -16,13 +16,13 @@ const navList: NavItem[] = [
 
 export default function FooterNavi() {
   return (
-    <nav className="max-w-md fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-around py-2">
+    <nav className="max-w-md fixed bottom-0 w-full bg-background-white border-t border-line-lightest flex justify-around py-2">
       {navList.map((navItem) => (
         <NavLink
           key={navItem.path}
           to={navItem.path}
           className={({ isActive }) =>
-            `flex flex-col items-center w-14 ${isActive ? 'text-primary-lightest' : 'text-assistive'}`
+            `flex flex-col items-center w-14 ${isActive ? 'text-primary-lightest' : 'text-lightGray'}`
           }
         >
           {({ isActive }) => {
