@@ -40,7 +40,7 @@ export default function TodayBestWearList() {
   return (
     <div className="w-full max-w-md flex flex-col">
       <div className="w-full px-5 test-4 font-bold flex justify-start items-center h-[60px]">
-        <p>Today Best Wear</p>
+        <p>Today Best Wear 👕</p>
       </div>
       {postList && <PostList postList={postList} />}
     </div>

@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchLocation } from '../lib/geo';
 import { getDailyWeatherInfo, getHourlyWeatherInfo } from '../lib/weather';
+import { WeatherInfo } from '../config/types';
 
-export default function useWeatherData() {
+interface UseWeatherDataReturn extends WeatherInfo {
+  location: string | undefined;
+  isLoading: boolean;
+}
+
+export default function useWeatherData(): UseWeatherDataReturn {
   const locationQuery = useQuery({
     queryKey: ['location'],
     queryFn: fetchLocation,
@@ -22,10 +28,8 @@ export default function useWeatherData() {
 
   return {
     location: locationQuery.data,
-    currentTemp: hourlyWeatherQuery.data?.currentTemp,
-    weatherType: hourlyWeatherQuery.data?.weatherType,
-    minTemp: dailyWeatherQuery.data?.minTemp,
-    maxTemp: dailyWeatherQuery.data?.maxTemp,
+    ...hourlyWeatherQuery.data,
+    ...dailyWeatherQuery.data,
     isLoading: locationQuery.isLoading || hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
   };
 }

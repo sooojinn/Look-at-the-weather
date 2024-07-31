@@ -4,5 +4,5 @@ export interface GeoPoint {
 }
 
 export interface WeatherInfo {
-  [key: string]: string | null;
+  [key: string]: any;
 }

@@ -16,11 +16,11 @@ function WeatherImg({ weatherType }: WeatherImgProps) {
 }
 
 export default function WeatherInfoComponent() {
-  const { location, currentTemp, weatherType, minTemp, maxTemp, isLoading } = useWeatherData();
+  const { location, currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
-    if (+(currentTemp as string) >= 33 && weatherType === 'clear') {
+    if (currentTemp >= 33 && weatherType === 'clear') {
       return 'light';
     } else if (weatherType === 'clear' || weatherType === 'partly_cloudy') {
       return 'normal';
@@ -49,9 +49,9 @@ export default function WeatherInfoComponent() {
               <span>{location}</span>
             </div>
             <div className="mt-2 font-spoqa-han-sans font-bold text-[100px] leading-none">{currentTemp}°</div>
-            <div className="font-bold">조금 쌀쌀해요!</div>
+            <div className="font-bold">{weatherMessage}</div>
             <div className="text-sm">
-              최고 {parseInt(maxTemp ?? '0')}° / 최저 {parseInt(minTemp ?? '0')}°
+              최고 {maxTemp}° / 최저 {minTemp}°
             </div>
           </div>
           <WeatherImg weatherType={weatherType as string} />
