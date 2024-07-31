@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
