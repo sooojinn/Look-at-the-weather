@@ -7,8 +7,8 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="bg-background-default">
-        <div className="max-w-md m-auto min-h-screen">
+      <div className="bg-background-light">
+        <div className="max-w-md m-auto min-h-screen bg-background-white">
           <Outlet />
         </div>
       </div>

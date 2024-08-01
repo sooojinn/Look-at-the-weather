@@ -39,7 +39,7 @@ export default function TodayBestWearList() {
 
   return (
     <div className="w-full max-w-md flex flex-col">
-      <div className="w-full px-5 test-4 font-bold flex justify-start items-center h-[60px]">
+      <div className="w-full px-5 font-B flex justify-start items-center h-[60px]">
         <p>Today Best Wear 👕</p>
       </div>
       {postList && <PostList postList={postList} />}
@@ -60,10 +60,10 @@ export function PostList({ postList }: PostListProps) {
           <div className="min-h-[312px] h-auto" key={post.postId}>
             <img src={post.thumbnail} className="w-full h-[232px] object-cover" alt="thumbnail" />
             <div className="mt-2.5 px-5">
-              <div className="text-sm">{post.location}</div>
+              <div className="text-m">{post.location}</div>
               <div>
                 {tags.map((tag, index) => (
-                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-alternative">
+                  <span key={index} className="inline-block h-auto mr-2 text-s text-gray">
                     #{tag}
                   </span>
                 ))}
