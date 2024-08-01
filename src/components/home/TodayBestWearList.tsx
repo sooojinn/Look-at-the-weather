@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASEURL } from '../../config/constants';
+import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
 
 interface PostMeta {

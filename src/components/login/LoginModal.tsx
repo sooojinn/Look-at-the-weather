@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '../../config/constants';
+import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 

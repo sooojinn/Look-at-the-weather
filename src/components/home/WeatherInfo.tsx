@@ -1,5 +1,5 @@
-import CompassIcon from '../icons/CompassIcon';
-import useWeatherData from '../../hooks/useWeatherData';
+import CompassIcon from '@/components/icons/CompassIcon';
+import useWeatherData from '@/hooks/useWeatherData';
 
 interface WeatherImgProps {
   weatherType: string;

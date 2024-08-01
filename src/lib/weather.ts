@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SERVICE_KEY, WEATHER_API_URL } from '../config/constants';
-import { GeoPoint, WeatherInfo } from '../config/types';
+import { GeoPoint, WeatherInfo } from '@/config/types';
 import { dfs_xy_conv } from './geo';
 
 interface WeatherApiResponse {

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GeoPoint } from '../config/types';
-import { BASEURL } from '../config/constants';
+import { GeoPoint } from '@/config/types';
+import { BASEURL } from '@/config/constants';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환

@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { BASEURL } from '../config/constants';
+import { BASEURL } from '@/config/constants';
 import { generateMockPosts } from './mockPostData';
 
 type EmailFindRequestBody = {

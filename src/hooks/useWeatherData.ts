@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchGeoPoint, fetchLocation } from '../lib/geo';
-import { getDailyWeatherInfo, getHourlyWeatherInfo } from '../lib/weather';
-import { GeoPoint, WeatherInfo } from '../config/types';
+import { fetchGeoPoint, fetchLocation } from '@/lib/geo';
+import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
+import { GeoPoint, WeatherInfo } from '@/config/types';
 
 interface UseWeatherDataReturn extends WeatherInfo {
   location: string | undefined;
