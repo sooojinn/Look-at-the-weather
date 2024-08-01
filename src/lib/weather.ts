@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { SERVICE_KEY, WEATHER_API_URL } from '../config/constants';
 import { GeoPoint, WeatherInfo } from '../config/types';
-import { dfs_xy_conv, fetchGeoPoint } from './geo';
+import { dfs_xy_conv } from './geo';
 
 interface WeatherApiResponse {
   response: {
@@ -267,88 +267,12 @@ function getWeatherMessage(currentTemp: number, sky: number, precipType: number)
   }
 }
 
-// 하늘 상태와 강수 형태로 날씨 타입 결정
-function getWeatherType(sky: number, precipType: number): WeatherType {
-  switch (precipType) {
-    case 1:
-    case 4:
-      return 'rain';
-    case 2:
-      return 'sleet';
-    case 3:
-      return 'snow';
-    default:
-      switch (sky) {
-        case 1:
-          return 'clear';
-        case 3:
-          return 'partly_cloudy';
-        case 4:
-          return 'cloudy';
-        default:
-          return 'partly_cloudy';
-      }
-  }
-}
-
-// 기온, 하늘 상태, 강수 형태로 날씨에 맞게 문구 작성
-function getWeatherMessage(currentTemp: number, sky: number, precipType: number) {
-  // 강수 형태 체크
-  if (precipType > 0) {
-    switch (precipType) {
-      case 1:
-        return '비가 내리는 날이에요!';
-      case 2:
-        return '눈/비가 내리는 날이에요!';
-      case 3:
-        return '눈이 내리는 날이에요!';
-      case 4:
-        return '소나기가 오는 날이에요!';
-    }
-  }
-
-  // 기온 체크
-  if (currentTemp <= 0) {
-    return '매우 추운 날이에요!';
-  } else if (currentTemp > 30) {
-    return '매우 더운 날이에요!';
-  } else if (currentTemp > 0 && currentTemp <= 10) {
-    // 쌀쌀한 경우 하늘 상태 체크
-    let skyCondition = '';
-    switch (sky) {
-      case 1:
-        skyCondition = '하늘이 맑은 날이에요!';
-        break;
-      case 3:
-        skyCondition = '구름이 많은 날이에요!';
-        break;
-      case 4:
-        skyCondition = '날씨가 흐린 날이에요!';
-        break;
-    }
-    return `쌀쌀하고 ${skyCondition}`;
-  }
-
-  // 나머지 경우 하늘 상태만 체크
-  switch (sky) {
-    case 1:
-      return '하늘이 맑은 날이에요!';
-    case 3:
-      return '구름이 많은 날이에요!';
-    case 4:
-      return '날씨가 흐린 날이에요!';
-    default:
-      return '';
-  }
-}
-
 // 시간별 날씨 정보(기온, 하늘 상태, 강수 형태)를 얻는 함수
 export async function getHourlyWeatherInfo(geoPoint: GeoPoint) {
   const baseTime = getHourlyForecastBaseTime();
   const forecasts = await getWeatherForecasts(baseTime, geoPoint);
 
   const weatherInfo = extractWeatherInfo(hourly, forecasts);
-  const { currentTemp, sky, precipType } = weatherInfo;
   const { currentTemp, sky, precipType } = weatherInfo;
 
   weatherInfo.weatherType = getWeatherType(sky, precipType);
