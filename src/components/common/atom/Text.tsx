@@ -1,9 +1,10 @@
+import { TextColor, TextSize, TextWeight } from '@/config/types';
 import { ReactNode } from 'react';
 
 type TextType = {
-  size?: 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
-  color?: 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white';
-  weight?: 'nomal' | 'bold';
+  size?: TextSize;
+  color?: TextColor;
+  weight?: TextWeight;
   href?: string;
   children: ReactNode;
 };
