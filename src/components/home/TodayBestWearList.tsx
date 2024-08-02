@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
-import { PostList } from '@components/post/postList';
+import { PostList } from '@/components/post/PostList';
 import { PostMeta } from '@/config/types';
 
 const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {

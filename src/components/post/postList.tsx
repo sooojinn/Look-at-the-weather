@@ -1,4 +1,5 @@
 import { PostMeta } from '@/config/types';
+import Tags from '@/components/post/Tags';
 
 interface PostListProps {
   postList: PostMeta[];
@@ -15,11 +16,7 @@ export function PostList({ postList }: PostListProps) {
             <div className="mt-2.5 px-5">
               <div className="text-m">{post.location}</div>
               <div>
-                {tags.map((tag, index) => (
-                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-gray">
-                    #{tag}
-                  </span>
-                ))}
+                <Tags tags={tags} />
               </div>
             </div>
           </div>
