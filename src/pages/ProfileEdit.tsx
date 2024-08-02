@@ -7,12 +7,12 @@ export default function ProfileEdit() {
       <form className="flex flex-col px-5">
         <div>
           <label className="block mb-2 my-4 text-gray-600 font-bold">
-            이름<span className="text-red-500">*</span>
+            이메일<span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="이름(성별)을 입력해 주세요."
+            placeholder="이메일을 입력해 주세요."
           />
         </div>
         <div>
