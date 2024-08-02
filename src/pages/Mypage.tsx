@@ -1,27 +1,33 @@
 import FooterNavi from '@/components/common/FooterNavi';
+import Header from '@components/common/Header';
+import Text from '@components/common/atom/Text';
+import Line from '@components/common/atom/line';
+import LinkMenu from '@/components/common/molecules/LinkMenu';
 
 export default function Mypage() {
+  const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
+  const activeList = [
+    { menu: '내 게시물', href: '/mypost' },
+    { menu: '내가 좋아요한 게시물', href: '/likelist' },
+  ];
+
   return (
     <>
-      <div className="text-center py-3 border-b border-line-lightest">
-        <div className="text-xl font-bold">마이페이지</div>
+      <div>
+        <Header>마이 페이지</Header>
       </div>
       <div className="flex-col py-9 px-5">
         <div className="flex gap-3 items-center mb-6">
           <div>
             <img src="../../public/assets/user_icon.png" alt="" />
           </div>
-          <div className="text-xl font-bold">맛있는라면님</div>
+          <Text size="xl" weight="bold">
+            맛있는 라면
+          </Text>
         </div>
-        <div className="py-4">
-          <div>설정</div>
-          <div>내 정보 수정</div>
-        </div>
-        <div>
-          <div>활동</div>
-          <div>내 게시물</div>
-          <div>내가 좋아요한 게시물</div>
-        </div>
+        <LinkMenu title="설정" menuList={settingList} />
+
+        <LinkMenu title="활동" menuList={activeList} />
       </div>
       <FooterNavi />
     </>

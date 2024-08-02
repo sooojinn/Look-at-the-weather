@@ -14,6 +14,7 @@ export default {
           white: '#FFFFFF',
           default: '#dfdfeo',
           light: '#f7f7f8',
+          gray: 'rgb(243 244 246)',
         },
         interactive: {
           default: '#989ba2',
@@ -38,19 +39,17 @@ export default {
           light: '#0054d1',
         },
       },
-      font: {
-        size: {
-          xs: '12px',
-          s: '13px',
-          m: '14px',
-          l: '16px',
-          xl: '18px',
-          xxl: '24px',
-        },
-        weight: {
-          R: '400',
-          B: '700',
-        },
+      fontSize: {
+        xs: '12px',
+        s: '13px',
+        m: '14px',
+        l: '16px',
+        xl: '18px',
+        xxl: '24px',
+      },
+      fontWeight: {
+        nomal: 400,
+        bold: 700,
       },
     },
   },
