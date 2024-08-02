@@ -1,5 +1,6 @@
 import { HttpResponse, http } from 'msw';
-import { BASEURL } from '../constants/constants';
+import { BASEURL } from '@/config/constants';
+
 import { generateMockPosts } from './mockPostData';
 
 type EmailFindRequestBody = {
@@ -23,10 +24,10 @@ type EmailVerifyRequestBody = {
   code: string;
 };
 
-// interface RequestLocationDTO {
-//   latitude: number;
-//   longitude: number;
-// }
+interface RequestLocationDTO {
+  latitude: number;
+  longitude: number;
+}
 
 export const handlers = [
   // 회원가입
@@ -175,26 +176,26 @@ export const handlers = [
     return HttpResponse.json(mockPosts, { status: 200 });
   }),
 
-  // // 현재 위치 조회
-  // http.post(`${BASEURL}/api/v1/locations`, async ({ request }) => {
-  //   const body = (await request.json()) as RequestLocationDTO;
-  //   const { latitude, longitude } = body;
+  // 현재 위치 조회
+  http.post(`${BASEURL}/api/v1/locations`, async ({ request }) => {
+    const body = (await request.json()) as RequestLocationDTO;
+    const { latitude, longitude } = body;
 
-  //   // 위도와 경도 정보의 유효성 검사
-  //   if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) {
-  //     return HttpResponse.json(
-  //       {
-  //         errorCode: 'INVALID_INPUT',
-  //         errorMessage: '위도와 경도 정보가 유효하지 않습니다.',
-  //       },
-  //       { status: 400 },
-  //     );
-  //   }
+    // 위도와 경도 정보의 유효성 검사
+    if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) {
+      return HttpResponse.json(
+        {
+          errorCode: 'INVALID_INPUT',
+          errorMessage: '위도와 경도 정보가 유효하지 않습니다.',
+        },
+        { status: 400 },
+      );
+    }
 
-  //   const locationResponse = {
-  //     location: '서울시 강남구',
-  //   };
+    const locationResponse = {
+      location: '서울시 강남구',
+    };
 
-  //   return HttpResponse.json(locationResponse, { status: 200 });
-  // }),
+    return HttpResponse.json(locationResponse, { status: 200 });
+  }),
 ];

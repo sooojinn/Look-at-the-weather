@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '../../constants/constants';
+import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -16,8 +16,6 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   useEffect(() => {
     setShowForm(true);
   }, []);
-
-  console.log(showForm);
 
   const handleLogin = async (data: any) => {
     try {

@@ -2,20 +2,27 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      fontFamily: {
-        'spoqa-han-sans': ['SpoqaHanSansNeo-Bold', 'sans-serif'],
+      backgroundImage: {
+        'weather-light-gradient': 'linear-gradient(118.17deg, #F5AF16 -4.95%, #FFEA73 101.98%)',
+        'weather-normal-gradient': 'linear-gradient(118.17deg, #29ACFF -4.95%, #BAE1FA 101.98%)',
+        'weather-dark-gradient': 'linear-gradient(118.17deg, #0E3363 -4.95%, #4484D9 101.98%)',
       },
       colors: {
-        assistive: '#C7C8C9',
-        alternative: '#858588',
+        black: '#000000',
+        lightBlack: '#171719',
+        darkGray: '#47484c',
+        gray: '#858588',
+        lightGray: '#c7c8c9',
+        white: '#ffffff',
+        disabled: '#dfdfe0',
 
         background: {
-          default: '#dfdfeo',
+          white: '#FFFFFF',
           light: '#f7f7f8',
         },
         interactive: {
           default: '#989ba2',
-          light: '#f4f4f5',
+          disabled: '#f4f4f5',
         },
         status: {
           success: '#00bf40',
@@ -35,6 +42,19 @@ export default {
           lighter: '#005eeeb',
           light: '#0054d1',
         },
+      },
+      fontSize: {
+        xs: '12px',
+        s: '13px',
+        m: '14px',
+        l: '16px',
+        xl: '18px',
+        '2xl': '20px',
+        '3xl': '24px',
+      },
+      fontWeight: {
+        R: '400',
+        B: '700',
       },
     },
   },

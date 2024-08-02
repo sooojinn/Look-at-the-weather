@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { BASEURL } from '../../constants/constants';
+import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
-import { PostList } from '../post/postList';
 
-export interface PostMeta {
+interface PostMeta {
   postId: number;
   thumbnail: string;
   location: string;
@@ -40,8 +39,8 @@ export default function TodayBestWearList() {
 
   return (
     <div className="w-full max-w-md flex flex-col">
-      <div className="w-full px-5 test-4 font-bold flex justify-start items-center h-[60px]">
-        <p>Today Best Wear</p>
+      <div className="w-full px-5 font-B flex justify-start items-center h-[60px]">
+        <p>Today Best Wear 👕</p>
       </div>
       {postList && <PostList postList={postList} />}
     </div>
