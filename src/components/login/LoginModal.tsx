@@ -39,7 +39,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     try {
       const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
       const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
+      tokenManager.setTokens({ accessToken, refreshToken });
       Cookies.set('refreshToken', refreshToken);
       console.log(data);
       setIsLoggedIn(true);

@@ -1,6 +1,11 @@
 import Header from '@/components/common/Header';
+import useUserInfo from '@/hooks/useUserInfo';
 
 export default function ProfileEdit() {
+  const userInfo = useUserInfo();
+
+  console.log('me', userInfo);
+
   return (
     <div className="flex flex-col justify-between h-screen">
       <Header>개인정보 수정</Header>
