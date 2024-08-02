@@ -1,6 +1,11 @@
 import Header from '@/components/common/Header';
+import { useAuthStore } from '@/store/authStore';
 
 export default function ProfileEdit() {
+  const { accessToken, refreshToken } = useAuthStore();
+
+  console.log('token', accessToken, refreshToken);
+
   return (
     <div className="flex flex-col justify-between h-screen">
       <Header>개인정보 수정</Header>
