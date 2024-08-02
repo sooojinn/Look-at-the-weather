@@ -1,4 +1,4 @@
-import FooterNavi from '../components/common/FooterNavi';
+import FooterNavi from '@/components/common/FooterNavi';
 
 export default function Post() {
   return (

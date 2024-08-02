@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="bg-gray-100">
-      <div className="max-w-md m-auto min-h-screen bg-white">
+    <div className="bg-background-gray">
+      <div className="max-w-md m-auto min-h-screen bg-background-white">
         <Outlet />
       </div>
     </div>

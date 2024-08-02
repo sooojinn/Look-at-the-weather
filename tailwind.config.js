@@ -3,11 +3,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        assistive: '#C7C8C9',
+        black: '#000000',
+        lightBlack: '#171719',
+        darkGray: '#47484c',
+        gray: '#858588',
+        lightGray: '#c7c8c9',
+        white: '##dfdfe0',
 
         background: {
+          white: '#FFFFFF',
           default: '#dfdfeo',
           light: '#f7f7f8',
+          gray: 'rgb(243 244 246)',
         },
         interactive: {
           default: '#989ba2',
@@ -31,6 +38,18 @@ export default {
           lighter: '#005eeeb',
           light: '#0054d1',
         },
+      },
+      fontSize: {
+        xs: '12px',
+        s: '13px',
+        m: '14px',
+        l: '16px',
+        xl: '18px',
+        xxl: '24px',
+      },
+      fontWeight: {
+        nomal: 400,
+        bold: 700,
       },
     },
   },

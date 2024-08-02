@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import FooterNavi from '../components/common/FooterNavi';
-import Header from '../components/common/Header';
-import LoginModal from '../components/login/LoginModal';
-import WeatherInfo from '../components/home/WeatherInfo';
-import TodayBestWearList from '../components/home/TodayBestWearList';
+import FooterNavi from '@/components/common/FooterNavi';
+import Header from '@/components/common/Header';
+import LoginModal from '@/components/login/LoginModal';
+import WeatherInfo from '@/components/home/WeatherInfo';
+import TodayBestWearList from '@/components/home/TodayBestWearList';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
