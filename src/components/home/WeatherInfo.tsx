@@ -1,19 +1,6 @@
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/location/Location';
-
-interface WeatherImgProps {
-  weatherType: string;
-}
-
-function WeatherImg({ weatherType }: WeatherImgProps) {
-  const weatherImgSrc = `/weatherImages/${weatherType}.svg`;
-
-  return (
-    <div className="w-[206px] h-[169px] flex justify-center items-center">
-      <img src={weatherImgSrc} className="h-[80%] object-contain" />
-    </div>
-  );
-}
+import WeatherImg from '@components/weather/WeatherImg';
 
 export default function WeatherInfoComponent() {
   const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
@@ -51,7 +38,7 @@ export default function WeatherInfoComponent() {
               최고 {maxTemp}° / 최저 {minTemp}°
             </div>
           </div>
-          <WeatherImg weatherType={weatherType as string} />
+          <WeatherImg weatherType={weatherType as string} width={206} height={169} />
         </div>
       )}
     </div>
