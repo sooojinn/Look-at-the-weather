@@ -1,8 +1,12 @@
 import Header from '@/components/common/Header';
 import useUserInfo from '@/hooks/useUserInfo';
+import useTokenManager from '@/hooks/useTokenManager';
 
 export default function ProfileEdit() {
   const userInfo = useUserInfo();
+  const tokenManager = useTokenManager();
+
+  console.log(tokenManager.getAccessToken);
 
   console.log('me', userInfo);
 

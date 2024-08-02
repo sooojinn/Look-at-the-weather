@@ -3,8 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { BASEURL } from '../../constants/constants';
 import axios from 'axios';
-import useTokenManager from '@/hooks/useTokenManager';
-import Cookies from 'js-cookie';
+import { useAuthStore } from '@/store/authStore';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -12,15 +11,14 @@ interface LoginFormProps {
 
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
-
-  const tokenManager = useTokenManager();
+  const { setTokens, isLogin } = useAuthStore();
 
   const handleLogin = async (data: any) => {
     try {
       const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
-      tokenManager.setTokens(response.data);
-
-      // setIsLoggedIn(true);
+      const { accessToken, refreshToken } = response.data;
+      setTokens({ accessToken, refreshToken });
+      setIsLoggedIn(isLogin());
     } catch (error) {
       console.error(error);
     }
