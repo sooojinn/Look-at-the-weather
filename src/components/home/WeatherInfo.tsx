@@ -1,5 +1,5 @@
-import CompassIcon from '@/components/icons/CompassIcon';
 import useWeatherData from '@/hooks/useWeatherData';
+import Location from '@components/location/Location';
 
 interface WeatherImgProps {
   weatherType: string;
@@ -16,7 +16,7 @@ function WeatherImg({ weatherType }: WeatherImgProps) {
 }
 
 export default function WeatherInfoComponent() {
-  const { location, currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
+  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
@@ -44,10 +44,7 @@ export default function WeatherInfoComponent() {
           className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
         >
           <div>
-            <div className="flex items-center gap-2">
-              <CompassIcon fill={'white'} />
-              <span>{location}</span>
-            </div>
+            <Location />
             <div className="mt-2 font-bold text-[100px] leading-none">{currentTemp}°</div>
             <div className="font-bold">{weatherMessage}</div>
             <div className="mt-1 text-m">
