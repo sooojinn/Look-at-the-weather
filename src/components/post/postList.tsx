@@ -1,4 +1,4 @@
-import { PostMeta } from '../home/TodayBestWearList';
+import { PostMeta } from '@/config/types';
 
 interface PostListProps {
   postList: PostMeta[];
@@ -13,10 +13,10 @@ export function PostList({ postList }: PostListProps) {
           <div className="min-h-[312px] h-auto" key={post.postId}>
             <img src={post.thumbnail} className="w-full h-[232px] object-cover" alt="thumbnail" />
             <div className="mt-2.5 px-5">
-              <div className="text-sm">{post.location}</div>
+              <div className="text-m">{post.location}</div>
               <div>
                 {tags.map((tag, index) => (
-                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-alternative">
+                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-gray">
                     #{tag}
                   </span>
                 ))}

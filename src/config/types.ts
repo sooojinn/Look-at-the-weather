@@ -6,3 +6,13 @@ export interface GeoPoint {
 export interface WeatherInfo {
   [key: string]: any;
 }
+
+export interface PostMeta {
+  postId: number;
+  thumbnail: string;
+  location: string;
+  SeasonTag: string;
+  WeatherTag: string[];
+  TempTag: string[];
+  likeByUser: boolean;
+}

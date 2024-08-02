@@ -1,16 +1,8 @@
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
-
-interface PostMeta {
-  postId: number;
-  thumbnail: string;
-  location: string;
-  SeasonTag: string;
-  WeatherTag: string[];
-  TempTag: string[];
-  likeByUser: boolean;
-}
+import { PostList } from '@components/post/postList';
+import { PostMeta } from '@/config/types';
 
 const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
   const response = await axios.get<PostMeta[]>(`${BASEURL}/api/v1/posts/liked`, {
