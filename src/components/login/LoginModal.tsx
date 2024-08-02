@@ -9,8 +9,31 @@ interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
+type NewToken = {
+  accessToken: string;
+  refreshToken: string;
+};
+
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
+
+  const tokenManager = (() => {
+    let accessToken: string | null = null;
+    let refreshToken: string | null = null;
+
+    return {
+      setTokens: ({ accessToken, refreshToken }: NewToken) => {
+        accessToken;
+        refreshToken;
+      },
+      getAccessToken: () => accessToken,
+      getRefreshToken: () => refreshToken,
+      clearTokens: () => {
+        accessToken = null;
+        refreshToken = null;
+      },
+    };
+  })();
 
   const handleLogin = async (data: any) => {
     try {
