@@ -1,8 +1,11 @@
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/location/Location';
+import CurrentTemp from '@components/weather/CurrentTemp';
+import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
+import WeatherMessage from '@components/weather/WeatherMessage';
 
-export default function WeatherInfoComponent() {
+export default function HomeWeatherInfo() {
   const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
 
   // weather type에 따른 배경색 결정
@@ -31,12 +34,10 @@ export default function WeatherInfoComponent() {
           className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
         >
           <div>
-            <Location />
-            <div className="mt-2 font-bold text-[100px] leading-none">{currentTemp}°</div>
-            <div className="font-bold">{weatherMessage}</div>
-            <div className="mt-1 text-m">
-              최고 {maxTemp}° / 최저 {minTemp}°
-            </div>
+            <Location size="l" />
+            <CurrentTemp>{currentTemp}</CurrentTemp>
+            <WeatherMessage size="l">{weatherMessage}</WeatherMessage>
+            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} />
           </div>
           <WeatherImg weatherType={weatherType as string} width={206} height={169} />
         </div>
