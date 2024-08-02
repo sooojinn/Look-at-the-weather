@@ -3,46 +3,24 @@ import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { BASEURL } from '../../constants/constants';
 import axios from 'axios';
+import useTokenManager from '@/hooks/useTokenManager';
 import Cookies from 'js-cookie';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
-type NewToken = {
-  accessToken: string;
-  refreshToken: string;
-};
-
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
 
-  const tokenManager = (() => {
-    let accessToken: string | null = null;
-    let refreshToken: string | null = null;
-
-    return {
-      setTokens: ({ accessToken, refreshToken }: NewToken) => {
-        accessToken;
-        refreshToken;
-      },
-      getAccessToken: () => accessToken,
-      getRefreshToken: () => refreshToken,
-      clearTokens: () => {
-        accessToken = null;
-        refreshToken = null;
-      },
-    };
-  })();
+  const tokenManager = useTokenManager();
 
   const handleLogin = async (data: any) => {
     try {
       const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
-      const { accessToken, refreshToken } = response.data;
-      tokenManager.setTokens({ accessToken, refreshToken });
-      Cookies.set('refreshToken', refreshToken);
-      console.log(data);
-      setIsLoggedIn(true);
+      tokenManager.setTokens(response.data);
+
+      // setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
     }
