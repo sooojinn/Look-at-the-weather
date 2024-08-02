@@ -48,8 +48,8 @@ export default function WeatherInfoComponent() {
               <CompassIcon fill={'white'} />
               <span>{location}</span>
             </div>
-            <div className="mt-2 font-B text-[100px] leading-none">{currentTemp}°</div>
-            <div className="font-B">{weatherMessage}</div>
+            <div className="mt-2 font-bold text-[100px] leading-none">{currentTemp}°</div>
+            <div className="font-bold">{weatherMessage}</div>
             <div className="mt-1 text-m">
               최고 {maxTemp}° / 최저 {minTemp}°
             </div>

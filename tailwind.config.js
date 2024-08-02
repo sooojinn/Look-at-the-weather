@@ -54,8 +54,8 @@ export default {
         '3xl': '24px',
       },
       fontWeight: {
-        R: '400',
-        B: '700',
+        regular: '400',
+        bold: '700',
       },
     },
   },
