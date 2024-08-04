@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    /* 기본 css 설정 */
+
+    line-height: 1.5;
+    letter-spacing: -2%;
+    color: #171719;
+  }
+}
+
 @layer components {
   .post-list {
     display: grid;

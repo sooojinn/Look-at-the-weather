@@ -1,3 +1,4 @@
+
 import { TextColor, TextSize, TextWeight } from '@/config/types';
 import { ReactNode } from 'react';
 
@@ -5,6 +6,7 @@ type TextType = {
   size?: TextSize;
   color?: TextColor;
   weight?: TextWeight;
+
   href?: string;
   children: ReactNode;
 };

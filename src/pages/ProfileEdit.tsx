@@ -1,18 +1,23 @@
 import Header from '@/components/common/Header';
+import { useAuthStore } from '@/store/authStore';
 
 export default function ProfileEdit() {
+  const { accessToken, refreshToken } = useAuthStore();
+
+  console.log('token', accessToken, refreshToken);
+
   return (
     <div className="flex flex-col justify-between h-screen">
       <Header>개인정보 수정</Header>
       <form className="flex flex-col px-5">
         <div>
           <label className="block mb-2 my-4 text-gray-600 font-bold">
-            이름<span className="text-red-500">*</span>
+            이메일<span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="이름(성별)을 입력해 주세요."
+            placeholder="이메일을 입력해 주세요."
           />
         </div>
         <div>
