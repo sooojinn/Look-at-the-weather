@@ -16,6 +16,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const handleLogin = async (data: any) => {
     try {
       const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
+      console.log(response);
       const { accessToken, refreshToken } = response.data;
       setTokens({ accessToken, refreshToken });
       setIsLoggedIn(isLogin());
@@ -23,6 +24,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       console.error(error);
     }
   };
+
+  console.log(isLogin());
 
   return (
     <>

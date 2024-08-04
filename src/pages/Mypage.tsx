@@ -15,7 +15,7 @@ export default function Mypage() {
         </div>
         <div className="py-4">
           <div>설정</div>
-          <div>내 정보 수정</div>
+          <a href="/profileedit">내 정보 수정</a>
         </div>
         <div>
           <div>활동</div>

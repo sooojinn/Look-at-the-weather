@@ -1,14 +1,12 @@
 import Header from '@/components/common/Header';
 import useUserInfo from '@/hooks/useUserInfo';
-import useTokenManager from '@/hooks/useTokenManager';
+import { useAuthStore } from '@/store/authStore';
 
 export default function ProfileEdit() {
   const userInfo = useUserInfo();
-  const tokenManager = useTokenManager();
 
-  console.log(tokenManager.getAccessToken);
-
-  console.log('me', userInfo);
+  const { isLogin, accessToken } = useAuthStore((state) => state);
+  console.log(isLogin(), accessToken);
 
   return (
     <div className="flex flex-col justify-between h-screen">
