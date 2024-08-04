@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function Header({ children }: HeaderProps) {

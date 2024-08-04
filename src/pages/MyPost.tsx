@@ -14,7 +14,6 @@ const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> 
     },
   });
   return response.data;
-  console.log(response.data);
 };
 
 export default function MyPost() {
