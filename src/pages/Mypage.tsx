@@ -8,7 +8,7 @@ export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
   const activeList = [
     { menu: '내 게시물', href: '/mypost' },
-    { menu: '내가 좋아요한 게시물', href: '/likelist' },
+    { menu: '내가 좋아요한 게시물', href: '/like' },
   ];
 
   return (
@@ -26,7 +26,6 @@ export default function Mypage() {
           </Text>
         </div>
         <LinkMenu title="설정" menuList={settingList} />
-        {/* <div className={`bg-line-lightest h-[8px] absolute left-0 right-0`} /> */}
         <Line height={8} />
         <LinkMenu title="활동" menuList={activeList} />
       </div>

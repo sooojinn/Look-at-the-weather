@@ -3,6 +3,7 @@ import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
 import { PostList } from '@components/post/PostList';
 import { PostMeta } from '@/config/types';
+import Header from '@components/common/Header';
 
 const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
   const response = await axios.get<PostMeta[]>(`${BASEURL}/api/v1/posts/liked`, {
@@ -15,7 +16,7 @@ const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> 
   return response.data;
 };
 
-export default function TodayBestWearList() {
+export default function MyLikedPost() {
   const [postList, setPostList] = useState<PostMeta[]>([]);
   useEffect(() => {
     const fetchPosts = async () => {
@@ -30,11 +31,9 @@ export default function TodayBestWearList() {
   }, []);
 
   return (
-    <div className="w-full max-w-md flex flex-col">
-      <div className="w-full px-5 font-bold flex justify-start items-center h-[60px]">
-        <p>Today Best Wear 👕</p>
-      </div>
-      {postList && <PostList postList={postList} />}
+    <div>
+      <Header>내가 좋아요한 게시물</Header>
+      <PostList postList={postList} />
     </div>
   );
 }

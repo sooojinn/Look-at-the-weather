@@ -12,6 +12,8 @@ import PostDetail from '../pages/PostDetail.tsx';
 import PostWrite from '../pages/PostWrite.tsx';
 import Post from '../pages/Post.tsx';
 import ProfileEdit from '../pages/ProfileEdit.tsx';
+import MyPost from '@pages/MyPost.tsx';
+import MyLikedPost from '@pages/MyLikedPost.tsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,8 @@ const router = createBrowserRouter([
       { path: '/profileedit', element: <ProfileEdit /> },
       { path: '/postwrite', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
+      { path: '/mypost', element: <MyPost /> },
+      { path: '/like', element: <MyLikedPost /> },
       { path: '*', element: <NotFound /> },
     ],
   },
