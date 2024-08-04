@@ -12,7 +12,7 @@ export default function PostDetail() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative pb-10">
       <Header />
       <div className="px-5">
         <div className="flex justify-between items-center">
@@ -27,7 +27,7 @@ export default function PostDetail() {
       </div>
       <div>
         <img
-          className="w-full"
+          className="w-full h-[468px]"
           src="https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202210/12/kncom/20221012135123984gqor.png"
         />
       </div>
