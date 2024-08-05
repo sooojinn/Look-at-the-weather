@@ -1,5 +1,5 @@
 import { BASEURL } from '@/config/constants';
-import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/HeartIcons';
+import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/heartIcons';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
