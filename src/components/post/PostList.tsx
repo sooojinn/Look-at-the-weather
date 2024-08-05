@@ -14,13 +14,15 @@ export function PostList({ postList }: PostListProps) {
         const tags = [...post.WeatherTag, ...post.TempTag, post.SeasonTag];
         return (
           <div className="min-h-[312px] h-auto" key={post.postId}>
-            <PostListImg imgUrl={post.thumbnail} liked={post.likeByUser} postId={post.postId} />
-            <div className="mt-2.5 px-5">
-              <Text>{post.location}</Text>
-              <div>
-                <Tags tags={tags} />
+            <a href={`post/${post.postId}`}>
+              <PostListImg imgUrl={post.thumbnail} liked={post.likeByUser} postId={post.postId} />
+              <div className="mt-2.5 px-5">
+                <Text>{post.location}</Text>
+                <div>
+                  <Tags tags={tags} />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         );
       })}
