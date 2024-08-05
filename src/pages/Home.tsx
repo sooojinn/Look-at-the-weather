@@ -4,7 +4,7 @@ import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@/components/common/Header';
 import LoginModal from '@/components/login/LoginModal';
 import HomeWeatherInfo from '@components/weather/HomeWeatherInfo';
-import TodayBestWearList from '@/components/post/TodayBestWearList';
+import TodayBestWearList from '@components/post/TodayBestWearList';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

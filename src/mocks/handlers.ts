@@ -198,4 +198,28 @@ export const handlers = [
 
     return HttpResponse.json(locationResponse, { status: 200 });
   }),
+
+  // 게시물 좋아요
+  http.post(`${BASEURL}/api/v1/posts/:postId/like`, async () => {
+    // 예시를 위해 항상 성공하는 것으로 가정
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 좋아요 성공',
+      },
+      { status: 200 },
+    );
+  }),
+
+  // 게시물 좋아요 삭제
+  http.delete(`${BASEURL}/api/v1/posts/:postId/like`, async () => {
+    // 예시를 위해 항상 성공하는 것으로 가정
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 좋아요 삭제 성공',
+      },
+      { status: 200 },
+    );
+  }),
 ];
