@@ -1,4 +1,4 @@
-import Heart from '@components/post/Heart';
+import Heart from '@components/common/atom/Heart';
 
 interface PostListImgProps {
   imgUrl: string;
