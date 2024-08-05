@@ -51,7 +51,8 @@ const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
 export default function Heart({ fill = 'white', liked = false, postId }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
     try {
       const res = isLiked ? await deleteLike(postId) : await postLike(postId);
       if (res.success) {
