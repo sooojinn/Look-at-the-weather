@@ -5,13 +5,14 @@ import CompassIcon from '@components/icons/CompassIcon';
 
 interface LocationProps {
   size?: TextSize;
+  fill?: string;
 }
 
-export default function Location({ size }: LocationProps) {
+export default function Location({ size, fill = 'black' }: LocationProps) {
   const { location } = useLocationData();
   return (
     <div className="flex items-center gap-2">
-      <CompassIcon fill={'white'} />
+      <CompassIcon fill={fill} />
       <Text size={size}>{location}</Text>
     </div>
   );
