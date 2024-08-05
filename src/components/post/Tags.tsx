@@ -7,8 +7,8 @@ interface TagsProps {
 export default function Tags({ tags }: TagsProps) {
   return (
     <div className="flex flex-wrap gap-x-2 mt-1">
-      {tags.map((tag) => (
-        <Text size="s" color="gray">
+      {tags.map((tag, index) => (
+        <Text key={index} size="s" color="gray">
           #{tag}
         </Text>
       ))}
