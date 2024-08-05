@@ -3,8 +3,8 @@ import Cookies from 'js-cookie';
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@/components/common/Header';
 import LoginModal from '@/components/login/LoginModal';
-import WeatherInfo from '@/components/home/WeatherInfo';
-import TodayBestWearList from '@/components/home/TodayBestWearList';
+import HomeWeatherInfo from '@components/weather/HomeWeatherInfo';
+import TodayBestWearList from '@components/post/TodayBestWearList';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +23,7 @@ export default function Home() {
     <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
       {isLoggedIn || <LoginModal setIsLoggedIn={setIsLoggedIn} />}
       <Header>로고</Header>
-      <WeatherInfo />
+      <HomeWeatherInfo />
       <TodayBestWearList />
       <FooterNavi />
     </div>

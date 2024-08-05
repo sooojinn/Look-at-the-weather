@@ -19,6 +19,7 @@ export default {
         background: {
           white: '#FFFFFF',
           light: '#f7f7f8',
+          gray: 'rgb(243 244 246)',
         },
         interactive: {
           default: '#989ba2',
@@ -53,8 +54,8 @@ export default {
         '3xl': '24px',
       },
       fontWeight: {
-        R: '400',
-        B: '700',
+        regular: '400',
+        bold: '700',
       },
     },
   },

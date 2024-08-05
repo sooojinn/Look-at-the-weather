@@ -16,3 +16,7 @@ export interface PostMeta {
   TempTag: string[];
   likeByUser: boolean;
 }
+
+export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white';
+export type TextWeight = 'nomal' | 'bold';

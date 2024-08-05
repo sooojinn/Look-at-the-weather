@@ -1,4 +1,7 @@
 import { PostMeta } from '@/config/types';
+import Tags from '@/components/post/Tags';
+import Text from '@components/common/atom/Text';
+import PostListImg from './PostListImg';
 
 interface PostListProps {
   postList: PostMeta[];
@@ -11,15 +14,11 @@ export function PostList({ postList }: PostListProps) {
         const tags = [...post.WeatherTag, ...post.TempTag, post.SeasonTag];
         return (
           <div className="min-h-[312px] h-auto" key={post.postId}>
-            <img src={post.thumbnail} className="w-full h-[232px] object-cover" alt="thumbnail" />
+            <PostListImg imgUrl={post.thumbnail} liked={post.likeByUser} postId={post.postId} />
             <div className="mt-2.5 px-5">
-              <div className="text-m">{post.location}</div>
+              <Text>{post.location}</Text>
               <div>
-                {tags.map((tag, index) => (
-                  <span key={index} className="inline-block h-auto mr-2 text-[13px] text-gray">
-                    #{tag}
-                  </span>
-                ))}
+                <Tags tags={tags} />
               </div>
             </div>
           </div>

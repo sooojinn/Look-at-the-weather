@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 import { useEffect, useState } from 'react';
-import { PostList } from '@components/post/postList';
+import { PostList } from '@/components/post/PostList';
 import { PostMeta } from '@/config/types';
 
 const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
@@ -31,7 +31,7 @@ export default function TodayBestWearList() {
 
   return (
     <div className="w-full max-w-md flex flex-col">
-      <div className="w-full px-5 font-B flex justify-start items-center h-[60px]">
+      <div className="w-full px-5 font-bold flex justify-start items-center h-[60px]">
         <p>Today Best Wear 👕</p>
       </div>
       {postList && <PostList postList={postList} />}

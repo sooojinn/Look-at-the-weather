@@ -187,7 +187,6 @@ function extractWeatherInfo(forecastType: ForecastType, items: ForecastItem[]) {
 
     const categoryInfo = forecastType.filterCategories[category];
     weatherInfo[categoryInfo.name] = value ? parseInt(value) : null;
-    weatherInfo[categoryInfo.name] = value ? parseInt(value) : null;
   }
   return weatherInfo;
 }
