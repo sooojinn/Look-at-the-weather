@@ -29,11 +29,14 @@ export default function Select({ name, options, maxSelection = 1, control, rules
                   // 선택된 항목을 제거
                   onChange(value.filter((v: string) => v !== option));
                 } else {
-                  // 최대 선택 개수를 초과하지 않도록 새로운 항목 추가
-                  const updatedValue = [...value, option];
-                  // 새로운 값이 maxSelection을 초과하면 가장 오래된 항목 제거
-                  if (updatedValue.length > maxSelection) {
-                    updatedValue.shift();
+                  let updatedValue;
+                  if (maxSelection > 1) {
+                    updatedValue = [...value, option];
+                    if (updatedValue.length > maxSelection) {
+                      updatedValue.shift();
+                    }
+                  } else {
+                    updatedValue = option;
                   }
                   onChange(updatedValue);
                 }
