@@ -1,11 +1,12 @@
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@components/common/Header';
+import PostWriteForm from '@components/post/PostWriteForm';
 
 export default function () {
   return (
-    <div>
+    <div className="pb-[61px]">
       <Header isModal={true}>게시글 작성하기</Header>
-      게시글 작성 페이지
+      <PostWriteForm />
       <FooterNavi />
     </div>
   );

@@ -39,7 +39,7 @@ export default {
           light: '#e0e0e2',
         },
         primary: {
-          lightest: '#0066ff',
+          lightest: '#1769ff',
           lighter: '#005eeeb',
           light: '#0054d1',
         },

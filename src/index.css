@@ -44,3 +44,11 @@
     gap: 10px 3px;
   }
 }
+
+.input {
+  @apply w-full px-3 py-[14px] mt-2 text-sm border border-line-light rounded-lg placeholder-lightGray focus:outline-none;
+}
+
+.textarea {
+  @apply input resize-none;
+}
