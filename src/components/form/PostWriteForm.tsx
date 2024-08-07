@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
+import FileWithLabel from './FileWithLabel';
 
 export default function PostWriteForm() {
   const {
@@ -51,6 +52,7 @@ export default function PostWriteForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-5 pb-10 flex flex-col gap-5">
+        <FileWithLabel label="오늘의 룩을 올려주세요" description="사진 추가는 최대 3장까지 가능합니다." />
         <div className="flex flex-col gap-4">
           <Text size="l" weight="bold">
             내용을 작성해주세요
@@ -59,8 +61,8 @@ export default function PostWriteForm() {
             id="title"
             label="제목"
             placeholder="제목을 입력해 주세요."
+            rules={{ required: true }}
             register={register}
-            required
             className="h-[86px]"
           />
           <TextAreaWithLabel
@@ -84,7 +86,7 @@ export default function PostWriteForm() {
           description="최대 2개까지 선택 가능합니다."
           name="weatherTagIds"
           options={weatherOptions}
-          rules={{ required: '날씨를 선택해주세요.' }}
+          rules={{ required: true }}
           control={control}
           maxSelection={2}
         />
@@ -93,7 +95,7 @@ export default function PostWriteForm() {
           description="최대 2개까지 선택 가능합니다."
           name="temperatureTagIds"
           options={temperatureOptions}
-          rules={{ required: '온도를 선택해주세요.' }}
+          rules={{ required: true }}
           control={control}
           maxSelection={2}
         />
@@ -101,7 +103,7 @@ export default function PostWriteForm() {
           label="계절"
           name="seasonTagId"
           options={seasonOptions}
-          rules={{ required: '계절을 선택해주세요.' }}
+          rules={{ required: true }}
           control={control}
         />
       </div>

@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import { RegisterOptions, UseFormRegister } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { PostFormData } from '@/config/types';
 
@@ -7,7 +7,7 @@ interface TextAreaWithLabelProps {
   label: string;
   placeholder: string;
   register: UseFormRegister<PostFormData>;
-  required?: boolean;
+  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   className?: string;
 }
 
@@ -16,13 +16,13 @@ export default function TextAreaWithLabel({
   label,
   placeholder,
   register,
-  required = false,
+  rules,
   className = '',
 }: TextAreaWithLabelProps) {
   return (
     <div>
-      <Label required={required}>{label}</Label>
-      <textarea className={`textarea ${className}`} placeholder={placeholder} {...register(id, { required })} />
+      <Label required={!!rules?.required}>{label}</Label>
+      <textarea className={`textarea ${className}`} placeholder={placeholder} {...register(id, rules)} />
     </div>
   );
 }
