@@ -20,8 +20,8 @@ export interface PostMeta {
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
-export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white';
-export type TextWeight = 'nomal' | 'bold';
+export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'primary-main';
+export type TextWeight = 'regular' | 'bold';
 
 export interface Location {
   city: string;

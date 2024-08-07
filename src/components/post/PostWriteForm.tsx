@@ -74,7 +74,6 @@ export default function PostWriteForm() {
         <div className="flex flex-col gap-3">
           <Label size="l">위치</Label>
           <Location
-            size="s"
             onLocationChange={(location) => {
               setValue('location', location); // 폼 데이터에 위치 설정
             }}
@@ -110,11 +109,9 @@ export default function PostWriteForm() {
         <button
           type="submit"
           disabled={!isValid || isSubmitting}
-          className={`w-full h-14 rounded-[10px] ${
-            isValid && !isSubmitting ? 'bg-primary-lightest text-white' : 'bg-disabled text-lightGray'
-          }`}
+          className={`w-full h-14 rounded-[10px] ${isValid && !isSubmitting ? 'bg-primary-main' : 'bg-disabled '}`}
         >
-          <Text size="l" color="lightGray" weight="bold">
+          <Text size="l" color={isValid && !isSubmitting ? 'white' : 'lightGray'} weight="bold">
             업로드하기
           </Text>
         </button>

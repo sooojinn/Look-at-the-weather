@@ -9,7 +9,7 @@ type TextType = {
   children: ReactNode;
 };
 
-export default function Text({ children, size = 'm', color = 'lightBlack', weight = 'nomal', href }: TextType) {
+export default function Text({ children, size = 'm', color = 'lightBlack', weight = 'regular', href }: TextType) {
   const text = (option: string) => {
     return `text-${option}`;
   };
