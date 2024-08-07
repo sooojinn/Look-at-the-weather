@@ -23,8 +23,10 @@ export default function Header({ children, isModal = false }: HeaderProps) {
           <BackBtn />
         </button>
       </div>
-      <div className="font-bold">{children}</div>
-      <div className="w-6 h-6">{isModal && <CloseBtn />}</div>
+      <div className="flex justify-center items-center font-bold">{children}</div>
+      <div className="w-6 h-6">
+        <button onClick={handleBackBtn}>{isModal && <CloseBtn />}</button>
+      </div>
     </header>
   );
 }
