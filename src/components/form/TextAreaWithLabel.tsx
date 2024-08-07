@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
 import Label from '@components/form/Label';
-import { PostFormData } from '@components/post/PostWriteForm';
+import { PostFormData } from '@/config/types';
 
 interface TextAreaWithLabelProps {
   id: keyof PostFormData;

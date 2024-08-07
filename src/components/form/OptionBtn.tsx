@@ -1,12 +1,12 @@
 import Text from '@components/common/atom/Text';
 
 interface OptionBtnProps {
-  option: string;
+  name: string;
   selected: boolean;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function OptionBtn({ option, selected, onClick }: OptionBtnProps) {
+export default function OptionBtn({ name, selected, onClick }: OptionBtnProps) {
   return (
     <button
       onClick={onClick}
@@ -14,7 +14,7 @@ export default function OptionBtn({ option, selected, onClick }: OptionBtnProps)
         selected ? 'border-primary-lightest text-primary-lightest' : ''
       }`}
     >
-      <Text color="gray">{option}</Text>
+      <Text color="gray">{name}</Text>
     </button>
   );
 }

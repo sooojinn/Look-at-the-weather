@@ -1,16 +1,11 @@
-import { Control, RegisterOptions } from 'react-hook-form';
 import Label from './Label';
 import Text from '@components/common/atom/Text';
 import Select from './Select';
+import { SelectProps } from '@/config/types';
 
-interface SelectWithLabelProps {
+interface SelectWithLabelProps extends SelectProps {
   label: string;
   description?: string;
-  name: string;
-  options: string[];
-  rules?: RegisterOptions; // 유효성 검사 규칙
-  control: Control<any>;
-  maxSelection?: number;
 }
 
 export default function SelectWithLabel({

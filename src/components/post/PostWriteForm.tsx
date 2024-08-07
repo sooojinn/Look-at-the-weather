@@ -4,20 +4,7 @@ import Location from '@components/location/Location';
 import { useForm } from 'react-hook-form';
 import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
-
-export interface Location {
-  city: string;
-  district: string;
-}
-
-export interface PostFormData {
-  title: string;
-  content: string;
-  location: Location;
-  weatherTag: string[];
-  temperatureTag: string[];
-  seasonTag: string;
-}
+import { PostFormData } from '@/config/types';
 
 export default function PostWriteForm() {
   const {
@@ -28,15 +15,34 @@ export default function PostWriteForm() {
     formState: { isValid, isSubmitting },
   } = useForm<PostFormData>({
     defaultValues: {
-      weatherTag: [],
-      temperatureTag: [],
-      seasonTag: '',
+      weatherTagIds: [],
+      temperatureTagIds: [],
+      seasonTagId: null,
     },
   });
 
-  const weatherOptions = ['흐림', '맑음', '눈', '비', '바람'];
-  const temperatureOptions = ['더워요', '추워요', '따뜻해요', '쌀쌀해요', '적당해요'];
-  const seasonOptions = ['봄', '여름', '가을', '겨울'];
+  const weatherOptions = [
+    { key: 1, name: '흐림' },
+    { key: 2, name: '맑음' },
+    { key: 3, name: '눈' },
+    { key: 4, name: '비' },
+    { key: 5, name: '바람' },
+  ];
+
+  const temperatureOptions = [
+    { key: 6, name: '더워요' },
+    { key: 7, name: '추워요' },
+    { key: 8, name: '따뜻해요' },
+    { key: 9, name: '쌀쌀해요' },
+    { key: 10, name: '적당해요' },
+  ];
+
+  const seasonOptions = [
+    { key: 11, name: '봄' },
+    { key: 12, name: '여름' },
+    { key: 13, name: '가을' },
+    { key: 14, name: '겨울' },
+  ];
 
   const onSubmit = (data: PostFormData) => {
     console.log(data);
@@ -75,7 +81,7 @@ export default function PostWriteForm() {
         <SelectWithLabel
           label="해당 코디를 입었을 때 날씨를 알려주세요"
           description="최대 2개까지 선택 가능합니다."
-          name="weatherTag"
+          name="weatherTagIds"
           options={weatherOptions}
           rules={{ required: '날씨를 선택해주세요.' }}
           control={control}
@@ -84,7 +90,7 @@ export default function PostWriteForm() {
         <SelectWithLabel
           label="온도"
           description="최대 2개까지 선택 가능합니다."
-          name="temperatureTag"
+          name="temperatureTagIds"
           options={temperatureOptions}
           rules={{ required: '온도를 선택해주세요.' }}
           control={control}
@@ -92,9 +98,9 @@ export default function PostWriteForm() {
         />
         <SelectWithLabel
           label="계절"
-          description="최대 1개까지 선택 가능합니다."
-          name="seasonTag"
+          name="seasonTagId"
           options={seasonOptions}
+          rules={{ required: '계절을 선택해주세요.' }}
           control={control}
         />
       </div>
