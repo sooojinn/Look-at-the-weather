@@ -20,7 +20,9 @@ export default function SelectWithLabel({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <Label required={!!rules?.required}>{label}</Label>
+        <Label size="l" required={!!rules?.required}>
+          {label}
+        </Label>
         {description && (
           <Text size="s" color="lightGray">
             {description}

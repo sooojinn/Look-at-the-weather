@@ -34,10 +34,12 @@ export default function HomeWeatherInfo() {
           className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
         >
           <div>
-            <Location size="l" fill="white" />
+            <Location size="l" color="white" fill="white" />
             <CurrentTemp>{currentTemp}</CurrentTemp>
-            <WeatherMessage size="l">{weatherMessage}</WeatherMessage>
-            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} />
+            <WeatherMessage size="l" color="white">
+              {weatherMessage}
+            </WeatherMessage>
+            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
           </div>
           <WeatherImg weatherType={weatherType as string} width={206} height={169} />
         </div>

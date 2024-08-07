@@ -1,17 +1,17 @@
-import { TextSize } from '@/config/types';
+import { Location, TextColor, TextSize } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
 import Text from '@components/common/atom/Text';
 import CompassIcon from '@components/icons/CompassIcon';
-import { Location } from '@components/post/PostWriteForm';
 import { useEffect } from 'react';
 
 interface LocationProps {
   size?: TextSize;
+  color?: TextColor;
   fill?: string;
   onLocationChange?: (location: Location) => void;
 }
 
-export default function Location({ size, fill = 'black', onLocationChange }: LocationProps) {
+export default function Location({ size, color, fill = 'black', onLocationChange }: LocationProps) {
   const { location } = useLocationData();
 
   useEffect(() => {
@@ -24,7 +24,9 @@ export default function Location({ size, fill = 'black', onLocationChange }: Loc
   return (
     <div className="flex items-center gap-2">
       <CompassIcon fill={fill} />
-      <Text size={size}>{location}</Text>
+      <Text size={size} color={color}>
+        {location}
+      </Text>
     </div>
   );
 }

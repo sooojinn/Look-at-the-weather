@@ -52,7 +52,9 @@ export default function PostWriteForm() {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="p-5 pb-10 flex flex-col gap-5">
         <div className="flex flex-col gap-4">
-          <Text weight="bold">내용을 작성해주세요</Text>
+          <Text size="l" weight="bold">
+            내용을 작성해주세요
+          </Text>
           <TextAreaWithLabel
             id="title"
             label="제목"
@@ -70,7 +72,7 @@ export default function PostWriteForm() {
           />
         </div>
         <div className="flex flex-col gap-3">
-          <Label>위치</Label>
+          <Label size="l">위치</Label>
           <Location
             size="s"
             onLocationChange={(location) => {
@@ -112,7 +114,7 @@ export default function PostWriteForm() {
             isValid && !isSubmitting ? 'bg-primary-lightest text-white' : 'bg-disabled text-lightGray'
           }`}
         >
-          <Text size="l" weight="bold">
+          <Text size="l" color="lightGray" weight="bold">
             업로드하기
           </Text>
         </button>

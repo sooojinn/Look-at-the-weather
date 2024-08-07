@@ -19,7 +19,7 @@ export interface PostMeta {
   likeByUser: boolean;
 }
 
-export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
 export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white';
 export type TextWeight = 'nomal' | 'bold';
 
