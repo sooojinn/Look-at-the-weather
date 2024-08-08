@@ -6,9 +6,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 interface HeaderProps {
   children?: ReactNode;
   isModal?: boolean;
+  onClose?: () => void;
 }
 
-export default function Header({ children, isModal = false }: HeaderProps) {
+export default function Header({ children, isModal = false, onClose }: HeaderProps) {
   const location = useLocation();
   const mainPageList = ['/', '/post', '/postwrite', '/mypage'];
   const isMainPage = mainPageList.includes(location.pathname);
@@ -25,7 +26,7 @@ export default function Header({ children, isModal = false }: HeaderProps) {
       </div>
       <div className="flex justify-center items-center font-bold">{children}</div>
       <div className="w-6 h-6">
-        <button onClick={handleBackBtn}>{isModal && <CloseBtn />}</button>
+        <button onClick={onClose}>{isModal && <CloseBtn />}</button>
       </div>
     </header>
   );
