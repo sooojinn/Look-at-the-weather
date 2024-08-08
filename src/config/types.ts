@@ -20,7 +20,7 @@ export interface PostMeta {
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
-export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'primary-main';
+export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'main' | 'disabled';
 export type TextWeight = 'regular' | 'bold';
 
 export interface Location {
