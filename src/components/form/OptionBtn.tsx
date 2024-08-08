@@ -14,7 +14,7 @@ export default function OptionBtn({ name, selected, onClick }: OptionBtnProps) {
         selected ? 'border-primary-main' : 'border-line-lightest'
       }`}
     >
-      <Text color={selected ? 'primary-main' : 'lightGray'}>{name}</Text>
+      <Text color={selected ? 'main' : 'lightGray'}>{name}</Text>
     </button>
   );
 }
