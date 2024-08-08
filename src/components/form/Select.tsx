@@ -29,7 +29,7 @@ export default function Select({ name, options, maxSelection = 1, control, rules
 }
 
 function isSelected(value: number | number[] | null, key: number): boolean {
-  // value가 배열일 때
+  // value가 배열(다중선택)일 때
   if (Array.isArray(value)) {
     return value.includes(key);
   }
@@ -45,19 +45,23 @@ function handleOptionClick(
 ) {
   e.preventDefault();
 
-  // value가 배열이 아닐 때
-  if (!Array.isArray(value)) {
+  // 다중선택이 아닐 때
+  if (maxSelection === 1) {
     onChange(value === key ? null : key);
     return;
   }
 
-  if (value.includes(key)) {
-    onChange(null);
-  } else {
-    const updatedValue = [...value, key];
-    if (updatedValue.length > maxSelection) {
-      updatedValue.shift();
+  // 다중선택일 때
+  if (maxSelection > 1 && Array.isArray(value)) {
+    if (value.includes(key)) {
+      const newValue = value.filter((v) => v !== key);
+      onChange(newValue);
+    } else {
+      const newValue = [...value, key];
+      if (newValue.length > maxSelection) {
+        newValue.shift();
+      }
+      onChange(newValue);
     }
-    onChange(updatedValue);
   }
 }
