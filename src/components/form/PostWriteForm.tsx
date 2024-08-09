@@ -11,6 +11,7 @@ import AlertBox from '@components/common/organism/AlertBox';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
+import Button from '@components/common/molecules/Button';
 
 export default function PostWriteForm({ header, defaultValues }: { header: string; defaultValues: PostFormData }) {
   const {
@@ -56,7 +57,7 @@ export default function PostWriteForm({ header, defaultValues }: { header: strin
           onContinue={() => navigate(-1)}
         />
       )}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel label="오늘의 룩을 올려주세요" description="사진 추가는 최대 3장까지 가능합니다." />
           <div className="flex flex-col gap-4">
@@ -114,15 +115,15 @@ export default function PostWriteForm({ header, defaultValues }: { header: strin
           />
         </div>
         <div className="bg-background-light p-5 pb-10">
-          <button
-            type="submit"
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            type="main"
             disabled={!isValid || isSubmitting}
-            className={`w-full h-14 rounded-[10px] ${isValid && !isSubmitting ? 'bg-primary-main' : 'bg-disabled '}`}
+            height={56}
+            radius={10}
           >
-            <Text size="l" color={isValid && !isSubmitting ? 'white' : 'lightGray'} weight="bold">
-              업로드하기
-            </Text>
-          </button>
+            업로드하기
+          </Button>
         </div>
       </form>
     </>
