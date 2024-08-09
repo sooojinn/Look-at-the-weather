@@ -41,9 +41,11 @@ export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
+
     return response.data.location;
   } catch (error) {
     console.error(error);
+    throw new Error('위치 정보를 불러오는 데 실패했습니다.');
   }
 };
 

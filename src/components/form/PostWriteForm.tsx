@@ -13,16 +13,24 @@ import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 
-export default function PostWriteForm({ header, defaultValues }: { header: string; defaultValues: PostFormData }) {
+interface PostWriteFormProps {
+  header: string;
+  defaultValues: PostFormData;
+}
+
+export default function PostWriteForm({ header, defaultValues }: PostWriteFormProps) {
   const {
     register,
     control,
     getValues,
+    setValue,
     handleSubmit,
     formState: { isValid, isSubmitting },
   } = useForm<PostFormData>({
     defaultValues: { ...defaultValues },
   });
+
+  setValue('location', defaultValues.location);
 
   const [showAlertBox, setShowAlertBox] = useState(false);
   const navigate = useNavigate();

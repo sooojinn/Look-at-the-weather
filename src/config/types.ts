@@ -10,8 +10,8 @@ export interface WeatherInfo {
 }
 
 export interface Location {
-  city: string;
-  district: string;
+  city: string | null;
+  district: string | null;
 }
 
 export interface PostMeta {
@@ -31,7 +31,7 @@ export type TextWeight = 'regular' | 'bold';
 export interface PostFormData {
   title: string;
   content: string;
-  location: Location | undefined;
+  location: Location;
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
