@@ -17,7 +17,6 @@ export default function PostWriteForm({ header, defaultValues }: { header: strin
   const {
     register,
     control,
-    setValue,
     getValues,
     handleSubmit,
     formState: { isValid, isSubmitting },
@@ -82,11 +81,7 @@ export default function PostWriteForm({ header, defaultValues }: { header: strin
           </div>
           <div className="flex flex-col gap-3">
             <Label size="l">위치</Label>
-            <Location
-              onLocationChange={(location) => {
-                setValue('location', location); // 폼 데이터에 위치 설정
-              }}
-            />
+            <Location location={defaultValues.location} />
           </div>
           <SelectWithLabel
             label="해당 코디를 입었을 때 날씨를 알려주세요"

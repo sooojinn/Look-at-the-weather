@@ -1,3 +1,4 @@
+import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/location/Location';
 import CurrentTemp from '@components/weather/CurrentTemp';
@@ -7,6 +8,7 @@ import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
   const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
+  const { location } = useLocationData();
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
@@ -34,7 +36,7 @@ export default function HomeWeatherInfo() {
           className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
         >
           <div>
-            <Location size="l" color="white" fill="white" />
+            <Location location={location} size="l" color="white" fill="white" />
             <CurrentTemp>{currentTemp}</CurrentTemp>
             <WeatherMessage size="l" color="white">
               {weatherMessage}

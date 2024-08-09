@@ -31,7 +31,7 @@ export type TextWeight = 'regular' | 'bold';
 export interface PostFormData {
   title: string;
   content: string;
-  location: Location | null;
+  location: Location | undefined;
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;

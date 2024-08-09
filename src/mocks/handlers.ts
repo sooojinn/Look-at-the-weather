@@ -193,7 +193,10 @@ export const handlers = [
     }
 
     const locationResponse = {
-      location: '서울시 강남구',
+      location: {
+        city: '서울시',
+        district: '강남구',
+      },
     };
 
     return HttpResponse.json(locationResponse, { status: 200 });
