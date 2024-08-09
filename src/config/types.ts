@@ -18,9 +18,9 @@ export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
-  SeasonTag: string;
-  WeatherTags: string[];
-  TemperatureTags: string[];
+  SeasonTag: number;
+  WeatherTags: number[];
+  TemperatureTags: number[];
   likeByUser: boolean;
 }
 
