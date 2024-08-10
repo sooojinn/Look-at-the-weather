@@ -7,6 +7,11 @@ export interface WeatherInfo {
   [key: string]: any;
 }
 
+export interface Location {
+  city: string | null;
+  district: string | null;
+}
+
 export interface PostMeta {
   postId: number;
   thumbnail: string;

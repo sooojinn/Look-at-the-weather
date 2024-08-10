@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GeoPoint } from '@/config/types';
+import { GeoPoint, Location } from '@/config/types';
 import { BASEURL } from '@/config/constants';
 
 // toXY: 위도, 경도를 좌표로 변환
@@ -33,7 +33,7 @@ export function fetchGeoPoint(): Promise<GeoPoint> {
 }
 
 // 위치 정보('OO시 OO구')를 반환하는 함수
-export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<string | undefined> => {
+export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location | undefined> => {
   try {
     const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
       headers: {
@@ -41,9 +41,11 @@ export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<string |
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
+
     return response.data.location;
   } catch (error) {
     console.error(error);
+    throw new Error('위치 정보를 불러오는 데 실패했습니다.');
   }
 };
 
