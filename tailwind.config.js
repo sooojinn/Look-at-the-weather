@@ -39,9 +39,8 @@ export default {
           light: '#e0e0e2',
         },
         primary: {
-          lightest: '#0066ff',
-          lighter: '#005eeeb',
-          light: '#0054d1',
+          main: '#1769ff',
+          logo: '#000000',
         },
       },
       fontSize: {
@@ -59,7 +58,6 @@ export default {
       },
     },
   },
-  plugins: [],
   purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   mode: 'jit',
 };
