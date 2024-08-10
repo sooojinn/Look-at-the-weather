@@ -15,10 +15,10 @@ export interface Location {
 export interface PostMeta {
   postId: number;
   thumbnail: string;
-  location: string;
-  SeasonTag: string;
-  WeatherTag: string[];
-  TempTag: string[];
+  location: Location;
+  SeasonTagId: number;
+  WeatherTagIds: number[];
+  TemperatureTagIds: number[];
   likeByUser: boolean;
 }
 

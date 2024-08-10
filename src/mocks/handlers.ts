@@ -154,7 +154,7 @@ export const handlers = [
   }),
 
   // 메인 페이지 오늘의 베스트 코디 목록 조회
-  http.get(`${BASEURL}/api/v1/posts/liked`, async ({ request }) => {
+  http.get(`${BASEURL}/api/v1/posts/top-liked`, async ({ request }) => {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get('page') || '0');
     const size = parseInt(url.searchParams.get('size') || '10');

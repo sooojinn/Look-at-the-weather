@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SERVICE_KEY, WEATHER_API_URL } from '../config/constants';
+import { SERVICE_KEY, TAGS, WEATHER_API_URL } from '../config/constants';
 import { GeoPoint, WeatherInfo } from '@/config/types';
 import { dfs_xy_conv } from './geo';
 
@@ -42,6 +42,12 @@ interface ForecastType {
 }
 
 type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
+
+// 태그 id를 name으로 변경하는 함수
+export function getTagNameById(id: number) {
+  const tag = TAGS.find((tag) => tag.id === id);
+  return tag ? tag.name : null;
+}
 
 function getCurrentDateInfo() {
   const now = new Date();
