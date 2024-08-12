@@ -225,4 +225,9 @@ export const handlers = [
       { status: 200 },
     );
   }),
+
+  http.post(`${BASEURL}/api/v1/s3/post-image`, async () => {
+    const id = Date.now();
+    return HttpResponse.json({ id: id }, { status: 201 });
+  }),
 ];

@@ -35,6 +35,7 @@ export interface PostFormData {
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
+  imageId: number[];
 }
 
 export interface Tag {

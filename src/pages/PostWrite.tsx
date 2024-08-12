@@ -11,6 +11,7 @@ export default function PostWrite() {
     weatherTagIds: [],
     temperatureTagIds: [],
     seasonTagId: null,
+    imageId: [],
   };
 
   return <PostWriteForm header="게시글 수정하기" defaultValues={defaultValues} />;
