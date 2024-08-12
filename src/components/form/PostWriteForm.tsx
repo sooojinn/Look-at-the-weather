@@ -16,9 +16,10 @@ import Button from '@components/common/molecules/Button';
 interface PostWriteFormProps {
   header: string;
   defaultValues: PostFormData;
+  onSubmit: (data: PostFormData) => void;
 }
 
-export default function PostWriteForm({ header, defaultValues }: PostWriteFormProps) {
+export default function PostWriteForm({ header, defaultValues, onSubmit }: PostWriteFormProps) {
   const {
     register,
     control,
@@ -47,10 +48,6 @@ export default function PostWriteForm({ header, defaultValues }: PostWriteFormPr
     setShowAlertBox(false);
   };
 
-  const onSubmit = (data: PostFormData) => {
-    console.log(data);
-  };
-
   return (
     <>
       <Header isModal={true} onClose={handleFormCloseBtn}>
@@ -67,10 +64,12 @@ export default function PostWriteForm({ header, defaultValues }: PostWriteFormPr
       <form>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel
+            name="imageId"
             label="오늘의 룩을 올려주세요"
             description="사진 추가는 최대 3장까지 가능합니다."
-            required={true}
+            rules={{ required: true }}
             setValue={setValue}
+            register={register}
           />
           <div className="flex flex-col gap-4">
             <Text size="l" weight="bold">

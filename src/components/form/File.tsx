@@ -6,11 +6,14 @@ import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
-import { UseFormSetValue } from 'react-hook-form';
+import { RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
 
-interface FileProps {
+export interface FileProps {
+  name: keyof PostFormData;
+  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   setValue: UseFormSetValue<PostFormData>;
+  register: UseFormRegister<PostFormData>;
 }
 
 interface ImageItem {
@@ -39,7 +42,7 @@ const postImage = async (file: File): Promise<{ id: number }> => {
   return response.data;
 };
 
-export default function File({ setValue }: FileProps) {
+export default function File({ name, rules, setValue, register }: FileProps) {
   const [selectedImages, setSelectedImages] = useState<ImageItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_IMAGES = 3;
@@ -90,9 +93,9 @@ export default function File({ setValue }: FileProps) {
   };
 
   useEffect(() => {
-    // selectedImages가 변경될 때마다 ImageId 필드 업데이트
+    // selectedImages가 변경될 때마다 ImageId 필드 업데이트 및 유효성 검사
     const imageIds = selectedImages.map((image) => image.id).filter((id): id is number => id !== undefined);
-    setValue('imageId', imageIds);
+    setValue(name, imageIds, { shouldValidate: true });
   }, [selectedImages, setValue]);
 
   return (
@@ -104,7 +107,15 @@ export default function File({ setValue }: FileProps) {
         })}
         {selectedImages.length < MAX_IMAGES && <AddImageBtn handleAddClick={handleAddClick} />}
       </div>
-      <input type="file" accept="image/*" multiple onChange={handleImageUpload} ref={fileInputRef} className="hidden" />
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        {...register(name, rules)}
+        onChange={handleImageUpload}
+        ref={fileInputRef}
+        className="hidden"
+      />
     </>
   );
 }
