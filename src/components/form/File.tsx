@@ -7,14 +7,16 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
+import Spinner from '@components/icons/Spinner';
 
 interface FileProps {
   setValue: UseFormSetValue<PostFormData>;
 }
 
 interface ImageItem {
-  id: number;
+  id?: number;
   url: string;
+  tempId?: string;
 }
 
 interface PreviewImageProps extends ImageItem {
@@ -46,11 +48,8 @@ export default function File({ setValue }: FileProps) {
     mutationFn: postImage,
     onSuccess: (data: { id: number }, file: File) => {
       setSelectedImages((prevImages) => {
-        const newImage = {
-          id: data.id,
-          url: URL.createObjectURL(file),
-        };
-        return [...prevImages, newImage].slice(0, MAX_IMAGES);
+        const updatedImages = prevImages.map((img) => (img.tempId === file.name ? { ...img, id: data.id } : img));
+        return updatedImages;
       });
     },
   });
@@ -59,6 +58,14 @@ export default function File({ setValue }: FileProps) {
     const files = event.target.files;
     if (files) {
       Array.from(files).forEach((file) => {
+        const url = URL.createObjectURL(file);
+        setSelectedImages((prevImages) => {
+          const newImage = {
+            url,
+            tempId: file.name,
+          };
+          return [...prevImages, newImage].slice(0, MAX_IMAGES);
+        });
         mutation.mutate(file);
       });
     }
@@ -82,16 +89,16 @@ export default function File({ setValue }: FileProps) {
 
   useEffect(() => {
     // selectedImages가 변경될 때마다 ImageId 필드 업데이트
-    const imageIds = selectedImages.map((image) => image.id);
+    const imageIds = selectedImages.map((image) => image.id).filter((id): id is number => id !== undefined);
     setValue('imageId', imageIds);
   }, [selectedImages, setValue]);
 
   return (
     <>
-      <div className="flex space-x-2 overflow-auto scrollbar-hide">
+      <div className="h-[197px] flex space-x-2 overflow-auto scrollbar-hide">
         {selectedImages.map((image) => {
-          const { id, url } = image;
-          return <PreviewImage key={id} id={id} url={url} onDelete={handleDeleteImage} />;
+          const { id, url, tempId } = image;
+          return <PreviewImage key={tempId} id={id} url={url} onDelete={handleDeleteImage} />;
         })}
         {selectedImages.length < MAX_IMAGES && <AddImageBtn handleAddClick={handleAddClick} />}
       </div>
@@ -102,11 +109,14 @@ export default function File({ setValue }: FileProps) {
 
 function PreviewImage({ id, url, onDelete }: PreviewImageProps) {
   return (
-    <div className="w-[158px] h-[197px] flex-shrink-0 bg-background-light relative">
+    <div className="w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light relative">
       <img src={url} alt={`사진 ${id}`} className="w-full h-full object-cover" />
-      <button onClick={() => onDelete(id)} className="absolute top-2 right-2">
-        <ImgDeleteIcon />
-      </button>
+      {!id && (
+        <div className="absolute inset-0 bg-black opacity-30 flex justify-center items-center">
+          <Spinner />
+        </div>
+      )}
+      {id && <ImgDeleteIcon id={id} onClick={onDelete} />}
     </div>
   );
 }
@@ -114,7 +124,7 @@ function PreviewImage({ id, url, onDelete }: PreviewImageProps) {
 function AddImageBtn({ handleAddClick }: AddImageBtnProps) {
   return (
     <div
-      className="w-[158px] h-[197px] bg-background-light flex justify-center items-center flex-shrink-0 cursor-pointer"
+      className="w-[158px] bg-background-light flex justify-center items-center flex-shrink-0 cursor-pointer"
       onClick={handleAddClick}
     >
       <div className="flex flex-col justify-center items-center gap-[2px]">

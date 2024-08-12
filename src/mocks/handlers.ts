@@ -227,6 +227,9 @@ export const handlers = [
   }),
 
   http.post(`${BASEURL}/api/v1/s3/post-image`, async () => {
+    // 3초 지연 후 응답 반환
+    await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
     const id = Date.now();
     return HttpResponse.json({ id: id }, { status: 201 });
   }),
