@@ -22,6 +22,7 @@ interface AddImageBtnProps {
   handleAddClick: () => void;
 }
 
+// 이미지 업로드 함수
 const postImage = async (file: File): Promise<{ id: number }> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -42,6 +43,7 @@ export default function File({ name, rules, setValue, register }: FileProps) {
   const mutation = useMutation({
     mutationFn: postImage,
     onSuccess: (data: { id: number }, file: File) => {
+      // 파일명이 같은 객체에 id 값 추가
       setSelectedImages((prevImages) => {
         const updatedImages = prevImages.map((img) => (img.tempId === file.name ? { ...img, id: data.id } : img));
         return updatedImages;
@@ -49,10 +51,12 @@ export default function File({ name, rules, setValue, register }: FileProps) {
     },
   });
 
+  // 이미지 업로드 시 실행되는 함수
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
       Array.from(files).forEach((file) => {
+        // 이미 업로드된 이미지가 아닐 때만 추가
         const fileExists = selectedImages.some((img) => img.tempId === file.name);
         if (!fileExists) {
           setSelectedImages((prevImages) => {
@@ -70,10 +74,12 @@ export default function File({ name, rules, setValue, register }: FileProps) {
 
   console.log(selectedImages);
 
+  // 이미지 추가 함수
   const handleAddClick = () => {
     fileInputRef.current?.click();
   };
 
+  // 이미지 미리보기 삭제 함수
   const handleDeleteImage = (id: number) => {
     setSelectedImages((prevImages) => {
       const imageToDelete = prevImages.find((img) => img.id === id);
