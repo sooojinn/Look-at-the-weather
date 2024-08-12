@@ -233,4 +233,14 @@ export const handlers = [
     const id = Date.now();
     return HttpResponse.json({ id: id }, { status: 201 });
   }),
+
+  http.post(`${BASEURL}/api/v1/posts`, async () => {
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 등록 성공',
+      },
+      { status: 200 },
+    );
+  }),
 ];
