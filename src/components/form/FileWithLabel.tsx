@@ -1,6 +1,7 @@
 import Text from '@components/common/atom/Text';
 import Label from './Label';
-import File, { FileProps } from './File';
+import File from './File';
+import { FileProps } from '@/config/types';
 
 interface FileWithLabelProps extends FileProps {
   label: string;

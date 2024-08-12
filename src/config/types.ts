@@ -1,4 +1,4 @@
-import { Control, RegisterOptions } from 'react-hook-form';
+import { Control, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 export interface GeoPoint {
   latitude: number;
@@ -45,9 +45,16 @@ export interface Tag {
   name: string;
 }
 export interface SelectProps {
-  name: string;
+  name: keyof PostFormData;
   options: Tag[];
   maxSelection?: number;
   control: Control<any>;
   rules?: RegisterOptions; // 유효성 검사 규칙
+}
+
+export interface FileProps {
+  name: keyof PostFormData;
+  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
+  setValue: UseFormSetValue<PostFormData>;
+  register: UseFormRegister<PostFormData>;
 }

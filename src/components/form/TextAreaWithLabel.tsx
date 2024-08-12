@@ -3,7 +3,7 @@ import Label from '@components/form/Label';
 import { PostFormData } from '@/config/types';
 
 interface TextAreaWithLabelProps {
-  id: keyof PostFormData;
+  name: keyof PostFormData;
   label: string;
   placeholder: string;
   register: UseFormRegister<PostFormData>;
@@ -12,7 +12,7 @@ interface TextAreaWithLabelProps {
 }
 
 export default function TextAreaWithLabel({
-  id,
+  name,
   label,
   placeholder,
   register,
@@ -22,7 +22,7 @@ export default function TextAreaWithLabel({
   return (
     <div>
       <Label required={!!rules?.required}>{label}</Label>
-      <textarea className={`textarea ${className}`} placeholder={placeholder} {...register(id, rules)} />
+      <textarea className={`textarea ${className}`} placeholder={placeholder} {...register(name, rules)} />
     </div>
   );
 }

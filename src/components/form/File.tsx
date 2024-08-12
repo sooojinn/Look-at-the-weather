@@ -1,20 +1,12 @@
 import { BASEURL } from '@/config/constants';
-import { PostFormData } from '@/config/types';
+import { FileProps } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
-import { RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
-
-export interface FileProps {
-  name: keyof PostFormData;
-  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
-  setValue: UseFormSetValue<PostFormData>;
-  register: UseFormRegister<PostFormData>;
-}
 
 interface ImageItem {
   id?: number;

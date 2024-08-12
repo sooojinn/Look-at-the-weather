@@ -76,7 +76,7 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
               내용을 작성해주세요
             </Text>
             <TextAreaWithLabel
-              id="title"
+              name="title"
               label="제목"
               placeholder="제목을 입력해 주세요."
               rules={{ required: true }}
@@ -84,7 +84,7 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
               className="h-[86px]"
             />
             <TextAreaWithLabel
-              id="content"
+              name="content"
               label="내용"
               placeholder="내용을 입력해 주세요."
               register={register}
