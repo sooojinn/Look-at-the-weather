@@ -58,15 +58,17 @@ export default function File({ setValue }: FileProps) {
     const files = event.target.files;
     if (files) {
       Array.from(files).forEach((file) => {
-        const url = URL.createObjectURL(file);
-        setSelectedImages((prevImages) => {
-          const newImage = {
-            url,
-            tempId: file.name,
-          };
-          return [...prevImages, newImage].slice(0, MAX_IMAGES);
-        });
-        mutation.mutate(file);
+        const fileExists = selectedImages.some((img) => img.tempId === file.name);
+        if (!fileExists) {
+          setSelectedImages((prevImages) => {
+            const newImage = {
+              url: URL.createObjectURL(file),
+              tempId: file.name,
+            };
+            return [...prevImages, newImage].slice(0, MAX_IMAGES);
+          });
+          mutation.mutate(file);
+        }
       });
     }
   };
