@@ -1,9 +1,11 @@
 import { BASEURL } from '@/config/constants';
 import { PostFormData } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
+import { showToast } from '@components/common/molecules/ToastProvider';
 import PostWriteForm from '@components/form/PostWriteForm';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const postForm = async (data: PostFormData) => {
   const response = await axios.post(`${BASEURL}/api/v1/posts`, data, {
@@ -17,6 +19,7 @@ const postForm = async (data: PostFormData) => {
 
 export default function PostWrite() {
   const { location: currentLocation } = useLocationData();
+  const navigate = useNavigate();
 
   const defaultValues = {
     title: '',
@@ -30,6 +33,10 @@ export default function PostWrite() {
 
   const mutation = useMutation({
     mutationFn: postForm,
+    onSuccess: () => {
+      navigate(-1);
+      showToast('게시물이 등록되었습니다');
+    },
   });
 
   const onSubmit = (data: PostFormData) => {
