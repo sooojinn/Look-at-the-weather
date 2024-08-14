@@ -81,6 +81,7 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
               label="제목"
               placeholder="제목을 입력해 주세요."
               rules={{ required: true }}
+              maxLength={30}
               register={register}
               className="h-[86px]"
             />
@@ -88,6 +89,7 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
               name="content"
               label="내용"
               placeholder="내용을 입력해 주세요."
+              maxLength={300}
               register={register}
               className="h-[238px]"
             />
