@@ -12,6 +12,7 @@ import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
+import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 
 interface PostWriteFormProps {
   header: string;
@@ -122,6 +123,12 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
           />
         </div>
         <div className="bg-background-light p-5 pb-10">
+          <div className="flex flex-col gap-2 mb-10">
+            <Text size="s" color="darkGray" weight="bold">
+              게시글 작성 가이드
+            </Text>
+            <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
+          </div>
           <Button
             onClick={handleSubmit(onSubmit)}
             type="main"
