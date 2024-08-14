@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
+import { HrLineHeight } from '@/config/types';
 
-export default function HrLine() {
-  return <hr className="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />;
+export default function HrLine({ height }: HrLineHeight) {
+  const hrHeight = height === 1 ? 'border-[1px]' : 'border-8';
+  return <hr className={`-mx-5 bg-gray-200 ${hrHeight} border-line-lightest`} />;
 }

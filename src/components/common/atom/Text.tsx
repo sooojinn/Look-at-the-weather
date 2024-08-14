@@ -1,4 +1,4 @@
-import { TextColor, TextSize, TextWeight } from '@/config/types';
+import { TextColor, TextSize, TextWeight, TextMargin } from '@/config/types';
 import { ReactNode } from 'react';
 
 type TextType = {
@@ -7,9 +7,17 @@ type TextType = {
   weight?: TextWeight;
   href?: string;
   children: ReactNode;
+  margin?: TextMargin;
 };
 
-export default function Text({ children, size = 'm', color = 'lightBlack', weight = 'regular', href }: TextType) {
+export default function Text({
+  children,
+  size = 'm',
+  color = 'lightBlack',
+  weight = 'regular',
+  href,
+  margin,
+}: TextType) {
   const textSize = {
     xs: 'text-xs',
     s: 'text-s',
@@ -29,6 +37,7 @@ export default function Text({ children, size = 'm', color = 'lightBlack', weigh
     white: 'text-white',
     main: 'text-primary-main',
     disabled: 'text-disabled',
+    blue: 'text-blue',
   };
 
   const textWeight = {
@@ -39,11 +48,11 @@ export default function Text({ children, size = 'm', color = 'lightBlack', weigh
   return (
     <>
       {href ? (
-        <a href={href} className={`${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>
+        <a href={href} className={`${margin} ${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>
           {children}
         </a>
       ) : (
-        <div className={`${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>{children}</div>
+        <div className={`${margin} ${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>{children}</div>
       )}
     </>
   );
