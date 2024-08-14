@@ -243,4 +243,20 @@ export const handlers = [
       { status: 200 },
     );
   }),
+
+  // 게시물 작성 중 이미지 삭제
+  http.delete(`${BASEURL}/api/v1/s3/post-image/:imageId`, ({ params }) => {
+    const { imageId } = params;
+    if (imageId) {
+      return HttpResponse.json({}, { status: 201 });
+    } else {
+      return HttpResponse.json(
+        {
+          errorCode: 'FAIL_DELETE_POST',
+          errorMessage: '게시글 삭제 실패',
+        },
+        { status: 400 },
+      );
+    }
+  }),
 ];

@@ -24,7 +24,7 @@ interface AddImageBtnProps {
 }
 
 // 이미지 업로드 함수
-const postImage = async (file: File): Promise<{ id: number }> => {
+const uploadImage = async (file: File): Promise<{ id: number }> => {
   const formData = new FormData();
   formData.append('file', file);
   const response = await axios.post(`${BASEURL}/api/v1/s3/post-image`, formData, {
@@ -38,7 +38,7 @@ const postImage = async (file: File): Promise<{ id: number }> => {
 
 // 이미지 삭제 함수
 const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/api/vi/s3/post-image/${id}`, {
+  await axios.delete(`${BASEURL}/api/v1/s3/post-image1111/${id}`, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -52,7 +52,7 @@ export default function File({ name, rules, setValue, register }: FileProps) {
   const MAX_IMAGES = 3;
 
   const uploadImageMutation = useMutation({
-    mutationFn: postImage,
+    mutationFn: uploadImage,
     onSuccess: (data, file) => {
       // 파일명이 같은 객체에 id 값 추가
       setSelectedImages((prevImages) => {
@@ -60,10 +60,17 @@ export default function File({ name, rules, setValue, register }: FileProps) {
         return updatedImages;
       });
     },
-    onError: (error, file) => {
+    onError: (_, file) => {
       showToast('이미지 업로드 실패. 다시 시도해주세요.');
       // id 요청에 실패한 이미지는 selectedImages에서 삭제
       removeImageFromSelection('tempId', file.name);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteImage,
+    onError: (error) => {
+      console.error('이미지 삭제에 실패했습니다:', error);
     },
   });
 
@@ -110,8 +117,9 @@ export default function File({ name, rules, setValue, register }: FileProps) {
   };
 
   // 이미지 미리보기 삭제 함수
-  const handleDeleteImage = (id: number) => {
+  const handleDeleteImage = async (id: number) => {
     removeImageFromSelection('id', id);
+    deleteMutation.mutate(id);
   };
 
   useEffect(() => {
