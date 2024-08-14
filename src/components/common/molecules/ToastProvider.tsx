@@ -12,14 +12,17 @@ export function ToastProvider() {
       transition={Slide}
       position="bottom-center"
       theme="dark"
-      toastClassName={() => 'w-[335px] h-[44px] flex items-center fixed bottom-24 bg-lightBlack opacity-90 rounded-lg'}
+      toastClassName={() =>
+        'w-[335px] h-[44px] flex items-center fixed bottom-24 left-[calc(50%-335px/2)] bg-lightBlack opacity-90 rounded-lg'
+      }
+      bodyClassName={() => 'w-full px-5'}
     />
   );
 }
 
 export function showToast(message: string, cancelBtnText: string = '', onCancel: () => void = () => {}) {
   toast(
-    <div className="w-full flex justify-between items-center px-5">
+    <div className="flex justify-between items-center">
       <Text size="s" color="white">
         {message}
       </Text>
