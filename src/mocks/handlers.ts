@@ -158,6 +158,9 @@ export const handlers = [
     const url = new URL(request.url);
     const code = url.searchParams.get('code');
 
+    // 3초 지연 후 응답 반환
+    await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
     if (code) {
       return HttpResponse.json(
         {

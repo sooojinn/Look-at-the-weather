@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import Text from '@components/common/atom/Text';
+import Spinner from '@components/icons/Spinner';
 
 const getUserInfo = async (code: string | null) => {
   const response = await axios.get(`${BASEURL}/api/v1/oauth/kakao?code=${code}`, {
@@ -44,12 +45,15 @@ export default function KakaoRedirect() {
   }, [isSuccess, error]);
 
   return (
-    <>
+    <div className="w-full min-h-screen flex justify-center items-center relative">
       {isLoading && (
-        <Text color="black" weight="bold">
-          잠시만 기다려 주세요..
-        </Text>
+        <div className="flex flex-col justify-center items-center gap-7">
+          <Spinner width={60} />
+          <Text color="black" weight="bold">
+            잠시만 기다려 주세요..
+          </Text>
+        </div>
       )}
-    </>
+    </div>
   );
 }
