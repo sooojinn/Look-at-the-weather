@@ -2,12 +2,12 @@ import { BASEURL } from '@/config/constants';
 import { PostFormData } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import PostWriteForm from '@components/form/PostWriteForm';
+import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const postForm = async (data: PostFormData) => {
+const uploadPost = async (data: PostFormData) => {
   const response = await axios.post(`${BASEURL}/api/v1/posts`, data, {
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export default function PostWrite() {
   };
 
   const uploadMutation = useMutation({
-    mutationFn: postForm,
+    mutationFn: uploadPost,
     onSuccess: () => {
       navigate(-1);
       showToast('게시물이 등록되었습니다');
@@ -44,5 +44,5 @@ export default function PostWrite() {
     uploadMutation.mutate(data);
   };
 
-  return <PostWriteForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }
