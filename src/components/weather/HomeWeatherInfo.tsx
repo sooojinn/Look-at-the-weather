@@ -7,8 +7,8 @@ import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
-  const { location } = useLocationData();
+  const { geoPoint, location } = useLocationData();
+  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData(geoPoint);
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {

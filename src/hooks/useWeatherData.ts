@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchGeoPoint } from '@/lib/geo';
 import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
 import { GeoPoint, WeatherInfo } from '@/config/types';
 
@@ -7,15 +6,7 @@ interface UseWeatherDataReturn extends WeatherInfo {
   isLoading: boolean;
 }
 
-export default function useWeatherData(): UseWeatherDataReturn {
-  const geoPointQuery = useQuery({
-    queryKey: ['geoPoint'],
-    queryFn: fetchGeoPoint,
-    staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
-  });
-
-  const { data: geoPoint } = geoPointQuery;
-
+export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn {
   // 시간별 날씨 정보(기온, 하늘 상태, 강수 형태) 패칭
   const hourlyWeatherQuery = useQuery({
     queryKey: ['hourlyWeather', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
@@ -35,7 +26,7 @@ export default function useWeatherData(): UseWeatherDataReturn {
   return {
     ...hourlyWeatherQuery.data,
     ...dailyWeatherQuery.data,
-    isLoading: geoPointQuery.isLoading || hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
+    isLoading: hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
   };
 }
 

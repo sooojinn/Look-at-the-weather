@@ -3,14 +3,20 @@ import { fetchGeoPoint, fetchLocation } from '@/lib/geo';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useLocationData() {
-  // 위도와 경도를 패칭
+  // 기본값은 서울시청의 위도와 경도
+  const defaultGeoPoint: GeoPoint = {
+    latitude: 37.5663,
+    longitude: 126.9779,
+  };
+
   const geoPointQuery = useQuery({
     queryKey: ['geoPoint'],
     queryFn: fetchGeoPoint,
     staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
   });
 
-  const { data: geoPoint } = geoPointQuery;
+  const geoPoint = geoPointQuery.data ?? defaultGeoPoint;
+  console.log(geoPoint);
 
   // 위치 정보('OO시 OO구')를 패칭
   const locationQuery = useQuery({
@@ -21,6 +27,7 @@ export default function useLocationData() {
   });
 
   return {
+    geoPoint,
     location: locationQuery.data ?? { city: null, district: null },
   };
 }
