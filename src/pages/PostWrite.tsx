@@ -44,5 +44,5 @@ export default function PostWrite() {
     uploadMutation.mutate(data);
   };
 
-  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return <PostForm type="작성" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }
