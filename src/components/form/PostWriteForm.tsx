@@ -15,12 +15,12 @@ import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 
 interface PostWriteFormProps {
-  header: string;
+  type: '작성' | '수정';
   defaultValues: PostFormData;
   onSubmit: (data: PostFormData) => void;
 }
 
-export default function PostWriteForm({ header, defaultValues, onSubmit }: PostWriteFormProps) {
+export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWriteFormProps) {
   const {
     register,
     control,
@@ -45,20 +45,16 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
     else navigate(-1);
   };
 
-  const handleAlertBoxCloseBtn = () => {
-    setShowAlertBox(false);
-  };
-
   return (
     <>
       <Header isModal={true} onClose={handleFormCloseBtn}>
-        {header}
+        게시글 {type}하기
       </Header>
       {showAlertBox && (
         <AlertBox
-          mainMessage="작성하지 않고 나가시겠어요?"
-          subMessage="지금까지 쓴 내용은 삭제됩니다."
-          onClose={handleAlertBoxCloseBtn}
+          mainMessage={`${type}하지 않고 나가시겠어요?`}
+          subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
+          onCancel={() => setShowAlertBox(false)}
           onContinue={() => navigate(-1)}
         />
       )}
@@ -138,7 +134,7 @@ export default function PostWriteForm({ header, defaultValues, onSubmit }: PostW
             height={56}
             radius={10}
           >
-            업로드하기
+            {type === '작성' ? '업로드하기' : '수정하기'}
           </Button>
         </div>
       </form>

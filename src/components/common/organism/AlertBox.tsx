@@ -5,11 +5,11 @@ import Button from '../molecules/Button';
 interface AlertBoxProps {
   mainMessage: string;
   subMessage: string;
-  onClose: () => void;
+  onCancel: () => void;
   onContinue: () => void;
 }
 
-export default function AlertBox({ mainMessage, subMessage, onClose, onContinue }: AlertBoxProps) {
+export default function AlertBox({ mainMessage, subMessage, onCancel, onContinue }: AlertBoxProps) {
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
@@ -25,7 +25,7 @@ export default function AlertBox({ mainMessage, subMessage, onClose, onContinue 
             </div>
           </div>
           <div className="flex gap-2">
-            <Button type="white" onClick={onClose}>
+            <Button type="white" onClick={onCancel}>
               닫기
             </Button>
             <Button type="main" onClick={onContinue}>

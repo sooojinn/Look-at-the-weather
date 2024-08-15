@@ -31,7 +31,7 @@ export default function PostWrite() {
     imageId: [],
   };
 
-  const mutation = useMutation({
+  const uploadMutation = useMutation({
     mutationFn: postForm,
     onSuccess: () => {
       navigate(-1);
@@ -41,8 +41,8 @@ export default function PostWrite() {
 
   const onSubmit = (data: PostFormData) => {
     console.log(data);
-    mutation.mutate(data);
+    uploadMutation.mutate(data);
   };
 
-  return <PostWriteForm header="게시글 작성하기" defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return <PostWriteForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }
