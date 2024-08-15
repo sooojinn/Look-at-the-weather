@@ -1,10 +1,48 @@
-import FooterNavi from '@/components/common/FooterNavi';
+import { BASEURL } from '@/config/constants';
+import { PostFormData } from '@/config/types';
+import useLocationData from '@/hooks/useLocationData';
+import { showToast } from '@components/common/molecules/ToastProvider';
+import PostForm from '@components/form/PostForm';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-export default function () {
-  return (
-    <div>
-      게시글 작성 페이지
-      <FooterNavi />
-    </div>
-  );
+const uploadPost = async (data: PostFormData) => {
+  const response = await axios.post(`${BASEURL}/api/v1/posts`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+  });
+  return response.data;
+};
+
+export default function PostWrite() {
+  const { location: currentLocation } = useLocationData();
+  const navigate = useNavigate();
+
+  const defaultValues = {
+    title: '',
+    content: '',
+    location: currentLocation,
+    weatherTagIds: [],
+    temperatureTagIds: [],
+    seasonTagId: null,
+    imageId: [],
+  };
+
+  const uploadMutation = useMutation({
+    mutationFn: uploadPost,
+    onSuccess: () => {
+      navigate(-1);
+      showToast('게시물이 등록되었습니다');
+    },
+  });
+
+  const onSubmit = (data: PostFormData) => {
+    console.log(data);
+    uploadMutation.mutate(data);
+  };
+
+  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }

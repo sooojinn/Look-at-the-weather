@@ -56,8 +56,23 @@ export default {
         regular: '400',
         bold: '700',
       },
+      keyframes: {
+        slideUp: {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+      },
+      animation: {
+        slideUp: 'slideUp 0.3s ease-out',
+        fadeOut: 'fadeOut 0.3s ease-in',
+      },
     },
   },
+  plugins: [require('tailwind-scrollbar-hide')],
   purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   mode: 'jit',
 };
