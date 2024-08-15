@@ -58,3 +58,4 @@ export interface FileProps {
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
 }
+
