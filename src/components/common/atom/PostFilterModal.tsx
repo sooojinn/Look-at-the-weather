@@ -17,6 +17,8 @@ interface FilterItem {
   tagName: string;
 }
 
+type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
+
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
 }
@@ -29,7 +31,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   const [selectedSeason, setSelectedSeason] = useState<FilterItem[]>([]);
   const [selectedFilterItems, setSelectedFilterItems] = useState<CategoryFilterItem[]>([]);
 
-  const sectionRefs = useRef({
+  // Record<K, T> 타입 k는 key의 값, T는 각 키에 대응하는 값의 타입을 지정함
+  const sectionRefs = useRef<Record<SectionKey, HTMLDivElement | null>>({
     location: null,
     weather: null,
     temperature: null,
@@ -76,16 +79,9 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   };
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log();
-    if (btnValue && sectionRefs.current[btnValue]) {
-      sectionRefs.current[btnValue].scrollIntoView({ behavior: 'auto', block: 'nearest' });
+    // as를 사용하여 SectionKey의 지정된 값중 하나라는 것을 타입 단언
+    if (btnValue && sectionRefs.current[btnValue as SectionKey]) {
+      sectionRefs.current[btnValue as SectionKey]?.scrollIntoView({ behavior: 'auto', block: 'nearest' });
     }
   }, [btnValue]);
 
@@ -135,6 +131,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     ];
     setSelectedFilterItems(newSelectedFilterItems);
   }, [selectedLocation, selectedWeather, selectedTemperature, selectedSeason]);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   return (
     <>
