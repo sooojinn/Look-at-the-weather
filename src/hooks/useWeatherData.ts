@@ -3,7 +3,7 @@ import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
 import { GeoPoint, WeatherInfo } from '@/config/types';
 
 interface UseWeatherDataReturn extends WeatherInfo {
-  isWeatherLoading: boolean;
+  isWeatherSuccess: boolean;
 }
 
 export default function useWeatherData(geoPoint: GeoPoint | undefined): UseWeatherDataReturn {
@@ -27,7 +27,7 @@ export default function useWeatherData(geoPoint: GeoPoint | undefined): UseWeath
   return {
     ...hourlyWeatherQuery.data,
     ...dailyWeatherQuery.data,
-    isWeatherLoading: hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
+    isWeatherSuccess: hourlyWeatherQuery.isSuccess || dailyWeatherQuery.isSuccess,
   };
 }
 

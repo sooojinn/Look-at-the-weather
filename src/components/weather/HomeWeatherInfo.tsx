@@ -8,8 +8,8 @@ import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { geoPoint, location, isLocationLoading } = useLocationData();
-  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isWeatherLoading } = useWeatherData(geoPoint);
+  const { geoPoint, location, isLocationSuccess } = useLocationData();
+  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isWeatherSuccess } = useWeatherData(geoPoint);
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
@@ -33,20 +33,23 @@ export default function HomeWeatherInfo() {
       <div
         className={`w-full h-full px-5 text-white flex justify-between items-center relative ${backgroundStyle[backgroundType]}`}
       >
-        {(isLocationLoading || isWeatherLoading) && (
+        {isLocationSuccess && isWeatherSuccess ? (
+          <>
+            <div>
+              <Location location={location} size="l" color="white" fill="white" />
+              <CurrentTemp>{currentTemp}</CurrentTemp>
+              <WeatherMessage size="l" color="white">
+                {weatherMessage}
+              </WeatherMessage>
+              <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
+            </div>
+            <WeatherImg weatherType={weatherType as string} width={206} height={169} />
+          </>
+        ) : (
           <div className="absolute inset-0 bg-black opacity-20 flex justify-center items-center">
             <Spinner width={40} />
           </div>
         )}
-        <div>
-          <Location location={location} size="l" color="white" fill="white" />
-          <CurrentTemp>{currentTemp}</CurrentTemp>
-          <WeatherMessage size="l" color="white">
-            {weatherMessage}
-          </WeatherMessage>
-          <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
-        </div>
-        <WeatherImg weatherType={weatherType as string} width={206} height={169} />
       </div>
     </div>
   );

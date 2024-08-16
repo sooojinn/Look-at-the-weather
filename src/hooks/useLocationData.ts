@@ -25,6 +25,6 @@ export default function useLocationData() {
   return {
     geoPoint,
     location: locationQuery.data ?? { city: null, district: null },
-    isLocationLoading: locationQuery.isLoading,
+    isLocationSuccess: locationQuery.isSuccess,
   };
 }
