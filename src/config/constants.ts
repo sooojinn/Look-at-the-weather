@@ -24,3 +24,26 @@ export const TAGS = [
 export const WEATHER_TAGS = TAGS.filter((tag) => tag.category === 'weather');
 export const TEMPERATURE_TAGS = TAGS.filter((tag) => tag.category === 'temperature');
 export const SEASON_TAGS = TAGS.filter((tag) => tag.category === 'season');
+
+export const POSTFILTERTAPLIST = [
+  {
+    id: 0,
+    tabName: '지역',
+    href: '#location',
+  },
+  {
+    id: 1,
+    tabName: '날씨',
+    href: '#weather',
+  },
+  {
+    id: 2,
+    tabName: '온도',
+    href: '#temperature',
+  },
+  {
+    id: 3,
+    tabName: '계절',
+    href: '#season',
+  },
+];

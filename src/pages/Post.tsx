@@ -10,17 +10,24 @@ import VeLine from '@components/common/atom/VeLine';
 import FilterBtn from '@components/common/atom/FilterBtn';
 import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/atom/PostFilterModal';
+import { PostList } from '@components/post/PostList';
+import axios from 'axios';
+import { PostMeta } from '@/config/types';
+import { BASEURL } from '@/config/constants';
+import { generateMockPosts } from '@/mocks/mockPostData';
 
 type Props = {};
 
-export default function PostList({}: Props) {
+export default function Post({}: Props) {
   const { location } = useLocationData();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
 
-  const onClickFilterBtn = (btnValue: string) => {
-    setBtnValue(btnValue);
+  const onClickFilterBtn = (btnIndex: number, btnString: string) => {
+    setBtnIndex(btnIndex);
+    setBtnValue(btnString);
     setIsOpen(true);
   };
 
@@ -47,14 +54,33 @@ export default function PostList({}: Props) {
           </div>
           <VeLine height={8} />
           <div className="flex row gap-4 pl-4">
-            <FilterBtn onClickFunc={() => onClickFilterBtn('지역')}>지역</FilterBtn>
-            <FilterBtn onClickFunc={() => onClickFilterBtn('날씨')}>날씨</FilterBtn>
-            <FilterBtn onClickFunc={() => onClickFilterBtn('온도')}>온도</FilterBtn>
-            <FilterBtn onClickFunc={() => onClickFilterBtn('계절')}>계절</FilterBtn>
+            <FilterBtn onClickFunc={() => onClickFilterBtn(0, 'location')}>지역</FilterBtn>
+            <FilterBtn onClickFunc={() => onClickFilterBtn(1, 'weather')}>날씨</FilterBtn>
+            <FilterBtn onClickFunc={() => onClickFilterBtn(2, 'temperature')}>온도</FilterBtn>
+            <FilterBtn onClickFunc={() => onClickFilterBtn(3, 'season')}>계절</FilterBtn>
           </div>
         </div>
+        <HrLine height={8} />
+        <div className="py-5">
+          <div className="flex row justify-end">
+            <div>
+              <Text color="gray" weight="bold">
+                최신순
+              </Text>
+            </div>
+            <div className="mx-2">
+              <VeLine height={8} />
+            </div>
+            <div>
+              <Text color="lightGray">추천순</Text>
+            </div>
+          </div>
+        </div>
+        <div>
+          <PostList postList={generateMockPosts(10)}></PostList>
+        </div>
       </div>
-      {isOpen ? <PostFilterModal isOpen={setIsOpen} btnValue={btnValue} /> : null}
+      {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
     </>
   );
 }

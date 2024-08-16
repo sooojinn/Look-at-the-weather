@@ -2,24 +2,29 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        'weather-light-gradient': 'linear-gradient(118.17deg, #F5AF16 -4.95%, #FFEA73 101.98%)',
+        'weather-normal-gradient': 'linear-gradient(118.17deg, #29ACFF -4.95%, #BAE1FA 101.98%)',
+        'weather-dark-gradient': 'linear-gradient(118.17deg, #0E3363 -4.95%, #4484D9 101.98%)',
+      },
       colors: {
         black: '#000000',
         lightBlack: '#171719',
         darkGray: '#47484c',
         gray: '#858588',
         lightGray: '#c7c8c9',
-        white: '#dfdfe0',
-        blue: '#1769FF',
+        white: '#ffffff',
+        disabled: '#dfdfe0',
+        blud: '',
 
         background: {
           white: '#FFFFFF',
-          default: '#dfdfeo',
           light: '#f7f7f8',
           gray: 'rgb(243 244 246)',
         },
         interactive: {
           default: '#989ba2',
-          light: '#f4f4f5',
+          disabled: '#f4f4f5',
         },
         status: {
           success: '#00bf40',
@@ -35,9 +40,8 @@ export default {
           light: '#e0e0e2',
         },
         primary: {
-          lightest: '#0066ff',
-          lighter: '#005eeeb',
-          light: '#0054d1',
+          main: '#1769ff',
+          logo: '#000000',
         },
       },
       fontSize: {
@@ -46,15 +50,16 @@ export default {
         m: '14px',
         l: '16px',
         xl: '18px',
-        xxl: '24px',
+        '2xl': '20px',
+        '3xl': '24px',
       },
       fontWeight: {
-        nomal: 400,
-        bold: 700,
+        regular: '400',
+        bold: '700',
       },
     },
   },
-  plugins: [],
   purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   mode: 'jit',
+  plugins: [require('tailwind-scrollbar-hide')],
 };

@@ -37,7 +37,7 @@ export default function Text({
     white: 'text-white',
     main: 'text-primary-main',
     disabled: 'text-disabled',
-    blue: 'text-blue',
+    blue: 'text-primary-main',
   };
 
   const textWeight = {
