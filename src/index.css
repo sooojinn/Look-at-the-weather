@@ -52,3 +52,31 @@
 .textarea {
   @apply input resize-none;
 }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50%);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.slideUp {
+  animation: slideUp 0.5s forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.4s forwards;
+}
