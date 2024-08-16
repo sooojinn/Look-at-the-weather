@@ -13,9 +13,15 @@ interface DfsResult {
   y: number;
 }
 
+// 서울시청의 위도와 경도
+const defaultGeoPoint: GeoPoint = {
+  latitude: 37.5663,
+  longitude: 126.9779,
+};
+
 // geolocation api로 현재 위치의 위도와 경도를 구함
 export function fetchGeoPoint(): Promise<GeoPoint> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -23,11 +29,13 @@ export function fetchGeoPoint(): Promise<GeoPoint> {
           resolve({ latitude, longitude });
         },
         (error) => {
-          reject(error);
+          console.warn('위치 정보 패칭에 실패했습니다:', error.message);
+          resolve(defaultGeoPoint); // 패칭에 실패하면 defaultGeoPoint 반환
         },
       );
     } else {
-      reject(new Error('Geolocation는 이 브라우저에서 지원되지 않습니다.'));
+      console.warn('Geolocation는 이 브라우저에서 지원되지 않습니다.');
+      resolve(defaultGeoPoint); // Geolocation을 지원하지 않으면 defaultGeoPoint 반환
     }
   });
 }
@@ -45,7 +53,6 @@ export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location
     return response.data.location;
   } catch (error) {
     console.error(error);
-    throw new Error('위치 정보를 불러오는 데 실패했습니다.');
   }
 };
 

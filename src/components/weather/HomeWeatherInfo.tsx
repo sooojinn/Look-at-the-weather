@@ -1,14 +1,15 @@
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/common/molecules/Location';
+import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { geoPoint, location } = useLocationData();
-  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData(geoPoint);
+  const { geoPoint, location, isLocationLoading } = useLocationData();
+  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isWeatherLoading } = useWeatherData(geoPoint);
 
   // weather type에 따른 배경색 결정
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
@@ -29,23 +30,24 @@ export default function HomeWeatherInfo() {
 
   return (
     <div className="w-full h-[292px]">
-      {isLoading ? (
-        <div className="w-full h-full flex justify-center items-center">날씨 정보를 가져오는 중입니다...</div>
-      ) : (
-        <div
-          className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
-        >
-          <div>
-            <Location location={location} size="l" color="white" fill="white" />
-            <CurrentTemp>{currentTemp}</CurrentTemp>
-            <WeatherMessage size="l" color="white">
-              {weatherMessage}
-            </WeatherMessage>
-            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
+      <div
+        className={`w-full h-full px-5 text-white flex justify-between items-center relative ${backgroundStyle[backgroundType]}`}
+      >
+        {(isLocationLoading || isWeatherLoading) && (
+          <div className="absolute inset-0 bg-black opacity-20 flex justify-center items-center">
+            <Spinner width={40} />
           </div>
-          <WeatherImg weatherType={weatherType as string} width={206} height={169} />
+        )}
+        <div>
+          <Location location={location} size="l" color="white" fill="white" />
+          <CurrentTemp>{currentTemp}</CurrentTemp>
+          <WeatherMessage size="l" color="white">
+            {weatherMessage}
+          </WeatherMessage>
+          <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
         </div>
-      )}
+        <WeatherImg weatherType={weatherType as string} width={206} height={169} />
+      </div>
     </div>
   );
 }

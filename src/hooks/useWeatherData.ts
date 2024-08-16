@@ -3,14 +3,14 @@ import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
 import { GeoPoint, WeatherInfo } from '@/config/types';
 
 interface UseWeatherDataReturn extends WeatherInfo {
-  isLoading: boolean;
+  isWeatherLoading: boolean;
 }
 
 export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn {
   // 시간별 날씨 정보(기온, 하늘 상태, 강수 형태) 패칭
   const hourlyWeatherQuery = useQuery({
     queryKey: ['hourlyWeather', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
-    queryFn: () => getHourlyWeatherInfo(geoPoint as GeoPoint),
+    queryFn: () => getHourlyWeatherInfo(geoPoint),
     staleTime: calHourlyWeatherStaleTime(),
     enabled: !!geoPoint,
   });
@@ -18,7 +18,7 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
   // 일별 날씨 정보(일 최저기온, 일 최고기온) 패칭
   const dailyWeatherQuery = useQuery({
     queryKey: ['dailyWeather', geoPoint?.latitude, geoPoint?.longitude],
-    queryFn: () => getDailyWeatherInfo(geoPoint as GeoPoint),
+    queryFn: () => getDailyWeatherInfo(geoPoint),
     staleTime: calDailyWeatherStaleTime(),
     enabled: !!geoPoint,
   });
@@ -26,7 +26,7 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
   return {
     ...hourlyWeatherQuery.data,
     ...dailyWeatherQuery.data,
-    isLoading: hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
+    isWeatherLoading: hourlyWeatherQuery.isLoading || dailyWeatherQuery.isLoading,
   };
 }
 
