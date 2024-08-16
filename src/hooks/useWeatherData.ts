@@ -12,6 +12,7 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
     queryKey: ['hourlyWeather', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
     queryFn: () => getHourlyWeatherInfo(geoPoint),
     staleTime: calHourlyWeatherStaleTime(),
+    gcTime: 1000 * 60 * 60,
     enabled: !!geoPoint,
   });
 
@@ -20,6 +21,7 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
     queryKey: ['dailyWeather', geoPoint?.latitude, geoPoint?.longitude],
     queryFn: () => getDailyWeatherInfo(geoPoint),
     staleTime: calDailyWeatherStaleTime(),
+    gcTime: 1000 * 60 * 60,
     enabled: !!geoPoint,
   });
 

@@ -1,8 +1,8 @@
 import { Control, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 export interface GeoPoint {
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number;
+  longitude: number;
 }
 
 export interface WeatherInfo {
