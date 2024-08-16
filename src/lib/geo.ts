@@ -19,13 +19,24 @@ const defaultGeoPoint: GeoPoint = {
   longitude: 126.9779,
 };
 
+// 소수점 넷째 자리까지 내림 처리하는 함수
+function floorToFixed(num: number) {
+  const factor = Math.pow(10, 4);
+  return Math.floor(num * factor) / factor;
+}
+
 // geolocation api로 현재 위치의 위도와 경도를 구함
 export function fetchGeoPoint(): Promise<GeoPoint> {
+  console.log('geolocation api가 실행되었습니다.');
   return new Promise((resolve) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          let { latitude, longitude } = position.coords;
+
+          latitude = floorToFixed(latitude);
+          longitude = floorToFixed(longitude);
+
           resolve({ latitude, longitude });
         },
         (error) => {

@@ -27,7 +27,7 @@ export default function useWeatherData(geoPoint: GeoPoint | undefined): UseWeath
   return {
     ...hourlyWeatherQuery.data,
     ...dailyWeatherQuery.data,
-    isWeatherSuccess: hourlyWeatherQuery.isSuccess || dailyWeatherQuery.isSuccess,
+    isWeatherSuccess: hourlyWeatherQuery.isSuccess && dailyWeatherQuery.isSuccess,
   };
 }
 

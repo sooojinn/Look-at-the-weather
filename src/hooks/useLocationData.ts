@@ -7,11 +7,9 @@ export default function useLocationData() {
     queryKey: ['geoPoint'],
     queryFn: fetchGeoPoint,
     staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
-    gcTime: 0,
   });
 
   const geoPoint = geoPointQuery.data;
-  console.log(geoPoint);
 
   // 위치 정보('OO시 OO구')를 패칭
   const locationQuery = useQuery({
