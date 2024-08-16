@@ -6,7 +6,7 @@ interface UseWeatherDataReturn extends WeatherInfo {
   isWeatherLoading: boolean;
 }
 
-export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn {
+export default function useWeatherData(geoPoint: GeoPoint | undefined): UseWeatherDataReturn {
   // 공통 useQuery 함수
   const fetchWeatherData = (key: string, fetchFn: () => Promise<WeatherInfo>) => {
     return useQuery({
@@ -19,10 +19,10 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
   };
 
   // 시간별 날씨 정보(기온, 하늘 상태, 강수 형태) 패칭
-  const hourlyWeatherQuery = fetchWeatherData('hourlyWeather', () => getHourlyWeatherInfo(geoPoint));
+  const hourlyWeatherQuery = fetchWeatherData('hourlyWeather', () => getHourlyWeatherInfo(geoPoint as GeoPoint));
 
   // 일별 날씨 정보(일 최저기온, 일 최고기온) 패칭
-  const dailyWeatherQuery = fetchWeatherData('dailyWeather', () => getDailyWeatherInfo(geoPoint));
+  const dailyWeatherQuery = fetchWeatherData('dailyWeather', () => getDailyWeatherInfo(geoPoint as GeoPoint));
 
   return {
     ...hourlyWeatherQuery.data,
