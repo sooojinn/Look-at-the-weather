@@ -7,23 +7,22 @@ interface UseWeatherDataReturn extends WeatherInfo {
 }
 
 export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn {
+  // 공통 useQuery 함수
+  const fetchWeatherData = (key: string, fetchFn: () => Promise<WeatherInfo>) => {
+    return useQuery({
+      queryKey: [key, geoPoint?.latitude, geoPoint?.longitude],
+      queryFn: fetchFn,
+      staleTime: calStaleTime(), // 매 정각에 리패칭
+      gcTime: 1000 * 60 * 60,
+      enabled: !!geoPoint,
+    });
+  };
+
   // 시간별 날씨 정보(기온, 하늘 상태, 강수 형태) 패칭
-  const hourlyWeatherQuery = useQuery({
-    queryKey: ['hourlyWeather', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
-    queryFn: () => getHourlyWeatherInfo(geoPoint),
-    staleTime: calHourlyWeatherStaleTime(),
-    gcTime: 1000 * 60 * 60,
-    enabled: !!geoPoint,
-  });
+  const hourlyWeatherQuery = fetchWeatherData('hourlyWeather', () => getHourlyWeatherInfo(geoPoint));
 
   // 일별 날씨 정보(일 최저기온, 일 최고기온) 패칭
-  const dailyWeatherQuery = useQuery({
-    queryKey: ['dailyWeather', geoPoint?.latitude, geoPoint?.longitude],
-    queryFn: () => getDailyWeatherInfo(geoPoint),
-    staleTime: calDailyWeatherStaleTime(),
-    gcTime: 1000 * 60 * 60,
-    enabled: !!geoPoint,
-  });
+  const dailyWeatherQuery = fetchWeatherData('dailyWeather', () => getDailyWeatherInfo(geoPoint));
 
   return {
     ...hourlyWeatherQuery.data,
@@ -32,42 +31,17 @@ export default function useWeatherData(geoPoint: GeoPoint): UseWeatherDataReturn
   };
 }
 
-function calHourlyWeatherStaleTime() {
+function calStaleTime() {
   const now = new Date();
-  const currentHour = now.getHours();
+  const currentMinutes = now.getMinutes();
 
-  // 다음 리패칭 시간을 계산
-  // 리패칭 기준 시간: 0, 3, 6, 9, 12, 15, 18, 21시
-  let nextRefetchHour = Math.ceil(currentHour / 3) * 3;
-  if (nextRefetchHour === currentHour) nextRefetchHour += 3;
-  if (nextRefetchHour >= 24) nextRefetchHour = 0;
-
-  const nextRefetchTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), nextRefetchHour, 0, 0);
-
-  // 만약 다음 리패칭 시간이 다음 날이라면 하루를 더함
-  if (nextRefetchTime <= now) {
-    nextRefetchTime.setDate(nextRefetchTime.getDate() + 1);
+  // 현재 시간을 기준으로 다음 정각을 계산
+  let nextRefetchTime = new Date(now);
+  if (currentMinutes > 0) {
+    // 다음 정각으로 설정 (현재 시간이 정각이 아니면 시간 +1)
+    nextRefetchTime.setHours(nextRefetchTime.getHours() + 1);
   }
-
-  // 밀리초 단위로 차이 계산
-  return nextRefetchTime.getTime() - now.getTime();
-}
-
-function calDailyWeatherStaleTime() {
-  const now = new Date();
-  const nextRefetchTime = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    2, // 2시
-    11, // 11분
-    0,
-  );
-
-  // 만약 현재 시간이 이미 2:11을 지났다면, 다음 날의 2:11으로 설정
-  if (now > nextRefetchTime) {
-    nextRefetchTime.setDate(nextRefetchTime.getDate() + 1);
-  }
+  nextRefetchTime.setMinutes(0, 0, 0); // 분, 초, 밀리초를 0으로 설정
 
   // 밀리초 단위로 차이 계산
   return nextRefetchTime.getTime() - now.getTime();
