@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { POSTFILTERTAPLIST } from '@/config/constants';
-import { mockLocationData, mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilterData';
+import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilterData';
+import { city } from '@/mocks/city';
+import { district } from '@/mocks/district';
 import Text from './Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import FilterBtn from './FilterBtn';
@@ -25,6 +27,13 @@ interface CategoryFilterItem extends FilterItem {
 
 export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilterModalProps) {
   const [activeTab, setActiveTab] = useState<number>(btnIndex);
+  const [selectedCity, setSelectedCity] = useState<{ city_id?: number; city?: string }[]>([]);
+  const [selectedAllDistrict, setSelctedAllDistrict] = useState<
+    { city_id: number; district_id: number; district: string }[]
+  >([]);
+  const [selectedDistrict, setSelectedDistrict] = useState<
+    { city_id: number; district_id: number; district: string }[]
+  >([]);
   const [selectedLocation, setSelectedLocation] = useState<FilterItem[]>([]);
   const [selectedWeather, setSelectedWeather] = useState<FilterItem[]>([]);
   const [selectedTemperature, setSelectedTemperature] = useState<FilterItem[]>([]);
@@ -60,6 +69,35 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     setSelectedTemperature([]);
     setSelectedSeason([]);
   };
+
+  const onClickCityBtn = (city: { city_id: number; city: string }) => {
+    setSelctedAllDistrict([]);
+    const filteredDistrict = district.filter((item) => item.city_id === city.city_id);
+    setSelctedAllDistrict(filteredDistrict);
+  };
+
+  const onClickDistrictBtn = (item: { district_id: number; city_id: number; district: string }) => {
+    setSelectedDistrict((prev) => {
+      const isAlreadySelected = prev.some((prevItem) => prevItem.district_id === item.district_id);
+      if (isAlreadySelected) {
+        return prev.filter((prevItem) => prevItem.district_id !== item.district_id);
+      } else {
+        return [...prev, item];
+      }
+    });
+    onClickFilterItemBtn(item.district_id, item.district, setSelectedLocation);
+  };
+
+  useEffect(() => {
+    setSelectedCity(() => {
+      // selectedDistrict에서 고유한 city_id만 추출합니다.
+      const uniqueCityIds = Array.from(new Set(selectedDistrict.map((district) => district.city_id)));
+
+      // 각 city_id에 대해 객체를 생성합니다.
+      return uniqueCityIds.map((city_id) => ({ city_id }));
+    });
+    console.log(selectedDistrict);
+  }, [selectedDistrict]);
 
   const onClickSelectedItemBtn = (id: number, category: string) => {
     switch (category) {
@@ -189,19 +227,38 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </Text>
               </a>
               <div className="flex row flex-wrap gap-2">
-                {mockLocationData.map((item) => (
+                {city.map((item) => (
                   <FilterBtn
-                    key={item.id}
-                    isActive={selectedLocation.some((selected) => selected.id === item.id)}
+                    key={item.city_id}
+                    isActive={
+                      selectedCity.some((city) => city.city_id === item.city_id) &&
+                      selectedDistrict.some((district) => district.city_id === item.city_id)
+                    }
                     onClickFunc={() => {
-                      onClickFilterItemBtn(item.id, item.name, setSelectedLocation);
+                      onClickCityBtn(item);
                     }}
                   >
-                    {item.name}
+                    {item.city}
                   </FilterBtn>
                 ))}
               </div>
             </div>
+            {selectedCity ? (
+              <div className="flex row flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray">
+                {selectedAllDistrict.map((item) => (
+                  <FilterBtn
+                    key={item.district_id}
+                    isActive={selectedLocation.some((selected) => selected.id === item.district_id)}
+                    onClickFunc={() => {
+                      onClickDistrictBtn(item);
+                    }}
+                  >
+                    {item.district}
+                  </FilterBtn>
+                ))}
+              </div>
+            ) : null}
+
             <HrLine height={8} />
 
             <div id="weather" className="py-5" ref={(el) => (sectionRefs.current.weather = el)}>
@@ -284,8 +341,9 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </div>
                 <div className="overflow-x-auto whitespace-nowrap scrollbar-hide">
                   <div className="flex row gap-1">
-                    {selectedFilterItems.map((item) => (
+                    {selectedFilterItems.map((item, index) => (
                       <FilterBtn
+                        key={index}
                         isActive={true}
                         isSelected={true}
                         onClickFunc={() => onClickSelectedItemBtn(item.id, item.category)}

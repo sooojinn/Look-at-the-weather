@@ -13,7 +13,7 @@ export default function FilterBtn({ children, id, onClickFunc, isActive, isSelec
       id={id}
       className={`border ${
         isActive ? 'border-primary-main' : 'border-line-lightest'
-      } rounded-[19px] px-3 py-[5.5px] w-100 h-[32px]`}
+      } rounded-[19px] px-3 py-[5.5px] w-100 h-[32px] bg-background-white`}
       onClick={onClickFunc}
     >
       <div className="flex row gap-1 items-center">
