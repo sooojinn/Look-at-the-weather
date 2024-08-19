@@ -25,7 +25,16 @@ export interface PostMeta {
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
-export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'main' | 'disabled';
+export type TextColor =
+  | 'black'
+  | 'lightBlack'
+  | 'darkGray'
+  | 'gray'
+  | 'lightGray'
+  | 'white'
+  | 'main'
+  | 'disabled'
+  | 'error';
 export type TextWeight = 'regular' | 'bold';
 
 export interface PostFormData {
@@ -58,4 +67,3 @@ export interface FileProps {
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
 }
-
