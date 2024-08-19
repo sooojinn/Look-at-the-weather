@@ -127,13 +127,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
             </Text>
             <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
           </div>
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            type="main"
-            disabled={!isValid || isSubmitting}
-            height={56}
-            radius={10}
-          >
+          <Button onClick={handleSubmit(onSubmit)} type="main" disabled={!isValid || isSubmitting}>
             {type === '작성' ? '업로드하기' : '수정하기'}
           </Button>
         </div>

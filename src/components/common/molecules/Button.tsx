@@ -3,18 +3,18 @@ import Text from '../atom/Text';
 import { ReactNode } from 'react';
 
 type ButtonType = 'white' | 'main';
+type ButtonSize = 'm' | 'l';
 
 interface ButtonProps {
   children: ReactNode;
   type: ButtonType;
   disabled?: boolean;
   width?: number;
-  height?: number;
-  radius?: number;
+  size?: ButtonSize;
   onClick: () => void;
 }
 
-export default function Button({ children, type, disabled, width, height = 48, radius = 8, onClick }: ButtonProps) {
+export default function Button({ children, type, disabled, width, size = 'l', onClick }: ButtonProps) {
   const backgroundColors = {
     white: 'bg-background-white',
     main: 'bg-primary-main',
@@ -47,8 +47,10 @@ export default function Button({ children, type, disabled, width, height = 48, r
     <button
       onClick={onClick}
       disabled={disabled}
-      style={{ width: width ? `${width}px` : '100%', height: `${height}px`, borderRadius: `${radius}px` }}
-      className={`${[backgroundColor]} ${type === 'white' ? 'border border-line-light' : ''}`}
+      style={{ width: width ? `${width}px` : '100%' }}
+      className={`${[backgroundColor]} ${type === 'white' ? 'border border-line-light' : ''} ${
+        size === 'm' ? 'h-12 rounded-lg' : 'h-14 rounded-[10px]'
+      }`}
     >
       <Text size="l" color={textColor} weight={textWeight}>
         {children}

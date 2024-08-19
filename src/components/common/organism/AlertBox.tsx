@@ -25,10 +25,10 @@ export default function AlertBox({ mainMessage, subMessage, onCancel, onContinue
             </div>
           </div>
           <div className="flex gap-2">
-            <Button type="white" onClick={onCancel}>
+            <Button type="white" size="m" onClick={onCancel}>
               닫기
             </Button>
-            <Button type="main" onClick={onContinue}>
+            <Button type="main" size="m" onClick={onContinue}>
               나가기
             </Button>
           </div>
