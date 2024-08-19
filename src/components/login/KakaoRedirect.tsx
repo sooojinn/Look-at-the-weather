@@ -22,7 +22,7 @@ export default function KakaoRedirect() {
   const code = new URL(window.location.href).searchParams.get('code');
 
   const { data, isSuccess, error, isLoading } = useQuery({
-    queryKey: ['userInfo', code],
+    queryKey: ['data'],
     queryFn: () => getUserInfo(code),
     enabled: !!code,
   });
@@ -34,6 +34,12 @@ export default function KakaoRedirect() {
       const { accessToken, refreshToken } = data;
       localStorage.setItem('accessToken', accessToken);
       Cookies.set('refreshToken', refreshToken);
+
+      const { email, name, nickname, isSocial } = data;
+      localStorage.setItem('email', email);
+      localStorage.setItem('name', name);
+      localStorage.setItem('nickname', nickname);
+      localStorage.setItem('isSocial', isSocial);
 
       navigate('/');
     }

@@ -14,7 +14,7 @@ export default function KakaoLogin() {
       className="w-full h-14 bg-[#FEE500] rounded-xl flex justify-center items-center gap-3"
       onClick={handleKakaoLogin}
     >
-      <img src={kakaoLoginBtn} width={25} alt="카카오" />
+      <img src={kakaoLoginBtn} width={20} alt="카카오" />
       <span className="text-l font-bold text-black/85">카카오 로그인</span>
     </button>
   );
