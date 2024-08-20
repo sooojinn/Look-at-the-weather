@@ -244,6 +244,16 @@ export const handlers = [
     );
   }),
 
+  http.put(`${BASEURL}/api/v1/posts/:postId`, async () => {
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 수정 성공',
+      },
+      { status: 200 },
+    );
+  }),
+
   // 게시물 작성 중 이미지 삭제
   http.delete(`${BASEURL}/api/v1/s3/post-image/:imageId`, ({ params }) => {
     const { imageId } = params;

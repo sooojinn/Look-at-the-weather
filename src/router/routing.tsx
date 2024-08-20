@@ -12,6 +12,7 @@ import PostDetail from '../pages/PostDetail.tsx';
 import PostWrite from '../pages/PostWrite.tsx';
 import Post from '../pages/Post.tsx';
 import ProfileEdit from '../pages/ProfileEdit.tsx';
+import PostEdit from '@pages/PostEdit.tsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: '/profileedit', element: <ProfileEdit /> },
       { path: '/postwrite', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
+      { path: '/post/:id/edit', element: <PostEdit /> },
       { path: '*', element: <NotFound /> },
     ],
   },

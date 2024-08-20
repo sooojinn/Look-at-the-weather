@@ -4,7 +4,7 @@ import Location from '@components/common/molecules/Location';
 import { useForm } from 'react-hook-form';
 import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
-import { PostFormData } from '@/config/types';
+import { ImageItem, PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useState } from 'react';
 import AlertBox from '@components/common/organism/AlertBox';
@@ -18,9 +18,10 @@ interface PostWriteFormProps {
   type: '작성' | '수정';
   defaultValues: PostFormData;
   onSubmit: (data: PostFormData) => void;
+  defaultImages?: ImageItem[];
 }
 
-export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWriteFormProps) {
+export default function PostWriteForm({ type, defaultValues, onSubmit, defaultImages }: PostWriteFormProps) {
   const {
     register,
     control,
@@ -67,6 +68,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
             rules={{ required: true }}
             setValue={setValue}
             register={register}
+            defaultImages={defaultImages}
           />
           <div className="flex flex-col gap-4">
             <Text size="l" weight="bold">
@@ -79,6 +81,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
               rules={{ required: true }}
               maxLength={30}
               register={register}
+              getValues={getValues}
               className="h-[86px]"
             />
             <TextAreaWithLabel
@@ -87,6 +90,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
               placeholder="내용을 입력해 주세요."
               maxLength={300}
               register={register}
+              getValues={getValues}
               className="h-[238px]"
             />
           </div>

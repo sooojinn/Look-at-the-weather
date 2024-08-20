@@ -52,10 +52,16 @@ export interface SelectProps {
   rules?: RegisterOptions; // 유효성 검사 규칙
 }
 
+export interface ImageItem {
+  id?: number;
+  url: string;
+  tempId?: string;
+}
+
 export interface FileProps {
   name: keyof PostFormData;
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
+  defaultImages?: ImageItem[];
 }
-
