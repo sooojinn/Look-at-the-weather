@@ -13,7 +13,7 @@ export default function MarkdownRenderer({ markdownTitle, size, color }: Markdow
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
-    fetch(`./markdown/${markdownTitle}.md`)
+    fetch(`/markdown/${markdownTitle}.md`)
       .then((response) => response.text())
       .then((text) => setMarkdown(text));
   }, []);
