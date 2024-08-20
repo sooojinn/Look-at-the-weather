@@ -4,13 +4,20 @@ import { useForm } from 'react-hook-form';
 import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import InputWithLabel from '@components/form/InputWithLabel';
+import Button from '@components/common/molecules/Button';
+import Text from '@components/common/atom/Text';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -18,6 +25,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   }, []);
 
   const handleLogin = async (data: any) => {
+    console.log('제출');
     try {
       const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
       const { accessToken, refreshToken } = response.data;
@@ -30,6 +38,12 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     }
   };
 
+  const linkList = [
+    { path: '/signup', label: '회원가입' },
+    { path: '/findemail', label: '이메일 찾기' },
+    { path: '/findpassword', label: '비밀번호 찾기' },
+  ];
+
   return (
     <>
       <div className="fixed inset-0 z-50 flex justify-center items-end">
@@ -40,36 +54,42 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
             showForm ? 'transform translate-y-0' : 'transform translate-y-full'
           }`}
         >
-          <form onSubmit={handleSubmit(handleLogin)}>
-            <div>
-              <label className="block mb-2 text-gray-600 font-bold">
-                이메일<span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                {...register('email', { required: true })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          <form className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              <InputWithLabel
+                name="email"
+                label="이메일"
                 placeholder="(예시) abcde@naver.com"
+                register={register}
+                rules={{
+                  required: true,
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: '유효한 이메일 형식이 아닙니다.',
+                  },
+                }}
+                errors={errors}
               />
-            </div>
-            <div className=" mt-4">
-              <label className="block mb-2 text-gray-600 font-bold">
-                비밀번호<span className="text-red-500">*</span>
-              </label>
-              <input
+              <InputWithLabel
+                name="password"
                 type="password"
-                {...register('password', { required: true })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                label="비밀번호"
                 placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
+                register={register}
+                rules={{
+                  required: true,
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
+                    message: '영문, 숫자, 특수문자 중 2가지 이상 조합하고, 8-15자를 입력하세요.',
+                  },
+                }}
+                errors={errors}
               />
             </div>
-            <div>
-              <button
-                type="submit"
-                className="w-full h-14 bg-blue-600 text-white font-bold px-4 py-2 mt-6 mb-3 rounded-lg hover:bg-blue-500 transition-colors duration-300"
-              >
+            <div className="flex flex-col gap-3">
+              <Button type="main" onClick={handleSubmit(handleLogin)}>
                 이메일로 로그인
-              </button>
+              </Button>
               <button
                 type="button"
                 className="w-full h-14 bg-[#FEE500] font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition-colors duration-300 mb-6"
@@ -79,15 +99,11 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
             </div>
           </form>
           <div className="h-12 flex justify-between">
-            <Link to="/signup" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              회원가입
-            </Link>
-            <Link to="/findemail" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              이메일 찾기
-            </Link>
-            <Link to="/findpassword" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              비밀번호 찾기
-            </Link>
+            {linkList.map(({ path, label }) => (
+              <Link to={path} className="w-[106px] flex justify-center items-center">
+                <Text weight="bold">{label}</Text>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
