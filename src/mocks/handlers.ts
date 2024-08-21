@@ -153,6 +153,37 @@ export const handlers = [
     }
   }),
 
+  // 카카오 로그인
+  http.get(`${BASEURL}/api/v1/oauth/kakao`, async ({ request }) => {
+    const url = new URL(request.url);
+    const code = url.searchParams.get('code');
+
+    // 3초 지연 후 응답 반환
+    await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
+    if (code) {
+      return HttpResponse.json(
+        {
+          email: 'user@example.com',
+          name: 'name',
+          nickname: 'John Doe',
+          accessToken: 'jwt-token-here',
+          refreshToken: 'refreshToken',
+          isSocial: true,
+        },
+        { status: 200 },
+      );
+    } else {
+      return HttpResponse.json(
+        {
+          errorCode: 'KAKAO_LOGIN_FAIL',
+          errorMessage: '카카오 로그인 실패',
+        },
+        { status: 400 },
+      );
+    }
+  }),
+
   // 메인 페이지 오늘의 베스트 코디 목록 조회
   http.get(`${BASEURL}/api/v1/posts/top-liked`, async ({ request }) => {
     const url = new URL(request.url);

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import KakaoLogin from './KakaoLogin';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -70,12 +71,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
               >
                 이메일로 로그인
               </button>
-              <button
-                type="button"
-                className="w-full h-14 bg-[#FEE500] font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition-colors duration-300 mb-6"
-              >
-                카카오 로그인
-              </button>
+              <KakaoLogin />
             </div>
           </form>
           <div className="h-12 flex justify-between">
