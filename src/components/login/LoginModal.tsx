@@ -62,7 +62,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
                 placeholder="(예시) abcde@naver.com"
                 register={register}
                 rules={{
-                  required: true,
+                  required: '이메일을 입력해 주세요.',
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: '유효한 이메일 형식이 아닙니다.',
@@ -77,10 +77,10 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
                 placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
                 register={register}
                 rules={{
-                  required: true,
+                  required: '비밀번호를 입력해 주세요.',
                   pattern: {
                     value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                    message: '영문, 숫자, 특수문자 중 2가지 이상 조합하고, 8-15자를 입력하세요.',
+                    message: '영문/숫자/특수문자 조합으로 8~16자 이내여야 합니다.',
                   },
                 }}
                 errors={errors}
