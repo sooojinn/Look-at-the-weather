@@ -11,7 +11,7 @@ interface ButtonProps {
   disabled?: boolean;
   width?: number;
   size?: ButtonSize;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function Button({ children, type, disabled, width, size = 'l', onClick }: ButtonProps) {
@@ -50,7 +50,7 @@ export default function Button({ children, type, disabled, width, size = 'l', on
       style={{ width: width ? `${width}px` : '100%' }}
       className={`${[backgroundColor]} ${type === 'white' ? 'border border-line-light' : ''} ${
         size === 'm' ? 'h-12 rounded-lg' : 'h-14 rounded-[10px]'
-      }`}
+      } flex-shrink-0`}
     >
       <Text size="l" color={textColor} weight={textWeight}>
         {children}

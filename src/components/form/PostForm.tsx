@@ -58,7 +58,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
           onContinue={() => navigate(-1)}
         />
       )}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel
             name="imageId"
@@ -127,7 +127,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
             </Text>
             <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
           </div>
-          <Button onClick={handleSubmit(onSubmit)} type="main" disabled={!isValid || isSubmitting}>
+          <Button type="main" disabled={!isValid || isSubmitting}>
             {type === '작성' ? '업로드하기' : '수정하기'}
           </Button>
         </div>

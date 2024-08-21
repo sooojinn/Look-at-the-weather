@@ -5,7 +5,7 @@ import Text from '../atom/Text';
 
 interface MarkdownRendererProps {
   markdownTitle: string;
-  size: TextSize;
+  size?: TextSize;
   color: TextColor;
 }
 
