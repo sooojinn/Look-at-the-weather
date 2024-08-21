@@ -212,6 +212,9 @@ export const handlers = [
     const body = (await request.json()) as RequestLocationDTO;
     const { latitude, longitude } = body;
 
+    // 3초 지연 후 응답 반환
+    await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
     // 위도와 경도 정보의 유효성 검사
     if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) {
       return HttpResponse.json(
