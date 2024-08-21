@@ -1,6 +1,5 @@
 import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
 import Label from '@components/form/Label';
-import Text from '@components/common/atom/Text';
 import ExclamationMarkIcon from '@components/icons/ExclamationMarkIcon';
 import { useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
@@ -32,12 +31,10 @@ export default function InputWithLabel({
   };
 
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
-  const errorMessages = errors?.[name]?.message;
-  const errorMessageString = typeof errorMessages === 'string' ? errorMessages : '';
-  const hasError = !!errorMessages;
+  const hasError = !!errors?.[name];
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-2">
       <Label required={!!rules?.required}>{label}</Label>
       <div className="relative">
         <input
@@ -46,18 +43,13 @@ export default function InputWithLabel({
           placeholder={placeholder}
           {...register(name, rules)}
         />
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center h-full">
+        <div className="absolute right-4 bottom-1/2 transform translate-y-1/2 flex items-center h-full">
           {hasError && <ExclamationMarkIcon width={20} fill="#ff4242" />}
           {!hasError && type === 'password' && (
             <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
           )}
         </div>
       </div>
-      {hasError && (
-        <Text size="xs" color="error">
-          {errorMessageString}
-        </Text>
-      )}
     </div>
   );
 }
