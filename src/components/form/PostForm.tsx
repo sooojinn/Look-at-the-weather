@@ -47,9 +47,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
 
   return (
     <>
-      <Header isModal={true} onClose={handleFormCloseBtn}>
-        게시글 {type}하기
-      </Header>
+      <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
       {showAlertBox && (
         <AlertBox
           mainMessage={`${type}하지 않고 나가시겠어요?`}
