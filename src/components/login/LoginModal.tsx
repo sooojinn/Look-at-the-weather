@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
+import ErrorMessage from '@components/form/ErrorMessage';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm();
   const [showForm, setShowForm] = useState(false);
@@ -35,6 +37,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
+      setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
     }
   };
 
@@ -56,35 +59,33 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
         >
           <form className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <InputWithLabel
-                name="email"
-                label="이메일"
-                placeholder="(예시) abcde@naver.com"
-                register={register}
-                rules={{
-                  required: '이메일을 입력해 주세요.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: '유효한 이메일 형식이 아닙니다.',
-                  },
-                }}
-                errors={errors}
-              />
-              <InputWithLabel
-                name="password"
-                type="password"
-                label="비밀번호"
-                placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
-                register={register}
-                rules={{
-                  required: '비밀번호를 입력해 주세요.',
-                  pattern: {
-                    value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                    message: '영문/숫자/특수문자 조합으로 8~16자 이내여야 합니다.',
-                  },
-                }}
-                errors={errors}
-              />
+              <div>
+                <InputWithLabel
+                  name="email"
+                  label="이메일"
+                  placeholder="(예시) abcde@naver.com"
+                  register={register}
+                  rules={{
+                    required: '이메일을 입력해 주세요.',
+                  }}
+                  errors={errors}
+                />
+                <ErrorMessage errors={errors} name="email" />
+              </div>
+              <div>
+                <InputWithLabel
+                  name="password"
+                  type="password"
+                  label="비밀번호"
+                  placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
+                  register={register}
+                  rules={{
+                    required: '비밀번호를 입력해 주세요.',
+                  }}
+                  errors={errors}
+                />
+                <ErrorMessage errors={errors} name="password" />
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <Button type="main" onClick={handleSubmit(handleLogin)}>
