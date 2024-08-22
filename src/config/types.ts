@@ -34,7 +34,8 @@ export type TextColor =
   | 'white'
   | 'main'
   | 'disabled'
-  | 'error';
+  | 'error'
+  | 'success';
 export type TextWeight = 'regular' | 'bold';
 
 export interface PostFormData {

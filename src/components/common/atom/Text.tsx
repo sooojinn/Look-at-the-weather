@@ -30,6 +30,7 @@ export default function Text({ children, size = 'm', color = 'lightBlack', weigh
     main: 'text-primary-main',
     disabled: 'text-disabled',
     error: 'text-status-error',
+    success: 'text-status-success',
   };
 
   const textWeight = {
