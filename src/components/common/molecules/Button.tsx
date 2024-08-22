@@ -11,7 +11,7 @@ interface ButtonProps {
   disabled?: boolean;
   width?: number;
   size?: ButtonSize;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({ children, type, disabled, width, size = 'l', onClick }: ButtonProps) {
