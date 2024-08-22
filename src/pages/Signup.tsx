@@ -141,7 +141,7 @@ export default function Signup() {
               }}
               errors={errors}
             />
-            <Button type="main" size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
+            <Button size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
               {isCodeSended ? '재전송' : '인증번호 전송'}
             </Button>
           </div>
@@ -161,13 +161,7 @@ export default function Signup() {
               rules={{ required: '인증번호를 입력해주세요' }}
               errors={errors}
             />
-            <Button
-              type="main"
-              size="m"
-              width={123}
-              disabled={!watch('code') || isEmailVerified}
-              onClick={handleVerifyCode}
-            >
+            <Button size="m" width={123} disabled={!watch('code') || isEmailVerified} onClick={handleVerifyCode}>
               {isEmailVerified ? '확인 완료' : '인증번호 확인'}
             </Button>
           </div>
@@ -242,7 +236,6 @@ export default function Signup() {
               errors={errors}
             />
             <Button
-              type="main"
               size="m"
               width={90}
               disabled={!watch('nickname') || isNicknameChecked}
