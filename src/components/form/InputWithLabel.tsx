@@ -12,7 +12,7 @@ interface InputWithLabelProps {
   placeholder?: string;
   register: UseFormRegister<any>;
   rules?: RegisterOptions<any, any>;
-  errors?: FieldErrors<any>;
+  errors: FieldErrors<any>;
 }
 
 export default function InputWithLabel({
