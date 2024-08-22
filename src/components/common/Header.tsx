@@ -18,26 +18,14 @@ export default function Header({ children, showBackBtn = true, onClose }: Header
   const navigate = useNavigate();
   const handleBackBtn = () => navigate(-1);
   return (
-    <header className="w-full sticky top-0 bg-background-white flex justify-between border-b border-line-lightest px-5 py-4 z-10">
-      <div className="w-6 h-6">
-        {!isMainPage && showBackBtn && (
-          <button onClick={handleBackBtn}>
-            <BackBtn />
-          </button>
-        )}
-      </div>
+    <header className="w-full sticky top-0 bg-background-white flex justify-between items-center border-b border-line-lightest px-5 py-4 z-10">
+      <div className="w-6 h-6">{!isMainPage && showBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
       <div className="flex justify-center items-center">
         <Text size="2xl" color="black" weight="bold">
           {children}
         </Text>
       </div>
-      <div className="w-6 h-6">
-        {onClose && (
-          <button onClick={onClose}>
-            <CloseBtn />
-          </button>
-        )}
-      </div>
+      <div className="w-6 h-6">{onClose && <CloseBtn onClick={onClose} />}</div>
     </header>
   );
 }
