@@ -8,7 +8,7 @@ interface CheckBoxBtnProps {
 
 export default function CheckBoxBtn({ isChecked }: CheckBoxBtnProps) {
   const fill = isChecked ? '#1769ff' : '#e0e0e2';
-  return <button className="mr-2">{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</button>;
+  return <div className="mr-2">{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</div>;
 }
 
 function CheckedBoxIcon({ fill }: CheckBoxIconProps) {
