@@ -18,6 +18,7 @@ export default function Signup() {
     watch,
     reset,
     getValues,
+    setValue,
     trigger,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
@@ -27,7 +28,7 @@ export default function Signup() {
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
   const navigate = useNavigate();
 
-  // 이메일 발송
+  // 이메일 인증번호 전송
   const handleSendVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     // 이메일 필드의 유효성 검사를 수동으로 실행
@@ -36,11 +37,18 @@ export default function Signup() {
 
     const email = getValues('email');
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/email/send-verification`, { email });
-      console.log(response);
-      setIsCodeSended(true);
+      const response = await axios.post(
+        `${BASEURL}/api/v1/email/send-verification`,
+        { email },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      if (response.data.success) setIsCodeSended(true);
     } catch (error) {
-      console.log(error);
+      console.log('이메일 인증번호 전송 오류: ', error);
     }
   };
 
@@ -50,10 +58,20 @@ export default function Signup() {
     const email = getValues('email');
     const code = getValues('code');
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/email/verify-code`, { email, code });
-      console.log(response);
-      setIsEmailVerified(true);
-      clearErrors('code'); // 인증 성공 시 오류 메시지 제거
+      const response = await axios.post(
+        `${BASEURL}/api/v1/email/verify-code`,
+        { email, code },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      if (response.data.success) {
+        setIsEmailVerified(true);
+        setValue('checkEmail', true);
+        clearErrors('code'); // 인증 성공 시 오류 메시지 제거
+      }
     } catch (error) {
       setError('code', { message: '인증번호가 올바르지 않습니다.' });
     }
@@ -65,7 +83,11 @@ export default function Signup() {
     const nickname = getValues('nickname');
 
     try {
-      const response = await axios.get(`${BASEURL}/api/v1/users/nickname-check/${nickname}`);
+      const response = await axios.get(`${BASEURL}/api/v1/users/nickname-check/${nickname}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       console.log(response.data);
 
       if (!response.data.isAvailable) {
@@ -80,8 +102,10 @@ export default function Signup() {
 
   // 회원가입
   const onSubmit = async (data: any) => {
+    const { email, password, name, nickname } = data;
+
     if (!isEmailVerified) {
-      setError('email', { message: '이메일 인증을 완료해주세요' });
+      setError('code', { message: '이메일 인증을 완료해주세요' });
       return;
     }
     if (!isNicknameChecked) {
@@ -89,15 +113,21 @@ export default function Signup() {
       return;
     }
 
-    console.log(data);
-
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/users/register`, data);
+      const response = await axios.post(
+        `${BASEURL}/api/v1/users/register`,
+        { email, password, name, nickname, isSocial: false },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
       console.log(response);
-      alert('가입 처리를 진행합니다.');
+
       reset(); // 폼 초기화
       setIsEmailVerified(false); // 이메일 인증 상태 초기화
-      setIsCodeSended(false);
+      setIsCodeSended(false); // 인증 코드 전송 여부 초기화
       setIsNicknameChecked(false); // 닉네임 확인 상태 초기화
       navigate('/');
     } catch (error) {
@@ -105,7 +135,7 @@ export default function Signup() {
     }
   };
 
-  // 이메일 값 변경 시 이메일 인증 초기화
+  // 이메일 값 변경 시 이메일 인증 여부 및 인증 코드 전송 여부 초기화
   useEffect(() => {
     setIsEmailVerified(false);
     setIsCodeSended(false);
@@ -242,7 +272,7 @@ export default function Signup() {
           </InputStatusMessage>
         </div>
 
-        <LocationTermsCheckBox register={register} />
+        <LocationTermsCheckBox register={register} errors={errors} />
         <Button type="main">가입하기</Button>
       </form>
     </div>

@@ -20,7 +20,11 @@ export default function FindEmail() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/users/email`, data);
+      const response = await axios.post(`${BASEURL}/api/v1/users/email`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const { email } = response.data;
       navigate('/findemail/result', {
         state: {

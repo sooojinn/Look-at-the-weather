@@ -3,13 +3,15 @@ import { useState } from 'react';
 import Text from '../atom/Text';
 import ToggleBtn from '@components/icons/ToggleBtn';
 import MarkdownRenderer from './MarkdownRenderer';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import ErrorMessage from '@components/form/ErrorMessage';
 
 interface LocationTermsCheckBoxProps {
   register: UseFormRegister<FieldValues>;
+  errors: FieldErrors<FieldValues>;
 }
 
-export default function LocationTermsCheckBox({ register }: LocationTermsCheckBoxProps) {
+export default function LocationTermsCheckBox({ register, errors }: LocationTermsCheckBoxProps) {
   const [showTerms, setShowTerms] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -31,13 +33,14 @@ export default function LocationTermsCheckBox({ register }: LocationTermsCheckBo
             className="hidden"
             checked={isChecked}
             onClick={handleCheckboxChange}
-            {...register('terms', { required: '위치 정보 이용약관에 동의해주세요' })}
+            {...register('terms', { required: '위치 정보 이용약관에 동의해 주세요.' })}
           />
           <CheckBoxBtn isChecked={isChecked} />
           <Text color="black">위치 정보 이용약관(필수)</Text>
         </label>
         <ToggleBtn onClick={toggleTerms} showTerms={showTerms} />
       </div>
+      <ErrorMessage errors={errors} name="terms" />
       {showTerms && <LocationTerms />}
     </div>
   );

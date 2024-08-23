@@ -19,7 +19,11 @@ export default function FindPassword() {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/users/password`, data);
+      const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (response.status === 200) {
         navigate('/passwordreset'); // 비밀번호 재설정 페이지로 이동
       }
