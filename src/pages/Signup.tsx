@@ -8,6 +8,7 @@ import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
 import InputStatusMessage from '@components/form/InputStatusMessage';
+import { showToast } from '@components/common/molecules/ToastProvider';
 
 export default function Signup() {
   const {
@@ -16,12 +17,11 @@ export default function Signup() {
     setError,
     clearErrors,
     watch,
-    reset,
     getValues,
     setValue,
     trigger,
     formState: { errors },
-  } = useForm({ mode: 'onBlur' });
+  } = useForm({ mode: 'onChange' });
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isCodeSended, setIsCodeSended] = useState(false);
@@ -123,15 +123,13 @@ export default function Signup() {
           },
         },
       );
-      console.log(response);
-
-      reset(); // 폼 초기화
-      setIsEmailVerified(false); // 이메일 인증 상태 초기화
-      setIsCodeSended(false); // 인증 코드 전송 여부 초기화
-      setIsNicknameChecked(false); // 닉네임 확인 상태 초기화
-      navigate('/');
+      if (response.status === 200) {
+        navigate('/');
+        showToast('회원가입에 성공했습니다.');
+      }
     } catch (error) {
-      setError('submit', { message: '가입 처리 중 오류가 발생했습니다.' });
+      console.error(error);
+      showToast('회원가입에 실패했습니다.');
     }
   };
 
