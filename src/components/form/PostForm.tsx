@@ -7,7 +7,7 @@ import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useState } from 'react';
-import AlertBox from '@components/common/organism/AlertBox';
+import ExitWarningModal from '@components/common/organism/ExitWarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
@@ -49,7 +49,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
     <>
       <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
       {showAlertBox && (
-        <AlertBox
+        <ExitWarningModal
           mainMessage={`${type}하지 않고 나가시겠어요?`}
           subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
           onCancel={() => setShowAlertBox(false)}
