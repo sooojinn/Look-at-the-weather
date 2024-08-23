@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
-import ErrorMessage from '@components/form/ErrorMessage';
 import InputStatusMessage from '@components/form/InputStatusMessage';
 
 export default function Signup() {
@@ -122,69 +121,65 @@ export default function Signup() {
       <Header>회원가입</Header>
       <form onSubmit={handleSubmit(onSubmit)} className="p-5 pb-10 flex flex-col gap-4">
         <div>
-          <div className="flex gap-2 items-end">
-            <InputWithLabel
-              name="email"
-              label="이메일"
-              placeholder="(예시) abcde@naver.com"
-              register={register}
-              rules={{
-                required: '이메일을 입력해주세요',
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: '유효한 이메일 형식이 아닙니다.',
-                },
-                maxLength: {
-                  value: 30,
-                  message: '30글자 미만으로 작성해주세요',
-                },
-              }}
-              errors={errors}
-            />
-            <Button size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
-              {isCodeSended ? '재전송' : '인증번호 전송'}
-            </Button>
-          </div>
-          <ErrorMessage errors={errors} name="email" />
+          <InputWithLabel
+            name="email"
+            label="이메일"
+            placeholder="(예시) abcde@naver.com"
+            register={register}
+            rules={{
+              required: '이메일을 입력해 주세요.',
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: '유효한 이메일 형식이 아닙니다.',
+              },
+              maxLength: {
+                value: 30,
+                message: '30글자 미만으로 작성해주세요',
+              },
+            }}
+            errors={errors}
+            button={
+              <Button size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
+                {isCodeSended ? '재전송' : '인증번호 전송'}
+              </Button>
+            }
+          />
           <InputStatusMessage status="normal" isVisible={isCodeSended}>
             인증번호가 전송되었습니다.
           </InputStatusMessage>
         </div>
-        <div>
-          <div className="flex gap-2 items-end">
-            <InputWithLabel
-              name="code"
-              label="인증번호 확인"
-              isDisabled={isEmailVerified}
-              placeholder="인증번호를 입력해 주세요."
-              register={register}
-              rules={{ required: '인증번호를 입력해주세요' }}
-              errors={errors}
-            />
+
+        <InputWithLabel
+          name="code"
+          label="인증번호 확인"
+          isDisabled={isEmailVerified}
+          placeholder="인증번호를 입력해 주세요."
+          register={register}
+          rules={{ required: '인증번호를 입력해 주세요.' }}
+          errors={errors}
+          button={
             <Button size="m" width={123} disabled={!watch('code') || isEmailVerified} onClick={handleVerifyCode}>
               {isEmailVerified ? '확인 완료' : '인증번호 확인'}
             </Button>
-          </div>
-          <ErrorMessage errors={errors} name="code" />
-        </div>
-        <div>
-          <InputWithLabel
-            name="password"
-            type="password"
-            label="비밀번호"
-            placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
-            register={register}
-            rules={{
-              required: '비밀번호를 입력해 주세요.',
-              pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                message: '8~15자의 영문,숫자,특수문자 2가지 이상 조합으로 입력해 주세요.',
-              },
-            }}
-            errors={errors}
-          />
-          <ErrorMessage errors={errors} name="password" />
-        </div>
+          }
+        />
+
+        <InputWithLabel
+          name="password"
+          type="password"
+          label="비밀번호"
+          placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
+          register={register}
+          rules={{
+            required: '비밀번호를 입력해 주세요.',
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
+              message: '8~15자의 영문,숫자,특수문자 2가지 이상 조합으로 입력해 주세요.',
+            },
+          }}
+          errors={errors}
+        />
+
         <div>
           <InputWithLabel
             name="confirmPassword"
@@ -198,7 +193,6 @@ export default function Signup() {
             }}
             errors={errors}
           />
-          <ErrorMessage errors={errors} name="confirmPassword" />
           <InputStatusMessage
             status="success"
             isVisible={watch('confirmPassword') && watch('confirmPassword') === watch('password')}
@@ -206,49 +200,48 @@ export default function Signup() {
             비밀번호가 일치합니다.
           </InputStatusMessage>
         </div>
+
+        <InputWithLabel
+          name="name"
+          label="이름"
+          placeholder="이름을 입력해 주세요."
+          register={register}
+          rules={{
+            required: '이름을 입력해 주세요.',
+          }}
+          errors={errors}
+        />
+
         <div>
           <InputWithLabel
-            name="name"
-            label="이름"
-            placeholder="이름을 입력해 주세요."
+            name="nickname"
+            label="닉네임"
+            placeholder="한/영 10자 이내, 특수문자, 공백 불가"
             register={register}
             rules={{
-              required: '이름을 입력해 주세요.',
+              required: '닉네임을 입력해 주세요.',
+              pattern: {
+                value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/,
+                message: '한/영 10자 이내(특수문자, 공백 불가)의 닉네임으로 설정해 주세요.',
+              },
             }}
             errors={errors}
+            button={
+              <Button
+                size="m"
+                width={90}
+                disabled={!watch('nickname') || isNicknameChecked}
+                onClick={handleCheckNickname}
+              >
+                {isNicknameChecked ? '확인 완료' : '중복 확인'}
+              </Button>
+            }
           />
-          <ErrorMessage errors={errors} name="name" />
-        </div>
-        <div>
-          <div className="flex items-end gap-2">
-            <InputWithLabel
-              name="nickname"
-              label="닉네임"
-              placeholder="한/영 10자 이내, 특수문자, 공백 불가"
-              register={register}
-              rules={{
-                required: '닉네임을 입력해 주세요.',
-                pattern: {
-                  value: /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,10}$/,
-                  message: '한/영 10자 이내(특수문자, 공백 불가)의 닉네임으로 설정해 주세요.',
-                },
-              }}
-              errors={errors}
-            />
-            <Button
-              size="m"
-              width={90}
-              disabled={!watch('nickname') || isNicknameChecked}
-              onClick={handleCheckNickname}
-            >
-              {isNicknameChecked ? '확인 완료' : '중복 확인'}
-            </Button>
-          </div>
-          <ErrorMessage errors={errors} name="nickname" />
           <InputStatusMessage status="success" isVisible={isNicknameChecked}>
             사용 가능한 닉네임입니다.
           </InputStatusMessage>
         </div>
+
         <LocationTermsCheckBox register={register} />
         <Button type="main">가입하기</Button>
       </form>

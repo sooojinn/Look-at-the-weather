@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import { BASEURL } from '@/config/constants';
 import InputWithLabel from '@components/form/InputWithLabel';
-import ErrorMessage from '@components/form/ErrorMessage';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 
@@ -39,28 +38,22 @@ export default function FindEmail() {
       <Header>이메일 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <div>
-            <InputWithLabel
-              name="name"
-              label="이름"
-              placeholder="이름을 입력해 주세요."
-              register={register}
-              rules={{ required: '이름을 입력해주세요' }}
-              errors={errors}
-            />
-            <ErrorMessage errors={errors} name="name" />
-          </div>
-          <div>
-            <InputWithLabel
-              name="nickname"
-              label="닉네임"
-              placeholder="닉네임을 입력해 주세요."
-              register={register}
-              rules={{ required: '닉네임을 입력해주세요' }}
-              errors={errors}
-            />
-            <ErrorMessage errors={errors} name="nickname" />
-          </div>
+          <InputWithLabel
+            name="name"
+            label="이름"
+            placeholder="이름을 입력해 주세요."
+            register={register}
+            rules={{ required: '이름을 입력해 주세요.' }}
+            errors={errors}
+          />
+          <InputWithLabel
+            name="nickname"
+            label="닉네임"
+            placeholder="닉네임을 입력해 주세요."
+            register={register}
+            rules={{ required: '닉네임을 입력해 주세요.' }}
+            errors={errors}
+          />
         </div>
         <Button>이메일 찾기</Button>
       </form>
