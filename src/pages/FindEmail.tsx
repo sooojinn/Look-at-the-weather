@@ -7,7 +7,7 @@ import { BASEURL } from '@/config/constants';
 import InputWithLabel from '@components/form/InputWithLabel';
 import ErrorMessage from '@components/form/ErrorMessage';
 import Button from '@components/common/molecules/Button';
-import Text from '@components/common/atom/Text';
+import InfoModal from '@components/common/organism/InfoModal';
 
 export default function FindEmail() {
   const {
@@ -64,16 +64,7 @@ export default function FindEmail() {
         </div>
         <Button>이메일 찾기</Button>
       </form>
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-          <div className="bg-white p-6 flex flex-col gap-6 rounded-lg">
-            <Text color="black">가입된 계정 정보가 없습니다.</Text>
-            <Button size="m" onClick={() => setShowModal(false)}>
-              확인
-            </Button>
-          </div>
-        </div>
-      )}
+      {showModal && <InfoModal message="가입된 계정 정보가 없습니다." onClose={() => setShowModal(false)} />}
     </div>
   );
 }
