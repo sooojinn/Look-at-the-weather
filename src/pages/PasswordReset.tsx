@@ -12,6 +12,7 @@ export default function PasswordReset() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
 
@@ -57,6 +58,7 @@ export default function PasswordReset() {
               },
             }}
             errors={errors}
+            setValue={setValue}
           />
           <InputWithLabel
             name="confirmPassword"
@@ -69,6 +71,7 @@ export default function PasswordReset() {
               validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
             }}
             errors={errors}
+            setValue={setValue}
           />
         </div>
         <Button>비밀번호 재설정하기</Button>

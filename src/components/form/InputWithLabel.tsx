@@ -17,6 +17,7 @@ interface InputWithLabelProps {
   errors: FieldErrors<any>;
   button?: ReactNode;
   trigger?: (name?: string) => Promise<boolean>;
+  setValue: (name: string, value: any) => void;
 }
 
 export default function InputWithLabel({
@@ -30,6 +31,7 @@ export default function InputWithLabel({
   errors,
   button,
   trigger,
+  setValue,
 }: InputWithLabelProps) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -58,6 +60,7 @@ export default function InputWithLabel({
   const handleDeleteClick = () => {
     setInputValue('');
     setShowDeleteBtn(false);
+    setValue(name, '');
   };
 
   const handleFocus = () => {

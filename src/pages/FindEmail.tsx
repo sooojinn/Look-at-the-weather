@@ -13,6 +13,7 @@ export default function FindEmail() {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm();
   const [showModal, setShowModal] = useState(false);
@@ -49,6 +50,7 @@ export default function FindEmail() {
             register={register}
             rules={{ required: '이름을 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
           />
           <InputWithLabel
             name="nickname"
@@ -57,6 +59,7 @@ export default function FindEmail() {
             register={register}
             rules={{ required: '닉네임을 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
           />
         </div>
         <Button>이메일 찾기</Button>

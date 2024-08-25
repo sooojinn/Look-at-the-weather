@@ -17,6 +17,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors },
   } = useForm();
   const [showForm, setShowForm] = useState(false);
@@ -70,6 +71,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
                   required: '이메일을 입력해 주세요.',
                 }}
                 errors={errors}
+                setValue={setValue}
               />
 
               <InputWithLabel
@@ -82,6 +84,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
                   required: '비밀번호를 입력해 주세요.',
                 }}
                 errors={errors}
+                setValue={setValue}
               />
             </div>
             <div className="flex flex-col gap-3">

@@ -171,6 +171,7 @@ export default function Signup() {
                 },
               }}
               errors={errors}
+              setValue={setValue}
               button={
                 <Button size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
                   {isCodeSended ? '재전송' : '인증번호 전송'}
@@ -190,6 +191,7 @@ export default function Signup() {
             register={register}
             rules={{ required: '인증번호를 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
             button={
               <Button size="m" width={123} disabled={!watch('code') || isEmailVerified} onClick={handleVerifyCode}>
                 {isEmailVerified ? '확인 완료' : '인증번호 확인'}
@@ -212,6 +214,7 @@ export default function Signup() {
             }}
             errors={errors}
             trigger={trigger}
+            setValue={setValue}
           />
 
           <div>
@@ -227,6 +230,7 @@ export default function Signup() {
               }}
               errors={errors}
               trigger={trigger}
+              setValue={setValue}
             />
             <InputStatusMessage
               status="success"
@@ -245,6 +249,7 @@ export default function Signup() {
               required: '이름을 입력해 주세요.',
             }}
             errors={errors}
+            setValue={setValue}
           />
 
           <div>
@@ -261,6 +266,7 @@ export default function Signup() {
                 },
               }}
               errors={errors}
+              setValue={setValue}
               button={
                 <Button
                   size="m"

@@ -12,6 +12,7 @@ export default function FindPassword() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
   const [showModal, setShowModal] = useState(false);
@@ -44,6 +45,7 @@ export default function FindPassword() {
             register={register}
             rules={{ required: '이메일을 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
           />
 
           <InputWithLabel
@@ -53,6 +55,7 @@ export default function FindPassword() {
             register={register}
             rules={{ required: '이름을 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
           />
 
           <InputWithLabel
@@ -62,6 +65,7 @@ export default function FindPassword() {
             register={register}
             rules={{ required: '닉네임을 입력해 주세요.' }}
             errors={errors}
+            setValue={setValue}
           />
         </div>
         <Button>비밀번호 찾기</Button>
