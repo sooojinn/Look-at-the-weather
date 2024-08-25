@@ -49,7 +49,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   const [selectedTemperature, setSelectedTemperature] = useState<FilterItem[]>([]);
   const [selectedSeason, setSelectedSeason] = useState<FilterItem[]>([]);
   const [selectedFilterItems, setSelectedFilterItems] = useState<CategoryFilterItem[]>([]);
-
+  const [isAllCity, setIsAllCity] = useState(false);
   // Record<K, T> 타입 k는 key의 값, T는 각 키에 대응하는 값의 타입을 지정함
   const sectionRefs = useRef<Record<SectionKey, HTMLDivElement | null>>({
     location: null,
@@ -86,12 +86,28 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
   const onClickCityBtn = (city: { city_id: number; city: string }) => {
     setSelctedAllDistrict([]);
-    const filteredDistrict = district.filter((item) => item.city_id === city.city_id);
-    setSelctedAllDistrict(filteredDistrict);
-    setSelectedCity([...selectedCity, city]);
+    if (city.city_id === 1) {
+      setIsAllCity(true);
+      setSelectedCity([city]);
+      setSelectedDistrict([{ city_id: 1, district: '전국', district_id: 0 }]);
+    } else {
+      const filteredDistrict = district.filter((item) => item.city_id === city.city_id);
+      setSelctedAllDistrict(filteredDistrict);
+      setSelectedCity([...selectedCity, city]);
+    }
   };
 
   const onClickDistrictBtn = (item: { district_id: number; city_id: number; district: string }) => {
+    if (isAllCity) {
+      setIsAllCity(false);
+      setSelectedDistrict((prev) => {
+        return prev.filter((prevItem) => prevItem.city_id !== 1);
+      });
+      setSelectedCity((prev) => {
+        return prev.filter((prevItem) => prevItem.city_id !== 1);
+      });
+    }
+
     setSelectedDistrict((prev) => {
       const isAlreadySelected = prev.some((prevItem) => prevItem.district_id === item.district_id);
       if (isAlreadySelected) {
@@ -100,6 +116,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
         return [...prev, item];
       }
     });
+
     setSelectedCity((prev) => {
       const isAlreadySelected = prev.some((prevItem) => prevItem.city_id === item.district_id);
       if (isAlreadySelected) {
@@ -145,52 +162,43 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     }
   }, [btnValue]);
 
-  //   useEffect(() => {
-  //     const io = new IntersectionObserver(
-  //       (entries) => {
-  //         entries.forEach((entry) => {
-  //           if (entry.intersectionRatio >= 0.6) {
-  //             const tabId = entry.target.id;
-  //             switch (tabId) {
-  //               case 'location':
-  //                 setActiveTab(0);
-  //                 break;
-  //               case 'weather':
-  //                 setActiveTab(1);
-  //                 break;
-  //               case 'temperature':
-  //                 setActiveTab(2);
-  //                 break;
-  //               case 'season':
-  //                 setActiveTab(3);
-  //                 break;
-  //             }
-  //             io.unobserve(entry.target);
-  //           }
-  //         });
-  //       },
-  //       {
-  //         threshold: 0.6,
-  //       },
-  //     );
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         console.log(entry.target.id, entry.intersectionRatio);
+  //         if (entry.isIntersecting) {
+  //           // setCurrentSection(entry.target.id);
+  //         }
+  //       });
+  //     },
+  //     {
+  //       root: document.querySelector('#viewport'),
+  //       rootMargin: '-50px 0px',
+  //     },
+  //   );
 
-  //     if (sectionRefs.current.location) io.observe(sectionRefs.current.location);
-  //     if (sectionRefs.current.weather) io.observe(sectionRefs.current.weather);
-  //     if (sectionRefs.current.temperature) io.observe(sectionRefs.current.temperature);
-  //     if (sectionRefs.current.season) io.observe(sectionRefs.current.season);
+  //   Object.values(sectionRefs.current).forEach((section) => {
+  //     if (section) observer.observe(section);
+  //   });
 
-  //     return () => io.disconnect();
-  //   }, []);
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const newSelectedFilterItems: CategoryFilterItem[] = [
-      ...selectedLocation.map((item) => ({ ...item, category: 'location' as const })),
+      ...selectedDistrict.map((item) => ({
+        ...{ id: item.district_id, tagName: item.district },
+        category: 'location' as const,
+      })),
       ...selectedWeather.map((item) => ({ ...item, category: 'weather' as const })),
       ...selectedTemperature.map((item) => ({ ...item, category: 'temperature' as const })),
       ...selectedSeason.map((item) => ({ ...item, category: 'season' as const })),
     ];
     setSelectedFilterItems(newSelectedFilterItems);
-  }, [selectedLocation, selectedWeather, selectedTemperature, selectedSeason]);
+  }, [selectedDistrict, selectedWeather, selectedTemperature, selectedSeason]);
 
   const onClickSubmitBtn = () => {
     console.log('location', selectedLocation);
@@ -207,19 +215,19 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, []);
 
   return (
-    <>
+    <div>
       <div className="relative">
-        <div className="fixed top-0 left-0 w-full h-full inset-0 bg-black opacity-50 z-10"></div>
-        <div className={'fixed bottom-0 w-full z-20 h-[687px]'}>
-          <div className=" bg-background-white w-full px-5 pb-10 rounded-t-3xl">
-            <div className=" py-[13px]">
+        <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
+        <div className="fixed bottom-0 left-0 right-0 w-full shadow-md z-20 h-[687px]">
+          <div className="bg-background-white w-full h-full px-5 rounded-t-3xl flex flex-col">
+            <div className="relative py-[13px]">
               <div
                 onClick={() => {
                   isOpen(false);
                 }}
                 className="flex justify-end text-center"
               >
-                <div id="header" className="text-center w-full">
+                <div className="text-center w-full">
                   <Text weight="bold" size="2xl">
                     필터
                   </Text>
@@ -249,14 +257,15 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               ))}
             </div>
 
-            <div className="overflow-y-scroll overflow-x-hidden scrollbar-hide h-[499px]">
-              <div id="location" className="py-5" ref={(el) => (sectionRefs.current.location = el)}>
+            <div id="viewport" className="relative overflow-y-auto overflow-x-hidden flex-grow scrollbar-hide">
+              {/* <div className="fixed z-20 h-[497px] w-80 bg-black"></div> */}
+              <div id="location" className="py-5 w-full" ref={(el) => (sectionRefs.current.location = el)}>
                 <a>
                   <Text size="l" weight="bold" margin="mb-2.5">
                     지역
                   </Text>
                 </a>
-                <div className="flex row flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 w-full">
                   {city.map((item) => (
                     <FilterBtn
                       key={item.city_id}
@@ -265,7 +274,12 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                         selectedDistrict.some((district) => district.city_id === item.city_id)
                       }
                       onClickFunc={() => {
-                        onClickCityBtn(item);
+                        if (item.city_id === 1) {
+                          onClickCityBtn(item);
+                          console.log(isAllCity);
+                        } else {
+                          onClickCityBtn(item);
+                        }
                       }}
                     >
                       {item.city}
@@ -274,11 +288,11 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </div>
               </div>
               {selectedCity.length > 0 ? (
-                <div className="flex row flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray">
+                <div className="flex flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray w-full">
                   {selectedAllDistrict.map((item) => (
                     <FilterBtn
                       key={item.district_id}
-                      isActive={selectedLocation.some((selected) => selected.district === item.district_id)}
+                      isActive={selectedDistrict.some((selected) => selected.district_id === item.district_id)}
                       onClickFunc={() => {
                         onClickDistrictBtn(item);
                       }}
@@ -291,13 +305,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
               <HrLine height={8} />
 
-              <div id="weather" className="py-5" ref={(el) => (sectionRefs.current.weather = el)}>
+              <div id="weather" className="py-5 w-full" ref={(el) => (sectionRefs.current.weather = el)}>
                 <a className="mb-4">
                   <Text size="l" weight="bold" margin="mb-2.5">
                     날씨
                   </Text>
                 </a>
-                <div className="flex row flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 w-full">
                   {mockWeatherData.map((item) => (
                     <FilterBtn
                       key={item.id}
@@ -313,13 +327,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </div>
               <HrLine height={8} />
 
-              <div id="temperature" className="py-5" ref={(el) => (sectionRefs.current.temperature = el)}>
+              <div id="temperature" className="py-5 w-full" ref={(el) => (sectionRefs.current.temperature = el)}>
                 <a className="mb-4">
                   <Text size="l" weight="bold" margin="mb-2.5">
                     온도
                   </Text>
                 </a>
-                <div className="flex row flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 w-full">
                   {mockTempData.map((item) => (
                     <FilterBtn
                       key={item.id}
@@ -335,13 +349,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </div>
               <HrLine height={8} />
 
-              <div id="season" className="py-5" ref={(el) => (sectionRefs.current.season = el)}>
+              <div id="season" className="py-5 w-full" ref={(el) => (sectionRefs.current.season = el)}>
                 <a className="mb-4">
                   <Text size="l" weight="bold" margin="mb-2.5">
                     계절
                   </Text>
                 </a>
-                <div className="flex row flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 w-full">
                   {mockSeasonData.map((item) => (
                     <FilterBtn
                       key={item.id}
@@ -357,7 +371,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </div>
             </div>
 
-            <div className="">
+            <div className="mt-auto">
               {selectedFilterItems.length > 0 ? (
                 <div className="pt-5">
                   <div className="flex row gap-1 mb-3">
@@ -370,7 +384,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       <Text color="blue">{selectedFilterItems.length}</Text>
                     </div>
                   </div>
-                  <div className="overflow-x-auto whitespace-nowrap scrollbar-hide">
+                  <div className="overflow whitespace-nowrap scrollbar-hide">
                     <div className="flex row gap-1">
                       {selectedFilterItems.map((item, index) => (
                         <FilterBtn
@@ -386,29 +400,29 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                   </div>
                 </div>
               ) : null}
+            </div>
 
-              <div className="fixed bottom-0 w-full bg-white z-30">
-                <div id="footer" className="w-full flex gap-[7px] py-5 justify-between">
-                  <button
-                    className="w-[164px] h-[48px] py-3 text-center border border-line-light rounded-[8px]"
-                    onClick={onClickResetFilterBtn}
-                  >
-                    <Text size="l">필터 초기화</Text>
-                  </button>
-                  <button
-                    className="w-[164px] h-[48px] py-3 text-center bg-primary-main rounded-[8px]"
-                    onClick={onClickSubmitBtn}
-                  >
-                    <Text size="l" weight="bold" color="white">
-                      적용하기
-                    </Text>
-                  </button>
-                </div>
+            <div>
+              <div className="flex gap-[7px] py-5 justify-between">
+                <button
+                  className="w-[164px] h-[48px] py-3 text-center border border-line-light rounded-[8px]"
+                  onClick={onClickResetFilterBtn}
+                >
+                  <Text size="l">필터 초기화</Text>
+                </button>
+                <button
+                  className="w-[164px] h-[48px] py-3 text-center bg-primary-main rounded-[8px]"
+                  onClick={onClickSubmitBtn}
+                >
+                  <Text size="l" weight="bold" color="white">
+                    적용하기
+                  </Text>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

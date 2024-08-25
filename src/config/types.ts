@@ -32,7 +32,7 @@ export type HrLineHeight = { height: 1 | 8 };
 export type FilterBtn = {
   id?: string;
   onClickFunc: (btnValue: string) => void;
-  isActive?: boolean;
+  isActive?: boolean | (() => boolean);
   isSelected?: boolean;
 };
 export type FilterBtnGroupProps = FilterBtn & {
