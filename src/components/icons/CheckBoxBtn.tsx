@@ -4,10 +4,11 @@ interface CheckBoxIconProps {
 
 interface CheckBoxBtnProps {
   isChecked: boolean;
+  isError: boolean;
 }
 
-export default function CheckBoxBtn({ isChecked }: CheckBoxBtnProps) {
-  const fill = isChecked ? '#1769ff' : '#e0e0e2';
+export default function CheckBoxBtn({ isChecked, isError }: CheckBoxBtnProps) {
+  const fill = isChecked || isError ? '#1769ff' : '#e0e0e2';
   return <div className="mr-2">{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</div>;
 }
 

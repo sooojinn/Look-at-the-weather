@@ -9,7 +9,6 @@ import Button from '@components/common/molecules/Button';
 import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
 import InputStatusMessage from '@components/form/InputStatusMessage';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import InfoModal from '@components/common/organism/InfoModal';
 
 export default function Signup() {
   const {
@@ -27,8 +26,6 @@ export default function Signup() {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isCodeSended, setIsCodeSended] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
-  const [isTermsChecked, setIsTermsChecked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   // 이메일 인증번호 전송
@@ -117,11 +114,6 @@ export default function Signup() {
     }
     if (!isNicknameChecked) {
       setError('nickname', { message: '닉네임 중복 확인을 해주세요' });
-      return;
-    }
-
-    if (!isTermsChecked) {
-      setShowModal(true);
       return;
     }
 
@@ -294,11 +286,10 @@ export default function Signup() {
               사용 가능한 닉네임입니다.
             </InputStatusMessage>
           </div>
-          <LocationTermsCheckBox isTermsChecked={isTermsChecked} setIsTermsChecked={setIsTermsChecked} />
+          <LocationTermsCheckBox register={register} errors={errors} isChecked={watch('terms')} />
         </div>
         <Button type="main">가입하기</Button>
       </form>
-      {showModal && <InfoModal message="위치 정보 이용약관에 동의해 주세요." onClose={() => setShowModal(false)} />}
     </div>
   );
 }
