@@ -16,7 +16,6 @@ interface InputWithLabelProps {
   rules?: RegisterOptions<any, any>;
   errors: FieldErrors<any>;
   button?: ReactNode;
-  trigger?: (name?: string) => Promise<boolean>;
   setValue: (name: string, value: any) => void;
 }
 
@@ -30,7 +29,6 @@ export default function InputWithLabel({
   rules,
   errors,
   button,
-  trigger,
   setValue,
 }: InputWithLabelProps) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -49,11 +47,6 @@ export default function InputWithLabel({
       setShowDeleteBtn(true);
     } else {
       setShowDeleteBtn(false);
-    }
-
-    // type이 'password'일 경우 onChange 이벤트마다 유효성 검사 트리거
-    if (type === 'password' && trigger) {
-      await trigger(name);
     }
   };
 

@@ -145,6 +145,12 @@ export default function Signup() {
     }
   };
 
+  // 비밀번호 입력값과 비밀번호 확인란 입력값이 달라질 때마다 유효성 검사 시행
+  useEffect(() => {
+    if (getValues('password')) trigger('password');
+    if (getValues('confirmPassword')) trigger('confirmPassword');
+  }, [watch('password'), watch('confirmPassword')]);
+
   // 이메일 값 변경 시 이메일 인증 여부 및 인증 코드 전송 여부 초기화
   useEffect(() => {
     setIsEmailVerified(false);
@@ -221,7 +227,6 @@ export default function Signup() {
               },
             }}
             errors={errors}
-            trigger={trigger}
             setValue={setValue}
           />
 
@@ -237,7 +242,6 @@ export default function Signup() {
                 validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
               }}
               errors={errors}
-              trigger={trigger}
               setValue={setValue}
             />
             <InputStatusMessage
