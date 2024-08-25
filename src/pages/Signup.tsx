@@ -21,7 +21,7 @@ export default function Signup() {
     setValue,
     trigger,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm();
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isCodeSended, setIsCodeSended] = useState(false);
@@ -80,6 +80,10 @@ export default function Signup() {
   // 닉네임 중복확인
   const handleCheckNickname = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // 닉네임 필드의 유효성 검사를 수동으로 실행
+    const isEmailValid = await trigger('nickname');
+    if (!isEmailValid) return;
+
     const nickname = getValues('nickname');
 
     try {
@@ -207,6 +211,7 @@ export default function Signup() {
               },
             }}
             errors={errors}
+            trigger={trigger}
           />
 
           <div>
@@ -221,6 +226,7 @@ export default function Signup() {
                 validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
               }}
               errors={errors}
+              trigger={trigger}
             />
             <InputStatusMessage
               status="success"
