@@ -80,7 +80,7 @@ export default function InputWithLabel({
             type={inputType}
             disabled={isDisabled}
             autoComplete="off"
-            className={`input ${hasError ? '!border-status-error' : ''} ${
+            className={`input h-12 ${hasError ? '!border-status-error' : ''} ${
               isDisabled ? '!text-lightGray !bg-white' : ''
             }`}
             placeholder={placeholder}

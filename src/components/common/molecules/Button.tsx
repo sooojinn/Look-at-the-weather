@@ -59,9 +59,7 @@ export default function Button({ children, type = 'main', disabled, width, size 
       onClick={onClick}
       disabled={disabled}
       style={{ width: width ? `${width}px` : '100%' }}
-      className={`${backgroundColor} border ${borderColor} ${
-        size === 'm' ? 'h-12 rounded-lg' : 'h-14 rounded-[10px]'
-      } flex-shrink-0`}
+      className={`${backgroundColor} border ${borderColor} ${size === 'm' ? 'h-12 rounded-lg' : 'h-14 rounded-[10px]'}`}
     >
       <Text size="l" color={textColor} weight={textWeight}>
         {children}
