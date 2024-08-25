@@ -24,10 +24,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
   const {
     register,
     control,
-    getValues,
     setValue,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting },
   } = useForm<PostFormData>({
     defaultValues: { ...defaultValues },
   });
@@ -38,10 +37,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
   const navigate = useNavigate();
 
   const handleFormCloseBtn = () => {
-    const currentValues = getValues();
-    const hasChanges = JSON.stringify(defaultValues) !== JSON.stringify(currentValues);
-
-    if (hasChanges) setShowAlertBox(true);
+    if (isDirty) setShowAlertBox(true);
     else navigate(-1);
   };
 
