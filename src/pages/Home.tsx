@@ -5,10 +5,14 @@ import Header from '@/components/common/Header';
 import LoginModal from '@/components/login/LoginModal';
 import WeatherInfo from '@/components/home/WeatherInfo';
 import TodayBestWearList from '@/components/home/TodayBestWearList';
+import useAuthService from '@/hooks/useAuthService';
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const { refreshAccessToken } = useAuthService();
+
+  refreshAccessToken();
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = Cookies.get('refreshToken');

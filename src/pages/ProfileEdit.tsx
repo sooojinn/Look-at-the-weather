@@ -1,10 +1,7 @@
 import Header from '@/components/common/Header';
-import useUserInfo from '@/hooks/useUserInfo';
 import { useAuthStore } from '@/store/authStore';
 
 export default function ProfileEdit() {
-  const userInfo = useUserInfo();
-
   const { isLogin, accessToken } = useAuthStore((state) => state);
   console.log(isLogin(), accessToken);
 
