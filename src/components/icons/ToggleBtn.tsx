@@ -5,7 +5,7 @@ interface ToggleBtnProps {
 
 export default function ToggleBtn({ onClick, showTerms }: ToggleBtnProps) {
   return (
-    <button onClick={onClick} className={`h-4 w-4 ${showTerms ? 'transform rotate-180' : ''}`}>
+    <button onClick={onClick} className={`${showTerms ? 'transform rotate-180' : ''}`}>
       <ToggleIcon />
     </button>
   );
