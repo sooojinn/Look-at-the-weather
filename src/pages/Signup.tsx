@@ -148,7 +148,7 @@ export default function Signup() {
     <div className="h-screen flex flex-col">
       <Header>회원가입</Header>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between px-5 pb-10">
-        <div className="h-[calc(100vh-159px)] overflow-auto pt-5 flex flex-col gap-4">
+        <div className="h-[calc(100vh-159px)] overflow-auto scrollbar-hide pt-5 flex flex-col gap-4">
           <div>
             <InputWithLabel
               name="email"
@@ -270,7 +270,7 @@ export default function Signup() {
               사용 가능한 닉네임입니다.
             </InputStatusMessage>
           </div>
-          <LocationTermsCheckBox register={register} errors={errors} />
+          <LocationTermsCheckBox register={register} errors={errors} clearErrors={clearErrors} />
         </div>
         <Button type="main">가입하기</Button>
       </form>
