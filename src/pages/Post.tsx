@@ -147,7 +147,7 @@ export default function Post({}: Props) {
           <PostList postList={generateMockPosts(10)}></PostList>
         </div>
         <div>
-          <FooterNavi></FooterNavi>
+          <FooterNavi />
         </div>
         <div className="relative">
           {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
