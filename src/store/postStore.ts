@@ -1,23 +1,33 @@
-import { create } from 'zustand';
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
+import { FilterItem } from '@/config/types';
 
 interface PostState {
-  location: { city: number; district: number }[];
-  seasonTagIds: number[];
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
-  updateLocation: (newLocation: { city: number; district: number }[]) => void;
-  updateSeasonTagIds: (newSeasonTagIds: number[]) => void;
-  updateWeatherTagIds: (newWeatherTagIds: number[]) => void;
-  updateTemperatureTagIds: (newTemperatureTagIds: number[]) => void;
+  locationIds: { city_id: number; district: string; district_id: number }[];
+  seasonTagIds: FilterItem[];
+  weatherTagIds: FilterItem[];
+  temperatureTagIds: FilterItem[];
+  updateLocation: (newLocation: { city_id: number; district: string; district_id: number }[]) => void;
+  updateSeasonTagIds: (newSeasonTagIds: FilterItem[]) => void;
+  updateWeatherTagIds: (newWeatherTagIds: FilterItem[]) => void;
+  updateTemperatureTagIds: (newTemperatureTagIds: FilterItem[]) => void;
 }
 
-export const usePostStore = create<PostState>((set) => ({
-  location: [],
-  seasonTagIds: [],
-  weatherTagIds: [],
-  temperatureTagIds: [],
-  updateLocation: (newLocation) => set({ location: newLocation }),
-  updateSeasonTagIds: (newSeasonTagIds) => set({ seasonTagIds: newSeasonTagIds }),
-  updateWeatherTagIds: (newWeatherTagIds) => set({ weatherTagIds: newWeatherTagIds }),
-  updateTemperatureTagIds: (newTemperatureTagIds) => set({ temperatureTagIds: newTemperatureTagIds }),
-}));
+export const usePostStore = create<PostState>()(
+  persist(
+    (set) => ({
+      locationIds: [],
+      seasonTagIds: [],
+      weatherTagIds: [],
+      temperatureTagIds: [],
+      updateLocation: (newLocation) => set({ locationIds: newLocation }),
+      updateSeasonTagIds: (newSeasonTagIds) => set({ seasonTagIds: newSeasonTagIds }),
+      updateWeatherTagIds: (newWeatherTagIds) => set({ weatherTagIds: newWeatherTagIds }),
+      updateTemperatureTagIds: (newTemperatureTagIds) => set({ temperatureTagIds: newTemperatureTagIds }),
+    }),
+    {
+      name: 'post-store',
+      getStorage: () => localStorage,
+    },
+  ),
+);

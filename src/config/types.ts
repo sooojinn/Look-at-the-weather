@@ -38,3 +38,20 @@ export type FilterBtn = {
 export type FilterBtnGroupProps = FilterBtn & {
   btnData: any[];
 };
+
+export interface FilterItem {
+  id: number | { city: number; district: number };
+  tagName: string;
+}
+
+export type PostFilterModalProps = {
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  btnValue: string;
+  btnIndex: number;
+};
+
+export type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
+
+export interface DistrictProps {
+  { city_id: number; district_id: number; district: string }[]
+}
