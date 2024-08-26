@@ -5,9 +5,10 @@ import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
+import { AuthFormName } from '@/config/types';
 
 interface InputWithLabelProps {
-  name: string;
+  name: AuthFormName;
   type?: 'text' | 'password';
   label: string;
   isDisabled?: boolean;
@@ -16,7 +17,7 @@ interface InputWithLabelProps {
   rules?: RegisterOptions<any, any>;
   errors: FieldErrors<any>;
   button?: ReactNode;
-  setValue: (name: string, value: any) => void;
+  setValue: (name: any, value: string) => void;
 }
 
 export default function InputWithLabel({

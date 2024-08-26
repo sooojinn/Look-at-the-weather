@@ -3,9 +3,30 @@ import { BASEURL } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 import InputWithLabel from '@components/form/InputWithLabel';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+interface passwordResetForm {
+  password: string;
+}
+
+const passwordReset = async (data: passwordResetForm) => {
+  const { password } = data;
+
+  const response = await axios.patch(
+    `${BASEURL}/api/v1/users/password`,
+    { password },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  return response.data;
+};
 
 export default function PasswordReset() {
   const {
@@ -14,29 +35,19 @@ export default function PasswordReset() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm({ mode: 'onBlur' });
+  } = useForm<passwordResetForm>({ mode: 'onChange' });
 
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmit = async (data: any) => {
-    const { password } = data;
-    try {
-      const response = await axios.patch(
-        `${BASEURL}/api/v1/users/password`,
-        { password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      if (response.data.success) {
-        console.log('비밀번호가 성공적으로 변경되었습니다.');
-        setShowModal(true);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const passwordResetMutation = useMutation({
+    mutationFn: passwordReset,
+    onSuccess: () => setShowModal(true),
+    onError: (error) => console.error('비밀번호 재설정 실패: ', error),
+  });
+
+  const onSubmit = async (data: passwordResetForm) => {
+    passwordResetMutation.mutate(data);
   };
 
   return (
@@ -76,7 +87,15 @@ export default function PasswordReset() {
         </div>
         <Button>비밀번호 재설정하기</Button>
       </form>
-      {showModal && <InfoModal message="비밀번호 변경이 완료되었습니다." onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <InfoModal
+          message="비밀번호 변경이 완료되었습니다."
+          onClose={() => {
+            setShowModal(false);
+            navigate('/');
+          }}
+        />
+      )}
     </div>
   );
 }

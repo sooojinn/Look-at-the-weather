@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
@@ -7,6 +7,23 @@ import { BASEURL } from '@/config/constants';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
+import { useMutation } from '@tanstack/react-query';
+import { ErrorResponse } from '@/config/types';
+
+interface findPasswordForm {
+  email: string;
+  name: string;
+  nickname: string;
+}
+
+const findPassword = async (data: findPasswordForm) => {
+  const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};
 
 export default function FindPassword() {
   const {
@@ -14,23 +31,27 @@ export default function FindPassword() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm<findPasswordForm>();
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const onSubmit = async (data: any) => {
-    try {
-      const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.status === 200) {
-        navigate('/passwordreset'); // 비밀번호 재설정 페이지로 이동
+  const findPasswordMutation = useMutation({
+    mutationFn: findPassword,
+    onSuccess: () => {
+      navigate('/passwordreset');
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.errorCode === 'NOT_EXIST_USER') {
+        setShowModal(true);
+      } else {
+        console.error('비밀번호 찾기 오류: ', error);
       }
-    } catch (error) {
-      setShowModal(true);
-    }
+    },
+  });
+
+  const onSubmit = async (data: findPasswordForm) => {
+    findPasswordMutation.mutate(data);
   };
 
   return (

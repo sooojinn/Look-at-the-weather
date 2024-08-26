@@ -5,10 +5,11 @@ import ToggleBtn from '@components/icons/ToggleBtn';
 import MarkdownRenderer from './MarkdownRenderer';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import InfoModal from './InfoModal';
+import { SignupForm } from '@/config/types';
 
 interface LocationTermsCheckBoxProps {
-  register: UseFormRegister<any>;
-  errors: FieldErrors<any>;
+  register: UseFormRegister<SignupForm>;
+  errors: FieldErrors<SignupForm>;
   isChecked: boolean;
 }
 

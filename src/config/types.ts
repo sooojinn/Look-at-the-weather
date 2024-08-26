@@ -68,3 +68,33 @@ export interface FileProps {
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
 }
+
+export interface ErrorResponse {
+  errorCode?: string;
+  errorMessage?: string;
+}
+
+export type AuthFormName = 'email' | 'code' | 'password' | 'confirmPassword' | 'name' | 'nickname';
+
+export interface VerifyCodeProps {
+  email: string;
+  code: string;
+}
+
+export interface SignupForm {
+  email: string;
+  code: string;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  nickname: string;
+  terms: boolean;
+}
+
+export interface RegisterForm {
+  email: string;
+  password: string;
+  name: string;
+  nickname: string;
+  isSocial: boolean;
+}
