@@ -30,6 +30,7 @@ export default function Post({}: Props) {
     updateTemperatureTagIds,
     updateSeasonTagIds,
   } = usePostStore();
+
   const clearPostFilterStorage = usePostStore.persist.clearStorage;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +40,7 @@ export default function Post({}: Props) {
   const [weatherArr, setWeatherArr] = useState<FilterItem[]>([]);
   const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
+  const [sortOrder, setSortOrder] = useState('L');
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -64,6 +66,9 @@ export default function Post({}: Props) {
     setWeatherArr(weatherTagIds);
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
+
+  const options = {};
+  const io = new IntersectionObserver((entries, observer) => {}, options);
 
   return (
     <>
@@ -130,28 +135,30 @@ export default function Post({}: Props) {
         <HrLine height={8} />
         <div className="py-5">
           <div className="flex row justify-end">
-            <div>
-              <Text color="gray" weight="bold">
+            <div onClick={() => setSortOrder('L')}>
+              <Text color={sortOrder === 'L' ? 'gray' : 'lightGray'} weight={sortOrder === 'L' ? 'bold' : 'regular'}>
                 최신순
               </Text>
             </div>
             <div className="mx-2">
               <VeLine height={8} />
             </div>
-            <div>
-              <Text color="lightGray">추천순</Text>
+            <div onClick={() => setSortOrder('R')}>
+              <Text color={sortOrder === 'R' ? 'gray' : 'lightGray'} weight={sortOrder === 'R' ? 'bold' : 'regular'}>
+                추천순
+              </Text>
             </div>
           </div>
-        </div>
-        <div>
-          <PostList postList={generateMockPosts(10)}></PostList>
-        </div>
-        <div>
-          <FooterNavi />
         </div>
         <div className="relative">
           {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
         </div>
+      </div>
+      <div className="px-[-100px]">
+        <PostList postList={generateMockPosts(10)}></PostList>
+      </div>
+      <div className="mt-[103px]">
+        <FooterNavi />
       </div>
     </>
   );
