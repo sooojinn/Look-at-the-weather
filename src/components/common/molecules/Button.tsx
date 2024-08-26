@@ -9,12 +9,21 @@ interface ButtonProps {
   children: ReactNode;
   type?: ButtonType;
   disabled?: boolean;
+  isSubmitting?: boolean;
   width?: number;
   size?: ButtonSize;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function Button({ children, type = 'main', disabled, width, size = 'l', onClick }: ButtonProps) {
+export default function Button({
+  children,
+  type = 'main',
+  disabled,
+  isSubmitting,
+  width,
+  size = 'l',
+  onClick,
+}: ButtonProps) {
   const backgroundColors = {
     main: 'bg-primary-main',
     white: 'bg-background-white',
@@ -57,7 +66,7 @@ export default function Button({ children, type = 'main', disabled, width, size 
   return (
     <button
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isSubmitting}
       style={{ width: width ? `${width}px` : '100%' }}
       className={`${backgroundColor} border ${borderColor} ${size === 'm' ? 'h-12 rounded-lg' : 'h-14 rounded-[10px]'}`}
     >

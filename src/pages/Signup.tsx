@@ -20,7 +20,7 @@ export default function Signup() {
     getValues,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
@@ -288,7 +288,9 @@ export default function Signup() {
           </div>
           <LocationTermsCheckBox register={register} errors={errors} isChecked={watch('terms')} />
         </div>
-        <Button type="main">가입하기</Button>
+        <Button type="main" isSubmitting={isSubmitting}>
+          가입하기
+        </Button>
       </form>
     </div>
   );
