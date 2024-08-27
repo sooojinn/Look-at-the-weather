@@ -11,6 +11,7 @@ async function enableMocking() {
   const { worker } = await import('./mocks/browser');
   return worker.start();
 }
+console.log('asd');
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '../../constants/constants';
-import axios from 'axios';
 import useAuthService from '@/hooks/useAuthService';
-import { useAuthStore } from '@/store/authStore';
 import { postLogin } from '@/api/apis';
 
 interface LoginFormProps {
@@ -26,6 +23,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
         email: 'bbb111@naver.com',
         password: 'ccc123',
       });
+      console.log(setIsLoggedIn);
+      console.log(data);
       console.log(response);
       const { accessToken, refreshToken } = response.data;
       setRefreshToken(refreshToken);
