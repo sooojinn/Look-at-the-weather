@@ -11,24 +11,20 @@ interface LoginFormProps {
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
   // const { setTokens, isLogin } = useAuthStore();
-  const { setRefreshToken, setAccessToken } = useAuthService();
+  const { setRefreshToken, setAccessToken, refreshAccessToken } = useAuthService();
 
-  const handleLogin = async (data: any) => {
+  const handleLogin = async (loginData: any) => {
     try {
-      // const response = await axios.post(`${BASEURL}/auth/login`, {
-      //   email: 'bbb111@naver.com',
-      //   password: 'ccc123',
-      // });
+      // const response = await postLogin(loginData);
       const response = await postLogin({
         email: 'bbb111@naver.com',
         password: 'ccc123',
       });
-      console.log(setIsLoggedIn);
-      console.log(data);
-      console.log(response);
+
       const { accessToken, refreshToken } = response.data;
       setRefreshToken(refreshToken);
       setAccessToken(accessToken);
+      refreshAccessToken();
       // setTokens({ accessToken, refreshToken });
       // setIsLoggedIn(isLogin());
     } catch (error) {

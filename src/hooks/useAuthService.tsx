@@ -49,9 +49,10 @@ export default function useAuthService() {
   const isLogin = () => {};
 
   const refreshAccessToken = async () => {
+    console.log('rf', getRefreshToken());
     try {
       const response = await axios.post(
-        `${BASEURL}/auth/refresh`,
+        `${BASEURL}/auth/reissue`,
         {
           refreshToken: getRefreshToken(),
         },

@@ -2,7 +2,7 @@ import { instance } from './instance';
 import useAuthService from '@/hooks/useAuthService';
 import { AxiosRequestConfig } from 'axios';
 
-const { getAccessToken } = useAuthService();
+const { getAccessToken, getRefreshToken } = useAuthService();
 
 const headers: AxiosRequestConfig['headers'] = { Authorization: `Bearer ${getAccessToken()}` };
 const config: AxiosRequestConfig = {
@@ -20,3 +20,7 @@ export const postLogout = () => {
 export const postFindEmail = (request: RequestBody) => {
   return instance.post('/auth/logout', request);
 };
+
+// export const postRetryRefresh = () => {
+//   return instance.post('/auth/refresh', { refreshToken: getRefreshToken() }, { withCredentials: true });
+// };
