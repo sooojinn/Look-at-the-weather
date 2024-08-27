@@ -70,6 +70,8 @@ export default function Post({}: Props) {
   const options = {};
   const io = new IntersectionObserver((entries, observer) => {}, options);
 
+  useEffect(() => {}, [sortOrder]);
+
   return (
     <>
       <Header>Look</Header>

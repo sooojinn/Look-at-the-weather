@@ -53,5 +53,9 @@ export type PostFilterModalProps = {
 export type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
 
 export interface DistrictProps {
-  { city_id: number; district_id: number; district: string }[]
+  city_id: number;
+  district_id: number;
+  district: string;
 }
+
+export type DistrictArray = DistrictProps[];
