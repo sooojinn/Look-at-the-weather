@@ -25,7 +25,17 @@ export interface PostMeta {
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
-export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'main' | 'disabled';
+export type TextColor =
+  | 'black'
+  | 'lightBlack'
+  | 'darkGray'
+  | 'gray'
+  | 'lightGray'
+  | 'white'
+  | 'main'
+  | 'disabled'
+  | 'error'
+  | 'success';
 export type TextWeight = 'regular' | 'bold';
 
 export interface PostFormData {
@@ -59,3 +69,32 @@ export interface FileProps {
   register: UseFormRegister<PostFormData>;
 }
 
+export interface ErrorResponse {
+  errorCode?: string;
+  errorMessage?: string;
+}
+
+export type AuthFormName = 'email' | 'code' | 'password' | 'confirmPassword' | 'name' | 'nickname';
+
+export interface VerifyCodeProps {
+  email: string;
+  code: string;
+}
+
+export interface SignupForm {
+  email: string;
+  code: string;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  nickname: string;
+  terms: boolean;
+}
+
+export interface RegisterForm {
+  email: string;
+  password: string;
+  name: string;
+  nickname: string;
+  isSocial: boolean;
+}

@@ -46,7 +46,7 @@
 }
 
 .input {
-  @apply w-full px-3 py-[14px] text-sm border border-line-light rounded-lg placeholder-lightGray focus:outline-none;
+  @apply w-full px-3 py-[14px] text-sm border border-line-light rounded-lg placeholder-lightGray focus:outline-none focus:border-primary-main;
 }
 
 .textarea {

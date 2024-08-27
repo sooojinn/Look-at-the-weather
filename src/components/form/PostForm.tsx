@@ -7,7 +7,7 @@ import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useState } from 'react';
-import AlertBox from '@components/common/organism/AlertBox';
+import ExitWarningModal from '@components/common/organism/ExitWarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
@@ -24,10 +24,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
   const {
     register,
     control,
-    getValues,
     setValue,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting },
   } = useForm<PostFormData>({
     defaultValues: { ...defaultValues },
   });
@@ -38,27 +37,22 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
   const navigate = useNavigate();
 
   const handleFormCloseBtn = () => {
-    const currentValues = getValues();
-    const hasChanges = JSON.stringify(defaultValues) !== JSON.stringify(currentValues);
-
-    if (hasChanges) setShowAlertBox(true);
+    if (isDirty) setShowAlertBox(true);
     else navigate(-1);
   };
 
   return (
     <>
-      <Header isModal={true} onClose={handleFormCloseBtn}>
-        게시글 {type}하기
-      </Header>
+      <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
       {showAlertBox && (
-        <AlertBox
+        <ExitWarningModal
           mainMessage={`${type}하지 않고 나가시겠어요?`}
           subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
           onCancel={() => setShowAlertBox(false)}
           onContinue={() => navigate(-1)}
         />
       )}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel
             name="imageId"
@@ -127,13 +121,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
             </Text>
             <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
           </div>
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            type="main"
-            disabled={!isValid || isSubmitting}
-            height={56}
-            radius={10}
-          >
+          <Button type="main" disabled={!isValid || isSubmitting}>
             {type === '작성' ? '업로드하기' : '수정하기'}
           </Button>
         </div>

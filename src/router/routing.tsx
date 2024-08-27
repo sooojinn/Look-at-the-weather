@@ -12,6 +12,7 @@ import PostDetail from '../pages/PostDetail.tsx';
 import PostWrite from '../pages/PostWrite.tsx';
 import Post from '../pages/Post.tsx';
 import ProfileEdit from '../pages/ProfileEdit.tsx';
+import FindEmailResult from '@pages/FindEmailResult.tsx';
 import KakaoRedirect from '@components/login/KakaoRedirect.tsx';
 
 const router = createBrowserRouter([
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: '/oauth', element: <KakaoRedirect /> },
       { path: '/signup', element: <Signup /> },
       { path: '/findemail', element: <FindEmail /> },
+      { path: '/findemail/result', element: <FindEmailResult /> },
       { path: '/findpassword', element: <FindPassword /> },
       { path: '/mypage', element: <Mypage /> },
       { path: '/passwordreset', element: <PasswordReset /> },

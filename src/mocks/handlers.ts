@@ -75,15 +75,21 @@ export const handlers = [
     const isAvailable = !existingNicknames.includes(nickname);
 
     if (isAvailable) {
-      return HttpResponse.json({
-        isAvailable: true,
-        message: '사용가능한 닉네임입니다.',
-      });
+      return HttpResponse.json(
+        {
+          isAvailable: true,
+          message: '사용가능한 닉네임입니다.',
+        },
+        { status: 200 },
+      );
     } else {
-      return HttpResponse.json({
-        isAvailable: false,
-        message: '이미 사용 중인 닉네임입니다.',
-      });
+      return HttpResponse.json(
+        {
+          errorCode: 'NICKNAME_ALREADY_EXIST',
+          errorMessage: '닉네임이 중복되었습니다.',
+        },
+        { status: 400 },
+      );
     }
   }),
   //이메일 찾기
