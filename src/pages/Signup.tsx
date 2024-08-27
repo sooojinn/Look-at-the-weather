@@ -19,6 +19,7 @@ export default function Signup() {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     watch,
     getValues,
     setValue,
@@ -35,9 +36,9 @@ export default function Signup() {
     setIsNicknameChecked,
   } = useSignupStore();
 
-  const sendVerificationMutation = useSendVerificationMutation();
-  const verifyCodeMutation = useVerifyCodeMutation();
-  const checkNicknameMutation = useCheckNicknameMutation();
+  const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation(setError);
+  const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation(setError, clearErrors);
+  const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation(setError);
   const registerMutation = useRegisterMutation();
 
   const handleSendVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,14 +47,14 @@ export default function Signup() {
     if (!isEmailValid) return;
 
     const email = getValues('email');
-    sendVerificationMutation.mutate(email);
+    sendVerificationMutation(email);
   };
 
   const handleVerifyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const email = getValues('email');
     const code = getValues('code');
-    verifyCodeMutation.mutate({ email, code });
+    verifyCodeMutation({ email, code });
   };
 
   const handleCheckNickname = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -62,7 +63,7 @@ export default function Signup() {
     if (!isNicknameValid) return;
 
     const nickname = getValues('nickname');
-    checkNicknameMutation.mutate(nickname);
+    checkNicknameMutation(nickname);
   };
 
   const onSubmit = async (data: SignupForm) => {
@@ -123,9 +124,16 @@ export default function Signup() {
                   size="m"
                   width={123}
                   disabled={!watch('email') || isEmailVerified}
+                  isSubmitting={isCodeSending}
                   onClick={handleSendVerification}
                 >
-                  {isEmailVerified ? '확인 완료' : isCodeSended ? '재전송' : '인증번호 전송'}
+                  {isEmailVerified
+                    ? '확인 완료'
+                    : isCodeSending
+                    ? '전송 중'
+                    : isCodeSended
+                    ? '재전송'
+                    : '인증번호 전송'}
                 </Button>
               }
             />
@@ -146,7 +154,13 @@ export default function Signup() {
             errors={errors}
             setValue={setValue}
             button={
-              <Button size="m" width={123} disabled={!watch('code') || isEmailVerified} onClick={handleVerifyCode}>
+              <Button
+                size="m"
+                width={123}
+                disabled={(!isCodeSended && !watch('code')) || isEmailVerified}
+                isSubmitting={isVerifyingCode}
+                onClick={handleVerifyCode}
+              >
                 {isEmailVerified ? '확인 완료' : '인증번호 확인'}
               </Button>
             }
@@ -227,6 +241,7 @@ export default function Signup() {
                   size="m"
                   width={90}
                   disabled={!watch('nickname') || isNicknameChecked}
+                  isSubmitting={isNicknamePending}
                   onClick={handleCheckNickname}
                 >
                   {isNicknameChecked ? '확인 완료' : '중복 확인'}
