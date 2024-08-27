@@ -119,8 +119,13 @@ export default function Signup() {
               errors={errors}
               setValue={setValue}
               button={
-                <Button size="m" width={123} disabled={!watch('email')} onClick={handleSendVerification}>
-                  {isCodeSended ? '재전송' : '인증번호 전송'}
+                <Button
+                  size="m"
+                  width={123}
+                  disabled={!watch('email') || isEmailVerified}
+                  onClick={handleSendVerification}
+                >
+                  {isEmailVerified ? '확인 완료' : isCodeSended ? '재전송' : '인증번호 전송'}
                 </Button>
               }
             />
