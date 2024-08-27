@@ -91,11 +91,11 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
             <div className="flex flex-col gap-3">
               <Button type="main" onClick={handleSubmit(handleLogin)}>
                 이메일로 로그인
-              </button>
+              </Button>
               <KakaoLogin />
             </div>
           </form>
-          <div className="h-12 flex justify-between">
+          <div className="h-12 mt-6 flex justify-between">
             {linkList.map(({ path, label }) => (
               <Link to={path} className="w-[106px] flex justify-center items-center">
                 <Text weight="bold">{label}</Text>
