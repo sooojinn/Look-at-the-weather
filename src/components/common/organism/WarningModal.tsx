@@ -23,7 +23,7 @@ export default function WarningModal({ mainMessage, subMessage, detailMessage, b
               </Text>
               <Text color="gray">{subMessage}</Text>
               {detailMessage?.map((message) => (
-                <Text size="xs" color="gray">
+                <Text key={message} size="xs" color="gray">
                   {message}
                 </Text>
               ))}
