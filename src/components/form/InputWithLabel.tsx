@@ -82,7 +82,7 @@ export default function InputWithLabel({
             disabled={isDisabled}
             autoComplete="off"
             className={`input h-12 ${hasError ? '!border-status-error' : ''} ${
-              isDisabled ? '!text-lightGray !bg-white' : ''
+              isDisabled ? '!text-lightGray !bg-interactive-disabled' : ''
             }`}
             placeholder={placeholder}
             {...register(name, {
