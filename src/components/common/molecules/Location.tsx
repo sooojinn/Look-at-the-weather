@@ -11,10 +11,9 @@ interface LocationProps {
   location?: Location;
   size?: TextSize;
   color?: TextColor;
-  fill?: string;
 }
 
-export default function Location({ location, size, color, fill = 'black' }: LocationProps) {
+export default function Location({ location, size, color = 'black' }: LocationProps) {
   if (!location) return;
 
   const { city, district } = location;
@@ -39,14 +38,14 @@ export default function Location({ location, size, color, fill = 'black' }: Loca
         />
       )}
       <div className="flex items-center gap-2">
-        <CompassIcon fill={fill} />
+        <CompassIcon fill={color} />
         <Text size={size} color={color}>
           {city} {district}
         </Text>
         {isLocationDenied && (
-          <button onClick={() => setShowModal(true)}>
-            <ExclamationMarkIcon width={16} fill="white" />
-          </button>
+          <div className="cursor-pointer" onClick={() => setShowModal(true)}>
+            <ExclamationMarkIcon width={14} fill={color} />
+          </div>
         )}
       </div>
     </>
