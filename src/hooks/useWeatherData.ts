@@ -8,7 +8,7 @@ interface UseWeatherDataReturn extends WeatherInfo {
 
 export default function useWeatherData(geoPoint: GeoPoint | undefined): UseWeatherDataReturn {
   // 공통 useQuery 함수
-  const fetchWeatherData = (key: string, fetchFn: () => Promise<WeatherInfo>) => {
+  const fetchWeatherData = (key: string, fetchFn: () => Promise<WeatherInfo | undefined>) => {
     return useQuery({
       queryKey: [key, geoPoint?.latitude, geoPoint?.longitude],
       queryFn: fetchFn,
