@@ -21,7 +21,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
+    <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col relative">
       {isLoggedIn || <LoginModal setIsLoggedIn={setIsLoggedIn} />}
       <Header>
         <Logo />

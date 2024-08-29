@@ -7,7 +7,7 @@ import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useState } from 'react';
-import ExitWarningModal from '@components/common/organism/ExitWarningModal';
+import ExitWarningModal from '@components/common/organism/WarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
@@ -33,23 +33,31 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
 
   setValue('location', defaultValues.location);
 
-  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [shoWModal, setShoWModal] = useState(false);
   const navigate = useNavigate();
 
   const handleFormCloseBtn = () => {
-    if (isDirty) setShowAlertBox(true);
+    if (isDirty) setShoWModal(true);
     else navigate(-1);
   };
 
   return (
     <>
       <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
-      {showAlertBox && (
+      {shoWModal && (
         <ExitWarningModal
           mainMessage={`${type}하지 않고 나가시겠어요?`}
           subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
-          onCancel={() => setShowAlertBox(false)}
-          onContinue={() => navigate(-1)}
+          buttons={
+            <>
+              <Button type="sub" size="m" onClick={() => setShoWModal(false)}>
+                닫기
+              </Button>
+              <Button type="main" size="m" onClick={() => navigate(-1)}>
+                나가기
+              </Button>
+            </>
+          }
         />
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
