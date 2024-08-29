@@ -36,7 +36,7 @@ export default function HomeWeatherInfo() {
         {isLocationSuccess && isWeatherSuccess ? (
           <>
             <div>
-              <Location location={location} size="l" color="white" fill="white" />
+              <Location location={location} size="l" color="white" />
               <CurrentTemp>{currentTemp}</CurrentTemp>
               <WeatherMessage size="l" color="white">
                 {weatherMessage}
