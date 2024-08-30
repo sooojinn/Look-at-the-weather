@@ -10,8 +10,8 @@ export interface WeatherInfo {
 }
 
 export interface Location {
-  city: string | null;
-  district: string | null;
+  city: string;
+  district: string;
 }
 
 export interface PostMeta {
