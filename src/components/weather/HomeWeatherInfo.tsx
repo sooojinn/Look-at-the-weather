@@ -1,5 +1,6 @@
 import useLocationAndWeatherData from '@/hooks/useLocationAndWeatherData';
 import Location from '@components/common/molecules/Location';
+import { showToast } from '@components/common/molecules/ToastProvider';
 import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
@@ -13,10 +14,10 @@ export default function HomeWeatherInfo() {
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
     if (currentTemp >= 33 && weatherType === 'clear') {
       return 'light';
-    } else if (['cloudy', 'rain', 'snow', 'sleet'].includes(weatherType)) {
-      return 'dark';
-    } else {
+    } else if (weatherType === 'clear' || weatherType === 'partly_cloudy') {
       return 'normal';
+    } else {
+      return 'dark';
     }
   })();
 
@@ -26,8 +27,10 @@ export default function HomeWeatherInfo() {
     dark: 'bg-weather-dark-gradient',
   };
 
+  if (isError) showToast('위치 정보 또는 날씨 정보를 불러오는 데 실패했습니다.', '재시도', handleRefetch);
+
   return (
-    <div className={`w-full h-[292px] relative ${backgroundStyle[backgroundType]}`}>
+    <div className={`w-full h-[292px] relative ${backgroundStyle[isSuccess ? backgroundType : 'normal']}`}>
       {isSuccess && (
         <div className={`w-full h-full px-5 text-white flex justify-between items-center`}>
           <div>
@@ -44,15 +47,6 @@ export default function HomeWeatherInfo() {
       {isLoading && (
         <div className="absolute inset-0 bg-black opacity-20 flex justify-center items-center">
           <Spinner width={40} />
-        </div>
-      )}
-      {isError && (
-        <div className="w-full h-full flex flex-col justify-center items-center">
-          <div>
-            날씨 또는 위치 정보를 가져오는 데 실패했습니다.
-            <br /> 다시 시도해주세요.
-          </div>
-          <button onClick={handleRefetch}>재시도</button>
         </div>
       )}
     </div>
