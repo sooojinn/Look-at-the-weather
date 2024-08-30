@@ -112,11 +112,8 @@ export default function Signup() {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                   message: '유효한 이메일 형식이 아닙니다.',
                 },
-                maxLength: {
-                  value: 30,
-                  message: '30글자 미만으로 작성해 주세요.',
-                },
               }}
+              maxLength={30}
               errors={errors}
               setValue={setValue}
               button={
@@ -176,9 +173,10 @@ export default function Signup() {
               required: '비밀번호를 입력해 주세요.',
               pattern: {
                 value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                message: '8~15자의 영문,숫자,특수문자 2가지 이상 조합으로 입력해 주세요.',
+                message: '영문, 숫자, 특수문자 중 2가지 이상으로 조합해 주세요.(8-15자)',
               },
             }}
+            maxLength={15}
             errors={errors}
             setValue={setValue}
           />
@@ -214,9 +212,10 @@ export default function Signup() {
               required: '이름을 입력해 주세요.',
               pattern: {
                 value: /^[a-zA-Z가-힣]{1,10}$/,
-                message: '한/영 10자 이내(특수문자, 공백 불가)',
+                message: '한/영 10자 이내(특수문자, 공백 불가)로 입력해 주세요.',
               },
             }}
+            maxLength={10}
             errors={errors}
             setValue={setValue}
           />
@@ -231,9 +230,10 @@ export default function Signup() {
                 required: '닉네임을 입력해 주세요.',
                 pattern: {
                   value: /^[a-zA-Z가-힣]{1,10}$/,
-                  message: '한/영 10자 이내(특수문자, 공백 불가)의 닉네임으로 설정해 주세요.',
+                  message: '한/영 10자 이내(특수문자, 공백 불가)로 입력해 주세요.',
                 },
               }}
+              maxLength={10}
               errors={errors}
               setValue={setValue}
               button={

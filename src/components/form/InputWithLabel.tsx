@@ -1,4 +1,4 @@
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, RegisterOptions, UseFormRegister, useForm } from 'react-hook-form';
 import Label from '@components/form/Label';
 import ExclamationMarkIcon from '@components/icons/ExclamationMarkIcon';
 import { ReactNode, useState } from 'react';
@@ -15,6 +15,7 @@ interface InputWithLabelProps {
   placeholder?: string;
   register: UseFormRegister<any>;
   rules?: RegisterOptions<any, any>;
+  maxLength?: number;
   errors: FieldErrors<any>;
   button?: ReactNode;
   setValue: (name: any, value: string) => void;
@@ -28,6 +29,7 @@ export default function InputWithLabel({
   placeholder,
   register,
   rules,
+  maxLength,
   errors,
   button,
   setValue,
@@ -36,7 +38,7 @@ export default function InputWithLabel({
   const [inputValue, setInputValue] = useState('');
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
-  const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const togglePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setPasswordVisible(!isPasswordVisible);
   };
@@ -81,9 +83,10 @@ export default function InputWithLabel({
             type={inputType}
             disabled={isDisabled}
             autoComplete="off"
+            maxLength={maxLength}
             className={`input h-12 ${hasError ? '!border-status-error' : ''} ${
-              isDisabled ? '!text-lightGray !bg-white' : ''
-            }`}
+              isDisabled ? '!text-lightGray !bg-interactive-disabled' : ''
+            } focus:pr-9`}
             placeholder={placeholder}
             {...register(name, {
               ...rules,
@@ -93,9 +96,8 @@ export default function InputWithLabel({
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          <div className="absolute right-4 bottom-1/2 transform translate-y-1/2 flex items-center h-full">
-            {hasError && <ExclamationMarkIcon width={20} fill="#ff4242" />}
-            {!hasError && type === 'password' && (
+          <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center">
+            {type === 'password' && (
               <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
             )}
             {!hasError && type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
