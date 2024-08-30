@@ -38,8 +38,8 @@ export default function FindPassword() {
 
   const findPasswordMutation = useMutation({
     mutationFn: findPassword,
-    onSuccess: () => {
-      navigate('/passwordreset');
+    onSuccess: ({ userId }) => {
+      navigate('/passwordreset', { state: { userId: userId } });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_USER') {

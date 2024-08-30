@@ -1,24 +1,27 @@
 import Header from '@/components/common/Header';
 import { BASEURL } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
+import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
 import InputWithLabel from '@components/form/InputWithLabel';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface passwordResetForm {
+  userId: number;
   password: string;
+  confirmPassword: string;
 }
 
 const passwordReset = async (data: passwordResetForm) => {
-  const { password } = data;
+  const { userId, password } = data;
 
   const response = await axios.patch(
     `${BASEURL}/api/v1/users/password`,
-    { password },
+    { userId, password },
     {
       headers: {
         'Content-Type': 'application/json',
@@ -34,16 +37,25 @@ export default function PasswordReset() {
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<passwordResetForm>({ mode: 'onChange' });
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userId } = location.state;
+
+  setValue('userId', userId);
 
   const passwordResetMutation = useMutation({
     mutationFn: passwordReset,
     onSuccess: () => setShowModal(true),
-    onError: (error) => console.error('비밀번호 재설정 실패: ', error),
+    onError: (error) => {
+      console.error('비밀번호 재설정 실패: ', error);
+      showToast('비밀번호 재설정에 실패했습니다.');
+      reset();
+    },
   });
 
   const onSubmit = async (data: passwordResetForm) => {

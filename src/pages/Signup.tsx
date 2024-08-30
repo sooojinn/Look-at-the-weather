@@ -39,7 +39,7 @@ export default function Signup() {
   const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation(setError);
   const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation(setError, clearErrors);
   const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation(setError);
-  const registerMutation = useRegisterMutation();
+  const { mutate: registerMutation } = useRegisterMutation();
 
   const handleSendVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -78,7 +78,7 @@ export default function Signup() {
       return;
     }
 
-    registerMutation.mutate({ email, password, name, nickname, isSocial: false });
+    registerMutation({ email, password, name, nickname, isSocial: false });
   };
 
   useEffect(() => {

@@ -88,6 +88,7 @@ export const useRegisterMutation = (): UseMutationResult<void, AxiosError<ErrorR
     onError: (error) => {
       console.error('회원가입 오류:', error);
       showToast('회원가입에 실패했습니다.');
+      resetSignupState();
     },
   });
 };
