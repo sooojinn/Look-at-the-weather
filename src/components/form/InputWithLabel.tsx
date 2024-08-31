@@ -24,7 +24,7 @@ export default function InputWithLabel({
   name,
   type = 'text',
   label,
-  isDisabled = false,
+  isDisabled,
   placeholder,
   rules,
   maxLength,

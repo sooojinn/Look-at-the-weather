@@ -8,10 +8,12 @@ import { FormMethods } from '@/config/types';
 
 interface EmailInputProps extends FormMethods {
   shouldValidate?: boolean;
+  isDisabled?: boolean;
 }
 
 export default function EmailInput({
   shouldValidate,
+  isDisabled,
   register,
   setValue,
   setError,
@@ -48,6 +50,7 @@ export default function EmailInput({
         name="email"
         label="이메일"
         placeholder="(예시) abcde@naver.com"
+        isDisabled={isDisabled}
         rules={{
           required: '이메일을 입력해 주세요.',
           ...(shouldValidate && {

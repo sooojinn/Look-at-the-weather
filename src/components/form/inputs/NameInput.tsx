@@ -3,14 +3,22 @@ import InputWithLabel from '../InputWithLabel';
 
 interface NameInputProps extends FormMethods {
   shouldValidate?: boolean;
+  isDisabled?: boolean;
 }
 
-export default function NameInput({ shouldValidate, register, setValue, formState: { errors } }: NameInputProps) {
+export default function NameInput({
+  shouldValidate,
+  isDisabled,
+  register,
+  setValue,
+  formState: { errors },
+}: NameInputProps) {
   return (
     <InputWithLabel
       name="name"
       label="이름"
       placeholder="이름(실명)을 입력해 주세요."
+      isDisabled={isDisabled}
       register={register}
       rules={{
         required: '이름을 입력해 주세요.',
