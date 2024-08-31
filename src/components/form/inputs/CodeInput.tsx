@@ -40,7 +40,7 @@ export default function CodeInput({
         <Button
           size="m"
           width={123}
-          disabled={(!isCodeSended && !watch('code')) || isEmailVerified}
+          disabled={!isCodeSended || !watch('code') || isEmailVerified}
           isSubmitting={isVerifyingCode}
           onClick={handleVerifyCode}
         >
