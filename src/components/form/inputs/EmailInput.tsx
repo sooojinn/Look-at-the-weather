@@ -35,6 +35,11 @@ export default function EmailInput({
   useEffect(() => {
     setIsEmailVerified(false);
     setIsCodeSended(false);
+
+    return () => {
+      setIsEmailVerified(false);
+      setIsCodeSended(false);
+    };
   }, [watch('email')]);
 
   return (

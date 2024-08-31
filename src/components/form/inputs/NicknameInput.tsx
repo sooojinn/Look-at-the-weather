@@ -46,6 +46,8 @@ export default function NicknameInput({
 
   useEffect(() => {
     setIsNicknameChecked(false);
+
+    return () => setIsNicknameChecked(false);
   }, [watch('nickname')]);
 
   return (
