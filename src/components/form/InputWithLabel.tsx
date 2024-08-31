@@ -1,6 +1,5 @@
-import { FieldErrors, RegisterOptions, UseFormRegister, useForm } from 'react-hook-form';
+import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
 import Label from '@components/form/Label';
-import ExclamationMarkIcon from '@components/icons/ExclamationMarkIcon';
 import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
@@ -13,12 +12,12 @@ interface InputWithLabelProps {
   label: string;
   isDisabled?: boolean;
   placeholder?: string;
-  register: UseFormRegister<any>;
   rules?: RegisterOptions<any, any>;
   maxLength?: number;
-  errors: FieldErrors<any>;
   button?: ReactNode;
+  register: UseFormRegister<any>;
   setValue: (name: any, value: string) => void;
+  errors: FieldErrors<any>;
 }
 
 export default function InputWithLabel({
@@ -27,12 +26,12 @@ export default function InputWithLabel({
   label,
   isDisabled = false,
   placeholder,
-  register,
   rules,
   maxLength,
-  errors,
   button,
+  register,
   setValue,
+  errors,
 }: InputWithLabelProps) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');

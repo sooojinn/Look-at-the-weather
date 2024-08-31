@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import { BASEURL } from '@/config/constants';
-import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
+import NicknameInput from '@components/form/inputs/NicknameInput';
+import NameInput from '@components/form/inputs/NameInput';
 
 interface findEmailForm {
   name: string;
@@ -16,6 +17,7 @@ interface findEmailForm {
 }
 
 const findEmail = async (data: findEmailForm) => {
+  console.log(data);
   const response = await axios.post(`${BASEURL}/api/v1/users/email`, data, {
     headers: {
       'Content-Type': 'application/json',
@@ -25,13 +27,9 @@ const findEmail = async (data: findEmailForm) => {
 };
 
 export default function FindEmail() {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    formState: { errors },
-  } = useForm<findEmailForm>();
+  const formMethods = useForm<findEmailForm>();
+  const { handleSubmit, getValues } = formMethods;
+
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -64,24 +62,8 @@ export default function FindEmail() {
       <Header>이메일 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <InputWithLabel
-            name="name"
-            label="이름"
-            placeholder="이름을 입력해 주세요."
-            register={register}
-            rules={{ required: '이름을 입력해 주세요.' }}
-            errors={errors}
-            setValue={setValue}
-          />
-          <InputWithLabel
-            name="nickname"
-            label="닉네임"
-            placeholder="닉네임을 입력해 주세요."
-            register={register}
-            rules={{ required: '닉네임을 입력해 주세요.' }}
-            errors={errors}
-            setValue={setValue}
-          />
+          <NameInput {...formMethods} />
+          <NicknameInput {...formMethods} />
         </div>
         <Button>이메일 찾기</Button>
       </form>

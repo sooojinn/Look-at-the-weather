@@ -3,7 +3,8 @@ import { BASEURL } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
-import InputWithLabel from '@components/form/InputWithLabel';
+import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
+import PasswordInput from '@components/form/inputs/PasswordInput';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
@@ -32,14 +33,8 @@ const passwordReset = async (data: passwordResetForm) => {
 };
 
 export default function PasswordReset() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<passwordResetForm>({ mode: 'onChange' });
+  const formMethods = useForm<passwordResetForm>({ mode: 'onChange' });
+  const { handleSubmit, setValue, reset } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -67,35 +62,8 @@ export default function PasswordReset() {
       <Header>비밀번호 재설정</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <InputWithLabel
-            name="password"
-            label="새 비밀번호"
-            type="password"
-            placeholder="영문/숫자/특수문자 2가지 이상 조합 (8~15자)"
-            register={register}
-            rules={{
-              required: '비밀번호를 입력해 주세요.',
-              pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                message: '8~15자의 영문,숫자,특수문자 2가지 이상 조합으로 입력해 주세요.',
-              },
-            }}
-            errors={errors}
-            setValue={setValue}
-          />
-          <InputWithLabel
-            name="confirmPassword"
-            type="password"
-            label="비밀번호 확인"
-            placeholder="비밀번호를 한번 더 입력해 주세요."
-            register={register}
-            rules={{
-              required: '비밀번호를 다시 입력해 주세요.',
-              validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
-            }}
-            errors={errors}
-            setValue={setValue}
-          />
+          <PasswordInput isPasswordReset={true} {...formMethods} />
+          <PasswordCheckInput {...formMethods} />
         </div>
         <Button>비밀번호 재설정하기</Button>
       </form>

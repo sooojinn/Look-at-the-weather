@@ -55,6 +55,7 @@ export const useVerifyCodeMutation = (
 // 닉네임 중복확인
 export const useCheckNicknameMutation = (
   setError: (name: AuthFormName, error: { message: string }) => void,
+  clearErrors: (name: AuthFormName) => void,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
   const { setIsNicknameChecked } = useSignupStore();
 
@@ -62,6 +63,7 @@ export const useCheckNicknameMutation = (
     mutationFn: checkNickname,
     onSuccess: () => {
       setIsNicknameChecked(true);
+      clearErrors('nickname');
     },
     onError: (error) => {
       if (error.response?.data.errorCode === 'NICKNAME_ALREADY_EXIST') {
