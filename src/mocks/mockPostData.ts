@@ -10,6 +10,7 @@ export const generateMockPosts = (count: number) => {
     SeasonTagId: SEASON_TAGS.map((tag) => tag.id)[Math.floor(Math.random() * 4)],
     WeatherTagIds: WEATHER_TAGS.map((tag) => tag.id).slice(0, Math.floor(Math.random() * 3) + 1),
     TemperatureTagIds: TEMPERATURE_TAGS.map((tag) => tag.id).slice(0, Math.floor(Math.random() * 3) + 1),
+
     likeByUser: Math.random() > 0.5,
   }));
 };

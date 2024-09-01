@@ -9,11 +9,15 @@ interface PostListProps {
 }
 
 export function PostList({ postList }: PostListProps) {
+  for (let i = 0; i < postList.length; i++) {
+    console.log(postList[i]);
+  }
+
   return (
     <div className="w-full post-list">
       {postList.map((post) => {
-        const tags = [...post.WeatherTagIds, ...post.TemperatureTagIds, post.SeasonTagId].map((tag) =>
-          getTagNameById(tag),
+        const tags = [...(post.weatherTagIds || []), ...(post.temperatureTagIds || []), post.seasonTagId || ''].map(
+          (tag) => getTagNameById(tag),
         );
         return (
           <div className="min-h-[312px] h-auto" key={post.postId}>

@@ -1,5 +1,7 @@
 import Heart from '@components/common/atom/Heart';
 
+import HeartIcon from '@components/icons/HeartIcon';
+
 interface PostListImgProps {
   imgUrl: string;
   liked: boolean;
@@ -11,7 +13,7 @@ export default function PostListImg({ imgUrl, liked, postId }: PostListImgProps)
     <div className="w-full h-[232px] relative">
       <img src={imgUrl} className="w-full h-full object-cover" alt="thumbnail" />
       <div className="w-10 h-10 flex justify-center items-center absolute right-0 bottom-0">
-        <Heart liked={liked} postId={postId} />
+        <HeartIcon liked={liked} postId={postId} />
       </div>
     </div>
   );
