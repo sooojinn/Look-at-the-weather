@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 import useDebounce from '@/hooks/useDebounce';
-import InputStatusMessage from '@components/form/InputStatusMessage';
 
 export default function ProfileEdit() {
   const [userInfo, setUserInfo] = useState({
@@ -18,7 +17,6 @@ export default function ProfileEdit() {
   });
   const [doubleCheckBtnDisable, setDoubleCheckBtnDisable] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
-  const [isVisibleNicknameErrMsg, setIsVisibleNicknameErrMsg] = useState(false);
 
   const {
     register,
@@ -52,20 +50,30 @@ export default function ProfileEdit() {
   };
 
   const onSubmit = (data) => {
-    console.log('asd');
-    console.log('Form submitted with data:', data);
-    if (!isDoubleCheckDisabled || !getValues('nickname')) setIsVisibleNicknameErrMsg(true);
+    const { password, nickname } = data;
 
     if (!isNicknameChecked) {
       setError('nickname', { message: '닉네임 중복 확인을 해주세요.' });
       return;
     }
     trigger();
+    // 가장 마지막 파라미터에 토큰이 들어가야함
+    const response = axios.patch(`${BASEURL}/users/me`, { password, nickname });
+
+    if (response.status === 200) {
+      alert('정보 수정완료');
+    } else {
+      alert('정보 수정실패 다시 한번 시도해보세요.');
+    }
   };
 
   useEffect(() => {
     setDoubleCheckBtnDisable(false);
-    setIsNicknameChecked(false);
+    if (getValues('nickname') === userInfo.nickname) {
+      setIsNicknameChecked(true);
+    } else {
+      setIsNicknameChecked(false);
+    }
   }, [debounceOnChangeNickName]);
 
   return (
@@ -143,11 +151,6 @@ export default function ProfileEdit() {
                     </button>
                   }
                 />
-                {isVisibleNicknameErrMsg ? (
-                  <InputStatusMessage status="error" isVisible={!isDoubleCheckDisabled}>
-                    중복확인 후 프로필 수정이 가능합니다.
-                  </InputStatusMessage>
-                ) : null}
               </div>
             </div>
           </div>
