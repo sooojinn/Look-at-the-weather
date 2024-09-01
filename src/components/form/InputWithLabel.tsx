@@ -1,4 +1,4 @@
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
@@ -16,7 +16,7 @@ interface InputWithLabelProps {
   maxLength?: number;
   button?: ReactNode;
   register: UseFormRegister<any>;
-  setValue: (name: any, value: string) => void;
+  setValue: UseFormSetValue<any>;
   errors: FieldErrors<any>;
 }
 

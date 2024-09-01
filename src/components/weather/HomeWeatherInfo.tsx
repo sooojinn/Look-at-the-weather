@@ -6,6 +6,7 @@ import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
+import { useEffect } from 'react';
 
 export default function HomeWeatherInfo() {
   const { location, weatherData, isLoading, isSuccess, isError, handleRefetch } = useLocationAndWeatherData();
@@ -27,7 +28,11 @@ export default function HomeWeatherInfo() {
     dark: 'bg-weather-dark-gradient',
   };
 
-  if (isError) showToast('위치 정보 또는 날씨 정보를 불러오는 데 실패했습니다.', '재시도', handleRefetch);
+  useEffect(() => {
+    if (isError) {
+      showToast('위치 정보 또는 날씨 정보를 불러오는 데 실패했습니다.', '재시도', handleRefetch);
+    }
+  }, [isError, handleRefetch]);
 
   return (
     <div className={`w-full h-[292px] relative ${backgroundStyle[isSuccess ? backgroundType : 'normal']}`}>

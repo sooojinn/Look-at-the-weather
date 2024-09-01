@@ -11,12 +11,12 @@ import { ErrorResponse } from '@/config/types';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
 
-interface findEmailForm {
+interface FindEmailForm {
   name: string;
   nickname: string;
 }
 
-const findEmail = async (data: findEmailForm) => {
+const findEmail = async (data: FindEmailForm) => {
   console.log(data);
   const response = await axios.post(`${BASEURL}/api/v1/users/email`, data, {
     headers: {
@@ -27,7 +27,7 @@ const findEmail = async (data: findEmailForm) => {
 };
 
 export default function FindEmail() {
-  const formMethods = useForm<findEmailForm>();
+  const formMethods = useForm<FindEmailForm>();
   const { handleSubmit, getValues } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
@@ -53,7 +53,7 @@ export default function FindEmail() {
     },
   });
 
-  const onSubmit = async (data: findEmailForm) => {
+  const onSubmit = async (data: FindEmailForm) => {
     findEmailMutation.mutate(data);
   };
 

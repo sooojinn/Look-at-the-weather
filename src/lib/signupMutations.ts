@@ -1,14 +1,15 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { sendVerificationCode, verifyCode, checkNickname, registerUser } from '@/lib/signupApi';
-import { AuthFormName, ErrorResponse, RegisterForm, VerifyCodeProps } from '@/config/types';
+import { ErrorResponse, RegisterForm, VerifyCodeProps } from '@/config/types';
 import useSignupStore from '@/store/signupStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { useNavigate } from 'react-router-dom';
+import { UseFormClearErrors, UseFormSetError } from 'react-hook-form';
 
 // 이메일 인증번호 전송
 export const useSendVerificationMutation = (
-  setError: (name: AuthFormName, error: { message: string }) => void,
+  setError: UseFormSetError<any>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
   const { setIsCodeSended } = useSignupStore();
 
@@ -31,8 +32,8 @@ export const useSendVerificationMutation = (
 
 // 이메일 인증코드 확인
 export const useVerifyCodeMutation = (
-  setError: (name: AuthFormName, error: { message: string }) => void,
-  clearErrors: (name: AuthFormName) => void,
+  setError: UseFormSetError<any>,
+  clearErrors: UseFormClearErrors<any>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, VerifyCodeProps> => {
   const { setIsEmailVerified } = useSignupStore();
 
@@ -54,8 +55,8 @@ export const useVerifyCodeMutation = (
 
 // 닉네임 중복확인
 export const useCheckNicknameMutation = (
-  setError: (name: AuthFormName, error: { message: string }) => void,
-  clearErrors: (name: AuthFormName) => void,
+  setError: UseFormSetError<any>,
+  clearErrors: UseFormClearErrors<any>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
   const { setIsNicknameChecked } = useSignupStore();
 

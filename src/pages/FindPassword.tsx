@@ -12,13 +12,13 @@ import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 
-interface findPasswordForm {
+interface FindPasswordForm {
   email: string;
   name: string;
   nickname: string;
 }
 
-const findPassword = async (data: findPasswordForm) => {
+const findPassword = async (data: FindPasswordForm) => {
   const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const findPassword = async (data: findPasswordForm) => {
 };
 
 export default function FindPassword() {
-  const formMethods = useForm<findPasswordForm>();
+  const formMethods = useForm<FindPasswordForm>();
   const { handleSubmit } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +48,7 @@ export default function FindPassword() {
     },
   });
 
-  const onSubmit = async (data: findPasswordForm) => {
+  const onSubmit = async (data: FindPasswordForm) => {
     findPasswordMutation.mutate(data);
   };
 

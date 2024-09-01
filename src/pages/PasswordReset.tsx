@@ -11,13 +11,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface passwordResetForm {
+interface PasswordResetForm {
   userId: number;
   password: string;
   confirmPassword: string;
 }
 
-const passwordReset = async (data: passwordResetForm) => {
+const passwordReset = async (data: PasswordResetForm) => {
   const { userId, password } = data;
 
   const response = await axios.patch(
@@ -33,7 +33,7 @@ const passwordReset = async (data: passwordResetForm) => {
 };
 
 export default function PasswordReset() {
-  const formMethods = useForm<passwordResetForm>({ mode: 'onChange' });
+  const formMethods = useForm<PasswordResetForm>({ mode: 'onChange' });
   const { handleSubmit, setValue, reset } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
@@ -53,7 +53,7 @@ export default function PasswordReset() {
     },
   });
 
-  const onSubmit = async (data: passwordResetForm) => {
+  const onSubmit = async (data: PasswordResetForm) => {
     passwordResetMutation.mutate(data);
   };
 
