@@ -51,7 +51,7 @@ export default function useAuthService() {
       let token = getAccessToken();
 
       if (!token) {
-        await refreshAccessToken();
+        await refreshTokens();
         token = getAccessToken();
       }
 
@@ -62,8 +62,7 @@ export default function useAuthService() {
     }
   };
 
-  const refreshAccessToken = async () => {
-    console.log('rf', getRefreshToken());
+  const refreshTokens = async () => {
     try {
       const response = await axios.post(
         `${BASEURL}/auth/reissue`,
@@ -83,5 +82,5 @@ export default function useAuthService() {
     }
   };
 
-  return { setRefreshToken, getRefreshToken, setAccessToken, getAccessToken, isLogin, refreshAccessToken };
+  return { setRefreshToken, getRefreshToken, setAccessToken, getAccessToken, isLogin, refreshTokens };
 }

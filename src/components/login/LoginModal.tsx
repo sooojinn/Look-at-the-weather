@@ -11,7 +11,7 @@ interface LoginFormProps {
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
   // const { setTokens, isLogin } = useAuthStore();
-  const { setRefreshToken, setAccessToken, refreshAccessToken, isLogin } = useAuthService();
+  const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
 
   const handleLoginCheck = async () => {
     const loggedIn = await isLogin();
@@ -33,7 +33,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       setRefreshToken(refreshToken);
       setAccessToken(accessToken);
       handleLoginCheck();
-      // refreshAccessToken();
+      // refreshTokens();
     } catch (error) {
       console.error(error);
     }
