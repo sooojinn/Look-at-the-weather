@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuthService from '@/hooks/useAuthService';
 import { postLogin } from '@/api/apis';
@@ -11,7 +11,15 @@ interface LoginFormProps {
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const { register, handleSubmit } = useForm();
   // const { setTokens, isLogin } = useAuthStore();
-  const { setRefreshToken, setAccessToken, refreshAccessToken } = useAuthService();
+  const { setRefreshToken, setAccessToken, refreshAccessToken, isLogin } = useAuthService();
+
+  const handleLoginCheck = async () => {
+    const loggedIn = await isLogin();
+
+    if (loggedIn) {
+      setIsLoggedIn(true);
+    }
+  };
 
   const handleLogin = async (loginData: any) => {
     try {
@@ -24,9 +32,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       const { accessToken, refreshToken } = response.data;
       setRefreshToken(refreshToken);
       setAccessToken(accessToken);
-      refreshAccessToken();
-      // setTokens({ accessToken, refreshToken });
-      // setIsLoggedIn(isLogin());
+      handleLoginCheck();
+      // refreshAccessToken();
     } catch (error) {
       console.error(error);
     }

@@ -46,7 +46,21 @@ export default function useAuthService() {
     return accessToken;
   };
 
-  const isLogin = () => {};
+  const isLogin = async () => {
+    try {
+      let token = getAccessToken();
+
+      if (!token) {
+        await refreshAccessToken();
+        token = getAccessToken();
+      }
+
+      return !!token; // boolean 값으로 반환
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      return false;
+    }
+  };
 
   const refreshAccessToken = async () => {
     console.log('rf', getRefreshToken());
@@ -61,7 +75,9 @@ export default function useAuthService() {
         },
       );
 
-      console.log(response);
+      const { accessToken, refreshToken } = response.data;
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
     } catch (error) {
       console.log(error);
     }
