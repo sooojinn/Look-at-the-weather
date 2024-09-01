@@ -1,44 +1,39 @@
 import { Link } from 'react-router-dom';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '@/config/constants';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import InputWithLabel from '@components/form/InputWithLabel';
-import Button from '@components/common/molecules/Button';
-import Text from '@components/common/atom/Text';
-import KakaoLogin from './KakaoLogin';
+import useAuthService from '@/hooks/useAuthService';
+import { postLogin } from '@/api/apis';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    formState: { errors },
-  } = useForm();
-  const [showForm, setShowForm] = useState(false);
+  const { register, handleSubmit } = useForm();
+  // const { setTokens, isLogin } = useAuthStore();
+  const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
 
-  useEffect(() => {
-    setShowForm(true);
-  }, []);
+  const handleLoginCheck = async () => {
+    const loggedIn = await isLogin();
 
-  const handleLogin = async (data: any) => {
-    try {
-      const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
-      Cookies.set('refreshToken', refreshToken);
-      console.log(data);
+    if (loggedIn) {
       setIsLoggedIn(true);
+    }
+  };
+
+  const handleLogin = async (loginData: any) => {
+    try {
+      // const response = await postLogin(loginData);
+      const response = await postLogin({
+        email: 'bbb111@naver.com',
+        password: 'ccc123',
+      });
+
+      const { accessToken, refreshToken } = response.data;
+      setRefreshToken(refreshToken);
+      setAccessToken(accessToken);
+      handleLoginCheck();
+      // refreshTokens();
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });

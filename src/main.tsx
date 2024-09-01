@@ -1,4 +1,5 @@
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import router from './router/routing';
@@ -14,7 +15,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <CookiesProvider>
+        <RouterProvider router={router} />
+      </CookiesProvider>
     </React.StrictMode>,
   );
 });
