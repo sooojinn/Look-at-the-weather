@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '@/config/constants';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
+import useAuthService from '@/hooks/useAuthService';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
@@ -23,22 +22,29 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   } = useForm();
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    setShowForm(true);
-  }, []);
+  const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
 
-  const handleLogin = async (data: any) => {
-    try {
-      const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
-      Cookies.set('refreshToken', refreshToken);
-      console.log(data);
+  const handleLoginCheck = async () => {
+    const loggedIn = await isLogin();
+
+    if (loggedIn) {
       setIsLoggedIn(true);
+    }
+  };
+
+  const handleLogin = async (loginData: any) => {
+    try {
+      // const response = await postLogin(loginData);
+      const response = await postLogin({
+        email: 'bbb111@naver.com',
+        password: 'ccc123',
+      });
+
+      const { accessToken, refreshToken } = response.data;
+      setRefreshToken(refreshToken);
+      setAccessToken(accessToken);
+      handleLoginCheck();
+      // refreshTokens();
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
@@ -50,6 +56,10 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     { path: '/findemail', label: '이메일 찾기' },
     { path: '/findpassword', label: '비밀번호 찾기' },
   ];
+
+  useEffect(() => {
+    setShowForm(true);
+  }, []);
 
   return (
     <>
