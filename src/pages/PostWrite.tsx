@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const uploadPost = async (data: PostFormData) => {
-  const response = await axios.post(`${BASEURL}/api/v1/posts`, data, {
+  const response = await axios.post(`${BASEURL}/posts`, data, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

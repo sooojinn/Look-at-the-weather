@@ -27,7 +27,7 @@ interface AddImageBtnProps {
 const uploadImage = async (file: File): Promise<{ id: number }> => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await axios.post(`${BASEURL}/api/v1/s3/post-image`, formData, {
+  const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -38,7 +38,7 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
 
 // 이미지 삭제 함수
 const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/api/v1/s3/post-image1111/${id}`, {
+  await axios.delete(`${BASEURL}/s3/post-image1111/${id}`, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

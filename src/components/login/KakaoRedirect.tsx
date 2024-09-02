@@ -9,7 +9,7 @@ import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
 
 const getUserInfo = async (code: string | null) => {
-  const response = await axios.get(`${BASEURL}/api/v1/oauth/kakao?code=${code}`, {
+  const response = await axios.get(`${BASEURL}/oauth/kakao?code=${code}`, {
     headers: {
       'Content-Type': 'application/json',
     },

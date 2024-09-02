@@ -18,7 +18,7 @@ interface FindEmailForm {
 
 const findEmail = async (data: FindEmailForm) => {
   console.log(data);
-  const response = await axios.post(`${BASEURL}/api/v1/users/email`, data, {
+  const response = await axios.post(`${BASEURL}/users/email`, data, {
     headers: {
       'Content-Type': 'application/json',
     },

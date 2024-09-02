@@ -19,7 +19,7 @@ interface FindPasswordForm {
 }
 
 const findPassword = async (data: FindPasswordForm) => {
-  const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
+  const response = await axios.post(`${BASEURL}/users/password`, data, {
     headers: {
       'Content-Type': 'application/json',
     },
