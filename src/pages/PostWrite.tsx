@@ -1,6 +1,6 @@
 import { BASEURL } from '@/config/constants';
 import { PostFormData } from '@/config/types';
-import useLocationData from '@/hooks/useLocationData';
+import { useGeoPointQuery, useLocationQuery } from '@/hooks/useLocationAndWeatherData';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -18,13 +18,15 @@ const uploadPost = async (data: PostFormData) => {
 };
 
 export default function PostWrite() {
-  const { location: currentLocation } = useLocationData();
+  const { data: geoPoint } = useGeoPointQuery();
+  const { data: currentLocation } = useLocationQuery(geoPoint);
+
   const navigate = useNavigate();
 
   const defaultValues = {
     title: '',
     content: '',
-    location: currentLocation,
+    location: currentLocation || { city: '', district: '' },
     weatherTagIds: [],
     temperatureTagIds: [],
     seasonTagId: null,

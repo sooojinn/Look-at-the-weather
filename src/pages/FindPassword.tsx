@@ -4,19 +4,21 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import { BASEURL } from '@/config/constants';
-import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
+import EmailInput from '@components/form/inputs/EmailInput';
+import NameInput from '@components/form/inputs/NameInput';
+import NicknameInput from '@components/form/inputs/NicknameInput';
 
-interface findPasswordForm {
+interface FindPasswordForm {
   email: string;
   name: string;
   nickname: string;
 }
 
-const findPassword = async (data: findPasswordForm) => {
+const findPassword = async (data: FindPasswordForm) => {
   const response = await axios.post(`${BASEURL}/api/v1/users/password`, data, {
     headers: {
       'Content-Type': 'application/json',
@@ -26,20 +28,16 @@ const findPassword = async (data: findPasswordForm) => {
 };
 
 export default function FindPassword() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<findPasswordForm>();
+  const formMethods = useForm<FindPasswordForm>();
+  const { handleSubmit } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const findPasswordMutation = useMutation({
     mutationFn: findPassword,
-    onSuccess: () => {
-      navigate('/passwordreset');
+    onSuccess: ({ userId }) => {
+      navigate('/passwordreset', { state: { userId: userId } });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_USER') {
@@ -50,7 +48,7 @@ export default function FindPassword() {
     },
   });
 
-  const onSubmit = async (data: findPasswordForm) => {
+  const onSubmit = async (data: FindPasswordForm) => {
     findPasswordMutation.mutate(data);
   };
 
@@ -59,35 +57,9 @@ export default function FindPassword() {
       <Header>비밀번호 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <InputWithLabel
-            name="email"
-            label="이메일"
-            placeholder="이메일을 입력해 주세요."
-            register={register}
-            rules={{ required: '이메일을 입력해 주세요.' }}
-            errors={errors}
-            setValue={setValue}
-          />
-
-          <InputWithLabel
-            name="name"
-            label="이름"
-            placeholder="이름을 입력해 주세요."
-            register={register}
-            rules={{ required: '이름을 입력해 주세요.' }}
-            errors={errors}
-            setValue={setValue}
-          />
-
-          <InputWithLabel
-            name="nickname"
-            label="닉네임"
-            placeholder="닉네임을 입력해 주세요."
-            register={register}
-            rules={{ required: '닉네임을 입력해 주세요.' }}
-            errors={errors}
-            setValue={setValue}
-          />
+          <EmailInput<FindPasswordForm> {...formMethods} />
+          <NameInput<FindPasswordForm> {...formMethods} />
+          <NicknameInput<FindPasswordForm> {...formMethods} />
         </div>
         <Button>비밀번호 찾기</Button>
       </form>

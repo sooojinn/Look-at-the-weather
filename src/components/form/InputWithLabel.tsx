@@ -1,42 +1,42 @@
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Label from '@components/form/Label';
-import ExclamationMarkIcon from '@components/icons/ExclamationMarkIcon';
 import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
-import { AuthFormName } from '@/config/types';
 
-interface InputWithLabelProps {
-  name: AuthFormName;
+interface InputWithLabelProps<T extends FieldValues> {
+  name: Path<T>;
   type?: 'text' | 'password';
   label: string;
   isDisabled?: boolean;
   placeholder?: string;
-  register: UseFormRegister<any>;
-  rules?: RegisterOptions<any, any>;
-  errors: FieldErrors<any>;
+  maxLength?: number;
   button?: ReactNode;
-  setValue: (name: any, value: string) => void;
+  rules?: RegisterOptions<T>;
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
+  errors: FieldErrors<T>;
 }
 
-export default function InputWithLabel({
+export default function InputWithLabel<T extends FieldValues>({
   name,
   type = 'text',
   label,
-  isDisabled = false,
+  isDisabled,
   placeholder,
-  register,
-  rules,
-  errors,
+  maxLength,
   button,
+  rules,
+  register,
   setValue,
-}: InputWithLabelProps) {
+  errors,
+}: InputWithLabelProps<T>) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
-  const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const togglePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setPasswordVisible(!isPasswordVisible);
   };
@@ -54,7 +54,7 @@ export default function InputWithLabel({
   const handleDeleteClick = () => {
     setInputValue('');
     setShowDeleteBtn(false);
-    setValue(name, '');
+    setValue(name, '' as T[typeof name]);
   };
 
   const handleFocus = () => {
@@ -81,9 +81,10 @@ export default function InputWithLabel({
             type={inputType}
             disabled={isDisabled}
             autoComplete="off"
+            maxLength={maxLength}
             className={`input h-12 ${hasError ? '!border-status-error' : ''} ${
-              isDisabled ? '!text-lightGray !bg-white' : ''
-            }`}
+              isDisabled ? '!text-lightGray !bg-interactive-disabled' : ''
+            } focus:pr-9`}
             placeholder={placeholder}
             {...register(name, {
               ...rules,
@@ -93,9 +94,8 @@ export default function InputWithLabel({
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          <div className="absolute right-4 bottom-1/2 transform translate-y-1/2 flex items-center h-full">
-            {hasError && <ExclamationMarkIcon width={20} fill="#ff4242" />}
-            {!hasError && type === 'password' && (
+          <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center">
+            {type === 'password' && (
               <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
             )}
             {!hasError && type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
@@ -103,7 +103,7 @@ export default function InputWithLabel({
         </div>
         {button && <div className="ml-3">{button}</div>}
       </div>
-      {hasError && <ErrorMessage errors={errors} name={name} />}
+      {hasError && <ErrorMessage<T> errors={errors} name={name} />}
     </div>
   );
 }

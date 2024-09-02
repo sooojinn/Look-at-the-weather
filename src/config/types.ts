@@ -1,4 +1,16 @@
-import { Control, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  RegisterOptions,
+  UseFormClearErrors,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetError,
+  UseFormSetValue,
+  UseFormTrigger,
+  UseFormWatch,
+} from 'react-hook-form';
 
 export interface GeoPoint {
   latitude: number;
@@ -10,8 +22,8 @@ export interface WeatherInfo {
 }
 
 export interface Location {
-  city: string | null;
-  district: string | null;
+  city: string;
+  district: string;
 }
 
 export interface PostMeta {
@@ -74,11 +86,20 @@ export interface ErrorResponse {
   errorMessage?: string;
 }
 
-export type AuthFormName = 'email' | 'code' | 'password' | 'confirmPassword' | 'name' | 'nickname';
-
 export interface VerifyCodeProps {
   email: string;
   code: string;
+}
+
+export interface FormMethods<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
+  setError: UseFormSetError<T>;
+  clearErrors: UseFormClearErrors<T>;
+  trigger: UseFormTrigger<T>;
+  getValues: UseFormGetValues<T>;
+  watch: UseFormWatch<T>;
+  formState: { errors: FieldErrors<T> };
 }
 
 export interface SignupForm {

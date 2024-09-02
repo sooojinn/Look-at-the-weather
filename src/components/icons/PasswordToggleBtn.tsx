@@ -1,10 +1,10 @@
 interface PasswordToggleBtnProps {
-  onToggle: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onToggle: (e: React.MouseEvent<HTMLElement>) => void;
   isVisible: boolean;
 }
 
 export default function PasswordToggleBtn({ onToggle, isVisible }: PasswordToggleBtnProps) {
-  return <button onClick={onToggle}>{isVisible ? <ShowPasswordIcon /> : <HidePasswordIcon />}</button>;
+  return <div onClick={onToggle}>{isVisible ? <ShowPasswordIcon /> : <HidePasswordIcon />}</div>;
 }
 
 function ShowPasswordIcon() {

@@ -27,7 +27,7 @@ export default function Home() {
         <Logo />
       </Header>
       <HomeWeatherInfo />
-      <TodayBestWearList />
+      {isLoggedIn && <TodayBestWearList />}
       <FooterNavi />
     </div>
   );

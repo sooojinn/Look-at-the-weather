@@ -75,7 +75,7 @@ export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | unde
     return response.data.location;
   } catch (error) {
     console.error('location api 에러: ', error);
-    return { city: null, district: null };
+    throw error;
   }
 };
 
