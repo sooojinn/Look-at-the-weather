@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GeoPoint, Location } from '@/config/types';
 import { BASEURL } from '@/config/constants';
+import { useGeoPermissionStore } from '@/store/geoPermissionStore';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환
@@ -26,8 +27,18 @@ function floorToFixed(num: number) {
 }
 
 // geolocation api로 현재 위치의 위도와 경도를 구함
-export function fetchGeoPoint(): Promise<GeoPoint> {
-  console.log('geolocation api가 실행되었습니다.');
+export async function fetchGeoPoint(): Promise<GeoPoint> {
+  console.log('geolocation api 실행');
+  // 위치 정보 접근 허용 여부 확인
+  const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+  const { setLocationDenied } = useGeoPermissionStore.getState();
+
+  if (permissionStatus.state === 'denied') {
+    console.warn('사용자가 위치 정보 접근을 거부했습니다.');
+    setLocationDenied(true);
+    return defaultGeoPoint;
+  }
+
   return new Promise((resolve) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -63,7 +74,8 @@ export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | unde
 
     return response.data.location;
   } catch (error) {
-    console.error(error);
+    console.error('location api 에러: ', error);
+    return { city: null, district: null };
   }
 };
 

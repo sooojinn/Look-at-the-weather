@@ -1,16 +1,27 @@
 import { Link } from 'react-router-dom';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useAuthService from '@/hooks/useAuthService';
 import { postLogin } from '@/api/apis';
+import InputWithLabel from '@components/form/InputWithLabel';
+import useAuthService from '@/hooks/useAuthService';
+import Button from '@components/common/molecules/Button';
+import Text from '@components/common/atom/Text';
+import KakaoLogin from './KakaoLogin';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
-  const { register, handleSubmit } = useForm();
-  // const { setTokens, isLogin } = useAuthStore();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const [showForm, setShowForm] = useState(false);
+
   const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
 
   const handleLoginCheck = async () => {
@@ -45,6 +56,10 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     { path: '/findemail', label: '이메일 찾기' },
     { path: '/findpassword', label: '비밀번호 찾기' },
   ];
+
+  useEffect(() => {
+    setShowForm(true);
+  }, []);
 
   return (
     <>
@@ -92,7 +107,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
           </form>
           <div className="h-12 mt-6 flex justify-between">
             {linkList.map(({ path, label }) => (
-              <Link to={path} className="w-[106px] flex justify-center items-center">
+              <Link key={path} to={path} className="w-[106px] flex justify-center items-center">
                 <Text weight="bold">{label}</Text>
               </Link>
             ))}
