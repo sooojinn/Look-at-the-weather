@@ -1,38 +1,37 @@
-import { FieldErrors, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
-import { AuthFormName } from '@/config/types';
 
-interface InputWithLabelProps {
-  name: AuthFormName;
+interface InputWithLabelProps<T extends FieldValues> {
+  name: Path<T>;
   type?: 'text' | 'password';
   label: string;
   isDisabled?: boolean;
   placeholder?: string;
-  rules?: RegisterOptions<any, any>;
   maxLength?: number;
   button?: ReactNode;
-  register: UseFormRegister<any>;
-  setValue: UseFormSetValue<any>;
-  errors: FieldErrors<any>;
+  rules?: RegisterOptions<T>;
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
+  errors: FieldErrors<T>;
 }
 
-export default function InputWithLabel({
+export default function InputWithLabel<T extends FieldValues>({
   name,
   type = 'text',
   label,
   isDisabled,
   placeholder,
-  rules,
   maxLength,
   button,
+  rules,
   register,
   setValue,
   errors,
-}: InputWithLabelProps) {
+}: InputWithLabelProps<T>) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
@@ -55,7 +54,7 @@ export default function InputWithLabel({
   const handleDeleteClick = () => {
     setInputValue('');
     setShowDeleteBtn(false);
-    setValue(name, '');
+    setValue(name, '' as T[typeof name]);
   };
 
   const handleFocus = () => {
@@ -104,7 +103,7 @@ export default function InputWithLabel({
         </div>
         {button && <div className="ml-3">{button}</div>}
       </div>
-      {hasError && <ErrorMessage errors={errors} name={name} />}
+      {hasError && <ErrorMessage<T> errors={errors} name={name} />}
     </div>
   );
 }

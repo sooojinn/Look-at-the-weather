@@ -32,12 +32,12 @@ export default function Signup() {
       <Header>회원가입</Header>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between px-5 pb-10">
         <div className="h-[calc(100vh-159px)] overflow-auto scrollbar-hide pt-5 flex flex-col gap-4">
-          <EmailInput shouldValidate={true} {...formMethods} />
-          <CodeInput {...formMethods} />
-          <PasswordInput {...formMethods} />
-          <PasswordCheckInput {...formMethods} />
-          <NameInput shouldValidate={true} {...formMethods} />
-          <NicknameInput shouldValidate={true} {...formMethods} />
+          <EmailInput<SignupForm> shouldValidate={true} {...formMethods} />
+          <CodeInput<SignupForm> {...formMethods} />
+          <PasswordInput<SignupForm> {...formMethods} />
+          <PasswordCheckInput<SignupForm> {...formMethods} />
+          <NameInput<SignupForm> shouldValidate={true} {...formMethods} />
+          <NicknameInput<SignupForm> shouldValidate={true} {...formMethods} />
           <LocationTermsCheckBox register={register} errors={errors} isChecked={watch('terms')} />
         </div>
         <Button type="main" isSubmitting={isSubmitting}>

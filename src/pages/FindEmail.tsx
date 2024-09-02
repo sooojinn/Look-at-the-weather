@@ -62,8 +62,8 @@ export default function FindEmail() {
       <Header>이메일 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <NameInput {...formMethods} />
-          <NicknameInput {...formMethods} />
+          <NameInput<FindEmailForm> {...formMethods} />
+          <NicknameInput<FindEmailForm> {...formMethods} />
         </div>
         <Button>이메일 찾기</Button>
       </form>

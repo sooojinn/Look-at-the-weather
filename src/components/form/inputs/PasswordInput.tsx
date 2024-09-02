@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import InputWithLabel from '../InputWithLabel';
 import { FormMethods } from '@/config/types';
+import { FieldValues, Path } from 'react-hook-form';
 
-interface PasswordInputProps extends FormMethods {
+interface PasswordInputProps<T extends FieldValues> extends FormMethods<T> {
   isPasswordReset?: boolean;
 }
 
-export default function PasswordInput({
+export default function PasswordInput<T extends FieldValues>({
   isPasswordReset,
   register,
   setValue,
@@ -14,14 +15,14 @@ export default function PasswordInput({
   trigger,
   watch,
   formState: { errors },
-}: PasswordInputProps) {
+}: PasswordInputProps<T>) {
   useEffect(() => {
-    if (getValues('password')) trigger('password');
-  }, [watch('password')]);
+    if (getValues('password' as Path<T>)) trigger('password' as Path<T>);
+  }, [watch('password' as Path<T>)]);
 
   return (
     <InputWithLabel
-      name="password"
+      name={'password' as Path<T>}
       type="password"
       label={isPasswordReset ? '새 비밀번호' : '비밀번호'}
       placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"

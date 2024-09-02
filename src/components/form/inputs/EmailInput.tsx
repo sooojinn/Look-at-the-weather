@@ -5,13 +5,14 @@ import useSignupStore from '@/store/signupStore';
 import { useSendVerificationMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
 import { FormMethods } from '@/config/types';
+import { FieldValues, Path } from 'react-hook-form';
 
-interface EmailInputProps extends FormMethods {
+interface EmailInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
   isDisabled?: boolean;
 }
 
-export default function EmailInput({
+export default function EmailInput<T extends FieldValues>({
   shouldValidate,
   isDisabled,
   register,
@@ -21,16 +22,16 @@ export default function EmailInput({
   getValues,
   watch,
   formState: { errors },
-}: EmailInputProps) {
+}: EmailInputProps<T>) {
   const { isEmailVerified, isCodeSended, setIsEmailVerified, setIsCodeSended } = useSignupStore();
-  const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation(setError);
+  const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation<T>(setError);
 
   const handleSendVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const isEmailValid = await trigger('email');
+    const isEmailValid = await trigger('email' as Path<T>);
     if (!isEmailValid) return;
 
-    const email = getValues('email');
+    const email = getValues('email' as Path<T>);
     sendVerificationMutation(email);
   };
 
@@ -42,12 +43,12 @@ export default function EmailInput({
       setIsEmailVerified(false);
       setIsCodeSended(false);
     };
-  }, [watch('email')]);
+  }, [watch('email' as Path<T>)]);
 
   return (
     <div>
-      <InputWithLabel
-        name="email"
+      <InputWithLabel<T>
+        name={'email' as Path<T>}
         label="이메일"
         placeholder="(예시) abcde@naver.com"
         isDisabled={isDisabled}
@@ -69,7 +70,7 @@ export default function EmailInput({
             <Button
               size="m"
               width={123}
-              disabled={!watch('email') || isEmailVerified}
+              disabled={!watch('email' as Path<T>) || isEmailVerified}
               isSubmitting={isCodeSending}
               onClick={handleSendVerification}
             >

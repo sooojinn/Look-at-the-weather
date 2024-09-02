@@ -5,12 +5,13 @@ import useSignupStore from '@/store/signupStore';
 import { useCheckNicknameMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
 import { FormMethods } from '@/config/types';
+import { FieldValues, Path } from 'react-hook-form';
 
-interface NicknameInputProps extends FormMethods {
+interface NicknameInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
 }
 
-export default function NicknameInput({
+export default function NicknameInput<T extends FieldValues>({
   shouldValidate,
   register,
   setValue,
@@ -19,9 +20,9 @@ export default function NicknameInput({
   getValues,
   watch,
   formState: { errors },
-}: NicknameInputProps) {
+}: NicknameInputProps<T>) {
   const { isNicknameChecked, setIsNicknameChecked } = useSignupStore();
-  const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation(
+  const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation<T>(
     setError,
     clearErrors,
   );
@@ -30,11 +31,11 @@ export default function NicknameInput({
     e.preventDefault();
 
     // 패턴 유효성 검사 수동으로 실행
-    const nickname = getValues('nickname');
+    const nickname = getValues('nickname' as Path<T>);
     const pattern = /^[a-zA-Z가-힣]{1,10}$/;
 
     if (!pattern.test(nickname)) {
-      setError('nickname', {
+      setError('nickname' as Path<T>, {
         type: 'pattern',
         message: '한/영 10자 이내(특수문자, 공백 불가)로 입력해 주세요.',
       });
@@ -48,12 +49,12 @@ export default function NicknameInput({
     setIsNicknameChecked(false);
 
     return () => setIsNicknameChecked(false);
-  }, [watch('nickname')]);
+  }, [watch('nickname' as Path<T>)]);
 
   return (
     <div>
       <InputWithLabel
-        name="nickname"
+        name={'nickname' as Path<T>}
         label="닉네임"
         placeholder={shouldValidate ? '한/영 10자 이내, 특수문자, 공백 불가' : '닉네임을 입력해 주세요.'}
         register={register}
@@ -71,7 +72,7 @@ export default function NicknameInput({
             <Button
               size="m"
               width={90}
-              disabled={!watch('nickname') || isNicknameChecked}
+              disabled={!watch('nickname' as Path<T>) || isNicknameChecked}
               isSubmitting={isNicknamePending}
               onClick={handleCheckNickname}
             >

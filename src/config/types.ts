@@ -1,6 +1,7 @@
 import {
   Control,
   FieldErrors,
+  FieldValues,
   RegisterOptions,
   UseFormClearErrors,
   UseFormGetValues,
@@ -85,22 +86,20 @@ export interface ErrorResponse {
   errorMessage?: string;
 }
 
-export type AuthFormName = 'email' | 'code' | 'password' | 'confirmPassword' | 'name' | 'nickname';
-
 export interface VerifyCodeProps {
   email: string;
   code: string;
 }
 
-export interface FormMethods {
-  register: UseFormRegister<any>;
-  setValue: UseFormSetValue<any>;
-  setError: UseFormSetError<any>;
-  clearErrors: UseFormClearErrors<any>;
-  trigger: UseFormTrigger<any>;
-  getValues: UseFormGetValues<any>;
-  watch: UseFormWatch<any>;
-  formState: { errors: FieldErrors<any> };
+export interface FormMethods<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
+  setError: UseFormSetError<T>;
+  clearErrors: UseFormClearErrors<T>;
+  trigger: UseFormTrigger<T>;
+  getValues: UseFormGetValues<T>;
+  watch: UseFormWatch<T>;
+  formState: { errors: FieldErrors<T> };
 }
 
 export interface SignupForm {

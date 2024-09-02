@@ -3,8 +3,9 @@ import InputWithLabel from '../InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import { useVerifyCodeMutation } from '@/lib/signupMutations';
 import { FormMethods } from '@/config/types';
+import { FieldValues, Path } from 'react-hook-form';
 
-export default function CodeInput({
+export default function CodeInput<T extends FieldValues>({
   register,
   setValue,
   setError,
@@ -12,20 +13,20 @@ export default function CodeInput({
   getValues,
   watch,
   formState: { errors },
-}: FormMethods) {
+}: FormMethods<T>) {
   const { isEmailVerified, isCodeSended } = useSignupStore();
-  const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation(setError, clearErrors);
+  const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation<T>(setError, clearErrors);
 
   const handleVerifyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const email = getValues('email');
-    const code = getValues('code');
+    const email = getValues('email' as Path<T>);
+    const code = getValues('code' as Path<T>);
     verifyCodeMutation({ email, code });
   };
 
   return (
-    <InputWithLabel
-      name="code"
+    <InputWithLabel<T>
+      name={'code' as Path<T>}
       label="인증번호 확인"
       isDisabled={isEmailVerified}
       placeholder="인증번호를 입력해 주세요."
@@ -40,7 +41,7 @@ export default function CodeInput({
         <Button
           size="m"
           width={123}
-          disabled={!isCodeSended || !watch('code') || isEmailVerified}
+          disabled={!isCodeSended || !watch('code' as Path<T>) || isEmailVerified}
           isSubmitting={isVerifyingCode}
           onClick={handleVerifyCode}
         >

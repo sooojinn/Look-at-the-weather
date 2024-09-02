@@ -1,21 +1,24 @@
 import { FormMethods } from '@/config/types';
 import InputWithLabel from '../InputWithLabel';
+import { FieldValues, Path } from 'react-hook-form';
 
-interface NameInputProps extends FormMethods {
+// NameInputProps를 제네릭 인터페이스로 선언
+interface NameInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
   isDisabled?: boolean;
 }
 
-export default function NameInput({
+// NameInput 컴포넌트도 제네릭으로 선언
+export default function NameInput<T extends FieldValues>({
   shouldValidate,
   isDisabled,
   register,
   setValue,
   formState: { errors },
-}: NameInputProps) {
+}: NameInputProps<T>) {
   return (
     <InputWithLabel
-      name="name"
+      name={'name' as Path<T>}
       label="이름"
       placeholder="이름(실명)을 입력해 주세요."
       isDisabled={isDisabled}

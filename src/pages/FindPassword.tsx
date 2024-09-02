@@ -57,9 +57,9 @@ export default function FindPassword() {
       <Header>비밀번호 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <EmailInput {...formMethods} />
-          <NameInput {...formMethods} />
-          <NicknameInput {...formMethods} />
+          <EmailInput<FindPasswordForm> {...formMethods} />
+          <NameInput<FindPasswordForm> {...formMethods} />
+          <NicknameInput<FindPasswordForm> {...formMethods} />
         </div>
         <Button>비밀번호 찾기</Button>
       </form>
