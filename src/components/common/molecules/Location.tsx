@@ -14,7 +14,7 @@ interface LocationProps {
 }
 
 export default function Location({ location, size, color = 'black' }: LocationProps) {
-  if (!location) return;
+  if (!location) return <CompassIcon fill={color} />;
 
   const { city, district } = location;
   const isLocationDenied = useGeoPermissionStore((state) => state.isLocationDenied);

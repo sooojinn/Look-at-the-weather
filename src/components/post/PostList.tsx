@@ -16,8 +16,8 @@ export function PostList({ postList }: PostListProps) {
   return (
     <div className="w-full post-list">
       {postList.map((post) => {
-        const tags = [...(post.weatherTagIds || []), ...(post.temperatureTagIds || []), post.seasonTagId || ''].map(
-          (tag) => getTagNameById(tag),
+        const tags = [...post.weatherTagIds, ...post.temperatureTagIds, post.seasonTagId].map((tag) =>
+          getTagNameById(tag),
         );
         return (
           <div className="min-h-[312px] h-auto" key={post.postId}>

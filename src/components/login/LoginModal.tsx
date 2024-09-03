@@ -34,11 +34,11 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const handleLogin = async (loginData: any) => {
     try {
-      // const response = await postLogin(loginData);
-      const response = await postLogin({
-        email: 'bbb111@naver.com',
-        password: 'ccc123',
-      });
+      const response = await postLogin(loginData);
+      // const response = await postLogin({
+      //   email: 'bbb111@naver.com',
+      //   password: 'ccc123',
+      // });
 
       const { accessToken, refreshToken } = response.data;
       setRefreshToken(refreshToken);

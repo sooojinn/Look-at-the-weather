@@ -1,6 +1,6 @@
 import { BASEURL } from '@/config/constants';
 import { PostFormData } from '@/config/types';
-import { useGeoPointQuery, useLocationQuery } from '@/hooks/useLocationAndWeatherData';
+import useLocationData from '@/hooks/useLocationData';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const uploadPost = async (data: PostFormData) => {
-  const response = await axios.post(`${BASEURL}/api/v1/posts`, data, {
+  const response = await axios.post(`${BASEURL}/posts`, data, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -18,8 +18,7 @@ const uploadPost = async (data: PostFormData) => {
 };
 
 export default function PostWrite() {
-  const { data: geoPoint } = useGeoPointQuery();
-  const { data: currentLocation } = useLocationQuery(geoPoint);
+  const { location: currentLocation } = useLocationData();
 
   const navigate = useNavigate();
 
