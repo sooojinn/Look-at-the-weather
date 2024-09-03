@@ -44,7 +44,7 @@ export default function useWeatherData(geoPoint: GeoPoint | undefined) {
     if (isError) {
       showToast('현재 날씨 정보를 불러올 수 없어요.', '재시도', handleRefetch);
     }
-  }, []);
+  }, [isError]);
 
   return {
     weatherData: { ...hourlyWeatherQuery.data, ...dailyWeatherQuery.data },

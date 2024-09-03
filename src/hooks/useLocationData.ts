@@ -33,7 +33,7 @@ export default function useLocationData() {
     if (locationQuery.isError) {
       showToast('현재 지역 정보를 불러올 수 없어요.', '재시도', locationQuery.refetch);
     }
-  }, []);
+  }, [locationQuery.isError]);
 
   return { geoPoint: geoPointQuery.data, location: locationQuery.data, isLocationLoading: isLoading };
 }
