@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 import useDebounce from '@/hooks/useDebounce';
+import useUserInfo from '@/hooks/useUserInfo';
+import useAuthService from '@/hooks/useAuthService';
 
 export default function ProfileEdit() {
   const [userInfo, setUserInfo] = useState({
@@ -15,6 +17,8 @@ export default function ProfileEdit() {
     nickname: 'defaultUser',
     name: '구장우',
   });
+
+  const { getAccessToken } = useAuthService();
   const [doubleCheckBtnDisable, setDoubleCheckBtnDisable] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
@@ -67,6 +71,16 @@ export default function ProfileEdit() {
     }
   };
 
+  const getUserInfo = async () => {
+    const response = await axios.get(`${BASEURL}users/me`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getAccessToken(),
+      },
+    });
+    console.log('user', response);
+  };
+
   useEffect(() => {
     setDoubleCheckBtnDisable(false);
     if (getValues('nickname') === userInfo.nickname) {
@@ -75,6 +89,10 @@ export default function ProfileEdit() {
       setIsNicknameChecked(false);
     }
   }, [debounceOnChangeNickName]);
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <div className="flex flex-col justify-between h-screen">

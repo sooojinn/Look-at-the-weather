@@ -5,7 +5,7 @@ import { RegisterForm, VerifyCodeProps } from '@/config/types';
 // 이메일 인증번호 전송
 export const sendVerificationCode = async (email: string) => {
   await axios.post(
-    `${BASEURL}/api/v1/email/send-verification`,
+    `${BASEURL}/email/send-verification`,
     { email },
     {
       headers: {
@@ -18,7 +18,7 @@ export const sendVerificationCode = async (email: string) => {
 // 이메일 인증코드 확인
 export const verifyCode = async ({ email, code }: VerifyCodeProps) => {
   await axios.post(
-    `${BASEURL}/api/v1/email/verify-code`,
+    `${BASEURL}/email/verify-code`,
     { email, code },
     {
       headers: {
@@ -30,7 +30,7 @@ export const verifyCode = async ({ email, code }: VerifyCodeProps) => {
 
 // 닉네임 중복확인
 export const checkNickname = async (nickname: string) => {
-  await axios.get(`${BASEURL}/api/v1/users/nickname-check/${nickname}`, {
+  await axios.get(`${BASEURL}/users/nickname-check/${nickname}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -39,7 +39,7 @@ export const checkNickname = async (nickname: string) => {
 
 // 회원가입
 export const registerUser = async (data: RegisterForm) => {
-  await axios.post(`${BASEURL}/api/v1/users/register`, data, {
+  await axios.post(`${BASEURL}/users/register`, data, {
     headers: {
       'Content-Type': 'application/json',
     },

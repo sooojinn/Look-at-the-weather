@@ -65,7 +65,7 @@ export async function fetchGeoPoint(): Promise<GeoPoint> {
 // 위치 정보('OO시 OO구')를 반환하는 함수
 export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | undefined> => {
   try {
-    const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
+    const response = await axios.post(`${BASEURL}/locations`, geoPoint, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -75,7 +75,7 @@ export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | unde
     return response.data.location;
   } catch (error) {
     console.error('location api 에러: ', error);
-    return { city: null, district: null };
+    throw error;
   }
 };
 

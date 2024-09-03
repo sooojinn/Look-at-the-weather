@@ -6,9 +6,10 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
+import { showToast } from '@components/common/molecules/ToastProvider';
 
 const getUserInfo = async (code: string | null) => {
-  const response = await axios.get(`${BASEURL}/api/v1/oauth/kakao?code=${code}`, {
+  const response = await axios.get(`${BASEURL}/oauth/kakao?code=${code}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -29,23 +30,22 @@ export default function KakaoRedirect() {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data);
-
       const { accessToken, refreshToken } = data;
       localStorage.setItem('accessToken', accessToken);
       Cookies.set('refreshToken', refreshToken);
 
-      const { email, name, nickname, isSocial } = data;
+      const { email, name, nickName, social } = data;
       localStorage.setItem('email', email);
       localStorage.setItem('name', name);
-      localStorage.setItem('nickname', nickname);
-      localStorage.setItem('isSocial', isSocial);
+      localStorage.setItem('nickName', nickName);
+      localStorage.setItem('social', social);
 
       navigate('/');
     }
 
     if (error) {
       console.error('로그인에 실패했습니다:', error);
+      showToast('카카오 로그인 실패. 다시 시도해 주세요.');
       navigate('/');
     }
   }, [isSuccess, error]);

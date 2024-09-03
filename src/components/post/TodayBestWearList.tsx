@@ -9,7 +9,7 @@ import Spinner from '@components/icons/Spinner';
 import Text from '@components/common/atom/Text';
 
 const fetchTopLikedPosts = async (page: number, size: number): Promise<PostMeta[]> => {
-  const response = await axios.get(`${BASEURL}/api/v1/posts/top-liked`, {
+  const response = await axios.get(`${BASEURL}/posts/top-liked`, {
     params: { page, size },
     headers: {
       'Content-Type': 'application/json',

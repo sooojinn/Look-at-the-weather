@@ -9,9 +9,10 @@ const config: AxiosRequestConfig = {
   headers,
 };
 type RequestBody = Record<string, any>;
+type RequestHeader = Record<string, any>;
 
 export const postLogin = (request: RequestBody) => {
-  return instance.post('/auth/login', request, config);
+  return instance.post('/auth/login', request);
 };
 export const postLogout = () => {
   return instance.post('/auth/logout', null, config);
@@ -21,6 +22,6 @@ export const postFindEmail = (request: RequestBody) => {
   return instance.post('/auth/logout', request);
 };
 
-// export const postRetryRefresh = () => {
-//   return instance.post('/auth/refresh', { refreshToken: getRefreshToken() }, { withCredentials: true });
-// };
+export const postReissue = (request: RequestBody, addConfig: RequestHeader) => {
+  return instance.post('/auth/reissue', request, addConfig);
+};

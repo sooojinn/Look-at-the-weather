@@ -1,49 +1,38 @@
 import { BASEURL } from '@/constants/constants';
 import useCookie from './useCookie';
+import useCryoto from './useCryoto';
 import axios from 'axios';
+import { postReissue } from '@/api/apis';
 
 export default function useAuthService() {
   let accessToken: string | null = null;
 
   const { setCookie, getCookie } = useCookie();
-
-  function bytesToBase64(bytes: Uint8Array): string {
-    const binString = String.fromCodePoint(...bytes);
-    return btoa(binString);
-  }
-
-  function base64ToBytes(base64: string): Uint8Array {
-    const binString = atob(base64);
-    return Uint8Array.from(binString, (m) => m.codePointAt(0) as number);
-  }
-
-  const encodingData = (bytes: string): string => {
-    const validUTF16StringEncoded = bytesToBase64(new TextEncoder().encode(bytes));
-    return validUTF16StringEncoded;
-  };
-
-  const decodingData = (base64: string): string => {
-    const validUTF16StringDecoded = new TextDecoder().decode(base64ToBytes(base64));
-    return validUTF16StringDecoded;
-  };
+  const { encodingData, decodingData } = useCryoto();
 
   const setRefreshToken = (token: string) => {
-    const encodedToken = encodingData(token);
-    setCookie('csrftoken', encodedToken);
+    // const encodedToken = encodingData(token);
+    // setCookie('csrftoken', encodedToken);
+    console.log('token', `Bearer ${token}`);
+    // setCookie('csrftoken', `Bearer ${token}`);
   };
 
   const getRefreshToken = () => {
-    const beforeDecodingToken = getCookie('csrftoken');
-    const afterDecodingToken = decodingData(beforeDecodingToken);
-    return afterDecodingToken;
+    // const beforeDecodingToken = getCookie('csrftoken');
+    // const afterDecodingToken = decodingData(beforeDecodingToken);
+    const refreshToken = getCookie('csrftoken');
+    //return afterDecodingToken;
+    return refreshToken;
   };
 
   const setAccessToken = (token: string) => {
-    accessToken = token;
+    // accessToken = `Bearer ${token}`;
+    setCookie('AccessToken', `Bearer ${token}`);
   };
 
   const getAccessToken = () => {
-    return accessToken;
+    // return accessToken;
+    return getCookie('AccessToken');
   };
 
   const isLogin = async () => {
@@ -52,6 +41,7 @@ export default function useAuthService() {
 
       if (!token) {
         await refreshTokens();
+        console.log('token?', token);
         token = getAccessToken();
       }
 
@@ -64,16 +54,7 @@ export default function useAuthService() {
 
   const refreshTokens = async () => {
     try {
-      const response = await axios.post(
-        `${BASEURL}/auth/reissue`,
-        {
-          refreshToken: getRefreshToken(),
-        },
-        {
-          withCredentials: true,
-        },
-      );
-
+      const response = await postReissue({ refreshToken: getRefreshToken() }, { withCredentials: true });
       const { accessToken, refreshToken } = response.data;
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);

@@ -10,11 +10,13 @@ import useAuthService from '@/hooks/useAuthService';
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  const { isLogin } = useAuthService();
+  const { isLogin, getAccessToken } = useAuthService();
 
   const handleLoginCheck = async () => {
     const loggedIn = await isLogin();
     setIsLoggedIn(loggedIn);
+    console.log(loggedIn);
+    console.log(getAccessToken());
   };
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function Home() {
         <Logo />
       </Header>
       <HomeWeatherInfo />
-      <TodayBestWearList />
+      {isLoggedIn && <TodayBestWearList />}
       <FooterNavi />
     </div>
   );

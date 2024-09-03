@@ -6,7 +6,7 @@ import { PostMeta } from '@/config/types';
 import Header from '@components/common/Header';
 
 const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
-  const response = await axios.get<PostMeta[]>(`${BASEURL}/api/v1/posts/top-liked`, {
+  const response = await axios.get<PostMeta[]>(`${BASEURL}/posts/top-liked`, {
     params: { page, size },
     headers: {
       'Content-Type': 'application/json',

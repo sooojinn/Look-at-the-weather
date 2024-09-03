@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
 import useAuthService from '@/hooks/useAuthService';
+import useUserInfo from '@/hooks/useUserInfo';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
@@ -22,7 +23,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   } = useForm();
   const [showForm, setShowForm] = useState(false);
 
-  const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
+  const { setRefreshToken, setAccessToken, isLogin } = useAuthService();
+  const { getUserInfo, setUserInfo } = useUserInfo();
 
   const handleLoginCheck = async () => {
     const loggedIn = await isLogin();
@@ -34,17 +36,20 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const handleLogin = async (loginData: any) => {
     try {
-      // const response = await postLogin(loginData);
-      const response = await postLogin({
-        email: 'bbb111@naver.com',
-        password: 'ccc123',
-      });
+      const response = await postLogin(loginData);
+      // const response = await postLogin({
+      //   email: 'bbb111@naver.com',
+      //   password: 'ccc123',
+      // });
 
       const { accessToken, refreshToken } = response.data;
       setRefreshToken(refreshToken);
       setAccessToken(accessToken);
+      setUserInfo('email', response.data.email);
+      setUserInfo('name', response.data.name);
+      setUserInfo('nickname', response.data.nickname);
+      setUserInfo('social', response.data.social);
       handleLoginCheck();
-      // refreshTokens();
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
