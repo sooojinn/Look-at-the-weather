@@ -3,95 +3,62 @@ import DefaultDisabledInput from '@components/form/DefaultDisabledInpust';
 import { useForm } from 'react-hook-form';
 import Text from '@components/common/atom/Text';
 import Label from '@components/form/Label';
-import InputWithLabel from '@components/form/InputWithLabel';
+import PasswordInput from '@components/form/inputs/PasswordInput';
+import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { BASEURL } from '@/config/constants';
-import useDebounce from '@/hooks/useDebounce';
-import useUserInfo from '@/hooks/useUserInfo';
-import useAuthService from '@/hooks/useAuthService';
+
+import { getUserInfos, patchEditProfile } from '@/api/apis';
+
+import NicknameInput from '@components/form/inputs/NicknameInput';
+
+interface ProfileEditType {
+  nickname: string;
+  password: string;
+}
 
 export default function ProfileEdit() {
   const [userInfo, setUserInfo] = useState({
-    email: 'example@example.com', // 여기에서 필드의 초기값을 설정
-    nickname: 'defaultUser',
-    name: '구장우',
+    email: '',
+    nickname: '',
+    name: '',
   });
 
-  const { getAccessToken } = useAuthService();
-  const [doubleCheckBtnDisable, setDoubleCheckBtnDisable] = useState(false);
-  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    watch,
-    getValues,
-    trigger,
-    formState: { errors },
-  } = useForm({
+  const formMethods = useForm<ProfileEditType>({
     defaultValues: {
-      nickname: 'defaultUser',
+      nickname: '',
     },
   });
+  const { handleSubmit } = formMethods;
 
-  const debounceOnChangeNickName = useDebounce(watch('nickname'), 500);
-
-  const isNicknameEmptyOrMatch = watch('nickname') === '' || watch('nickname') === userInfo.nickname;
-  const isDoubleCheckDisabled = doubleCheckBtnDisable || isNicknameEmptyOrMatch;
-
-  const onClickNicknameDoubleCheck = async () => {
-    const response = await axios.get(`${BASEURL}/users/nickname-check/${getValues('nickname')}`);
-
-    if (response.status === 200) {
-      setIsNicknameChecked(true);
-    }
-
-    setDoubleCheckBtnDisable(true);
-    // alert 추가해야됨
-  };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data: ProfileEditType) => {
     const { password, nickname } = data;
 
-    if (!isNicknameChecked) {
-      setError('nickname', { message: '닉네임 중복 확인을 해주세요.' });
-      return;
-    }
-    trigger();
-    // 가장 마지막 파라미터에 토큰이 들어가야함
-    const response = axios.patch(`${BASEURL}/users/me`, { password, nickname });
+    try {
+      const response = await patchEditProfile({ password, nickname });
 
-    if (response.status === 200) {
-      alert('정보 수정완료');
-    } else {
-      alert('정보 수정실패 다시 한번 시도해보세요.');
+      if (response.status === 200) {
+        alert('정보 수정 완료');
+        window.location.href = '/mypage';
+      } else {
+        alert('정보 수정 실패, 다시 시도해 주세요.');
+      }
+    } catch (error) {
+      console.error('Profile update failed:', error);
     }
   };
 
-  const getUserInfo = async () => {
-    const response = await axios.get(`${BASEURL}users/me`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: getAccessToken(),
-      },
-    });
-    console.log('user', response);
-  };
-
   useEffect(() => {
-    setDoubleCheckBtnDisable(false);
-    if (getValues('nickname') === userInfo.nickname) {
-      setIsNicknameChecked(true);
-    } else {
-      setIsNicknameChecked(false);
-    }
-  }, [debounceOnChangeNickName]);
+    const fetchUserInfo = async () => {
+      try {
+        const response = await getUserInfos();
+        const { email, nickname, name } = response.data;
+        setUserInfo({ email, nickname, name });
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
 
-  useEffect(() => {
-    getUserInfo();
+    fetchUserInfo();
   }, []);
 
   return (
@@ -103,71 +70,27 @@ export default function ProfileEdit() {
             <div className="mb-2.5">
               <Label required>이메일</Label>
             </div>
-            <DefaultDisabledInput defaultValue="example@example.com" />
+            <DefaultDisabledInput defaultValue={userInfo.email} />
           </div>
           <div>
-            <InputWithLabel
-              label="비밀번호"
-              name="password"
-              register={register}
-              rules={{
-                required: '비밀번호를 입력해 주세요.',
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,15}$/,
-                  message: '8~15자의 영문,숫자,특수문자 2가지 이상 조합으로 입력해 주세요.',
-                },
-              }}
-              placeholder="영문/숫자/특수문자 2가지 이상 조합 (8~10자)"
-              errors={errors}
-              type="password"
-              setValue={setValue}
-            ></InputWithLabel>
+            <PasswordInput<ProfileEditType> {...formMethods} />
           </div>
           <div>
-            <InputWithLabel
-              label="비밀번호 확인"
-              name="confirmPassword"
-              register={register}
-              rules={{
-                required: '비밀번호를 다시 입력해 주세요.',
-                validate: (value) => value === watch('password') || '비밀번호가 일치하지 않습니다',
-              }}
-              placeholder="비밀번호를 한번 더 입력해 주세요."
-              errors={errors}
-              type="password"
-              setValue={setValue}
-            ></InputWithLabel>
+            <PasswordCheckInput<ProfileEditType> {...formMethods} />
           </div>
           <div>
             <div className="mb-2.5">
               <Label required>이름</Label>
             </div>
-            <DefaultDisabledInput defaultValue="구장우" />
+            <DefaultDisabledInput defaultValue={userInfo.name} />
           </div>
           <div>
             <div className="flex row items-end gap-2.5">
               <div className="w-full">
-                <InputWithLabel
-                  label="닉네임"
-                  name="nickname"
-                  register={register}
-                  rules={{ required: '닉네임을 입력해 주세요.' }}
-                  placeholder="한/영 10자 이내,특수문자,공백 불가"
-                  errors={errors}
-                  setValue={setValue}
-                  isDisabled={false}
-                  button={
-                    <button
-                      type="button"
-                      className="w-[91px] bg-primary-main rounded-lg px-4 py-3 disabled:bg-interactive-disabled disabled:text-black"
-                      onClick={onClickNicknameDoubleCheck}
-                      disabled={isDoubleCheckDisabled}
-                    >
-                      <Text color={isDoubleCheckDisabled ? 'disabled' : 'white'} weight="bold" size="l">
-                        중복확인
-                      </Text>
-                    </button>
-                  }
+                <NicknameInput<ProfileEditType>
+                  {...formMethods}
+                  shouldValidate={true}
+                  defaultValue={userInfo.nickname}
                 />
               </div>
             </div>

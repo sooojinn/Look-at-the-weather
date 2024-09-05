@@ -24,7 +24,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const [showForm, setShowForm] = useState(false);
 
   const { setRefreshToken, setAccessToken, isLogin } = useAuthService();
-  const { getUserInfo, setUserInfo } = useUserInfo();
+
+  const { setUserInfo } = useUserInfo();
 
   const handleLoginCheck = async () => {
     const loggedIn = await isLogin();
@@ -43,12 +44,10 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       // });
 
       const { accessToken, refreshToken } = response.data;
-      setRefreshToken(refreshToken);
+      // setRefreshToken(refreshToken);
       setAccessToken(accessToken);
-      setUserInfo('email', response.data.email);
-      setUserInfo('name', response.data.name);
-      setUserInfo('nickname', response.data.nickname);
-      setUserInfo('social', response.data.social);
+      console.log(response.data);
+      setUserInfo('nickname', response.data.nickName);
       handleLoginCheck();
     } catch (error) {
       console.error(error);

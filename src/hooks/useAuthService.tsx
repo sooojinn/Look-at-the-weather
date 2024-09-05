@@ -8,12 +8,11 @@ export default function useAuthService() {
   let accessToken: string | null = null;
 
   const { setCookie, getCookie } = useCookie();
-  const { encodingData, decodingData } = useCryoto();
+  // const { encodingData, decodingData } = useCryoto();
 
   const setRefreshToken = (token: string) => {
     // const encodedToken = encodingData(token);
     // setCookie('csrftoken', encodedToken);
-    console.log('token', `Bearer ${token}`);
     // setCookie('csrftoken', `Bearer ${token}`);
   };
 
@@ -27,12 +26,14 @@ export default function useAuthService() {
 
   const setAccessToken = (token: string) => {
     // accessToken = `Bearer ${token}`;
-    setCookie('AccessToken', `Bearer ${token}`);
+    // setCookie('AccessToken', `Bearer ${token}`);
+    localStorage.setItem('accesstoken', `Bearer ${token}`);
   };
 
   const getAccessToken = () => {
     // return accessToken;
-    return getCookie('AccessToken');
+    // return getCookie('AccessToken');
+    return localStorage.getItem('accesstoken');
   };
 
   const isLogin = async () => {

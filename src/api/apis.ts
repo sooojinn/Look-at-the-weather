@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 const { getAccessToken, getRefreshToken } = useAuthService();
 
-const headers: AxiosRequestConfig['headers'] = { Authorization: `Bearer ${getAccessToken()}` };
+const headers: AxiosRequestConfig['headers'] = { Authorization: getAccessToken() };
 const config: AxiosRequestConfig = {
   headers,
 };
@@ -24,4 +24,12 @@ export const postFindEmail = (request: RequestBody) => {
 
 export const postReissue = (request: RequestBody, addConfig: RequestHeader) => {
   return instance.post('/auth/reissue', request, addConfig);
+};
+
+export const getUserInfos = () => {
+  return instance.get('/users/me', config);
+};
+
+export const patchEditProfile = (request: RequestBody) => {
+  return instance.patch('/users/me', request, config);
 };
