@@ -18,6 +18,8 @@ interface LocationProps {
 
 export default function Location({ location, size, color = 'black' }: LocationProps) {
   const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
+  const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
+
   const [showLocationPermissionModal, setShowLocationPermissionModal] = useState(false);
   const [showLocationInputModal, setShowLocationInputModal] = useState(false);
 
@@ -30,7 +32,7 @@ export default function Location({ location, size, color = 'black' }: LocationPr
             {location.city} {location.district}
           </Text>
         )}
-        {isLocationDenied && (
+        {isLocationDenied && !customGeoPoint && (
           <div
             className="cursor-pointer"
             onClick={() => {
@@ -40,7 +42,7 @@ export default function Location({ location, size, color = 'black' }: LocationPr
             <ExclamationMarkIcon width={14} fill={color} />
           </div>
         )}
-        {isLocationDenied || (
+        {(!isLocationDenied || customGeoPoint) && (
           <button onClick={() => setShowLocationInputModal(true)}>
             <Text color="white">변경</Text>
           </button>
@@ -69,17 +71,18 @@ function LocationInpputModal({ onClose }: { onClose: () => void }) {
     formState: { isSubmitting, errors },
   } = useForm();
 
-  const setGeoPoint = useGeoLocationStore((state) => state.setGeoPoint);
+  const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
   const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
+  const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
 
   const handleCurrentLocationClick = () => {
-    setGeoPoint(null);
+    setCustomGeoPoint(null);
   };
 
   const onSubmit = async (data: any) => {
     try {
       const geoPoint = await getGeoPointFromAddress(data);
-      setGeoPoint(geoPoint);
+      setCustomGeoPoint(geoPoint);
       onClose();
     } catch (error) {
       // 에러 처리 보완하기
@@ -98,7 +101,7 @@ function LocationInpputModal({ onClose }: { onClose: () => void }) {
             setValue={setValue}
             errors={errors}
           />
-          {isLocationDenied || (
+          {!isLocationDenied && !!customGeoPoint && (
             <div
               onClick={handleCurrentLocationClick}
               className="w-full mt-4 py-2 flex justify-center items-center border"
