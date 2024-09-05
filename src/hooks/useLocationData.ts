@@ -1,21 +1,54 @@
 import { GeoPoint, Location } from '@/config/types';
-import { fetchGeoPoint, fetchLocation } from '@/lib/geo';
+import { fetchCurrentGeoPoint, getLocationFromGeoPoint } from '@/lib/geo';
+import { useGeoLocationStore } from '@/store/locationStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
-export const useGeoPointQuery = () =>
-  useQuery({
-    queryKey: ['geoPoint'],
-    queryFn: fetchGeoPoint,
+// 서울시청의 위도와 경도
+const defaultGeoPoint: GeoPoint = {
+  latitude: 37.5663,
+  longitude: 126.9779,
+};
+
+export const useGeoPointQuery = () => {
+  const setLocationDenied = useGeoLocationStore((state) => state.setLocationDenied);
+  const geoPoint = useGeoLocationStore((state) => state.geoPoint);
+
+  const getGeoPoint = async () => {
+    const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+    // store에 저장된 위치가 있는 경우(위치를 직접 설정한 경우)
+    if (geoPoint) {
+      return geoPoint;
+    }
+
+    // 위치 정보 접근 거부되어 있는 경우 서울시청의 위치 반환
+    if (permissionStatus.state === 'denied') {
+      console.warn('사용자가 위치 정보 접근을 거부했습니다.');
+      setLocationDenied(true);
+      return defaultGeoPoint;
+    } else {
+      setLocationDenied(false);
+    }
+
+    // 그 외의 경우 geolocation api로 현재 위치 반환
+    const newGeoPoint = await fetchCurrentGeoPoint();
+    return newGeoPoint;
+  };
+
+  return useQuery({
+    queryKey: ['geoPoint', geoPoint],
+    queryFn: getGeoPoint,
     staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
+    gcTime: 0,
   });
+};
 
 // 위치 정보('OO시 OO구')를 패칭
 export const useLocationQuery = (geoPoint: GeoPoint | undefined): UseQueryResult<Location | undefined, Error> =>
   useQuery({
     queryKey: ['location', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
-    queryFn: () => fetchLocation(geoPoint as GeoPoint),
+    queryFn: () => getLocationFromGeoPoint(geoPoint as GeoPoint),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60,
     retry: 1,
@@ -27,13 +60,21 @@ export default function useLocationData() {
   const geoPoint = geoPointQuery.data;
 
   const locationQuery = useLocationQuery(geoPoint);
+  const location = locationQuery.data;
   const isLoading = geoPointQuery.isLoading || locationQuery.isLoading;
+  const isError = geoPointQuery.isError || locationQuery.isError;
+
+  const handleRefetch = () => {
+    if (geoPointQuery.isError) geoPointQuery.refetch();
+    else if (locationQuery.isError) locationQuery.refetch();
+    return;
+  };
 
   useEffect(() => {
-    if (locationQuery.isError) {
-      showToast('현재 지역 정보를 불러올 수 없어요.', '재시도', locationQuery.refetch);
+    if (isError) {
+      showToast('현재 위치 정보를 불러올 수 없어요.', '재시도', handleRefetch);
     }
-  }, [locationQuery.isError]);
+  }, [isError]);
 
-  return { geoPoint: geoPointQuery.data, location: locationQuery.data, isLocationLoading: isLoading };
+  return { geoPoint, location, isLoading };
 }

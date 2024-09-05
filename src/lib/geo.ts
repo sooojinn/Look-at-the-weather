@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { GeoPoint, Location } from '@/config/types';
-import { BASEURL } from '@/config/constants';
-import { useGeoPermissionStore } from '@/store/geoPermissionStore';
+import { GeoPoint } from '@/config/types';
+import { KAKAO_REST_API_KEY } from '@/config/constants';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환
@@ -14,12 +13,6 @@ interface DfsResult {
   y: number;
 }
 
-// 서울시청의 위도와 경도
-const defaultGeoPoint: GeoPoint = {
-  latitude: 37.5663,
-  longitude: 126.9779,
-};
-
 // 소수점 넷째 자리까지 내림 처리하는 함수
 function floorToFixed(num: number) {
   const factor = Math.pow(10, 4);
@@ -27,17 +20,8 @@ function floorToFixed(num: number) {
 }
 
 // geolocation api로 현재 위치의 위도와 경도를 구함
-export async function fetchGeoPoint(): Promise<GeoPoint> {
+export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
   console.log('geolocation api 실행');
-  // 위치 정보 접근 허용 여부 확인
-  const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
-  const { setLocationDenied } = useGeoPermissionStore.getState();
-
-  if (permissionStatus.state === 'denied') {
-    console.warn('사용자가 위치 정보 접근을 거부했습니다.');
-    setLocationDenied(true);
-    return defaultGeoPoint;
-  }
 
   return new Promise((resolve) => {
     if (navigator.geolocation) {
@@ -52,33 +36,49 @@ export async function fetchGeoPoint(): Promise<GeoPoint> {
         },
         (error) => {
           console.warn('위치 정보 패칭에 실패했습니다:', error.message);
-          resolve(defaultGeoPoint); // 패칭에 실패하면 defaultGeoPoint 반환
+          resolve(undefined);
         },
       );
     } else {
       console.warn('Geolocation는 이 브라우저에서 지원되지 않습니다.');
-      resolve(defaultGeoPoint); // Geolocation을 지원하지 않으면 defaultGeoPoint 반환
+      resolve(undefined);
     }
   });
 }
 
-// 위치 정보('OO시 OO구')를 반환하는 함수
-export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | undefined> => {
-  console.log(localStorage.getItem('accessToken'));
-  try {
-    const response = await axios.post(`${BASEURL}/location`, geoPoint, {
+export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
+  const { latitude, longitude } = geoPoint;
+  const response = await axios.get(
+    `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
+    {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },
-      withCredentials: true,
-    });
+    },
+  );
 
-    return response.data.location;
-  } catch (error) {
-    console.error('location api 에러: ', error);
-    throw error;
-  }
+  const address = response.data.documents[0].address;
+  const city = address.region_1depth_name;
+  const district = address.region_2depth_name;
+  return { city, district };
+};
+
+export const getGeoPointFromAddress = async (data: any): Promise<GeoPoint> => {
+  const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${data.address}`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+    },
+  });
+  const { address_name, x, y } = response.data.documents[0].address;
+  const latitude = floorToFixed(+y);
+  const longitude = floorToFixed(+x);
+
+  console.log(response.data.documents[0].address);
+  console.log(`${address_name}의 위도는 ${latitude}, 경도는 ${longitude}입니다.`);
+
+  return { latitude, longitude };
 };
 
 // 위도와 경도를 단기예보 좌표로 변환
