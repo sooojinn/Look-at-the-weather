@@ -8,6 +8,7 @@ import Button from './Button';
 import { useForm } from 'react-hook-form';
 import { getGeoPointFromAddress } from '@/lib/geo';
 import { useGeoLocationStore } from '@/store/locationStore';
+import InputWithLabel from '@components/form/InputWithLabel';
 
 interface LocationProps {
   location?: Location;
@@ -39,7 +40,11 @@ export default function Location({ location, size, color = 'black' }: LocationPr
             <ExclamationMarkIcon width={14} fill={color} />
           </div>
         )}
-        {isLocationDenied || <button onClick={() => setShowLocationInputModal(true)}>변경</button>}
+        {isLocationDenied || (
+          <button onClick={() => setShowLocationInputModal(true)}>
+            <Text color="white">변경</Text>
+          </button>
+        )}
       </div>
       {showLocationPermissionModal && (
         <LocationPermissionModal
@@ -56,30 +61,56 @@ export default function Location({ location, size, color = 'black' }: LocationPr
 }
 
 function LocationInpputModal({ onClose }: { onClose: () => void }) {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    setValue,
+    setError,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm();
+
   const setGeoPoint = useGeoLocationStore((state) => state.setGeoPoint);
+  const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
+
+  const handleCurrentLocationClick = () => {
+    setGeoPoint(null);
+  };
 
   const onSubmit = async (data: any) => {
-    const geoPoint = await getGeoPointFromAddress(data);
-    setGeoPoint(geoPoint);
+    try {
+      const geoPoint = await getGeoPointFromAddress(data);
+      setGeoPoint(geoPoint);
+      onClose();
+    } catch (error) {
+      // 에러 처리 보완하기
+      setError('address', { message: '존재하지 않는 주소입니다.' });
+    }
   };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-      <div className="bg-white p-6 flex flex-col items-center gap-6 rounded-lg">
+      <div className="w-[250px] bg-white p-6 flex flex-col items-center gap-4 rounded-lg">
         <Text color="black">주소를 입력해 주세요.</Text>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <input {...register('address')} placeholder="Enter address" autoComplete="off" className="input text-black" />
+        <form className="w-full" onSubmit={(e) => e.preventDefault()}>
+          <InputWithLabel
+            name="address"
+            placeholder="Enter address"
+            register={register}
+            setValue={setValue}
+            errors={errors}
+          />
+          {isLocationDenied || (
+            <div
+              onClick={handleCurrentLocationClick}
+              className="w-full mt-4 py-2 flex justify-center items-center border"
+            >
+              <Text>현재 위치로 설정</Text>
+            </div>
+          )}
           <div className="mt-6 flex gap-2">
             <Button type="sub" size="m" onClick={onClose}>
               닫기
             </Button>
-            <Button
-              size="m"
-              onClick={() => {
-                handleSubmit(onSubmit)();
-                onClose();
-              }}
-            >
+            <Button size="m" isSubmitting={isSubmitting} onClick={() => handleSubmit(onSubmit)()}>
               확인
             </Button>
           </div>

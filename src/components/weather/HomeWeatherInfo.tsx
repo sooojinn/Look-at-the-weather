@@ -36,7 +36,7 @@ export default function HomeWeatherInfo() {
         backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
       }`}
     >
-      <div className={`w-full h-full px-5 text-white flex justify-between items-center`}>
+      <div className={`w-full h-full px-5 flex justify-between items-center`}>
         {!isLoading && (
           <>
             <div>

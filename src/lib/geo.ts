@@ -71,11 +71,15 @@ export const getGeoPointFromAddress = async (data: any): Promise<GeoPoint> => {
       Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
     },
   });
+
+  if (!response.data.documents.length) {
+    throw new Error('존재하지 않는 주소입니다.');
+  }
+
   const { address_name, x, y } = response.data.documents[0].address;
   const latitude = floorToFixed(+y);
   const longitude = floorToFixed(+x);
 
-  console.log(response.data.documents[0].address);
   console.log(`${address_name}의 위도는 ${latitude}, 경도는 ${longitude}입니다.`);
 
   return { latitude, longitude };

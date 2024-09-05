@@ -8,7 +8,7 @@ import InputDeleteBtn from '@components/icons/InputDeleteBtn';
 interface InputWithLabelProps<T extends FieldValues> {
   name: Path<T>;
   type?: 'text' | 'password';
-  label: string;
+  label?: string;
   isDisabled?: boolean;
   placeholder?: string;
   maxLength?: number;
@@ -73,9 +73,9 @@ export default function InputWithLabel<T extends FieldValues>({
   const hasError = !!errors?.[name];
 
   return (
-    <div className="w-full flex flex-col">
-      <Label required={!!rules?.required}>{label}</Label>
-      <div className="flex mt-2">
+    <div className="w-full flex flex-col gap-2">
+      {label && <Label required={!!rules?.required}>{label}</Label>}
+      <div className="flex">
         <div className="w-full relative">
           <input
             type={inputType}
@@ -98,7 +98,7 @@ export default function InputWithLabel<T extends FieldValues>({
             {type === 'password' && (
               <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
             )}
-            {!hasError && type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
+            {type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
           </div>
         </div>
         {button && <div className="ml-3">{button}</div>}
