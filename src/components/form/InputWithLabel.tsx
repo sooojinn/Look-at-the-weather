@@ -16,7 +16,7 @@ interface InputWithLabelProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   register: UseFormRegister<T>;
   setValue: UseFormSetValue<T>;
-  errors: FieldErrors<T>;
+  errors?: FieldErrors<T>;
 }
 
 export default function InputWithLabel<T extends FieldValues>({

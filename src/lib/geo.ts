@@ -13,6 +13,10 @@ interface DfsResult {
   y: number;
 }
 
+export interface AddressItem extends GeoPoint {
+  address_name: string;
+}
+
 // 소수점 넷째 자리까지 내림 처리하는 함수
 function floorToFixed(num: number) {
   const factor = Math.pow(10, 4);
@@ -59,12 +63,13 @@ export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
   );
 
   const address = response.data.documents[0].address;
-  const city = address.region_1depth_name;
+  const city = convertCityName(address.region_1depth_name);
   const district = address.region_2depth_name;
+
   return { city, district };
 };
 
-export const getGeoPointFromAddress = async (data: any): Promise<GeoPoint> => {
+export const searchAddresses = async (data: any): Promise<AddressItem[]> => {
   const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${data.address}`, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -76,14 +81,30 @@ export const getGeoPointFromAddress = async (data: any): Promise<GeoPoint> => {
     throw new Error('존재하지 않는 주소입니다.');
   }
 
-  const { address_name, x, y } = response.data.documents[0].address;
-  const latitude = floorToFixed(+y);
-  const longitude = floorToFixed(+x);
+  console.log(response.data.documents);
+  const addressList = response.data.documents.map((document: any) => {
+    const { address_name, x, y } = document.road_address || document.address;
+    const latitude = floorToFixed(+y);
+    const longitude = floorToFixed(+x);
 
-  console.log(`${address_name}의 위도는 ${latitude}, 경도는 ${longitude}입니다.`);
+    return { address_name, latitude, longitude };
+  });
 
-  return { latitude, longitude };
+  console.log(addressList);
+
+  return addressList;
 };
+
+const CityNames = {
+  세종특별자치시: '세종시',
+  강원특별자치도: '강원도',
+  전북특별자치도: '전북',
+  제주특별자치도: '제주도',
+};
+
+function convertCityName(name: keyof typeof CityNames) {
+  return CityNames[name] || name;
+}
 
 // 위도와 경도를 단기예보 좌표로 변환
 export function dfs_xy_conv(code: ConversionCode, v1: number, v2: number): DfsResult {

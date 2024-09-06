@@ -6,7 +6,7 @@ import WarningModal from '../organism/WarningModal';
 import { useState } from 'react';
 import Button from './Button';
 import { useForm } from 'react-hook-form';
-import { getGeoPointFromAddress } from '@/lib/geo';
+import { AddressItem, searchAddresses } from '@/lib/geo';
 import { useGeoLocationStore } from '@/store/locationStore';
 import InputWithLabel from '@components/form/InputWithLabel';
 
@@ -27,11 +27,9 @@ export default function Location({ location, size, color = 'black' }: LocationPr
     <>
       <div className="flex items-center gap-2">
         <CompassIcon fill={color} />
-        {location && (
-          <Text size={size} color={color}>
-            {location.city} {location.district}
-          </Text>
-        )}
+        <Text size={size} color={color}>
+          {location ? `${location.city} ${location.district}` : '위치 정보 없음'}
+        </Text>
         {isLocationDenied && !customGeoPoint && (
           <div
             className="cursor-pointer"
@@ -66,14 +64,14 @@ function LocationInpputModal({ onClose }: { onClose: () => void }) {
   const {
     register,
     setValue,
-    setError,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm();
 
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
   const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
+  const [addressList, setAddressList] = useState<AddressItem[]>([]);
 
   const handleCurrentLocationClick = () => {
     setCustomGeoPoint(null);
@@ -81,26 +79,30 @@ function LocationInpputModal({ onClose }: { onClose: () => void }) {
 
   const onSubmit = async (data: any) => {
     try {
-      const geoPoint = await getGeoPointFromAddress(data);
-      setCustomGeoPoint(geoPoint);
-      onClose();
+      const nextAddressList = await searchAddresses(data);
+      setAddressList(nextAddressList);
     } catch (error) {
-      // 에러 처리 보완하기
-      setError('address', { message: '존재하지 않는 주소입니다.' });
+      console.error(error);
     }
   };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-      <div className="w-[250px] bg-white p-6 flex flex-col items-center gap-4 rounded-lg">
-        <Text color="black">주소를 입력해 주세요.</Text>
+      <div className="w-[300px] bg-white p-6 flex flex-col items-center gap-4 rounded-lg">
+        <Text size="l" color="black" weight="bold">
+          위치 변경
+        </Text>
         <form className="w-full" onSubmit={(e) => e.preventDefault()}>
           <InputWithLabel
             name="address"
-            placeholder="Enter address"
+            placeholder="(예) 서울 중구 태평로1가"
             register={register}
             setValue={setValue}
-            errors={errors}
           />
+          {addressList.map(({ address_name, latitude, longitude }) => (
+            <div key={latitude} onClick={() => setCustomGeoPoint({ latitude, longitude })} className="p-1">
+              <Text>{address_name}</Text>
+            </div>
+          ))}
           {!isLocationDenied && !!customGeoPoint && (
             <div
               onClick={handleCurrentLocationClick}
@@ -109,12 +111,18 @@ function LocationInpputModal({ onClose }: { onClose: () => void }) {
               <Text>현재 위치로 설정</Text>
             </div>
           )}
-          <div className="mt-6 flex gap-2">
+          <div className="w-full mt-6 flex gap-2">
             <Button type="sub" size="m" onClick={onClose}>
               닫기
             </Button>
-            <Button size="m" isSubmitting={isSubmitting} onClick={() => handleSubmit(onSubmit)()}>
-              확인
+            <Button
+              size="m"
+              isSubmitting={isSubmitting}
+              onClick={() => {
+                handleSubmit(onSubmit)();
+              }}
+            >
+              검색
             </Button>
           </div>
         </form>

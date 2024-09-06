@@ -8,10 +8,11 @@ import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { geoPoint, location, isLoading: isLocationLoading } = useLocationData();
-  const { weatherData, isWeatherLoading, isSuccess, isError, handleRefetch } = useWeatherData(geoPoint);
+  const { geoPoint, location, isLoading: isLocationLoading, isError: isLocationError } = useLocationData();
+  const { weatherData, isWeatherLoading, isSuccess, isError: isWeatherError, handleRefetch } = useWeatherData(geoPoint);
   const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
   const isLoading = isLocationLoading || isWeatherLoading;
+  const isError = isLocationError || isWeatherError;
 
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
     if (currentTemp >= 33 && weatherType === 'clear') {
@@ -52,8 +53,8 @@ export default function HomeWeatherInfo() {
               )}
               {isError && (
                 <>
-                  <p className="text-6xl font-bold mt-5 mb-3">Error</p>
-                  <button onClick={handleRefetch} className="underline text-s ml-1">
+                  <p className="text-6xl text-white font-bold mt-5 mb-3">Error</p>
+                  <button onClick={handleRefetch} className="underline text-s text-white ml-1">
                     재시도
                   </button>
                 </>
