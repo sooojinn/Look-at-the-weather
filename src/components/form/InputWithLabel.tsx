@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
+import SearchIcon from '@components/icons/SearchIcon';
 
 interface InputWithLabelProps<T extends FieldValues> {
   name: Path<T>;
@@ -11,6 +12,7 @@ interface InputWithLabelProps<T extends FieldValues> {
   label?: string;
   isDisabled?: boolean;
   placeholder?: string;
+  search?: boolean;
   maxLength?: number;
   button?: ReactNode;
   rules?: RegisterOptions<T>;
@@ -25,6 +27,7 @@ export default function InputWithLabel<T extends FieldValues>({
   label,
   isDisabled,
   placeholder,
+  search,
   maxLength,
   button,
   rules,
@@ -82,7 +85,7 @@ export default function InputWithLabel<T extends FieldValues>({
             disabled={isDisabled}
             autoComplete="off"
             maxLength={maxLength}
-            className={`input h-12 ${hasError ? '!border-status-error' : ''} ${
+            className={`input h-12 ${search ? '!pl-8' : ''} ${hasError ? '!border-status-error' : ''} ${
               isDisabled ? '!text-lightGray !bg-interactive-disabled' : ''
             } focus:pr-9`}
             placeholder={placeholder}
@@ -94,6 +97,11 @@ export default function InputWithLabel<T extends FieldValues>({
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
+          {search && (
+            <div className="absolute left-3 bottom-1/2 transform translate-y-1/2 flex items-center">
+              <SearchIcon />
+            </div>
+          )}
           <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center">
             {type === 'password' && (
               <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />

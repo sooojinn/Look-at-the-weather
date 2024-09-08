@@ -32,8 +32,8 @@ export const useGeoPointQuery = () => {
     }
 
     // 그 외의 경우 geolocation api로 현재 위치 반환
-    const newGeoPoint = await fetchCurrentGeoPoint();
-    return newGeoPoint;
+    const currentGeoPoint = await fetchCurrentGeoPoint();
+    return currentGeoPoint;
   };
 
   return useQuery({
