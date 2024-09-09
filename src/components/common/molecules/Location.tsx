@@ -21,16 +21,19 @@ export default function Location({ city, district, size, color = 'black' }: Loca
   };
 
   useEffect(() => {
-    // 로컬 스토리지에서 저장된 날짜 가져오기
-    const lastShownDate = localStorage.getItem('tooltipLastShown');
-    const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
+    const lastTooltipClosedDate = localStorage.getItem('lastTooltipClosedDate');
+    const currentDate = new Date().toISOString().split('T')[0];
 
-    if (!lastShownDate || lastShownDate !== currentDate) {
-      // 툴팁을 보여주고 현재 날짜를 저장
+    if (!lastTooltipClosedDate || lastTooltipClosedDate !== currentDate) {
       setShowTooltip(true);
-      localStorage.setItem('tooltipLastShown', currentDate);
     }
   }, []);
+
+  const handleTooltipClose = () => {
+    setShowTooltip(false);
+    const currentDate = new Date().toISOString().split('T')[0];
+    localStorage.setItem('lastTooltipClosedDate', currentDate);
+  };
 
   return (
     <div className="relative">
@@ -40,7 +43,7 @@ export default function Location({ city, district, size, color = 'black' }: Loca
           {city || district ? `${city} ${district}` : '위치 정보 없음'}
         </Text>
       </div>
-      {showTooltip && <LocationTooltip onClose={() => setShowTooltip(false)} />}
+      {showTooltip && <LocationTooltip onClose={handleTooltipClose} />}
     </div>
   );
 }

@@ -105,7 +105,7 @@ export default function SearchAddress() {
             key={address_name}
             onClick={() => {
               setCustomGeoPoint({ latitude, longitude });
-              navigate('/');
+              navigate(-1);
             }}
             className="px-5 py-[18px] border-b border-line-light hover:bg-background-light cursor-pointer"
           >
