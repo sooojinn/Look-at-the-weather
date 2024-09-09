@@ -3,18 +3,18 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 interface GeoLocationState {
-  isLocationDenied: boolean;
+  isLocationAllowed: boolean;
   customGeoPoint: GeoPoint | null;
-  setLocationDenied: (denied: boolean) => void;
+  setLocationAllowed: (isAllowed: boolean) => void;
   setCustomGeoPoint: (customGeoPoint: GeoPoint | null) => void;
 }
 
 export const useGeoLocationStore = create<GeoLocationState>()(
   devtools(
     (set) => ({
-      isLocationDenied: false,
+      isLocationAllowed: false,
       customGeoPoint: null,
-      setLocationDenied: (denied: boolean) => set({ isLocationDenied: denied }),
+      setLocationAllowed: (isAllowed: boolean) => set({ isLocationAllowed: isAllowed }),
       setCustomGeoPoint: (customGeoPoint: GeoPoint | null) => {
         console.log('Setting geoPoint:', customGeoPoint); // 상태 변경 전에 로그 찍기
         set({ customGeoPoint });

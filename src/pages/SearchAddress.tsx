@@ -18,7 +18,7 @@ export default function SearchAddress() {
   const { register, setValue, handleSubmit, watch } = useForm<AddressForm>();
 
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
-  const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
+  const isLocationAllowed = useGeoLocationStore((state) => state.isLocationAllowed);
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
   const [showLocationPermissionModal, setShowLocationPermissionModal] = useState(false);
   const [addressList, setAddressList] = useState<AddressItem[]>([]);
@@ -36,7 +36,7 @@ export default function SearchAddress() {
   }, [debouncedAddress]); // 디바운스된 값이 변경될 때만 작동
 
   const handleCurrentLocationClick = () => {
-    if (isLocationDenied) {
+    if (!isLocationAllowed) {
       setShowLocationPermissionModal(true);
       return;
     }
@@ -72,7 +72,7 @@ export default function SearchAddress() {
             setValue={setValue}
           />
         </form>
-        {(isLocationDenied || !!customGeoPoint) && (
+        {(!isLocationAllowed || !!customGeoPoint) && (
           <div
             onClick={handleCurrentLocationClick}
             className="w-full h-14 py-2 flex gap-1 rounded-[10px] justify-center items-center border cursor-pointer"

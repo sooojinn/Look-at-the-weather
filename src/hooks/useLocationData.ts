@@ -12,7 +12,8 @@ const defaultGeoPoint: GeoPoint = {
 };
 
 export const useGeoPointQuery = () => {
-  const setLocationDenied = useGeoLocationStore((state) => state.setLocationDenied);
+  const isLocationAllowed = useGeoLocationStore((state) => state.isLocationAllowed);
+  const setLocationAllowed = useGeoLocationStore((state) => state.setLocationAllowed);
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
 
   const getGeoPoint = async () => {
@@ -25,10 +26,10 @@ export const useGeoPointQuery = () => {
     // 위치 정보 접근 거부되어 있는 경우 서울시청의 위치 반환
     if (permissionStatus.state === 'denied') {
       console.warn('사용자가 위치 정보 접근을 거부했습니다.');
-      setLocationDenied(true);
+      setLocationAllowed(false);
       return defaultGeoPoint;
     } else {
-      setLocationDenied(false);
+      setLocationAllowed(true);
     }
 
     // 그 외의 경우 geolocation api로 현재 위치 반환
@@ -37,7 +38,7 @@ export const useGeoPointQuery = () => {
   };
 
   return useQuery({
-    queryKey: ['geoPoint', customGeoPoint],
+    queryKey: ['geoPoint', customGeoPoint, isLocationAllowed],
     queryFn: getGeoPoint,
     staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
     gcTime: 0,
