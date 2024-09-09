@@ -25,7 +25,8 @@ export default function PostWrite() {
   const defaultValues = {
     title: '',
     content: '',
-    location: currentLocation || { city: '', district: '' },
+    city: currentLocation?.city || '',
+    district: currentLocation?.district || '',
     weatherTagIds: [],
     temperatureTagIds: [],
     seasonTagId: null,

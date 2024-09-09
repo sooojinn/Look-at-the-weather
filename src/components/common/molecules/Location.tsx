@@ -1,4 +1,4 @@
-import { Location, TextColor, TextSize } from '@/config/types';
+import { TextColor, TextSize } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
@@ -6,12 +6,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface LocationProps {
-  location?: Location;
+  city?: string;
+  district?: string;
   size?: TextSize;
   color?: TextColor;
 }
 
-export default function Location({ location, size, color = 'black' }: LocationProps) {
+export default function Location({ city, district, size, color = 'black' }: LocationProps) {
   const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -36,7 +37,7 @@ export default function Location({ location, size, color = 'black' }: LocationPr
       <div className="flex items-center gap-[6px] cursor-pointer" onClick={handleLocationClick}>
         <LocationIcon fill={color} />
         <Text size={size} color={color}>
-          {location ? `${location.city} ${location.district}` : '위치 정보 없음'}
+          {city || district ? `${city} ${district}` : '위치 정보 없음'}
         </Text>
       </div>
       {showTooltip && <LocationTooltip onClose={() => setShowTooltip(false)} />}

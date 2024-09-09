@@ -40,8 +40,8 @@ export default function HomeWeatherInfo() {
       <div className="w-full h-full flex flex-col justify-center px-5">
         {!isLoading && (
           <>
-            <Location location={location} size="l" color="white" />
-            <div className="flex">
+            <Location {...location} size="l" color="white" />
+            <div className="flex justify-between">
               <div>
                 {isSuccess && (
                   <>

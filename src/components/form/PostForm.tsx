@@ -31,7 +31,10 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
     defaultValues: { ...defaultValues },
   });
 
-  setValue('location', defaultValues.location);
+  const { city, district } = defaultValues;
+
+  setValue('city', city);
+  setValue('district', district);
 
   const [shoWModal, setShoWModal] = useState(false);
   const navigate = useNavigate();
@@ -94,7 +97,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
           </div>
           <div className="flex flex-col gap-3">
             <Label size="l">위치</Label>
-            <Location location={defaultValues.location} />
+            <Location city={city} district={district} />
           </div>
           <SelectWithLabel
             label="해당 코디를 입었을 때 날씨를 알려주세요"
