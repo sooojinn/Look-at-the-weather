@@ -65,7 +65,6 @@ export default function Button({
 
   return (
     <button
-      type="button"
       onClick={onClick}
       disabled={disabled || isSubmitting}
       style={{ width: width ? `${width}px` : '100%' }}
