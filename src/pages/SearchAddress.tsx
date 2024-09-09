@@ -5,12 +5,17 @@ import Text from '@components/common/atom/Text';
 import LocationPermissionModal from '@components/common/organism/LocationPermissionModal';
 import InputWithLabel from '@components/form/InputWithLabel';
 import LocationIcon from '@components/icons/LocationIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import useDebounce from '@/hooks/useDebounce';
+
+interface AddressForm {
+  address: string;
+}
 
 export default function SearchAddress() {
-  const { register, setValue, handleSubmit } = useForm();
+  const { register, setValue, handleSubmit, watch } = useForm<AddressForm>();
 
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
   const isLocationDenied = useGeoLocationStore((state) => state.isLocationDenied);
@@ -18,6 +23,17 @@ export default function SearchAddress() {
   const [showLocationPermissionModal, setShowLocationPermissionModal] = useState(false);
   const [addressList, setAddressList] = useState<AddressItem[]>([]);
   const navigate = useNavigate();
+
+  const addressInputValue = watch('address');
+  const debouncedAddress = useDebounce(addressInputValue, 500);
+
+  useEffect(() => {
+    if (debouncedAddress) {
+      handleSubmit(onSubmit)(); // 디바운스된 값으로 자동 제출
+    } else {
+      setAddressList([]);
+    }
+  }, [debouncedAddress]); // 디바운스된 값이 변경될 때만 작동
 
   const handleCurrentLocationClick = () => {
     if (isLocationDenied) {
@@ -28,12 +44,13 @@ export default function SearchAddress() {
     navigate(-1);
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async ({ address }: AddressForm) => {
     try {
-      const nextAddressList = await searchAddresses(data);
+      const nextAddressList = await searchAddresses(address);
       setAddressList(nextAddressList);
     } catch (error) {
       console.error(error);
+      setAddressList([]);
     }
   };
 
@@ -67,7 +84,7 @@ export default function SearchAddress() {
           </div>
         )}
       </div>
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
         {!addressList.length && (
           <div className="mt-3 px-4">
             <Text color="black" weight="bold">

@@ -69,8 +69,8 @@ export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
   return { city, district };
 };
 
-export const searchAddresses = async (data: any): Promise<AddressItem[]> => {
-  const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${data.address}`, {
+export const searchAddresses = async (address: string): Promise<AddressItem[]> => {
+  const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
@@ -81,7 +81,6 @@ export const searchAddresses = async (data: any): Promise<AddressItem[]> => {
     throw new Error('존재하지 않는 주소입니다.');
   }
 
-  console.log(response.data.documents);
   const addressList = response.data.documents.map((document: any) => {
     const { address_name, x, y } = document.road_address || document.address;
     const latitude = floorToFixed(+y);
@@ -89,8 +88,6 @@ export const searchAddresses = async (data: any): Promise<AddressItem[]> => {
 
     return { address_name, latitude, longitude };
   });
-
-  console.log(addressList);
 
   return addressList;
 };
