@@ -38,7 +38,7 @@ export const getMyPosts = ({ page, size }: RequestBody) => {
 };
 
 export const getMyLikedPosts = ({ page, size }: RequestBody) => {
-  return instance.post(`/likes/posts/me?page=${page}&size=${size}`, config);
+  return instance.get(`/likes/posts?page=${page}&size=${size}`, config);
 };
 
 export const getPostDetail = (postId: number | null) => {
