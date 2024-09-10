@@ -27,7 +27,7 @@ function floorToFixed(num: number) {
 export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
   console.log('geolocation api 실행');
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -40,7 +40,7 @@ export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
         },
         (error) => {
           console.warn('위치 정보 패칭에 실패했습니다:', error.message);
-          resolve(undefined);
+          reject(undefined);
         },
       );
     } else {

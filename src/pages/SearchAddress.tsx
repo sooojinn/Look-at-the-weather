@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
+import useLocationPermission from '@/hooks/useLocationPermission';
 
 interface AddressForm {
   address: string;
@@ -16,13 +17,14 @@ interface AddressForm {
 
 export default function SearchAddress() {
   const { register, setValue, handleSubmit, watch } = useForm<AddressForm>();
+  const { isLocationAllowed } = useLocationPermission();
+  const navigate = useNavigate();
 
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
-  const isLocationAllowed = useGeoLocationStore((state) => state.isLocationAllowed);
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
+
   const [showLocationPermissionModal, setShowLocationPermissionModal] = useState(false);
   const [addressList, setAddressList] = useState<AddressItem[]>([]);
-  const navigate = useNavigate();
 
   const addressInputValue = watch('address');
   const debouncedAddress = useDebounce(addressInputValue, 500);

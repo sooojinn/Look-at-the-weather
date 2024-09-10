@@ -8,10 +8,12 @@ import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { geoPoint, location, isLoading: isLocationLoading, isError: isLocationError } = useLocationData();
-  const { weatherData, isWeatherLoading, isSuccess, isError: isWeatherError, handleRefetch } = useWeatherData(geoPoint);
+  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
+  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
   const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
+
   const isLoading = isLocationLoading || isWeatherLoading;
+  const isSuccess = isLocationSuccess && isWeatherSuccess;
   const isError = isLocationError || isWeatherError;
 
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
