@@ -1,7 +1,5 @@
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
-import { useEffect, useState } from 'react';
-
 import { PostList } from '@/components/post/PostList';
 import { PostMeta } from '@/config/types';
 import { useQuery } from '@tanstack/react-query';

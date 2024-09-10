@@ -23,7 +23,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   } = useForm();
   const [showForm, setShowForm] = useState(false);
 
-  const { setRefreshToken, setAccessToken, isLogin } = useAuthService();
+  const { setAccessToken, isLogin } = useAuthService();
 
   const { setUserInfo } = useUserInfo();
 
@@ -43,8 +43,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       //   password: 'ccc123',
       // });
 
-      const { accessToken, refreshToken } = response.data;
-      // setRefreshToken(refreshToken);
+      const { accessToken } = response.data;
+
       setAccessToken(accessToken);
       console.log(response.data);
       setUserInfo('nickname', response.data.nickName);

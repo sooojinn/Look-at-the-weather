@@ -4,7 +4,7 @@ interface IconProps {
   postId: number;
 }
 
-const HeartIcon: React.FC<IconProps> = ({ fill = 'white', liked = false, postId }) => {
+const HeartIcon: React.FC<IconProps> = ({ fill = 'white', liked = false }) => {
   return (
     <div>
       <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">

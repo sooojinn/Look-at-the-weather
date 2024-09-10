@@ -1,39 +1,72 @@
-import axios from 'axios';
-import { BASEURL } from '@/config/constants';
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { PostList } from '@components/post/PostList';
 import { PostMeta } from '@/config/types';
 import Header from '@components/common/Header';
-
-const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
-  const response = await axios.get<PostMeta[]>(`${BASEURL}/posts/top-liked`, {
-    params: { page, size },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  return response.data;
-};
+import Loading from '@components/common/atom/Loading';
+import { getMyPosts } from '@/api/apis';
 
 export default function MyPost() {
   const [postList, setPostList] = useState<PostMeta[]>([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const pageEnd = useRef<HTMLDivElement>(null);
+
+  const fetchPosts = useCallback(
+    async (pageNum: number) => {
+      if (!hasMore) return;
+      console.log('page', pageNum);
+      setLoading(true);
       try {
-        const nextPostList = await getBestPostList(0, 10); // 첫 페이지, 10개 항목
-        setPostList(nextPostList);
+        const response = await getMyPosts({ page: pageNum, size: 10 });
+        const newPosts = response.data.myPosts;
+        if (newPosts.length > 0) {
+          setPostList((prev) => [...prev, ...newPosts]);
+          setPage(pageNum + 1);
+        } else {
+          setHasMore(false);
+        }
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
-    };
-    fetchPosts();
-  }, []);
+    },
+    [hasMore],
+  );
 
+  useEffect(() => {
+    fetchPosts(page);
+  }, [fetchPosts]);
+
+  useEffect(() => {
+    if (!loading && hasMore) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            fetchPosts(page);
+          }
+        },
+        { threshold: 0.7 },
+      );
+
+      if (pageEnd.current) {
+        observer.observe(pageEnd.current);
+      }
+
+      return () => {
+        if (pageEnd.current) {
+          observer.unobserve(pageEnd.current);
+        }
+      };
+    }
+  }, [loading]);
   return (
     <div>
       <Header>내 게시물</Header>
       <PostList postList={postList} />
+      <Loading ref={pageEnd} isLoading={loading} />
     </div>
   );
 }

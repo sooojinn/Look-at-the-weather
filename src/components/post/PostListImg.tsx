@@ -1,5 +1,3 @@
-import Heart from '@components/common/atom/Heart';
-
 import HeartIcon from '@components/icons/HeartIcon';
 
 interface PostListImgProps {

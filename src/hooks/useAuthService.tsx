@@ -1,38 +1,12 @@
-import { BASEURL } from '@/constants/constants';
-import useCookie from './useCookie';
-import useCryoto from './useCryoto';
-import axios from 'axios';
-import { postReissue } from '@/api/apis';
-
 export default function useAuthService() {
-  let accessToken: string | null = null;
-
-  const { setCookie, getCookie } = useCookie();
-  // const { encodingData, decodingData } = useCryoto();
-
-  const setRefreshToken = (token: string) => {
-    // const encodedToken = encodingData(token);
-    // setCookie('csrftoken', encodedToken);
-    // setCookie('csrftoken', `Bearer ${token}`);
-  };
-
-  const getRefreshToken = () => {
-    // const beforeDecodingToken = getCookie('csrftoken');
-    // const afterDecodingToken = decodingData(beforeDecodingToken);
-    const refreshToken = getCookie('csrftoken');
-    //return afterDecodingToken;
-    return refreshToken;
-  };
+  // let accessToken: string | null = null;
 
   const setAccessToken = (token: string) => {
-    // accessToken = `Bearer ${token}`;
-    // setCookie('AccessToken', `Bearer ${token}`);
     localStorage.setItem('accesstoken', `Bearer ${token}`);
   };
 
   const getAccessToken = () => {
     // return accessToken;
-    // return getCookie('AccessToken');
     return localStorage.getItem('accesstoken');
   };
 
@@ -41,7 +15,7 @@ export default function useAuthService() {
       let token = getAccessToken();
 
       if (!token) {
-        await refreshTokens();
+        // await refreshTokens();
         console.log('token?', token);
         token = getAccessToken();
       }
@@ -53,16 +27,16 @@ export default function useAuthService() {
     }
   };
 
-  const refreshTokens = async () => {
-    try {
-      const response = await postReissue({ refreshToken: getRefreshToken() }, { withCredentials: true });
-      const { accessToken, refreshToken } = response.data;
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const refreshTokens = async () => {
+  //   try {
+  //     const response = await postReissue({ refreshToken: getRefreshToken() }, { withCredentials: true });
+  //     const { accessToken, refreshToken } = response.data;
+  //     setAccessToken(accessToken);
 
-  return { setRefreshToken, getRefreshToken, setAccessToken, getAccessToken, isLogin, refreshTokens };
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  return { setAccessToken, getAccessToken, isLogin };
 }

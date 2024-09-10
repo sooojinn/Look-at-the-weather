@@ -3,7 +3,7 @@ import InputWithLabel from '../InputWithLabel';
 import InputStatusMessage from '../InputStatusMessage';
 import useSignupStore from '@/store/signupStore';
 import { useCheckNicknameMutation } from '@/lib/signupMutations';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { FormMethods } from '@/config/types';
 import { FieldValues, Path } from 'react-hook-form';
 
@@ -22,7 +22,7 @@ export default function NicknameInput<T extends FieldValues>({
   clearErrors,
   getValues,
   watch,
-  formState: { errors, isDirty },
+  formState: { errors },
 }: NicknameInputProps<T>) {
   const { isNicknameChecked, setIsNicknameChecked } = useSignupStore();
   const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation<T>(

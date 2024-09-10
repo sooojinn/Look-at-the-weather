@@ -1,4 +1,4 @@
-import { HttpResponse, http } from 'msw';
+import { HttpResponse, http, delay } from 'msw';
 import { BASEURL } from '@/config/constants';
 
 import { generateMockPosts } from './mockPostData';
@@ -30,6 +30,10 @@ interface RequestLocationDTO {
 }
 
 export const handlers = [
+  http.all('*', async () => {
+    await delay(100);
+  }),
+
   // 회원가입
   http.post(`${BASEURL}/users/register`, async () => {
     return HttpResponse.json({

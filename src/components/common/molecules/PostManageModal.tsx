@@ -27,8 +27,8 @@ export default function PostManageModal({ modalController, option }: ModalType) 
       <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
       <div className={'max-w-md fixed bottom-0 w-full bg-white shadow-md z-20 h-[212px]'}>
         <div className="bg-background-white w-full px-5 pt-4 pb-10 rounded-t-3xl">
-          <div onClick={onClickCloseBtn} className="flex justify-end mb-9">
-            <CloseBtn />
+          <div className="flex justify-end mb-9">
+            <CloseBtn onClick={onClickCloseBtn} />
           </div>
           <div>
             {option && option === 'M' ? (

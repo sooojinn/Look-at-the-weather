@@ -4,30 +4,18 @@ import { useEffect, useState } from 'react';
 import { PostList } from '@components/post/PostList';
 import { PostMeta } from '@/config/types';
 import Header from '@components/common/Header';
-
-const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
-  const response = await axios.get<PostMeta[]>(`${BASEURL}/likes/posts/me?page=${1}&size=${10}`, {
-    params: { page, size },
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  return response.data;
-};
+import { getMyLikedPosts } from '@/api/apis';
 
 export default function MyLikedPost() {
   const [postList, setPostList] = useState<PostMeta[]>([]);
+
+  const getLikedPosts = async () => {
+    const response = await getMyLikedPosts({ page: 0, size: 10 });
+    console.log('rsd', response);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const nextPostList = await getBestPostList(0, 10); // 첫 페이지, 10개 항목
-        setPostList(nextPostList);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchPosts();
+    getLikedPosts();
   }, []);
 
   return (
