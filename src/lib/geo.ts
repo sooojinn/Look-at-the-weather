@@ -64,7 +64,7 @@ export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
 
   const address = response.data.documents[0].address;
   const city = convertCityName(address.region_1depth_name);
-  const district = address.region_2depth_name;
+  const district = address.region_2depth_name.split(' ')[0];
 
   return { city, district };
 };
