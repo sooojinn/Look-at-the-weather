@@ -6,7 +6,7 @@ import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExitWarningModal from '@components/common/organism/WarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +25,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
     register,
     control,
     setValue,
+    getValues,
     handleSubmit,
     formState: { isDirty, isValid, isSubmitting },
   } = useForm<PostFormData>({
@@ -44,6 +45,23 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
     else navigate(-1);
   };
 
+  // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
+  const handleSaveToSessionStorage = () => {
+    const formData = getValues();
+    sessionStorage.setItem('formData', JSON.stringify(formData));
+  };
+
+  // 페이지가 처음 로드될 때 세션 스토리지에서 데이터 불러오기
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('formData');
+    if (savedData) {
+      const parsedData: PostFormData = JSON.parse(savedData);
+      (Object.keys(parsedData) as Array<keyof PostFormData>).forEach((name) => {
+        setValue(name, parsedData[name]);
+      });
+    }
+  }, [setValue]);
+
   return (
     <>
       <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
@@ -56,7 +74,14 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
               <Button type="sub" size="m" onClick={() => setShoWModal(false)}>
                 닫기
               </Button>
-              <Button type="main" size="m" onClick={() => navigate(-1)}>
+              <Button
+                type="main"
+                size="m"
+                onClick={() => {
+                  navigate(-1);
+                  sessionStorage.removeItem('formData');
+                }}
+              >
                 나가기
               </Button>
             </>
@@ -97,7 +122,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit }: PostWri
           </div>
           <div className="flex flex-col gap-3">
             <Label size="l">위치</Label>
-            <Location city={city} district={district} />
+            <div onClick={handleSaveToSessionStorage}>
+              <Location city={city} district={district} />
+            </div>
           </div>
           <SelectWithLabel
             label="해당 코디를 입었을 때 날씨를 알려주세요"
