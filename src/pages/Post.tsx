@@ -15,6 +15,8 @@ import { usePostStore } from '@/store/postStore';
 import { DistrictArray, FilterItem } from '@/config/types';
 import { generateMockPosts } from '@/mocks/mockPostData';
 import FooterNavi from '@components/common/FooterNavi';
+import axios from 'axios';
+import { BASEURL } from '@/config/constants';
 
 type Props = {};
 
@@ -40,7 +42,7 @@ export default function Post({}: Props) {
   const [weatherArr, setWeatherArr] = useState<FilterItem[]>([]);
   const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
-  const [sortOrder, setSortOrder] = useState('L');
+  const [sortOrder, setSortOrder] = useState('LATEST');
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -67,10 +69,18 @@ export default function Post({}: Props) {
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
 
-  const options = {};
-  const io = new IntersectionObserver((entries, observer) => {}, options);
-
-  useEffect(() => {}, [sortOrder]);
+  useEffect(() => {
+    const getAllPosts = async () => {
+      const response = await axios.get(`${BASEURL}posts?page=0&size=10&city=경북&district=영주시&sort=LATEST `, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+      });
+      console.log(response);
+    };
+    getAllPosts();
+  }, []);
 
   return (
     <>
@@ -137,7 +147,7 @@ export default function Post({}: Props) {
         <HrLine height={8} />
         <div className="py-5">
           <div className="flex row justify-end">
-            <div onClick={() => setSortOrder('L')}>
+            <div onClick={() => setSortOrder('LATEST')}>
               <Text color={sortOrder === 'L' ? 'gray' : 'lightGray'} weight={sortOrder === 'L' ? 'bold' : 'regular'}>
                 최신순
               </Text>
@@ -145,7 +155,7 @@ export default function Post({}: Props) {
             <div className="mx-2">
               <VeLine height={8} />
             </div>
-            <div onClick={() => setSortOrder('R')}>
+            <div onClick={() => setSortOrder('RECOMMENDED')}>
               <Text color={sortOrder === 'R' ? 'gray' : 'lightGray'} weight={sortOrder === 'R' ? 'bold' : 'regular'}>
                 추천순
               </Text>

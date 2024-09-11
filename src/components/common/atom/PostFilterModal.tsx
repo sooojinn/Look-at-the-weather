@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
-import { POSTFILTERTAPLIST } from '@/config/constants';
+import { BASEURL, POSTFILTERTAPLIST } from '@/config/constants';
 import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilterData';
-import { city } from '@/mocks/city';
-import { FilterItem, SectionKey, PostFilterModalProps, DistrictArray } from '@/config/types';
-import { district } from '@/mocks/district';
+
+import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from './Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import FilterBtn from './FilterBtn';
 import HrLine from './HrLine';
+import axios from 'axios';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
@@ -27,15 +27,17 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   } = usePostStore();
 
   const [activeTab, setActiveTab] = useState<number>(btnIndex);
-  const [selectedCity, setSelectedCity] = useState<{ city_id?: number; city?: string }[]>([]);
-  const [selectedAllDistrict, setSelctedAllDistrict] = useState<DistrictArray>([]);
-  const [selectedDistrict, setSelectedDistrict] = useState<DistrictArray>([]);
+
   const [selectedWeather, setSelectedWeather] = useState<FilterItem[]>([]);
   const [selectedTemperature, setSelectedTemperature] = useState<FilterItem[]>([]);
   const [selectedSeason, setSelectedSeason] = useState<FilterItem[]>([]);
   const [selectedFilterItems, setSelectedFilterItems] = useState<CategoryFilterItem[]>([]);
-  const [isAllCity, setIsAllCity] = useState(false);
-  const [openDistrictOption, setOpenDistrictOption] = useState(false);
+
+  const [city, setCity] = useState<CityType[]>([]);
+  const [district, setDistrict] = useState<DistrictType[]>([]);
+  const [selectedDistrict, setSelectedDistrict] = useState<DistrictType[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<CityType[]>([]);
+  const [openDistrictOption, setOpenDistrictOption] = useState<boolean>(false);
 
   // Record<K, T> 타입 k는 key의 값, T는 각 키에 대응하는 값의 타입을 지정함
   const sectionRefs = useRef<Record<SectionKey, HTMLDivElement | null>>({
@@ -66,71 +68,49 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     setSelectedWeather([]);
     setSelectedTemperature([]);
     setSelectedSeason([]);
-    setSelectedCity([]);
+
     setSelectedDistrict([]);
-    setIsAllCity(false);
+  };
+
+  const onClickCityBtn = (selectedOption: CityType) => {
     setOpenDistrictOption(false);
-  };
-
-  const onClickCityBtn = (city: { city_id: number; city: string }) => {
-    setSelctedAllDistrict([]);
-    if (city.city_id === 1) {
-      setIsAllCity(true);
-      setOpenDistrictOption(false);
-      setSelectedCity([city]);
-      setSelectedDistrict([{ city_id: 1, district: '전국', district_id: 0 }]);
+    if (selectedOption.district.length === 0) {
+      setSelectedDistrict([]);
+      setDistrict([]);
+      setSelectedLocation([selectedOption]);
     } else {
+      const updatedDistricts = selectedOption.district.map((item) => ({
+        cityName: selectedOption.cityName,
+        cityId: selectedOption.cityId,
+        ...item,
+      }));
+
       setOpenDistrictOption(true);
-      const filteredDistrict = district.filter((item) => item.city_id === city.city_id);
-      setSelctedAllDistrict(filteredDistrict);
-      setSelectedCity([...selectedCity, city]);
+      setDistrict(updatedDistricts);
+      console.log(city);
+
+      // const filteredDistrict = district.filter((item) => item.cityId === city.cityId);
     }
   };
 
-  const onClickDistrictBtn = (item: { district_id: number; city_id: number; district: string }) => {
-    if (isAllCity) {
-      setIsAllCity(false);
-      setSelectedDistrict((prev) => {
-        return prev.filter((prevItem) => prevItem.city_id !== 1);
-      });
-      setSelectedCity((prev) => {
-        return prev.filter((prevItem) => prevItem.city_id !== 1);
-      });
-    }
-
+  const onClickDistrictBtn = (selectedOption: DistrictType) => {
     setSelectedDistrict((prev) => {
-      const isAlreadySelected = prev.some((prevItem) => prevItem.district_id === item.district_id);
+      const isAlreadySelected = prev.some((item) => item.districtId === selectedOption.districtId);
       if (isAlreadySelected) {
-        return prev.filter((prevItem) => prevItem.district_id !== item.district_id);
-      } else {
-        return [...prev, item];
+        return prev.filter((item) => item.districtId !== selectedOption.districtId);
       }
-    });
-
-    setSelectedCity((prev) => {
-      const isAlreadySelected = prev.some((prevItem) => prevItem.city_id === item.district_id);
-      if (isAlreadySelected) {
-        return prev.filter((prevItem) => prevItem.city_id !== item.district_id);
+      if (selectedOption.districtId === 0) {
+        return [selectedOption];
       } else {
-        return [...prev, item];
+        return [...prev, selectedOption];
       }
     });
   };
-
-  useEffect(() => {
-    setSelectedCity(() => {
-      // selectedDistrict에서 고유한 city_id만 추출합니다.
-      const uniqueCityIds = Array.from(new Set(selectedDistrict.map((district) => district.city_id)));
-
-      // 각 city_id에 대해 객체를 생성합니다.
-      return uniqueCityIds.map((city_id) => ({ city_id }));
-    });
-  }, [selectedDistrict]);
 
   const onClickSelectedItemBtn = (id: number | { city: number; district: number }, category: string) => {
     switch (category) {
       case 'location':
-        setSelectedDistrict((prev) => prev.filter((item) => item.district_id !== id));
+        // setSelectedDistrict((prev) => prev.filter((item) => item.district_id !== id));
         break;
       case 'weather':
         setSelectedWeather((prev) => prev.filter((item) => item.id !== id));
@@ -150,6 +130,28 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
       sectionRefs.current[btnValue as SectionKey]?.scrollIntoView({ behavior: 'auto', block: 'nearest' });
     }
   }, [btnValue]);
+
+  useEffect(() => {
+    const getRegions = async () => {
+      const response = await axios.get(`${BASEURL}regions`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response);
+
+      const slicedCities = response.data.region.map((item) => ({
+        ...item,
+        cityName: item.cityName.substring(0, 2),
+      }));
+      setCity(slicedCities);
+    };
+    getRegions();
+  }, []);
+
+  useEffect(() => {
+    console.log(city);
+  }, [city]);
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver(
@@ -178,8 +180,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
   useEffect(() => {
     const newSelectedFilterItems: CategoryFilterItem[] = [
-      ...selectedDistrict.map((item) => ({
-        ...{ id: item.district_id, tagName: item.district },
+      ...selectedLocation.map((item) => ({
+        ...{ cityName: item.cityName, district: item.district, cityId: item.cityId },
         category: 'location' as const,
       })),
       ...selectedWeather.map((item) => ({ ...item, category: 'weather' as const })),
@@ -190,7 +192,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [selectedDistrict, selectedWeather, selectedTemperature, selectedSeason]);
 
   const onClickSubmitBtn = () => {
-    updateLocation(selectedDistrict);
+    updateLocation(selectedLocation);
     updateSeasonTagIds(selectedSeason);
     updateTemperatureTagIds(selectedTemperature);
     updateWeatherTagIds(selectedWeather);
@@ -266,36 +268,35 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 <div className="flex flex-wrap gap-2 w-full">
                   {city.map((item) => (
                     <FilterBtn
-                      key={item.city_id}
+                      key={item.cityId}
                       isActive={
-                        selectedCity.some((city) => city.city_id === item.city_id) &&
-                        selectedDistrict.some((district) => district.city_id === item.city_id)
+                        item.cityId === 55 ||
+                        selectedDistrict.some((district) =>
+                          city.some(
+                            (cityItem) => cityItem.cityId === district.cityId && district.cityId === item.cityId,
+                          ),
+                        )
                       }
                       onClickFunc={() => {
-                        if (item.city_id === 1) {
-                          onClickCityBtn(item);
-                          console.log(isAllCity);
-                        } else {
-                          onClickCityBtn(item);
-                        }
+                        onClickCityBtn(item);
                       }}
                     >
-                      {item.city}
+                      {item.cityName}
                     </FilterBtn>
                   ))}
                 </div>
               </div>
               {openDistrictOption ? (
                 <div className="flex flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray w-full">
-                  {selectedAllDistrict.map((item) => (
+                  {district.map((item) => (
                     <FilterBtn
-                      key={item.district_id}
-                      isActive={selectedDistrict.some((selected) => selected.district_id === item.district_id)}
+                      key={item.districtId}
+                      isActive={selectedDistrict.some((selected) => selected.districtId === item.districtId)}
                       onClickFunc={() => {
                         onClickDistrictBtn(item);
                       }}
                     >
-                      {item.district}
+                      {item.districtName}
                     </FilterBtn>
                   ))}
                 </div>

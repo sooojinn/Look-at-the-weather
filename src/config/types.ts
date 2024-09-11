@@ -59,3 +59,16 @@ export interface DistrictProps {
 }
 
 export type DistrictArray = DistrictProps[];
+
+export type DistrictType = {
+  districtId: number;
+  districtName: string;
+  cityName: string;
+  cityId: number;
+};
+
+export interface CityType {
+  cityId: number;
+  cityName: string;
+  district: DistrictType[];
+}

@@ -21,7 +21,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     try {
       const response = await axios.post(`${BASEURL}auth/login`, data);
       const { accessToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);

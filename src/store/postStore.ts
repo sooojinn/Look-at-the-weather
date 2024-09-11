@@ -3,11 +3,11 @@ import { persist } from 'zustand/middleware';
 import { FilterItem } from '@/config/types';
 
 interface PostState {
-  locationIds: { city_id: number; district: string; district_id: number }[];
+  locationIds: { cityId: number; district: []; cityName: string }[];
   seasonTagIds: FilterItem[];
   weatherTagIds: FilterItem[];
   temperatureTagIds: FilterItem[];
-  updateLocation: (newLocation: { city_id: number; district: string; district_id: number }[]) => void;
+  updateLocation: (newLocation: { cityId: number; district: []; cityName: string }[]) => void;
   updateSeasonTagIds: (newSeasonTagIds: FilterItem[]) => void;
   updateWeatherTagIds: (newWeatherTagIds: FilterItem[]) => void;
   updateTemperatureTagIds: (newTemperatureTagIds: FilterItem[]) => void;
