@@ -7,6 +7,7 @@ import PostManageModal from '@components/common/molecules/PostManageModal';
 import { usePostStore } from '@/store/postStore';
 import { getPostDetail } from '@/api/apis';
 import { Location } from '@/config/types';
+import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
 
 interface PostDetail extends PostMeta {
@@ -62,7 +63,7 @@ export default function PostDetail() {
       </div>
       <div className="px-5">
         <div className="flex gap-1.5 my-4 items-center">
-          <HeartIcon fill={'#858588'} liked={postDetailData?.likeByUser} postId={postId} />
+          <Heart fill="gray" liked={postDetailData?.likeByUser} postId={postDetailData?.postId}></Heart>
           <Text color="lightGray">{postDetailData?.likedCount}</Text>
         </div>
         <div className="flex flex-col gap-4">
