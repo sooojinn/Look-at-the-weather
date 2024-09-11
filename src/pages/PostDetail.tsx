@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Menu from '@components/icons/Menu';
-import HeartIcon from '@components/icons/HeartIcon';
 import PostManageModal from '@components/common/molecules/PostManageModal';
 import { usePostStore } from '@/store/postStore';
 import { getPostDetail } from '@/api/apis';
@@ -63,8 +62,7 @@ export default function PostDetail() {
       </div>
       <div className="px-5">
         <div className="flex gap-1.5 my-4 items-center">
-          <Heart fill="gray" liked={postDetailData?.likeByUser} postId={postDetailData?.postId}></Heart>
-          <Text color="lightGray">{postDetailData?.likedCount}</Text>
+          <Heart fill="gray" liked={postDetailData?.likeByUser} postId={postId} hasUserNumber={true} />
         </div>
         <div className="flex flex-col gap-4">
           <Text size="l" weight="bold">
@@ -96,7 +94,7 @@ export default function PostDetail() {
       </div>
       {modalOpen ? (
         <>
-          <PostManageModal modalController={setModalOpen} />
+          <PostManageModal modalController={setModalOpen} option="M" />
         </>
       ) : null}
     </div>

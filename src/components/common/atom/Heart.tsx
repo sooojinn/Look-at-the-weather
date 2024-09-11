@@ -2,11 +2,13 @@ import { BASEURL } from '@/config/constants';
 import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/heartIcons';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
+import Text from './Text';
 
 interface HeartProps {
   fill?: string;
   liked?: boolean;
   postId: number;
+  hasUserNumber?: boolean;
 }
 
 interface ResponseCommonDTO {
@@ -48,7 +50,7 @@ const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
 };
 
 // 하트 컴포넌트
-export default function Heart({ fill = 'white', liked = false, postId }: HeartProps) {
+export default function Heart({ fill = 'white', liked = false, postId, hasUserNumber }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
 
   const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
@@ -71,5 +73,10 @@ export default function Heart({ fill = 'white', liked = false, postId }: HeartPr
     }
   };
 
-  return <div onClick={handleClick}>{isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}</div>;
+  return (
+    <div onClick={handleClick} className="flex row gap-x-2">
+      {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}{' '}
+      {hasUserNumber ? <Text color="lightGray">3</Text> : null}
+    </div>
+  );
 }
