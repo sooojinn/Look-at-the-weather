@@ -25,8 +25,6 @@ function floorToFixed(num: number) {
 
 // geolocation api로 현재 위치의 위도와 경도를 구함
 export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
-  console.log('geolocation api 실행');
-
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(

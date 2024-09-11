@@ -126,7 +126,6 @@ export default function File({ name, rules, setValue, register }: FileProps) {
     // selectedImages가 변경될 때마다 ImageId 필드 업데이트 및 유효성 검사
     const imageIds = selectedImages.map((image) => image.id).filter((id): id is number => id !== undefined);
     setValue(name, imageIds, { shouldValidate: true });
-    console.log(selectedImages);
   }, [selectedImages, setValue]);
 
   return (
