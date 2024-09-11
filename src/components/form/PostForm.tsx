@@ -6,8 +6,8 @@ import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { ImageItem, PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
-import { useState } from 'react';
-import AlertBox from '@components/common/organism/AlertBox';
+import { useEffect, useState } from 'react';
+import ExitWarningModal from '@components/common/organism/WarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
@@ -25,41 +25,71 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
   const {
     register,
     control,
-    getValues,
     setValue,
+    getValues,
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting },
   } = useForm<PostFormData>({
     defaultValues: { ...defaultValues },
   });
 
-  setValue('location', defaultValues.location);
+  const { city, district } = defaultValues;
 
-  const [showAlertBox, setShowAlertBox] = useState(false);
+  setValue('city', city);
+  setValue('district', district);
+
+  const [shoWModal, setShoWModal] = useState(false);
   const navigate = useNavigate();
 
   const handleFormCloseBtn = () => {
-    const currentValues = getValues();
-    const hasChanges = JSON.stringify(defaultValues) !== JSON.stringify(currentValues);
-
-    if (hasChanges) setShowAlertBox(true);
+    if (isDirty) setShoWModal(true);
     else navigate(-1);
   };
 
+  // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
+  const handleSaveToSessionStorage = () => {
+    const formData = getValues();
+    sessionStorage.setItem('formData', JSON.stringify(formData));
+  };
+
+  // 페이지가 처음 로드될 때 세션 스토리지에서 데이터 불러오기
+  useEffect(() => {
+    const savedData = sessionStorage.getItem('formData');
+    if (savedData) {
+      const parsedData: PostFormData = JSON.parse(savedData);
+      (Object.keys(parsedData) as Array<keyof PostFormData>).forEach((name) => {
+        setValue(name, parsedData[name]);
+      });
+    }
+  }, [setValue]);
+
   return (
     <>
-      <Header isModal={true} onClose={handleFormCloseBtn}>
-        게시글 {type}하기
-      </Header>
-      {showAlertBox && (
-        <AlertBox
+      <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
+      {shoWModal && (
+        <ExitWarningModal
           mainMessage={`${type}하지 않고 나가시겠어요?`}
           subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
-          onCancel={() => setShowAlertBox(false)}
-          onContinue={() => navigate(-1)}
+          buttons={
+            <>
+              <Button type="sub" size="m" onClick={() => setShoWModal(false)}>
+                닫기
+              </Button>
+              <Button
+                type="main"
+                size="m"
+                onClick={() => {
+                  navigate(-1);
+                  sessionStorage.removeItem('formData');
+                }}
+              >
+                나가기
+              </Button>
+            </>
+          }
         />
       )}
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel
             name="imageId"
@@ -96,7 +126,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
           </div>
           <div className="flex flex-col gap-3">
             <Label size="l">위치</Label>
-            <Location location={defaultValues.location} />
+            <div onClick={handleSaveToSessionStorage}>
+              <Location city={city} district={district} />
+            </div>
           </div>
           <SelectWithLabel
             label="해당 코디를 입었을 때 날씨를 알려주세요"
@@ -131,13 +163,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
             </Text>
             <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
           </div>
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            type="main"
-            disabled={!isValid || isSubmitting}
-            height={56}
-            radius={10}
-          >
+          <Button type="main" disabled={!isValid || isSubmitting}>
             {type === '작성' ? '업로드하기' : '수정하기'}
           </Button>
         </div>

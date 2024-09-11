@@ -22,7 +22,7 @@ interface ErrorResponse {
 // 좋아요 처리하는 함수
 const postLike = async (postId: number): Promise<ResponseCommonDTO> => {
   const response = await axios.post<ResponseCommonDTO>(
-    `${BASEURL}/api/v1/posts/${postId}/like`,
+    `${BASEURL}/likes/posts/${postId}`,
     {},
     {
       headers: {
@@ -37,7 +37,7 @@ const postLike = async (postId: number): Promise<ResponseCommonDTO> => {
 
 // 좋아요 취소 처리하는 함수
 const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
-  const response = await axios.delete<ResponseCommonDTO>(`${BASEURL}/api/v1/posts/${postId}/like`, {
+  const response = await axios.delete<ResponseCommonDTO>(`${BASEURL}/likes/posts/${postId}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

@@ -1,4 +1,16 @@
-import { Control, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  FieldErrors,
+  FieldValues,
+  RegisterOptions,
+  UseFormClearErrors,
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetError,
+  UseFormSetValue,
+  UseFormTrigger,
+  UseFormWatch,
+} from 'react-hook-form';
 
 export interface GeoPoint {
   latitude: number;
@@ -10,28 +22,39 @@ export interface WeatherInfo {
 }
 
 export interface Location {
-  city: string | null;
-  district: string | null;
+  city: string;
+  district: string;
 }
 
 export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
-  SeasonTagId: number;
-  WeatherTagIds: number[];
-  TemperatureTagIds: number[];
+  seasonTagId: number;
+  weatherTagIds: number[];
+  temperatureTagIds: number[];
   likeByUser: boolean;
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
-export type TextColor = 'black' | 'lightBlack' | 'darkGray' | 'gray' | 'lightGray' | 'white' | 'main' | 'disabled';
+export type TextColor =
+  | 'black'
+  | 'lightBlack'
+  | 'darkGray'
+  | 'gray'
+  | 'lightGray'
+  | 'white'
+  | 'main'
+  | 'disabled'
+  | 'error'
+  | 'success';
 export type TextWeight = 'regular' | 'bold';
 
 export interface PostFormData {
   title: string;
   content: string;
-  location: Location;
+  city: string;
+  district: string;
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
@@ -64,4 +87,43 @@ export interface FileProps {
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
   defaultImages?: ImageItem[];
+}
+
+export interface ErrorResponse {
+  errorCode?: string;
+  errorMessage?: string;
+}
+
+export interface VerifyCodeProps {
+  email: string;
+  code: string;
+}
+
+export interface FormMethods<T extends FieldValues> {
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
+  setError: UseFormSetError<T>;
+  clearErrors: UseFormClearErrors<T>;
+  trigger: UseFormTrigger<T>;
+  getValues: UseFormGetValues<T>;
+  watch: UseFormWatch<T>;
+  formState: { errors: FieldErrors<T> };
+}
+
+export interface SignupForm {
+  email: string;
+  code: string;
+  password: string;
+  confirmPassword: string;
+  name: string;
+  nickname: string;
+  terms: boolean;
+}
+
+export interface RegisterForm {
+  email: string;
+  password: string;
+  name: string;
+  nickname: string;
+  isSocial: boolean;
 }

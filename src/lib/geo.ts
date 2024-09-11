@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GeoPoint, Location } from '@/config/types';
-import { BASEURL } from '@/config/constants';
+import { GeoPoint } from '@/config/types';
+import { KAKAO_REST_API_KEY } from '@/config/constants';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환
@@ -13,41 +13,93 @@ interface DfsResult {
   y: number;
 }
 
+export interface AddressItem extends GeoPoint {
+  address_name: string;
+}
+
+// 소수점 넷째 자리까지 내림 처리하는 함수
+function floorToFixed(num: number) {
+  const factor = Math.pow(10, 4);
+  return Math.floor(num * factor) / factor;
+}
+
 // geolocation api로 현재 위치의 위도와 경도를 구함
-export function fetchGeoPoint(): Promise<GeoPoint> {
+export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
   return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          let { latitude, longitude } = position.coords;
+
+          latitude = floorToFixed(latitude);
+          longitude = floorToFixed(longitude);
+
           resolve({ latitude, longitude });
         },
         (error) => {
-          reject(error);
+          console.warn('위치 정보 패칭에 실패했습니다:', error.message);
+          reject(undefined);
         },
       );
     } else {
-      reject(new Error('Geolocation는 이 브라우저에서 지원되지 않습니다.'));
+      console.warn('Geolocation는 이 브라우저에서 지원되지 않습니다.');
+      resolve(undefined);
     }
   });
 }
 
-// 위치 정보('OO시 OO구')를 반환하는 함수
-export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location | undefined> => {
-  try {
-    const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
+export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
+  const { latitude, longitude } = geoPoint;
+  const response = await axios.get(
+    `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
+    {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },
-    });
+    },
+  );
 
-    return response.data.location;
-  } catch (error) {
-    console.error(error);
-    throw new Error('위치 정보를 불러오는 데 실패했습니다.');
-  }
+  const address = response.data.documents[0].address;
+  const city = convertCityName(address.region_1depth_name);
+  const district = address.region_2depth_name.split(' ')[0];
+
+  return { city, district };
 };
+
+export const searchAddresses = async (address: string): Promise<AddressItem[]> => {
+  const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+    },
+  });
+
+  if (!response.data.documents.length) {
+    throw new Error('존재하지 않는 주소입니다.');
+  }
+
+  const addressList = response.data.documents.map((document: any) => {
+    const { address_name, x, y } = document.road_address || document.address;
+    const latitude = floorToFixed(+y);
+    const longitude = floorToFixed(+x);
+
+    return { address_name, latitude, longitude };
+  });
+
+  return addressList;
+};
+
+const CityNames = {
+  세종특별자치시: '세종시',
+  강원특별자치도: '강원도',
+  전북특별자치도: '전북',
+  제주특별자치도: '제주도',
+};
+
+function convertCityName(name: keyof typeof CityNames) {
+  return CityNames[name] || name;
+}
 
 // 위도와 경도를 단기예보 좌표로 변환
 export function dfs_xy_conv(code: ConversionCode, v1: number, v2: number): DfsResult {

@@ -1,40 +1,41 @@
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
-import { useEffect, useState } from 'react';
 import { PostList } from '@/components/post/PostList';
 import { PostMeta } from '@/config/types';
+import { useQuery } from '@tanstack/react-query';
+import Spinner from '@components/icons/Spinner';
+import Text from '@components/common/atom/Text';
 
-const getBestPostList = async (page: number, size: number): Promise<PostMeta[]> => {
-  const response = await axios.get<PostMeta[]>(`${BASEURL}/api/v1/posts/top-liked`, {
+const fetchTopLikedPosts = async (page: number, size: number): Promise<PostMeta[]> => {
+  const response = await axios.get(`${BASEURL}/posts/top-liked`, {
     params: { page, size },
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
-  return response.data;
+  return response.data.topLikedPosts;
 };
 
 export default function TodayBestWearList() {
-  const [postList, setPostList] = useState<PostMeta[]>([]);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const nextPostList = await getBestPostList(0, 10); // 첫 페이지, 10개 항목
-        setPostList(nextPostList);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchPosts();
-  }, []);
+  const { data: topLikedPosts, isLoading } = useQuery({
+    queryKey: ['topLikedPosts'],
+    queryFn: () => fetchTopLikedPosts(0, 10),
+  });
 
   return (
-    <div className="w-full max-w-md flex flex-col">
-      <div className="w-full px-5 font-bold flex justify-start items-center h-[60px]">
-        <p>Today Best Wear 👕</p>
+    <div className="w-full max-w-md flex flex-col flex-grow">
+      <div className="w-full px-5 flex justify-start items-center h-[60px]">
+        <Text size="l" color="black" weight="bold">
+          Today Best Wear 👕
+        </Text>
       </div>
-      {postList && <PostList postList={postList} />}
+      {topLikedPosts && <PostList postList={topLikedPosts} />}
+      {isLoading && (
+        <div className="flex flex-grow justify-center items-center">
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 }

@@ -4,13 +4,23 @@ import { useForm } from 'react-hook-form';
 import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import InputWithLabel from '@components/form/InputWithLabel';
+import Button from '@components/common/molecules/Button';
+import Text from '@components/common/atom/Text';
+import KakaoLogin from './KakaoLogin';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm();
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
@@ -19,7 +29,11 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const handleLogin = async (data: any) => {
     try {
-      const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
+      const response = await axios.post(`${BASEURL}/auth/login`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const { accessToken, refreshToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
       Cookies.set('refreshToken', refreshToken);
@@ -27,8 +41,15 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
+      setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
     }
   };
+
+  const linkList = [
+    { path: '/signup', label: '회원가입' },
+    { path: '/find-email', label: '이메일 찾기' },
+    { path: '/find-password', label: '비밀번호 찾기' },
+  ];
 
   return (
     <>
@@ -40,54 +61,46 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
             showForm ? 'transform translate-y-0' : 'transform translate-y-full'
           }`}
         >
-          <form onSubmit={handleSubmit(handleLogin)}>
-            <div>
-              <label className="block mb-2 text-gray-600 font-bold">
-                이메일<span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                {...register('email', { required: true })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+          <form className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              <InputWithLabel
+                name="email"
+                label="이메일"
                 placeholder="(예시) abcde@naver.com"
+                register={register}
+                rules={{
+                  required: '이메일을 입력해 주세요.',
+                }}
+                errors={errors}
+                setValue={setValue}
               />
-            </div>
-            <div className=" mt-4">
-              <label className="block mb-2 text-gray-600 font-bold">
-                비밀번호<span className="text-red-500">*</span>
-              </label>
-              <input
+
+              <InputWithLabel
+                name="password"
                 type="password"
-                {...register('password', { required: true })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                label="비밀번호"
                 placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
+                register={register}
+                rules={{
+                  required: '비밀번호를 입력해 주세요.',
+                }}
+                errors={errors}
+                setValue={setValue}
               />
             </div>
-            <div>
-              <button
-                type="submit"
-                className="w-full h-14 bg-blue-600 text-white font-bold px-4 py-2 mt-6 mb-3 rounded-lg hover:bg-blue-500 transition-colors duration-300"
-              >
+            <div className="flex flex-col gap-3">
+              <Button type="main" onClick={handleSubmit(handleLogin)}>
                 이메일로 로그인
-              </button>
-              <button
-                type="button"
-                className="w-full h-14 bg-[#FEE500] font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition-colors duration-300 mb-6"
-              >
-                카카오 로그인
-              </button>
+              </Button>
+              <KakaoLogin />
             </div>
           </form>
-          <div className="h-12 flex justify-between">
-            <Link to="/signup" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              회원가입
-            </Link>
-            <Link to="/findemail" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              이메일 찾기
-            </Link>
-            <Link to="/findpassword" className="w-[106px] flex justify-center items-center font-bold hover:underline">
-              비밀번호 찾기
-            </Link>
+          <div className="h-12 mt-6 flex justify-between">
+            {linkList.map(({ path, label }) => (
+              <Link key={path} to={path} className="w-[106px] flex justify-center items-center">
+                <Text weight="bold">{label}</Text>
+              </Link>
+            ))}
           </div>
         </div>
       </div>

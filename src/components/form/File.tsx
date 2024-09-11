@@ -21,7 +21,7 @@ interface AddImageBtnProps {
 const uploadImage = async (file: File): Promise<{ id: number }> => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await axios.post(`${BASEURL}/api/v1/s3/post-image`, formData, {
+  const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -32,7 +32,7 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
 
 // 이미지 삭제 함수
 const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/api/v1/s3/post-image/${id}`, {
+  await axios.delete(`${BASEURL}/s3/post-image/${id}`, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -125,7 +125,6 @@ export default function File({ name, rules, setValue, register, defaultImages }:
     // selectedImages가 변경될 때마다 ImageId 필드 업데이트 및 유효성 검사
     const imageIds = selectedImages.map((image) => image.id).filter((id): id is number => id !== undefined);
     setValue(name, imageIds, { shouldValidate: true });
-    console.log(selectedImages);
   }, [selectedImages, setValue]);
 
   return (

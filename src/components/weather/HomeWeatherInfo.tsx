@@ -1,16 +1,21 @@
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/common/molecules/Location';
+import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
 import WeatherMessage from '@components/weather/WeatherMessage';
 
 export default function HomeWeatherInfo() {
-  const { currentTemp, weatherType, weatherMessage, minTemp, maxTemp, isLoading } = useWeatherData();
-  const { location } = useLocationData();
+  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
+  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
+  const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
 
-  // weather type에 따른 배경색 결정
+  const isLoading = isLocationLoading || isWeatherLoading;
+  const isSuccess = isLocationSuccess && isWeatherSuccess;
+  const isError = isLocationError || isWeatherError;
+
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
     if (currentTemp >= 33 && weatherType === 'clear') {
       return 'light';
@@ -25,27 +30,49 @@ export default function HomeWeatherInfo() {
     light: 'bg-weather-light-gradient',
     normal: 'bg-weather-normal-gradient',
     dark: 'bg-weather-dark-gradient',
+    error: 'bg-weather-error-gradient',
   };
 
   return (
-    <div className="w-full h-[292px]">
-      {isLoading ? (
-        <div className="w-full h-full flex justify-center items-center">날씨 정보를 가져오는 중입니다...</div>
-      ) : (
-        <div
-          className={`w-full h-full px-5 text-white flex justify-between items-center ${backgroundStyle[backgroundType]}`}
-        >
-          <div>
-            <Location location={location} size="l" color="white" fill="white" />
-            <CurrentTemp>{currentTemp}</CurrentTemp>
-            <WeatherMessage size="l" color="white">
-              {weatherMessage}
-            </WeatherMessage>
-            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
+    <div
+      className={`w-full h-[292px] relative ${
+        backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
+      }`}
+    >
+      <div className="w-full h-full flex flex-col justify-center px-5">
+        {!isLoading && (
+          <>
+            <Location {...location} size="l" color="white" />
+            <div className="flex justify-between">
+              <div>
+                {isSuccess && (
+                  <>
+                    <CurrentTemp>{currentTemp}</CurrentTemp>
+                    <WeatherMessage size="l" color="white">
+                      {weatherMessage}
+                    </WeatherMessage>
+                    <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
+                  </>
+                )}
+                {isError && (
+                  <>
+                    <p className="text-6xl text-white font-bold mt-5 mb-3">Error</p>
+                    <button onClick={handleRefetch} className="underline text-s text-white ml-1">
+                      재시도
+                    </button>
+                  </>
+                )}
+              </div>
+              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} width={206} height={169} />
+            </div>
+          </>
+        )}
+        {isLoading && (
+          <div className="absolute inset-0 bg-black opacity-20 flex justify-center items-center">
+            <Spinner width={40} />
           </div>
-          <WeatherImg weatherType={weatherType as string} width={206} height={169} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
