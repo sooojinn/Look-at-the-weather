@@ -47,8 +47,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const linkList = [
     { path: '/signup', label: '회원가입' },
-    { path: '/findemail', label: '이메일 찾기' },
-    { path: '/findpassword', label: '비밀번호 찾기' },
+    { path: '/find-email', label: '이메일 찾기' },
+    { path: '/find-password', label: '비밀번호 찾기' },
   ];
 
   return (
