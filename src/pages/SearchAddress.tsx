@@ -7,7 +7,7 @@ import InputWithLabel from '@components/form/InputWithLabel';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
 import useLocationPermission from '@/hooks/useLocationPermission';
 
@@ -17,11 +17,15 @@ interface AddressForm {
 
 export default function SearchAddress() {
   const { register, setValue, handleSubmit, watch } = useForm<AddressForm>();
-  const { isLocationAllowed } = useLocationPermission();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
+  const { isPostFormLocation } = location.state;
+  const { isLocationAllowed } = useLocationPermission();
+
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
+  const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
+  const setPostFormLocation = useGeoLocationStore((state) => state.setPostFormLocation);
 
   const [showLocationPermissionModal, setShowLocationPermissionModal] = useState(false);
   const [addressList, setAddressList] = useState<AddressItem[]>([]);
@@ -42,7 +46,11 @@ export default function SearchAddress() {
       setShowLocationPermissionModal(true);
       return;
     }
-    setCustomGeoPoint(null);
+    if (isPostFormLocation) {
+      setPostFormLocation(null);
+    } else {
+      setCustomGeoPoint(null);
+    }
     navigate(-1);
   };
 
@@ -102,11 +110,16 @@ export default function SearchAddress() {
             </div>
           </div>
         )}
-        {addressList.map(({ address_name, latitude, longitude }) => (
+        {addressList.map(({ address_name, latitude, longitude, city, district }) => (
           <div
             key={address_name}
             onClick={() => {
-              setCustomGeoPoint({ latitude, longitude });
+              if (isPostFormLocation) {
+                setPostFormLocation({ city, district });
+                console.log('postFormLocation 수정');
+              } else {
+                setCustomGeoPoint({ latitude, longitude });
+              }
               navigate(-1);
             }}
             className="px-5 py-[18px] border-b border-line-light hover:bg-background-light cursor-pointer"

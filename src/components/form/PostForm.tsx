@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
+import { useGeoLocationStore } from '@/store/locationStore';
 
 interface PostWriteFormProps {
   type: '작성' | '수정';
@@ -21,7 +22,7 @@ interface PostWriteFormProps {
   defaultImages?: ImageItem[];
 }
 
-export default function PostWriteForm({ type, defaultValues, onSubmit, defaultImages }: PostWriteFormProps) {
+export default function PostForm({ type, defaultValues, onSubmit, defaultImages }: PostWriteFormProps) {
   const {
     register,
     control,
@@ -33,7 +34,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
     defaultValues: { ...defaultValues },
   });
 
-  const { city, district } = defaultValues;
+  const postFormLocation = useGeoLocationStore((state) => state.postFormLocation);
+  const setPostFormLocation = useGeoLocationStore((state) => state.setPostFormLocation);
+  const { city, district } = postFormLocation || defaultValues;
 
   setValue('city', city);
   setValue('district', district);
@@ -43,7 +46,10 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
 
   const handleFormCloseBtn = () => {
     if (isDirty) setShoWModal(true);
-    else navigate(-1);
+    else {
+      navigate(-1);
+      setPostFormLocation(null);
+    }
   };
 
   // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
@@ -52,7 +58,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
     sessionStorage.setItem('formData', JSON.stringify(formData));
   };
 
-  // 페이지가 처음 로드될 때 세션 스토리지에서 데이터 불러오기
+  // 페이지가 처음 로드될 때 세션 스토리지에서 저장된 데이터 불러오기
   useEffect(() => {
     const savedData = sessionStorage.getItem('formData');
     if (savedData) {
@@ -60,8 +66,9 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
       (Object.keys(parsedData) as Array<keyof PostFormData>).forEach((name) => {
         setValue(name, parsedData[name]);
       });
+      sessionStorage.removeItem('formData');
     }
-  }, [setValue]);
+  }, []);
 
   return (
     <>
@@ -127,7 +134,7 @@ export default function PostWriteForm({ type, defaultValues, onSubmit, defaultIm
           <div className="flex flex-col gap-3">
             <Label size="l">위치</Label>
             <div onClick={handleSaveToSessionStorage}>
-              <Location city={city} district={district} />
+              <Location isPostFormLocation city={city} district={district} />
             </div>
           </div>
           <SelectWithLabel

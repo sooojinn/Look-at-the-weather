@@ -15,6 +15,8 @@ interface DfsResult {
 
 export interface AddressItem extends GeoPoint {
   address_name: string;
+  city: string;
+  district: string;
 }
 
 // 소수점 넷째 자리까지 내림 처리하는 함수
@@ -60,9 +62,9 @@ export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
     },
   );
 
-  const address = response.data.documents[0].address;
-  const city = convertCityName(address.region_1depth_name);
-  const district = address.region_2depth_name.split(' ')[0];
+  const { region_1depth_name, region_2depth_name } = response.data.documents[0].address;
+  const city = convertCityName(region_1depth_name);
+  const district = region_2depth_name.split(' ')[0];
 
   return { city, district };
 };
@@ -80,11 +82,13 @@ export const searchAddresses = async (address: string): Promise<AddressItem[]> =
   }
 
   const addressList = response.data.documents.map((document: any) => {
-    const { address_name, x, y } = document.road_address || document.address;
+    const { address_name, x, y, region_1depth_name, region_2depth_name } = document.road_address || document.address;
     const latitude = floorToFixed(+y);
     const longitude = floorToFixed(+x);
+    const city = convertCityName(region_1depth_name);
+    const district = region_2depth_name.split(' ')[0];
 
-    return { address_name, latitude, longitude };
+    return { address_name, latitude, longitude, city, district };
   });
 
   return addressList;

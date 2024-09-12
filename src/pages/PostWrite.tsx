@@ -5,8 +5,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { usePostStore } from '@/store/postStore';
+import { useNavigate } from 'react-router-dom';
 
 const uploadPost = async (data: PostFormData) => {
   const response = await axios.post(`${BASEURL}/posts`, data, {

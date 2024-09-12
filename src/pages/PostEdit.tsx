@@ -27,10 +27,8 @@ export default function PostEdit() {
   const defaultValues = {
     title: '수정페이지',
     content: '테스트',
-    location: {
-      city: '서울시',
-      district: '송파구',
-    },
+    city: '서울시',
+    district: '송파구',
     weatherTagIds: [1, 2],
     temperatureTagIds: [6],
     seasonTagId: 12,
