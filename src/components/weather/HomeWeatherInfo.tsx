@@ -1,6 +1,6 @@
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
-import Location from '@components/common/molecules/Location';
+import Location from '@components/common/molecules/LocationComponent';
 import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
