@@ -1,20 +1,9 @@
-import { BASEURL } from '@/config/constants';
+import { editPost } from '@/api/apis';
 import { PostFormData } from '@/config/types';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
-  const response = await axios.put(`${BASEURL}/api/v1/posts/${postId}`, data, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  return response.data;
-};
 
 export default function PostEdit() {
   const navigate = useNavigate();

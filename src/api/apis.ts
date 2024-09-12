@@ -1,3 +1,4 @@
+import { PostFormData, PostMeta } from '@/config/types';
 import { instance } from './instance';
 import useAuthService from '@/hooks/useAuthService';
 import { AxiosRequestConfig } from 'axios';
@@ -47,4 +48,26 @@ export const getPostDetail = (postId: number) => {
 
 export const deletePost = (postId: number) => {
   return instance.delete(`/posts/${postId}`, config);
+};
+
+export const fetchTopLikedPosts = async (): Promise<{ topLikedPosts: PostMeta[] }> => {
+  return instance.get('/posts/top-liked', config);
+};
+
+export const uploadImage = async (file: File): Promise<{ id: number }> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  return instance.post('/s3/post-image', formData, config);
+};
+
+export const deleteImage = async (id: number) => {
+  instance.delete(`/s3/post-image/${id}`, config);
+};
+
+export const uploadPost = async (data: PostFormData) => {
+  return instance.post('post', data, config);
+};
+
+export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
+  return instance.put(`/api/v1/posts/${postId}`, data, config);
 };

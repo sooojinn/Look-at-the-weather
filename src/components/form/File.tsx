@@ -1,13 +1,12 @@
-import { BASEURL } from '@/config/constants';
 import { FileProps, ImageItem } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
+import { deleteImage, uploadImage } from '@/api/apis';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -16,29 +15,6 @@ interface PreviewImageProps extends ImageItem {
 interface AddImageBtnProps {
   handleAddClick: () => void;
 }
-
-// 이미지 업로드 함수
-const uploadImage = async (file: File): Promise<{ id: number }> => {
-  const formData = new FormData();
-  formData.append('file', file);
-  const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-  return response.data;
-};
-
-// 이미지 삭제 함수
-const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/s3/post-image/${id}`, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-};
 
 export default function File({ name, rules, setValue, register, defaultImages }: FileProps) {
   const [selectedImages, setSelectedImages] = useState<ImageItem[]>([]);
