@@ -32,11 +32,10 @@ export default function PostManageModal({ modalController, option, postData }: M
   const navigate = useNavigate();
   const postId = usePostStore((state) => state.postId);
 
+  console.log(postData);
   const onClickCloseBtn = () => {
     modalController(false);
   };
-
-  console.log(postData);
 
   const onClickDeleteBtn = async () => {
     try {

@@ -13,8 +13,8 @@ export function PostList({ postList }: PostListProps) {
   const setSelectedPostId = usePostStore((state) => state.setSelectedPostId);
 
   const onClickPostHandler = (id: number) => {
-    console.log('id', id);
     setSelectedPostId(id);
+
     window.location.href = `post/${id}`;
   };
 

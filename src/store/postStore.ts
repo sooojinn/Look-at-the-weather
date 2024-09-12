@@ -10,7 +10,7 @@ interface PostState {
 export const usePostStore = create<PostState>()(
   persist(
     (set) => ({
-      postId: null,
+      postId: 1,
       setSelectedPostId: (id) => set({ postId: id }),
     }),
     {

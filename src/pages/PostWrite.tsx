@@ -22,12 +22,7 @@ export default function PostWrite() {
   const { data: geoPoint } = useGeoPointQuery();
   const { data: currentLocation } = useLocationQuery(geoPoint);
 
-  const postId = usePostStore((state) => state.postId);
-
   const navigate = useNavigate();
-  // const location = useLocation();
-  // useLocation 으로 전달 시 url 변경으로 setState 초기화, postId로 api 재요청 진행방법 고려
-  console.log(postId);
 
   const defaultValues = {
     title: '',

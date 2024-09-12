@@ -5,7 +5,6 @@ import Menu from '@components/icons/Menu';
 import PostManageModal from '@components/common/molecules/PostManageModal';
 import { usePostStore } from '@/store/postStore';
 import { getPostDetail } from '@/api/apis';
-import { Location } from '@/config/types';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
 
@@ -38,10 +37,6 @@ export default function PostDetail() {
 
     getPostDetailFunc();
   }, [postId]);
-
-  useEffect(() => {
-    console.log('pst', postDetailData);
-  }, [postDetailData]);
 
   return (
     <div className="relative pb-10">
@@ -94,7 +89,7 @@ export default function PostDetail() {
       </div>
       {modalOpen ? (
         <>
-          <PostManageModal modalController={setModalOpen} option="M" />
+          <PostManageModal modalController={setModalOpen} option="M" postData={postDetailData} />
         </>
       ) : null}
     </div>
