@@ -38,7 +38,7 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
 
 // 이미지 삭제 함수
 const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/s3/post-image1111/${id}`, {
+  await axios.delete(`${BASEURL}/s3/post-image/${id}`, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
