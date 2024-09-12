@@ -14,6 +14,7 @@ import Post from '../pages/Post.tsx';
 import ProfileEdit from '../pages/ProfileEdit.tsx';
 import FindEmailResult from '@pages/FindEmailResult.tsx';
 import KakaoRedirect from '@components/login/KakaoRedirect.tsx';
+import SearchAddress from '@pages/SearchAddress.tsx';
 import MyPost from '@pages/MyPost.tsx';
 import MyLikedPost from '@pages/MyLikedPost.tsx';
 
@@ -23,16 +24,17 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
+      { path: '/search-address', element: <SearchAddress /> },
       { path: '/oauth', element: <KakaoRedirect /> },
       { path: '/signup', element: <Signup /> },
-      { path: '/findemail', element: <FindEmail /> },
-      { path: '/findemail/result', element: <FindEmailResult /> },
-      { path: '/findpassword', element: <FindPassword /> },
+      { path: '/find-email', element: <FindEmail /> },
+      { path: '/find-email/result', element: <FindEmailResult /> },
+      { path: '/find-password', element: <FindPassword /> },
       { path: '/mypage', element: <Mypage /> },
-      { path: '/passwordreset', element: <PasswordReset /> },
+      { path: '/password-reset', element: <PasswordReset /> },
       { path: '/post', element: <Post /> },
       { path: '/profileedit', element: <ProfileEdit /> },
-      { path: '/postwrite', element: <PostWrite /> },
+      { path: '/post-write', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
       { path: '/mypost', element: <MyPost /> },
       { path: '/like', element: <MyLikedPost /> },

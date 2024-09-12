@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export default function Header({ children, showBackBtn = true, onClose }: HeaderProps) {
   const location = useLocation();
-  const mainPageList = ['/', '/post', '/postwrite', '/mypage'];
+  const mainPageList = ['/', '/post', '/post-write', '/mypage'];
   const isMainPage = mainPageList.includes(location.pathname);
 
   const navigate = useNavigate();
