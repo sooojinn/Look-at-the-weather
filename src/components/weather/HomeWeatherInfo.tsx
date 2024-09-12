@@ -1,5 +1,5 @@
 import useLocationAndWeatherData from '@/hooks/useLocationAndWeatherData';
-import Location from '@components/common/molecules/Location';
+import Location from '@components/common/molecules/LocationModal';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';

@@ -2,11 +2,13 @@ import { BASEURL } from '@/config/constants';
 import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/heartIcons';
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
+import Text from './Text';
 
 interface HeartProps {
   fill?: string;
   liked?: boolean;
   postId: number;
+  hasUserNumber?: boolean;
 }
 
 interface ResponseCommonDTO {
@@ -22,7 +24,7 @@ interface ErrorResponse {
 // 좋아요 처리하는 함수
 const postLike = async (postId: number): Promise<ResponseCommonDTO> => {
   const response = await axios.post<ResponseCommonDTO>(
-    `${BASEURL}/api/v1/posts/${postId}/like`,
+    `${BASEURL}/posts/${postId}/like`,
     {},
     {
       headers: {
@@ -37,7 +39,7 @@ const postLike = async (postId: number): Promise<ResponseCommonDTO> => {
 
 // 좋아요 취소 처리하는 함수
 const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
-  const response = await axios.delete<ResponseCommonDTO>(`${BASEURL}/api/v1/posts/${postId}/like`, {
+  const response = await axios.delete<ResponseCommonDTO>(`${BASEURL}/posts/${postId}/like`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -48,7 +50,7 @@ const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
 };
 
 // 하트 컴포넌트
-export default function Heart({ fill = 'white', liked = false, postId }: HeartProps) {
+export default function Heart({ fill = 'white', liked = false, postId, hasUserNumber }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
 
   const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
@@ -71,5 +73,10 @@ export default function Heart({ fill = 'white', liked = false, postId }: HeartPr
     }
   };
 
-  return <div onClick={handleClick}>{isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}</div>;
+  return (
+    <div onClick={handleClick} className="flex row gap-x-2">
+      {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}{' '}
+      {hasUserNumber ? <Text color="lightGray">3</Text> : null}
+    </div>
+  );
 }

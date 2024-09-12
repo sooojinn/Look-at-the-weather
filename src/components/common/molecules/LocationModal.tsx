@@ -13,7 +13,7 @@ interface LocationProps {
   color?: TextColor;
 }
 
-export default function Location({ location, size, color = 'black' }: LocationProps) {
+export default function LocationModal({ location, size, color = 'black' }: LocationProps) {
   if (!location) return;
 
   const { city, district } = location;

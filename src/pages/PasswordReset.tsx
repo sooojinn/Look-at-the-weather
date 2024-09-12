@@ -21,7 +21,7 @@ const passwordReset = async (data: PasswordResetForm) => {
   const { userId, password } = data;
 
   const response = await axios.patch(
-    `${BASEURL}/api/v1/users/password`,
+    `${BASEURL}/users/password`,
     { userId, password },
     {
       headers: {
