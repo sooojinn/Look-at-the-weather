@@ -1,6 +1,6 @@
 import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Label from '@components/form/Label';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
@@ -18,7 +18,8 @@ interface InputWithLabelProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   register: UseFormRegister<T>;
   setValue: UseFormSetValue<T>;
-  errors?: FieldErrors<T>;
+  errors: FieldErrors<T>;
+  defaultValue?: string;
 }
 
 export default function InputWithLabel<T extends FieldValues>({
@@ -33,6 +34,7 @@ export default function InputWithLabel<T extends FieldValues>({
   rules,
   register,
   setValue,
+  defaultValue,
   errors,
 }: InputWithLabelProps<T>) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -71,6 +73,10 @@ export default function InputWithLabel<T extends FieldValues>({
       setShowDeleteBtn(false); // 포커스 아웃 시 삭제 버튼 숨김 (클릭 이벤트가 먼저 처리되도록 setTimeout 사용)
     }, 0);
   };
+
+  useEffect(() => {
+    if (defaultValue) setInputValue(defaultValue);
+  }, [defaultValue]);
 
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
   const hasError = !!errors?.[name];

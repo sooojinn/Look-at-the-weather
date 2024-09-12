@@ -15,6 +15,8 @@ import ProfileEdit from '../pages/ProfileEdit.tsx';
 import FindEmailResult from '@pages/FindEmailResult.tsx';
 import KakaoRedirect from '@components/login/KakaoRedirect.tsx';
 import SearchAddress from '@pages/SearchAddress.tsx';
+import MyPost from '@pages/MyPost.tsx';
+import MyLikedPost from '@pages/MyLikedPost.tsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,8 @@ const router = createBrowserRouter([
       { path: '/profileedit', element: <ProfileEdit /> },
       { path: '/post-write', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
+      { path: '/mypost', element: <MyPost /> },
+      { path: '/like', element: <MyLikedPost /> },
       { path: '*', element: <NotFound /> },
     ],
   },

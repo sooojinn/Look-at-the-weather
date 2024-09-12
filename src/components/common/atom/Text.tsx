@@ -5,6 +5,7 @@ type TextType = {
   size?: TextSize;
   color?: TextColor;
   weight?: TextWeight;
+
   href?: string;
   children: ReactNode;
 };

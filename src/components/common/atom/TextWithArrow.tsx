@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Text from './Text';
-import { ArrowIcon } from '@components/icons/arrowIcons';
+import { ArrowIcon } from '@components/icons/ArrowIcons';
 
 type TextType = {
   href: string;
