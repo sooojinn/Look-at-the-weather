@@ -5,14 +5,14 @@ import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface LocationProps {
+interface LocationComponentProps {
   city?: string;
   district?: string;
   size?: TextSize;
   color?: TextColor;
 }
 
-export default function Location({ city, district, size, color = 'black' }: LocationProps) {
+export default function LocationComponent({ city, district, size, color = 'black' }: LocationComponentProps) {
   const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
 

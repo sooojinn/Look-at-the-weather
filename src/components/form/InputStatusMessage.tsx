@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 interface InputStatusMessageProps {
   children: ReactNode;
-  status: 'success' | 'normal';
+  status: 'success' | 'error' | 'normal';
   isVisible: boolean;
 }
 

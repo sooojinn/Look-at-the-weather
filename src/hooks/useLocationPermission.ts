@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default function useLocationPermission() {
-  const [isLocationAllowed, setLocationAllowed] = useState<boolean>();
+  const [isLocationAllowed, setLocationAllowed] = useState<boolean>(true);
 
   useEffect(() => {
     const checkLocationPermission = async () => {

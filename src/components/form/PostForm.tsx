@@ -1,6 +1,6 @@
 import Text from '@components/common/atom/Text';
 import Label from '@components/form/Label';
-import Location from '@components/common/molecules/Location';
+import Location from '@components/common/molecules/LocationComponent';
 import { useForm } from 'react-hook-form';
 import SelectWithLabel from '@components/form/SelectWithLabel';
 import TextAreaWithLabel from '@components/form/TextAreaWithLabel';

@@ -44,7 +44,7 @@ interface ForecastType {
 type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
 
 // 태그 id를 name으로 변경하는 함수
-export function getTagNameById(id: number) {
+export function getTagNameById(id: number | string) {
   const tag = TAGS.find((tag) => tag.id === id);
   return tag ? tag.name : null;
 }
