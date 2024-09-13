@@ -6,7 +6,9 @@ import { useMutation } from '@tanstack/react-query';
 import React, { useState, useRef, useEffect } from 'react';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import { deleteImage, uploadImage } from '@/api/apis';
+import { deleteImage } from '@/api/apis';
+import axios from 'axios';
+import { BASEURL } from '@/constants/constants';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -15,6 +17,19 @@ interface PreviewImageProps extends ImageItem {
 interface AddImageBtnProps {
   handleAddClick: () => void;
 }
+
+// 이미지 업로드 함수
+const uploadImage = async (file: File): Promise<{ id: number }> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `${localStorage.getItem('accesstoken')}`,
+    },
+  });
+  return response.data;
+};
 
 export default function File({ name, rules, setValue, register, defaultImages }: FileProps) {
   const [selectedImages, setSelectedImages] = useState<ImageItem[]>([]);

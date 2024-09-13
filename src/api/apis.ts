@@ -54,20 +54,15 @@ export const fetchTopLikedPosts = async (): Promise<{ topLikedPosts: PostMeta[] 
   return instance.get('/posts/top-liked', config);
 };
 
-export const uploadImage = async (file: File): Promise<{ id: number }> => {
-  const formData = new FormData();
-  formData.append('file', file);
-  return instance.post('/s3/post-image', formData, config);
-};
-
 export const deleteImage = async (id: number) => {
   instance.delete(`/s3/post-image/${id}`, config);
 };
 
 export const uploadPost = async (data: PostFormData) => {
-  return instance.post('/post', data, config);
+  return instance.post('/posts', data, config);
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
-  return instance.put(`/posts/${postId}`, data, config);
+  console.log('수정 데이터: ', data);
+  return instance.patch(`/posts/${postId}`, data, config);
 };
