@@ -49,7 +49,11 @@ export default function PostEdit() {
     mutationFn: editPost,
     onSuccess: () => {
       navigate(`/post/${postId}`);
-      showToast('게시물이 수정되었습니다');
+      showToast('게시물이 수정되었습니다.');
+    },
+    onError: (error) => {
+      console.error(error);
+      showToast('게시물을 수정하는 데 실패했습니다.');
     },
   });
 

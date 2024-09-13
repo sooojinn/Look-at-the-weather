@@ -65,9 +65,9 @@ export const deleteImage = async (id: number) => {
 };
 
 export const uploadPost = async (data: PostFormData) => {
-  return instance.post('post', data, config);
+  return instance.post('/post', data, config);
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
-  return instance.put(`/api/v1/posts/${postId}`, data, config);
+  return instance.put(`/posts/${postId}`, data, config);
 };

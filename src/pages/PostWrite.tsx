@@ -28,6 +28,10 @@ export default function PostWrite() {
       navigate(-1);
       showToast('게시물이 등록되었습니다');
     },
+    onError: (error) => {
+      console.error(error);
+      showToast('게시물을 등록하는 데 실패했습니다.');
+    },
   });
 
   const onSubmit = (data: PostFormData) => {
