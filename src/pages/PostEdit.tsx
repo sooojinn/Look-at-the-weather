@@ -1,39 +1,49 @@
 import { editPost } from '@/api/apis';
+import { TAGS } from '@/config/constants';
 import { PostFormData } from '@/config/types';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+function tagNameToId(tagName: string) {
+  const tag = TAGS.find((tag) => tagName === tag.name);
+  return tag?.id as number;
+}
+
+function tagNamesToIds(tagNames: string[]) {
+  return tagNames.map((tagName) => tagNameToId(tagName));
+}
+
 export default function PostEdit() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { postData, postId } = location.state;
+  console.log(postData);
 
-  const pathnames = location.pathname.split('/');
-  const postId = +pathnames[pathnames.length - 2];
+  const {
+    title,
+    content,
+    location: { city, district },
+    weatherTags,
+    temperatureTags,
+    seasonTag,
+  } = postData;
 
-  // 임시 데이터
+  const imageList: { imageId: number; url: string }[] = postData.images.image;
+  const imageId = imageList.map((img) => img.imageId);
+  const defaultImages = imageList.map(({ imageId, url }) => ({ id: imageId, url }));
+
   const defaultValues = {
-    title: '수정페이지',
-    content: '테스트',
-    city: '서울시',
-    district: '송파구',
-    weatherTagIds: [1, 2],
-    temperatureTagIds: [6],
-    seasonTagId: 12,
-    imageId: [3, 4],
+    title,
+    content,
+    city,
+    district,
+    weatherTagIds: tagNamesToIds(weatherTags),
+    temperatureTagIds: tagNamesToIds(temperatureTags),
+    seasonTagId: tagNameToId(seasonTag),
+    imageId,
   };
-
-  const defaultImages = [
-    {
-      id: 3,
-      url: 'https://contents-cdn.viewus.co.kr/image/2023/12/CP-2022-0017/image-aba00dcb-3a74-48e0-b243-77e8eedd661a.jpeg',
-    },
-    {
-      id: 4,
-      url: 'https://cdn.ggilbo.com/news/photo/202108/862980_692553_1953.jpg',
-    },
-  ];
 
   const editMutation = useMutation({
     mutationFn: editPost,

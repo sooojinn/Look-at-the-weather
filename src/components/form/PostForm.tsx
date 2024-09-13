@@ -72,7 +72,9 @@ export default function PostForm({ type, defaultValues, onSubmit, defaultImages 
 
   return (
     <>
-      <Header onClose={handleFormCloseBtn}>게시글 {type}하기</Header>
+      <Header onClose={handleFormCloseBtn} showBackBtn={false}>
+        게시글 {type}하기
+      </Header>
       {shoWModal && (
         <ExitWarningModal
           mainMessage={`${type}하지 않고 나가시겠어요?`}

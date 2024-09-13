@@ -48,7 +48,7 @@ export default function PostManageModal({ modalController, option, postData }: M
     modalController(false);
   };
   const onClickUpdateBtn = async () => {
-    navigate('/postwrite', { state: { postData } });
+    navigate(`/post/${postId}/edit`, { state: { postData, postId } });
 
     modalController(false);
   };
