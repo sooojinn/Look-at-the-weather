@@ -50,7 +50,7 @@ export const deletePost = (postId: number) => {
   return instance.delete(`/posts/${postId}`, config);
 };
 
-export const fetchTopLikedPosts = async (): Promise<{ topLikedPosts: PostMeta[] }> => {
+export const fetchTopLikedPosts = async () => {
   return instance.get('/posts/top-liked', config);
 };
 

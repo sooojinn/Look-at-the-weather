@@ -5,12 +5,12 @@ import Text from '@components/common/atom/Text';
 import { fetchTopLikedPosts } from '@/api/apis';
 
 export default function TodayBestWearList() {
-  const { data, isLoading } = useQuery({
+  const { data: response, isLoading } = useQuery({
     queryKey: ['topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
 
-  const topLikedPosts = data?.topLikedPosts;
+  const topLikedPosts = response?.data.topLikedPosts;
 
   return (
     <div className="w-full max-w-md flex flex-col flex-grow">
