@@ -21,9 +21,7 @@ export function PostList({ postList }: PostListProps) {
   return (
     <div className="w-full post-list">
       {postList.map((post, index) => {
-        const tags = [...(post.weatherTagIds || []), ...(post.temperatureTagIds || []), post.seasonTagId || ''].map(
-          (tag) => getTagNameById(tag),
-        );
+        const tags = [...(post.weatherTags || []), ...(post.temperatureTags || []), post.seasonTag || ''];
         return (
           <div className="min-h-[312px] h-auto" key={`${post.postId}-${index}`}>
             <div onClick={() => onClickPostHandler(post.postId)}>

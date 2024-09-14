@@ -31,7 +31,7 @@ export default function PostEdit() {
   } = postData;
 
   const imageList: { imageId: number; url: string }[] = postData.images.image;
-  const imageId = imageList.map((img) => img.imageId);
+  const imageIds = imageList.map((img) => img.imageId);
   const defaultImages = imageList.map(({ imageId, url }) => ({ id: imageId, url }));
 
   const defaultValues = {
@@ -42,7 +42,7 @@ export default function PostEdit() {
     weatherTagIds: tagNamesToIds(weatherTags),
     temperatureTagIds: tagNamesToIds(temperatureTags),
     seasonTagId: tagNameToId(seasonTag),
-    imageId,
+    imageIds,
   };
 
   const editMutation = useMutation({

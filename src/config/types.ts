@@ -30,9 +30,9 @@ export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
-  seasonTagId: number;
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
+  seasonTag: string;
+  weatherTags: string[];
+  temperatureTags: string[];
   likeByUser: boolean;
 }
 
@@ -58,7 +58,7 @@ export interface PostFormData {
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
-  imageId: number[];
+  imageIds: number[];
 }
 
 export interface Tag {

@@ -46,11 +46,10 @@ export default function PostForm({ type, defaultValues, onSubmit, defaultImages 
 
   const handleFormCloseBtn = () => {
     if (isDirty) setShoWModal(true);
-    else {
-      navigate(-1);
-      setPostFormLocation(null);
-    }
+    else navigate(-1);
   };
+
+  console.log(postFormLocation);
 
   // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
   const handleSaveToSessionStorage = () => {
@@ -89,6 +88,7 @@ export default function PostForm({ type, defaultValues, onSubmit, defaultImages 
                 size="m"
                 onClick={() => {
                   navigate(-1);
+                  setPostFormLocation(null);
                   sessionStorage.removeItem('formData');
                 }}
               >
@@ -101,7 +101,7 @@ export default function PostForm({ type, defaultValues, onSubmit, defaultImages 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="p-5 pb-10 flex flex-col gap-5">
           <FileWithLabel
-            name="imageId"
+            name="imageIds"
             label="오늘의 룩을 올려주세요"
             description="사진 추가는 최대 3장까지 가능합니다."
             rules={{ required: true }}
