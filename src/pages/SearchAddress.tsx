@@ -1,4 +1,4 @@
-import { AddressItem, searchAddresses } from '@/lib/geo';
+import { AddressItem, fetchCurrentLocation, searchAddresses } from '@/lib/geo';
 import { useGeoLocationStore } from '@/store/locationStore';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
@@ -23,7 +23,6 @@ export default function SearchAddress() {
   const { isPostFormLocation } = location.state;
   const { isLocationAllowed } = useLocationPermission();
 
-  const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
   const setPostFormLocation = useGeoLocationStore((state) => state.setPostFormLocation);
 
@@ -41,13 +40,15 @@ export default function SearchAddress() {
     }
   }, [debouncedAddress]); // 디바운스된 값이 변경될 때만 작동
 
-  const handleCurrentLocationClick = () => {
+  // 현재 위치로 설정 버튼
+  const handleCurrentLocationClick = async () => {
     if (!isLocationAllowed) {
       setShowLocationPermissionModal(true);
       return;
     }
     if (isPostFormLocation) {
-      setPostFormLocation(null);
+      const currentLocation = await fetchCurrentLocation();
+      setPostFormLocation(currentLocation);
     } else {
       setCustomGeoPoint(null);
     }
@@ -82,17 +83,15 @@ export default function SearchAddress() {
             setValue={setValue}
           />
         </form>
-        {(!isLocationAllowed || !!customGeoPoint) && (
-          <div
-            onClick={handleCurrentLocationClick}
-            className="w-full h-14 py-2 flex gap-1 rounded-[10px] justify-center items-center border cursor-pointer"
-          >
-            <LocationIcon fill="#171719" />
-            <Text size="l" color="black" weight="bold">
-              현재 위치로 찾기
-            </Text>
-          </div>
-        )}
+        <div
+          onClick={handleCurrentLocationClick}
+          className="w-full h-14 py-2 flex gap-1 rounded-[10px] justify-center items-center border cursor-pointer"
+        >
+          <LocationIcon fill="#171719" />
+          <Text size="l" color="black" weight="bold">
+            현재 위치로 찾기
+          </Text>
+        </div>
       </div>
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         {!addressList.length && (
@@ -116,7 +115,6 @@ export default function SearchAddress() {
             onClick={() => {
               if (isPostFormLocation) {
                 setPostFormLocation({ city, district });
-                console.log('postFormLocation 수정');
               } else {
                 setCustomGeoPoint({ latitude, longitude });
               }

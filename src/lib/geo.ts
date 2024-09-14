@@ -52,46 +52,62 @@ export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
 
 export const getLocationFromGeoPoint = async (geoPoint: GeoPoint) => {
   const { latitude, longitude } = geoPoint;
-  const response = await axios.get(
-    `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
-    {
+  try {
+    const response = await axios.get(
+      `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+        },
+      },
+    );
+
+    const { region_1depth_name, region_2depth_name } = response.data.documents[0].address;
+    const city = convertCityName(region_1depth_name);
+    const district = region_2depth_name.split(' ')[0];
+
+    return { city, district };
+  } catch (error) {
+    throw new Error('위치를 불러오는 데 실패했습니다.');
+  }
+};
+
+export const fetchCurrentLocation = async () => {
+  const currentGeoPoint = await fetchCurrentGeoPoint();
+
+  if (!currentGeoPoint) return null;
+
+  return getLocationFromGeoPoint(currentGeoPoint);
+};
+
+export const searchAddresses = async (address: string): Promise<AddressItem[]> => {
+  try {
+    const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },
-    },
-  );
+    });
 
-  const { region_1depth_name, region_2depth_name } = response.data.documents[0].address;
-  const city = convertCityName(region_1depth_name);
-  const district = region_2depth_name.split(' ')[0];
+    if (!response.data.documents.length) {
+      throw new Error('존재하지 않는 주소입니다.');
+    }
 
-  return { city, district };
-};
+    const addressList = response.data.documents.map((document: any) => {
+      const { address_name, x, y, region_1depth_name, region_2depth_name } = document.road_address || document.address;
+      const latitude = floorToFixed(+y);
+      const longitude = floorToFixed(+x);
+      const city = convertCityName(region_1depth_name);
+      const district = region_2depth_name.split(' ')[0];
 
-export const searchAddresses = async (address: string): Promise<AddressItem[]> => {
-  const response = await axios.get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
-    },
-  });
+      return { address_name, latitude, longitude, city, district };
+    });
 
-  if (!response.data.documents.length) {
-    throw new Error('존재하지 않는 주소입니다.');
+    return addressList;
+  } catch (error) {
+    throw new Error('주소를 불러오는 데 실패했습니다.');
   }
-
-  const addressList = response.data.documents.map((document: any) => {
-    const { address_name, x, y, region_1depth_name, region_2depth_name } = document.road_address || document.address;
-    const latitude = floorToFixed(+y);
-    const longitude = floorToFixed(+x);
-    const city = convertCityName(region_1depth_name);
-    const district = region_2depth_name.split(' ')[0];
-
-    return { address_name, latitude, longitude, city, district };
-  });
-
-  return addressList;
 };
 
 const CityNames = {
