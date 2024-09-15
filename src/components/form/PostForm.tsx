@@ -49,8 +49,6 @@ export default function PostForm({ type, defaultValues, onSubmit, defaultImages 
     else navigate(-1);
   };
 
-  console.log(postFormLocation);
-
   // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
   const handleSaveToSessionStorage = () => {
     const formData = getValues();

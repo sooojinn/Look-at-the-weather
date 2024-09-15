@@ -2,7 +2,6 @@ import { PostMeta } from '@/config/types';
 import Tags from '@/components/post/Tags';
 import Text from '@components/common/atom/Text';
 import PostListImg from './PostListImg';
-import { getTagNameById } from '@/lib/weather';
 import { usePostStore } from '@/store/postStore';
 
 interface PostListProps {
