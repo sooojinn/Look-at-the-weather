@@ -30,9 +30,9 @@ export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
-  seasonTagId: number;
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
+  seasonTag: string;
+  weatherTags: string[];
+  temperatureTags: string[];
   likeByUser: boolean;
 }
 
@@ -49,37 +49,36 @@ export type TextColor =
   | 'error'
   | 'success';
 export type TextWeight = 'regular' | 'bold';
-export type TextMargin = string;
 
-export type HrLineHeight = { height: 1 | 8 };
-
-export type FilterBtn = {
-  id?: string;
-  onClickFunc: (btnValue: string) => void;
-  isActive?: boolean | (() => boolean);
-  isSelected?: boolean;
-};
-export type FilterBtnGroupProps = FilterBtn & {
-  btnData: any[];
-};
-
-export interface FilterItem {
-  id: number | { city: number; district: number };
-  tagName: string;
+export interface PostFormData {
+  title: string;
+  content: string;
+  city: string;
+  district: string;
+  weatherTagIds: number[];
+  temperatureTagIds: number[];
+  seasonTagId: number | null;
+  imageIds: number[];
 }
 
-export type PostFilterModalProps = {
-  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  btnValue: string;
-  btnIndex: number;
-};
+export interface Tag {
+  id: number;
+  category: string;
+  value: string;
+  name: string;
+}
+export interface SelectProps {
+  name: keyof PostFormData;
+  options: Tag[];
+  maxSelection?: number;
+  control: Control<any>;
+  rules?: RegisterOptions; // 유효성 검사 규칙
+}
 
-export type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
-
-export interface DistrictProps {
-  city_id: number;
-  district_id: number;
-  district: string;
+export interface ImageItem {
+  id?: number;
+  url: string;
+  tempId?: string;
 }
 
 export type DistrictArray = DistrictProps[];
@@ -113,6 +112,7 @@ export interface FileProps {
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
+  defaultImages?: ImageItem[];
 }
 
 export interface ErrorResponse {

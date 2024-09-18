@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import { Line } from '@components/common/atom/Line';
 import LinkMenu from '@/components/common/molecules/LinkMenu';
+import { getUserInfos } from '@/api/apis';
 
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
@@ -10,6 +12,17 @@ export default function Mypage() {
     { menu: '내 게시물', href: '/mypost' },
     { menu: '내가 좋아요한 게시물', href: '/like' },
   ];
+
+  const [userNickname, setUserNickname] = useState('');
+
+  useEffect(() => {
+    const getUserNickname = async () => {
+      const response = await getUserInfos();
+
+      setUserNickname(response.data.nickname);
+    };
+    getUserNickname();
+  }, []);
 
   return (
     <>
@@ -22,7 +35,7 @@ export default function Mypage() {
             <img src="../../public/assets/user_icon.png" alt="" />
           </div>
           <Text size="xl" weight="bold">
-            맛있는 라면
+            {userNickname}
           </Text>
         </div>
         <LinkMenu title="설정" menuList={settingList} />

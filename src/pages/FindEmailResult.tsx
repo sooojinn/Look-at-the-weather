@@ -27,7 +27,7 @@ export default function FindEmailResult() {
           </div>
         </div>
         <div className="flex flex-col gap-3">
-          <Button type="white" onClick={() => navigate('/findpassword')}>
+          <Button type="white" onClick={() => navigate('/find-password')}>
             비밀번호 찾기
           </Button>
           <Button onClick={() => navigate('/')}>로그인하기</Button>

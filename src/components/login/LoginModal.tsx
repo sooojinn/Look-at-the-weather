@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
 import useAuthService from '@/hooks/useAuthService';
+import useUserInfo from '@/hooks/useUserInfo';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
@@ -22,7 +23,9 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   } = useForm();
   const [showForm, setShowForm] = useState(false);
 
-  const { setRefreshToken, setAccessToken, refreshTokens, isLogin } = useAuthService();
+  const { setAccessToken, isLogin } = useAuthService();
+
+  const { setUserInfo } = useUserInfo();
 
   const handleLoginCheck = async () => {
     const loggedIn = await isLogin();
@@ -40,11 +43,12 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       //   password: 'ccc123',
       // });
 
-      const { accessToken, refreshToken } = response.data;
-      setRefreshToken(refreshToken);
+      const { accessToken } = response.data;
+
       setAccessToken(accessToken);
+      console.log(response.data);
+      setUserInfo('nickname', response.data.nickName);
       handleLoginCheck();
-      // refreshTokens();
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
@@ -53,8 +57,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const linkList = [
     { path: '/signup', label: '회원가입' },
-    { path: '/findemail', label: '이메일 찾기' },
-    { path: '/findpassword', label: '비밀번호 찾기' },
+    { path: '/find-email', label: '이메일 찾기' },
+    { path: '/find-password', label: '비밀번호 찾기' },
   ];
 
   useEffect(() => {

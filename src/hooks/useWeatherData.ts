@@ -30,9 +30,9 @@ export default function useWeatherData(geoPoint: GeoPoint | undefined) {
 
   const queries = [hourlyWeatherQuery, dailyWeatherQuery];
 
-  const isLoading = queries.some((query) => query.isLoading);
-  const isSuccess = queries.every((query) => query.isSuccess);
-  const isError = !isLoading && queries.some((query) => query.isError);
+  const isWeatherLoading = queries.some((query) => query.isLoading);
+  const isWeatherSuccess = queries.every((query) => query.isSuccess);
+  const isWeatherError = !isWeatherLoading && queries.some((query) => query.isError);
 
   const handleRefetch = () => {
     queries.forEach((query) => {
@@ -41,16 +41,16 @@ export default function useWeatherData(geoPoint: GeoPoint | undefined) {
   };
 
   useEffect(() => {
-    if (isError) {
+    if (isWeatherError) {
       showToast('현재 날씨 정보를 불러올 수 없어요.', '재시도', handleRefetch);
     }
-  }, [isError]);
+  }, [isWeatherError]);
 
   return {
     weatherData: { ...hourlyWeatherQuery.data, ...dailyWeatherQuery.data },
-    isWeatherLoading: isLoading,
-    isSuccess,
-    isError,
+    isWeatherLoading,
+    isWeatherSuccess,
+    isWeatherError,
     handleRefetch,
   };
 }

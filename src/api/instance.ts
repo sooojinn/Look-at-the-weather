@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { BASEURL } from '@/constants/constants';
+import axios from 'axios';
 import useAuthService from '@/hooks/useAuthService';
 
-const { getAccessToken, refreshTokens } = useAuthService();
+const { setAccessToken, getAccessToken } = useAuthService();
 
+const accessToken = getAccessToken();
 const baseURL = BASEURL;
 
 // 인스턴스 생성
@@ -14,50 +15,21 @@ export const instance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+axios.interceptors.request.use();
 
-instance.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken();
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+// axios.interceptors.request.use(
+//   function (config) {
+//     if (!accessToken) {
+//       const response = axios.post(`${BASEURL}/auth/reissue`);
+//       console.log('res', response);
+//       setAccessToken(response);
+//     }
+//     return config;
+//   },
+//   function (error) {
+//     // 2. 요청 에러가 있는 작업 처리
+//     return Promise.reject(error);
+//   },
+// );
 
-instance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // 401 Unauthorized 오류 발생 시 처리
-    if (error.response && error.response.status === 401) {
-      // 토큰 갱신을 시도
-      try {
-        // 기존 요청의 토큰이 유효하지 않음
-        await refreshTokens();
-
-        // 토큰 갱신 후 원래 요청을 다시 시도
-        const newToken = getAccessToken();
-        if (newToken) {
-          // 새로운 토큰으로 헤더를 업데이트
-          originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-
-          // 원래 요청을 재시도
-          return instance(originalRequest);
-        }
-
-        // 토큰 갱신 실패 시 로그인 페이지로 리디렉션
-        window.location.replace('/');
-      } catch (refreshError) {
-        // 토큰 갱신 실패 처리
-        console.error('Token refresh failed:', refreshError);
-        window.location.replace('/');
-      }
-    }
-
-    // 다른 오류는 그대로 반환
-    return Promise.reject(error);
-  },
-);
+instance.interceptors.response.use();

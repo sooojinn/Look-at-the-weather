@@ -1,28 +1,29 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { PostList } from '@components/post/PostList';
-import { PostMeta } from '@/config/types';
-import Header from '@components/common/Header';
 import Loading from '@components/common/atom/Loading';
-import { getMyPosts } from '@/api/apis';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
-export default function MyPost() {
-  const [postList, setPostList] = useState<PostMeta[]>([]);
+type InfinityScrollProps = {
+  setState: React.Dispatch<React.SetStateAction<Record<string, any>[]>>;
+  data: Record<string, any>[];
+};
+
+export default function useInfinityScroll({ setState, data }: InfinityScrollProps) {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const pageEnd = useRef<HTMLDivElement>(null);
 
+  const loadingComponent = <Loading ref={pageEnd} isLoading={loading} />;
+
   const fetchPosts = useCallback(
     async (pageNum: number) => {
       if (!hasMore) return;
-      console.log('page', pageNum);
+
       setLoading(true);
       try {
-        const response = await getMyPosts({ page: pageNum, size: 10 });
-        const newPosts = response.data.myPosts;
+        const newPosts = data;
         if (newPosts.length > 0) {
-          setPostList((prev) => [...prev, ...newPosts]);
+          setState((prev) => [...prev, ...data]);
           setPage(pageNum + 1);
         } else {
           setHasMore(false);
@@ -62,11 +63,5 @@ export default function MyPost() {
       };
     }
   }, [loading]);
-  return (
-    <div>
-      <Header>내 게시물</Header>
-      <PostList postList={postList} />
-      <Loading ref={pageEnd} isLoading={loading} />
-    </div>
-  );
+  return { loadingComponent };
 }

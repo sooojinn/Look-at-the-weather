@@ -5,14 +5,51 @@ import HideIcon from '@components/icons/HideIcon';
 import DeleteIcon from '@components/icons/DeleteIcon';
 import EditIcon from '@components/icons/EditIcon';
 import Text from '../atom/Text';
+import { deletePost } from '@/api/apis';
+import { usePostStore } from '@/store/postStore';
+import { useNavigate } from 'react-router-dom';
+import { PostMeta } from '@/config/types';
+
+interface PostDetail extends PostMeta {
+  nickname: string;
+  date: string;
+  title: string;
+  content: string;
+  images: {
+    image: [imageId: number, url: string];
+  };
+  likedCount: number;
+  reportPost: boolean;
+}
 
 type ModalType = {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
   option?: string;
+  postData: PostDetail;
 };
 
-export default function PostManageModal({ modalController, option }: ModalType) {
+export default function PostManageModal({ modalController, option, postData }: ModalType) {
+  const navigate = useNavigate();
+  const postId = usePostStore((state) => state.postId);
+
+  console.log(postData);
   const onClickCloseBtn = () => {
+    modalController(false);
+  };
+
+  const onClickDeleteBtn = async () => {
+    try {
+      const response = await deletePost(postId);
+      alert(response.data.message);
+      window.location.href = '/mypost';
+    } catch (err) {
+      console.log(err);
+    }
+    modalController(false);
+  };
+  const onClickUpdateBtn = async () => {
+    navigate(`/post/${postId}/edit`, { state: { postData, postId } });
+
     modalController(false);
   };
 
@@ -33,11 +70,11 @@ export default function PostManageModal({ modalController, option }: ModalType) 
           <div>
             {option && option === 'M' ? (
               <div>
-                <div className="flex gap-3 py-3 items-center">
+                <div className="flex gap-3 py-3 items-center" onClick={onClickUpdateBtn}>
                   <EditIcon />
                   <Text size="l">수정하기</Text>
                 </div>
-                <div className="flex gap-3 py-3 items-center">
+                <div className="flex gap-3 py-3 items-center" onClick={onClickDeleteBtn}>
                   <DeleteIcon />
                   <Text size="l">삭제하기</Text>
                 </div>

@@ -1,15 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Menu from '@components/icons/Menu';
-import HeartIcon from '@components/icons/HeartIcon';
 import PostManageModal from '@components/common/molecules/PostManageModal';
+import { usePostStore } from '@/store/postStore';
+import { getPostDetail } from '@/api/apis';
+import Heart from '@components/common/atom/Heart';
+import { PostMeta } from '@/config/types';
+
+interface PostDetail extends PostMeta {
+  nickname: string;
+  date: string;
+  title: string;
+  content: string;
+  images: {
+    image: [imageId: number, url: string];
+  };
+  likedCount: number;
+  reportPost: boolean;
+}
 
 export default function PostDetail() {
+  const postId = usePostStore((state) => state.postId);
+
   const [modalOpen, setModalOpen] = useState(false);
+  const [postDetailData, setPostDetailData] = useState<PostDetail>();
   const modalHandler = () => {
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    const getPostDetailFunc = async () => {
+      const response = await getPostDetail(postId);
+      setPostDetailData(response.data);
+    };
+
+    getPostDetailFunc();
+  }, [postId]);
 
   return (
     <div className="relative pb-10">
@@ -17,8 +44,8 @@ export default function PostDetail() {
       <div className="px-5">
         <div className="flex justify-between items-center">
           <div className="my-2.5">
-            <Text weight="bold">title</Text>
-            <Text color="gray">region</Text>
+            <Text weight="bold">{postDetailData?.nickname}</Text>
+            <Text color="gray">{`${postDetailData?.location.city} ${postDetailData?.location.district}`}</Text>
           </div>
           <div onClick={modalHandler}>
             <Menu />
@@ -26,28 +53,20 @@ export default function PostDetail() {
         </div>
       </div>
       <div>
-        <img
-          className="w-full h-[468px]"
-          src="https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202210/12/kncom/20221012135123984gqor.png"
-        />
+        <img className="w-full h-[468px]" src={postDetailData?.images.image[0].url} />
       </div>
       <div className="px-5">
         <div className="flex gap-1.5 my-4 items-center">
-          <HeartIcon fill={'#858588'} postId={1} />
-          <Text color="lightGray">33</Text>
+          <Heart fill="gray" liked={postDetailData?.likeByUser} postId={postId} hasUserNumber={true} />
         </div>
         <div className="flex flex-col gap-4">
           <Text size="l" weight="bold">
-            8월 1일 착장입니다.
+            {postDetailData?.title}
           </Text>
-          <Text color="lightBlack">
-            본문은 공백포함 300자입니다.본문은 공백포함 300자입니다.본문은 공백포함 300자입니다.본문은 공백포함
-            300자입니다.본문은 공백포함 300자입니다.본문은 공백포함 300자입니다.본문은 공백포함 300자입니다.본문은
-            공백포함 300자입니다.본문은 공백포함 300자입니다.본문은 공백포함 300자입니다.
-          </Text>
+          <Text color="lightBlack">{postDetailData?.content}</Text>
         </div>
         <div className="mt-2.5 mb-4">
-          <Text color="gray">2024.08.01 12:42</Text>
+          <Text color="gray">{postDetailData?.date}</Text>
         </div>
         <div className="flex flex-row p-5 bg-background-light rounded-[10px]">
           <div className="mr-5">
@@ -70,7 +89,7 @@ export default function PostDetail() {
       </div>
       {modalOpen ? (
         <>
-          <PostManageModal modalController={setModalOpen} />
+          <PostManageModal modalController={setModalOpen} option="M" postData={postDetailData} />
         </>
       ) : null}
     </div>
