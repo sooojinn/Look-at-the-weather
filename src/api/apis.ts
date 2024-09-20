@@ -66,3 +66,19 @@ export const editPost = async ({ postId, data }: { postId: number; data: PostFor
   console.log('수정 데이터: ', data);
   return instance.patch(`/posts/${postId}`, data, config);
 };
+
+export const postLike = (postId: number) => {
+  return instance.post(`/likes/posts/${postId}`, {}, config);
+};
+
+export const deleteLike = (postId: number) => {
+  return instance.delete(`/likes/posts/${postId}`, config);
+};
+
+export const hidePost = (postId: number) => {
+  return instance.post(`/posts/${postId}/hide`, config);
+};
+
+export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
+  return instance.post(`/posts/${postId}/report?reason=${reason}`, config);
+};
