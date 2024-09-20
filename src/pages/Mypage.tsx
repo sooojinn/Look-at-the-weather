@@ -22,7 +22,7 @@ export default function Mypage() {
       setUserNickname(response.data.nickname);
     };
     getUserNickname();
-  }, []);
+  }, [userNickname]);
 
   return (
     <>

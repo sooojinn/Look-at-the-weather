@@ -29,6 +29,7 @@ export default function MyPost() {
         }
       } catch (error) {
         console.error(error);
+        return;
       } finally {
         setLoading(false);
       }
