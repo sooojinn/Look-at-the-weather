@@ -49,7 +49,7 @@ export default function Heart({
   });
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+    e.stopPropagation();
     toggleLikeMutation.mutate();
   };
 
