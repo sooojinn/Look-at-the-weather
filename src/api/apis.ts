@@ -1,4 +1,4 @@
-import { PostFormData, PostMeta } from '@/config/types';
+import { PostFormData } from '@/config/types';
 import { instance } from './instance';
 import useAuthService from '@/hooks/useAuthService';
 import { AxiosRequestConfig } from 'axios';
@@ -50,7 +50,7 @@ export const deletePost = (postId: number) => {
   return instance.delete(`/posts/${postId}`, config);
 };
 
-export const fetchTopLikedPosts = async () => {
+export const fetchTopLikedPosts = () => {
   return instance.get('/posts/top-liked', config);
 };
 
@@ -68,7 +68,7 @@ export const editPost = async ({ postId, data }: { postId: number; data: PostFor
 };
 
 export const postLike = (postId: number) => {
-  return instance.post(`/likes/posts/${postId}`, {}, config);
+  return instance.post(`/likes/posts/${postId}`, null, config);
 };
 
 export const deleteLike = (postId: number) => {
@@ -76,9 +76,9 @@ export const deleteLike = (postId: number) => {
 };
 
 export const hidePost = (postId: number) => {
-  return instance.post(`/posts/${postId}/hide`, config);
+  return instance.post(`/posts/${postId}/hide`, null, config);
 };
 
 export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
-  return instance.post(`/posts/${postId}/report?reason=${reason}`, config);
+  return instance.post(`/posts/${postId}/report?reason=${reason}`, null, config);
 };

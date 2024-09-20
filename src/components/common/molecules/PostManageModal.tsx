@@ -5,7 +5,7 @@ import HideIcon from '@components/icons/HideIcon';
 import DeleteIcon from '@components/icons/DeleteIcon';
 import EditIcon from '@components/icons/EditIcon';
 import Text from '../atom/Text';
-import { deletePost, hidePost, reportPost } from '@/api/apis';
+import { deletePost, hidePost } from '@/api/apis';
 import { useNavigate } from 'react-router-dom';
 import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
@@ -29,6 +29,11 @@ export default function PostManageModal({ modalController, isMyPost, postId, pos
     onSuccess: () => {
       showToast('해당 게시물이 숨김 처리되었습니다.');
       navigate(-1);
+    },
+    onError: (error) => {
+      showToast('게시물을 숨김 처리하는 데 실패했습니다.');
+      modalController(false);
+      console.error(error);
     },
   });
 

@@ -2,12 +2,14 @@ import { reportPost } from '@/api/apis';
 import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
+import { showToast } from '@components/common/molecules/ToastProvider';
 import { useMutation } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function PostReport() {
   const location = useLocation();
   const { postId } = location.state;
+  const navigate = useNavigate();
 
   const reportReasons = [
     '관련 없는 내용이에요',
@@ -17,7 +19,18 @@ export default function PostReport() {
     '개인 정보 노출이 우려돼요',
   ];
 
-  const reportPostMutation = useMutation({ mutationFn: reportPost });
+  const reportPostMutation = useMutation({
+    mutationFn: reportPost,
+    onSuccess: () => {
+      showToast('해당 게시물 신고가 완료되었습니다.');
+      navigate(-2);
+    },
+    onError: (error) => {
+      showToast('게시물을 신고하는 데 실패했습니다.');
+      navigate(-1);
+      console.error(error);
+    },
+  });
 
   const handleReasonClick = (reason: string) => {
     reportPostMutation.mutate({ postId, reason });
