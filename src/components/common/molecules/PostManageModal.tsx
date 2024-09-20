@@ -1,38 +1,37 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import CloseBtn from '@components/icons/CloseBtn';
 import ReportIcon from '@components/icons/ReportIcon';
 import HideIcon from '@components/icons/HideIcon';
 import DeleteIcon from '@components/icons/DeleteIcon';
 import EditIcon from '@components/icons/EditIcon';
 import Text from '../atom/Text';
-import { deletePost } from '@/api/apis';
-import { usePostStore } from '@/store/postStore';
+import { deletePost, hidePost, reportPost } from '@/api/apis';
 import { useNavigate } from 'react-router-dom';
-import { PostMeta } from '@/config/types';
-
-interface PostDetail extends PostMeta {
-  nickname: string;
-  date: string;
-  title: string;
-  content: string;
-  images: {
-    image: [imageId: number, url: string];
-  };
-  likedCount: number;
-  reportPost: boolean;
-}
+import { PostDetail } from '@pages/PostDetail';
+import { useMutation } from '@tanstack/react-query';
+import { showToast } from './ToastProvider';
 
 type ModalType = {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
-  option?: string;
-  postData: PostDetail;
+  isMyPost?: boolean;
+  postId: number;
+  postData: PostDetail | undefined;
 };
 
-export default function PostManageModal({ modalController, option, postData }: ModalType) {
+export default function PostManageModal({ modalController, isMyPost, postId, postData }: ModalType) {
   const navigate = useNavigate();
-  const postId = usePostStore((state) => state.postId);
 
   console.log(postData);
+  console.log('isMyPost: ', isMyPost);
+
+  const hidePostMutation = useMutation({
+    mutationFn: hidePost,
+    onSuccess: () => {
+      showToast('해당 게시물이 숨김 처리되었습니다.');
+      navigate(-1);
+    },
+  });
+
   const onClickCloseBtn = () => {
     modalController(false);
   };
@@ -47,10 +46,19 @@ export default function PostManageModal({ modalController, option, postData }: M
     }
     modalController(false);
   };
+
   const onClickUpdateBtn = async () => {
     navigate(`/post/${postId}/edit`, { state: { postData, postId } });
 
     modalController(false);
+  };
+
+  const onClickHideBtn = () => {
+    hidePostMutation.mutate(postId);
+  };
+
+  const onClickReportBtn = () => {
+    navigate(`/post/${postId}/report`, { state: { postId } });
   };
 
   useEffect(() => {
@@ -59,41 +67,51 @@ export default function PostManageModal({ modalController, option, postData }: M
       document.body.style.overflow = 'unset';
     };
   }, []);
+
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-      <div className={'max-w-md fixed bottom-0 w-full bg-white shadow-md z-20 h-[212px]'}>
-        <div className="bg-background-white w-full px-5 pt-4 pb-10 rounded-t-3xl">
-          <div className="flex justify-end mb-9">
-            <CloseBtn onClick={onClickCloseBtn} />
-          </div>
-          <div>
-            {option && option === 'M' ? (
-              <div>
-                <div className="flex gap-3 py-3 items-center" onClick={onClickUpdateBtn}>
-                  <EditIcon />
-                  <Text size="l">수정하기</Text>
-                </div>
-                <div className="flex gap-3 py-3 items-center" onClick={onClickDeleteBtn}>
-                  <DeleteIcon />
-                  <Text size="l">삭제하기</Text>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="flex gap-3 p-3 py-3 items-center">
-                  <HideIcon />
-                  <Text size="l">해당 게시물 숨기기</Text>
-                </div>
-                <div className="flex gap-3 p-3 py-3 items-center">
-                  <ReportIcon />
-                  <Text size="l">신고하기</Text>
-                </div>
-              </div>
-            )}
-          </div>
+      <div className="max-w-md fixed bottom-0 w-full bg-background-white rounded-t-3xl z-20">
+        <div className="h-14 pr-5 flex justify-end">
+          <CloseBtn onClick={onClickCloseBtn} />
+        </div>
+        <div className="pt-5 pb-10">
+          {isMyPost ? (
+            <>
+              <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
+                수정하기
+              </PostMenuItem>
+              <PostMenuItem Icon={DeleteIcon} onClick={onClickDeleteBtn}>
+                삭제하기
+              </PostMenuItem>
+            </>
+          ) : (
+            <>
+              <PostMenuItem Icon={HideIcon} onClick={onClickHideBtn}>
+                해당 게시물 숨기기
+              </PostMenuItem>
+              <PostMenuItem Icon={ReportIcon} onClick={onClickReportBtn}>
+                신고하기
+              </PostMenuItem>
+            </>
+          )}
         </div>
       </div>
     </>
+  );
+}
+
+interface PostMenuItemProps {
+  children: ReactNode;
+  Icon: React.ComponentType;
+  onClick: () => void;
+}
+
+function PostMenuItem({ children, Icon, onClick }: PostMenuItemProps) {
+  return (
+    <div className="flex gap-3 px-5 py-3 items-center hover:bg-background-light cursor-pointer" onClick={onClick}>
+      <Icon />
+      <Text size="l">{children}</Text>
+    </div>
   );
 }

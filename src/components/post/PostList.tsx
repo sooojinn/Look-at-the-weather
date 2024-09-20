@@ -2,19 +2,17 @@ import { PostMeta } from '@/config/types';
 import Tags from '@/components/post/Tags';
 import Text from '@components/common/atom/Text';
 import PostListImg from './PostListImg';
-import { usePostStore } from '@/store/postStore';
+import { useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   postList: PostMeta[];
 }
 
 export function PostList({ postList }: PostListProps) {
-  const setSelectedPostId = usePostStore((state) => state.setSelectedPostId);
+  const navigate = useNavigate();
 
   const onClickPostHandler = (id: number) => {
-    setSelectedPostId(id);
-
-    window.location.href = `post/${id}`;
+    navigate(`/post/${id}`, { state: { id: id } });
   };
 
   return (

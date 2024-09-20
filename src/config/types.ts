@@ -81,8 +81,6 @@ export interface ImageItem {
   tempId?: string;
 }
 
-export type DistrictArray = DistrictProps[];
-
 export interface PostFormData {
   title: string;
   content: string;

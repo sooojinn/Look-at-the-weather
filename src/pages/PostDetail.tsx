@@ -1,97 +1,127 @@
-import { useState, useEffect } from 'react';
+import { ReactNode, useState } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Menu from '@components/icons/Menu';
 import PostManageModal from '@components/common/molecules/PostManageModal';
-import { usePostStore } from '@/store/postStore';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
+import { useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
-interface PostDetail extends PostMeta {
+export interface PostDetail extends PostMeta {
   nickname: string;
   date: string;
   title: string;
   content: string;
   images: {
-    image: [imageId: number, url: string];
+    image: {
+      imageId: number;
+      url: string;
+    }[];
   };
   likedCount: number;
   reportPost: boolean;
 }
 
 export default function PostDetail() {
-  const postId = usePostStore((state) => state.postId);
+  const location = useLocation();
+  const { id: postId } = location.state;
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [postDetailData, setPostDetailData] = useState<PostDetail>();
+
+  const {
+    data: response,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ['postData'],
+    queryFn: () => getPostDetail(postId),
+  });
+
+  const postDetailData = response?.data;
+  const {
+    nickname,
+    location: postLocation,
+    images,
+    title,
+    content,
+    date,
+    weatherTags = [],
+    temperatureTags = [],
+    seasonTag,
+    likeByUser,
+    likedCount,
+  }: PostDetail = postDetailData || {};
+
+  const myNickname = localStorage.getItem('nickName');
+  const isMyPost = nickname === myNickname;
+
   const modalHandler = () => {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    const getPostDetailFunc = async () => {
-      const response = await getPostDetail(postId);
-      setPostDetailData(response.data);
-    };
-
-    getPostDetailFunc();
-  }, [postId]);
+  console.log(...weatherTags);
 
   return (
-    <div className="relative pb-10">
+    <>
       <Header />
-      <div className="px-5">
-        <div className="flex justify-between items-center">
-          <div className="my-2.5">
-            <Text weight="bold">{postDetailData?.nickname}</Text>
-            <Text color="gray">{`${postDetailData?.location.city} ${postDetailData?.location.district}`}</Text>
-          </div>
-          <div onClick={modalHandler}>
-            <Menu />
-          </div>
-        </div>
-      </div>
-      <div>
-        <img className="w-full h-[468px]" src={postDetailData?.images.image[0].url} />
-      </div>
-      <div className="px-5">
-        <div className="flex gap-1.5 my-4 items-center">
-          <Heart fill="gray" liked={postDetailData?.likeByUser} postId={postId} hasUserNumber={true} />
-        </div>
-        <div className="flex flex-col gap-4">
-          <Text size="l" weight="bold">
-            {postDetailData?.title}
-          </Text>
-          <Text color="lightBlack">{postDetailData?.content}</Text>
-        </div>
-        <div className="mt-2.5 mb-4">
-          <Text color="gray">{postDetailData?.date}</Text>
-        </div>
-        <div className="flex flex-row p-5 bg-background-light rounded-[10px]">
-          <div className="mr-5">
-            <div className="flex flex-row gap-2.5">
-              <Text>날씨</Text>
-              <Text color="gray">흐림 맑음</Text>
-            </div>
-            <div className="flex flex-row gap-2.5">
-              <Text>계절</Text>
-              <Text color="gray">여름</Text>
-            </div>
-          </div>
-          <div>
-            <div className="flex flex-row gap-2.5">
-              <Text>온도</Text>
-              <Text color="gray">더워요 쌀쌀해요</Text>
-            </div>
-          </div>
-        </div>
-      </div>
-      {modalOpen ? (
+      {isLoading && <div>로딩 중</div>}
+      {isSuccess && postDetailData && (
         <>
-          <PostManageModal modalController={setModalOpen} option="M" postData={postDetailData} />
+          <div className="px-5 py-2.5 flex justify-between items-center">
+            <div className="flex flex-col gap-0.5">
+              <Text weight="bold">{nickname}</Text>
+              <Text color="gray">{`${postLocation.city} ${postLocation.district}`}</Text>
+            </div>
+            <Menu className="cursor-pointer" onClick={modalHandler} />
+          </div>
+          <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
+          <div className="p-5 pb-10 flex flex-col gap-4">
+            <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
+            <div className="flex flex-col gap-4">
+              <Text size="l" weight="bold">
+                {title}
+              </Text>
+              <div className="flex flex-col gap-2.5">
+                <Text color="lightBlack">{content}</Text>
+                <Text color="gray">{date}</Text>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 px-3 py-3.5 bg-background-light rounded-[10px]">
+              <div className="flex gap-5">
+                <TagsWithLabel label="날씨">{...weatherTags}</TagsWithLabel>
+                <TagsWithLabel label="계절">{seasonTag}</TagsWithLabel>
+              </div>
+              <div>
+                <TagsWithLabel label="온도">{...temperatureTags}</TagsWithLabel>
+              </div>
+            </div>
+          </div>
         </>
+      )}
+      {modalOpen ? (
+        <PostManageModal modalController={setModalOpen} isMyPost={false} postId={postId} postData={postDetailData} />
       ) : null}
+    </>
+  );
+}
+
+function TagsWithLabel({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="flex gap-2.5">
+      <Text>{label}</Text>
+      <div className="flex gap-1.5">
+        {Array.isArray(children) ? (
+          children.map((child) => (
+            <Text key={child} color="gray">
+              {child}
+            </Text>
+          ))
+        ) : (
+          <Text color="gray">{children}</Text>
+        )}
+      </div>
     </div>
   );
 }
