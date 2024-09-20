@@ -81,16 +81,6 @@ export interface ImageItem {
   tempId?: string;
 }
 
-export interface PostFormData {
-  title: string;
-  content: string;
-  location: Location;
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
-  seasonTagId: number | null;
-  imageId: number[];
-}
-
 export interface Tag {
   id: number;
   category: string;
