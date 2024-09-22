@@ -8,6 +8,7 @@ import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import Spinner from '@components/icons/Spinner';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -37,6 +38,8 @@ export default function PostDetail() {
   } = useQuery({
     queryKey: ['postData'],
     queryFn: () => getPostDetail(postId),
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const postDetailData = response?.data;
@@ -61,13 +64,15 @@ export default function PostDetail() {
     setModalOpen(true);
   };
 
-  console.log(...weatherTags);
-
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      {isLoading && <div>로딩 중</div>}
-      {isSuccess && postDetailData && (
+      {isLoading && (
+        <div className="flex-grow flex justify-center items-center">
+          <Spinner width={20} />
+        </div>
+      )}
+      {isSuccess && (
         <>
           <div className="px-5 py-2.5 flex justify-between items-center">
             <div className="flex flex-col gap-0.5">
@@ -101,9 +106,9 @@ export default function PostDetail() {
         </>
       )}
       {modalOpen ? (
-        <PostManageModal modalController={setModalOpen} isMyPost={false} postId={postId} postData={postDetailData} />
+        <PostManageModal modalController={setModalOpen} isMyPost={isMyPost} postId={postId} postData={postDetailData} />
       ) : null}
-    </>
+    </div>
   );
 }
 
