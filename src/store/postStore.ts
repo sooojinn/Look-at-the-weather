@@ -1,13 +1,14 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import { FilterItem } from '@/config/types';
+import { DistrictType } from '@/config/types';
 
 interface PostState {
-  locationIds: { cityId: number; district: []; cityName: string }[];
+  locationIds: DistrictType[];
   seasonTagIds: FilterItem[];
   weatherTagIds: FilterItem[];
   temperatureTagIds: FilterItem[];
-  updateLocation: (newLocation: { cityId: number; district: []; cityName: string }[]) => void;
+  updateLocation: (newLocation: DistrictType[]) => void;
   updateSeasonTagIds: (newSeasonTagIds: FilterItem[]) => void;
   updateWeatherTagIds: (newWeatherTagIds: FilterItem[]) => void;
   updateTemperatureTagIds: (newTemperatureTagIds: FilterItem[]) => void;

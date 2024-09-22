@@ -12,7 +12,7 @@ import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/atom/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
-import { DistrictArray, FilterItem } from '@/config/types';
+import { DistrictType, FilterItem } from '@/config/types';
 import { generateMockPosts } from '@/mocks/mockPostData';
 import FooterNavi from '@components/common/FooterNavi';
 import axios from 'axios';
@@ -38,7 +38,7 @@ export default function Post({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
-  const [locationArr, setLocationArr] = useState<DistrictArray>([]);
+  const [locationArr, setLocationArr] = useState<DistrictType[]>([]);
   const [weatherArr, setWeatherArr] = useState<FilterItem[]>([]);
   const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
@@ -69,18 +69,19 @@ export default function Post({}: Props) {
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
 
-  useEffect(() => {
-    const getAllPosts = async () => {
-      const response = await axios.get(`${BASEURL}posts?page=0&size=10&city=경북&district=영주시&sort=LATEST `, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${localStorage.getItem('accessToken')}`,
-        },
-      });
-      console.log(response);
-    };
-    getAllPosts();
-  }, []);
+  // useEffect(() => {
+  //   console.log(locationIds);
+  //   const getAllPosts = async () => {
+  //     const response = await axios.get(`${BASEURL}posts?page=0&size=10&city=경북&district=영주시&sort=LATEST `, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `${localStorage.getItem('accessToken')}`,
+  //       },
+  //     });
+  //     console.log(response);
+  //   };
+  //   getAllPosts();
+  // }, []);
 
   return (
     <>
@@ -110,9 +111,9 @@ export default function Post({}: Props) {
               onClickFunc={() => onClickFilterBtn(0, 'location')}
             >
               {locationArr.length > 1
-                ? `${locationArr[0].district} 외 ${locationArr.length - 1}`
+                ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
                 : locationArr.length === 1
-                ? `${locationArr[0].district}`
+                ? `${locationArr[0].districtName}`
                 : '지역'}
             </FilterBtn>
             <FilterBtn

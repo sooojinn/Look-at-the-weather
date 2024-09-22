@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
 import { BASEURL, POSTFILTERTAPLIST } from '@/config/constants';
 import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilterData';
-
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from './Text';
 import CloseBtn from '@components/icons/CloseBtn';
@@ -36,7 +35,6 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   const [city, setCity] = useState<CityType[]>([]);
   const [district, setDistrict] = useState<DistrictType[]>([]);
   const [selectedDistrict, setSelectedDistrict] = useState<DistrictType[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<CityType[]>([]);
   const [openDistrictOption, setOpenDistrictOption] = useState<boolean>(false);
 
   // Record<K, T> 타입 k는 key의 값, T는 각 키에 대응하는 값의 타입을 지정함
@@ -53,13 +51,20 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     setFilterState: React.Dispatch<
       React.SetStateAction<Array<{ id: number | { city: number; district: number }; tagName: string }>>
     >,
+    optionName: string,
   ) => {
     setFilterState((prev) => {
       const isAlreadySelected = prev.some((item) => item.id === id);
       if (isAlreadySelected) {
         return prev.filter((item) => item.id !== id);
       } else {
-        return [...prev, { id, tagName }];
+        if (prev.length === 2) {
+          alert(`${optionName} 는 최대 2개까지만 선택 가능합니다.`);
+          const updatedState = [...prev.slice(1), { id, tagName }];
+          return [...updatedState];
+        } else {
+          return [...prev, { id, tagName }];
+        }
       }
     });
   };
@@ -68,41 +73,57 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     setSelectedWeather([]);
     setSelectedTemperature([]);
     setSelectedSeason([]);
-
     setSelectedDistrict([]);
   };
 
   const onClickCityBtn = (selectedOption: CityType) => {
     setOpenDistrictOption(false);
-    if (selectedOption.district.length === 0) {
-      setSelectedDistrict([]);
+    console.log('s', selectedOption);
+    if (selectedOption.cityId === 55) {
+      setSelectedDistrict([{ ...selectedOption, districtId: 0, districtName: '전국' }]);
       setDistrict([]);
-      setSelectedLocation([selectedOption]);
     } else {
+      if (selectedDistrict.length > 0 && selectedOption.cityId === 55) {
+        if (selectedDistrict[0].cityId !== selectedOption.cityId) {
+          alert('도시는 최대 1개 선택 가능합니다.');
+          return;
+        }
+      } else {
+      }
       const updatedDistricts = selectedOption.district.map((item) => ({
+        ...item,
         cityName: selectedOption.cityName,
         cityId: selectedOption.cityId,
-        ...item,
       }));
-
       setOpenDistrictOption(true);
       setDistrict(updatedDistricts);
-      console.log(city);
-
       // const filteredDistrict = district.filter((item) => item.cityId === city.cityId);
     }
   };
 
   const onClickDistrictBtn = (selectedOption: DistrictType) => {
+    if (selectedDistrict.some((district) => district.cityId === 55)) {
+      setSelectedDistrict((prevDistricts) => prevDistricts.filter((district) => district.cityId !== 55));
+    }
     setSelectedDistrict((prev) => {
       const isAlreadySelected = prev.some((item) => item.districtId === selectedOption.districtId);
       if (isAlreadySelected) {
         return prev.filter((item) => item.districtId !== selectedOption.districtId);
       }
       if (selectedOption.districtId === 0) {
-        return [selectedOption];
+        const updateState = {
+          ...selectedOption,
+          districtName: `${selectedOption.cityName} ${selectedOption.districtName}`,
+        };
+        return [updateState];
       } else {
-        return [...prev, selectedOption];
+        if (prev.length === 2) {
+          alert('지역/구 는 최대 2개까지만 선택 가능합니다.');
+          const updatedState = [...prev.slice(1), selectedOption];
+          return [...updatedState];
+        } else {
+          return [...prev, selectedOption];
+        }
       }
     });
   };
@@ -110,7 +131,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   const onClickSelectedItemBtn = (id: number | { city: number; district: number }, category: string) => {
     switch (category) {
       case 'location':
-        // setSelectedDistrict((prev) => prev.filter((item) => item.district_id !== id));
+        setSelectedDistrict((prev) => prev.filter((item) => item.districtId !== id));
         break;
       case 'weather':
         setSelectedWeather((prev) => prev.filter((item) => item.id !== id));
@@ -138,20 +159,15 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
-
-      const slicedCities = response.data.region.map((item) => ({
+      const slicedCities = response.data.region.map((item: DistrictType) => ({
         ...item,
         cityName: item.cityName.substring(0, 2),
       }));
+      console.log(slicedCities);
       setCity(slicedCities);
     };
     getRegions();
   }, []);
-
-  useEffect(() => {
-    console.log(city);
-  }, [city]);
 
   // useEffect(() => {
   //   const observer = new IntersectionObserver(
@@ -179,9 +195,10 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   // }, []);
 
   useEffect(() => {
+    console.log(selectedDistrict);
     const newSelectedFilterItems: CategoryFilterItem[] = [
-      ...selectedLocation.map((item) => ({
-        ...{ cityName: item.cityName, district: item.district, cityId: item.cityId },
+      ...selectedDistrict.map((item) => ({
+        ...{ tagName: item.districtName, id: item.districtId },
         category: 'location' as const,
       })),
       ...selectedWeather.map((item) => ({ ...item, category: 'weather' as const })),
@@ -192,7 +209,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [selectedDistrict, selectedWeather, selectedTemperature, selectedSeason]);
 
   const onClickSubmitBtn = () => {
-    updateLocation(selectedLocation);
+    updateLocation(selectedDistrict);
     updateSeasonTagIds(selectedSeason);
     updateTemperatureTagIds(selectedTemperature);
     updateWeatherTagIds(selectedWeather);
@@ -270,12 +287,15 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                     <FilterBtn
                       key={item.cityId}
                       isActive={
-                        item.cityId === 55 ||
-                        selectedDistrict.some((district) =>
-                          city.some(
-                            (cityItem) => cityItem.cityId === district.cityId && district.cityId === item.cityId,
-                          ),
-                        )
+                        selectedDistrict.length === 0
+                          ? city.some((city) => city.cityId === 55)
+                            ? item.cityId === 55
+                            : false
+                          : selectedDistrict.some((district) =>
+                              city.some(
+                                (cityItem) => cityItem.cityId === district.cityId && district.cityId === item.cityId,
+                              ),
+                            )
                       }
                       onClickFunc={() => {
                         onClickCityBtn(item);
@@ -291,7 +311,11 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                   {district.map((item) => (
                     <FilterBtn
                       key={item.districtId}
-                      isActive={selectedDistrict.some((selected) => selected.districtId === item.districtId)}
+                      isActive={
+                        selectedDistrict.some((district) => district.cityId === 55)
+                          ? false
+                          : selectedDistrict.some((selected) => selected.districtId === item.districtId)
+                      }
                       onClickFunc={() => {
                         onClickDistrictBtn(item);
                       }}
@@ -316,7 +340,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       key={item.id}
                       isActive={selectedWeather.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
-                        onClickFilterItemBtn(item.id, item.name, setSelectedWeather);
+                        onClickFilterItemBtn(item.id, item.name, setSelectedWeather, '날씨');
                       }}
                     >
                       {item.name}
@@ -338,7 +362,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       key={item.id}
                       isActive={selectedTemperature.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
-                        onClickFilterItemBtn(item.id, item.name, setSelectedTemperature);
+                        onClickFilterItemBtn(item.id, item.name, setSelectedTemperature, '온도');
                       }}
                     >
                       {item.name}
@@ -360,7 +384,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       key={item.id}
                       isActive={selectedSeason.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
-                        onClickFilterItemBtn(item.id, item.name, setSelectedSeason);
+                        onClickFilterItemBtn(item.id, item.name, setSelectedSeason, '계절');
                       }}
                     >
                       {item.name}
