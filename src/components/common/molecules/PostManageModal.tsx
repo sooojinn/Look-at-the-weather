@@ -95,7 +95,7 @@ export default function PostManageModal({
         <>
           <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
           <div className="max-w-md fixed bottom-0 w-full bg-background-white rounded-t-3xl z-20">
-            <div className="h-14 pr-5 flex justify-end">
+            <div className="h-14 pr-5 flex justify-end items-center">
               <CloseBtn onClick={onClickCloseBtn} />
             </div>
             <div className="pt-5 pb-10">

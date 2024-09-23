@@ -25,7 +25,7 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
   const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `${localStorage.getItem('accesstoken')}`,
+      Authorization: `${localStorage.getItem('accessToken')}`,
     },
   });
   return response.data;

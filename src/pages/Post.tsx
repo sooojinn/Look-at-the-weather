@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import useLocationAndWeatherData from '@/hooks/useLocationAndWeatherData';
 import Header from '@components/common/Header';
 import LocationComponent from '@components/common/molecules/LocationComponent';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
@@ -17,10 +16,14 @@ import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/ty
 import FooterNavi from '@components/common/FooterNavi';
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
+import useLocationData from '@/hooks/useLocationData';
+import useWeatherData from '@/hooks/useWeatherData';
 
 export default function Post() {
-  const { location, weatherData } = useLocationAndWeatherData();
-  const { weatherType, weatherMessage, minTemp, maxTemp } = weatherData;
+  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
+  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
+  const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
+
   const {
     locationIds,
     seasonTagIds,
@@ -88,11 +91,11 @@ export default function Post() {
 
     const getAllPosts = async () => {
       const response = await axios.get(
-        `${BASEURL}posts?page=0&size=10&city=${slicedCity}&district=${location.district}&sort=${sortOrder} `,
+        `${BASEURL}/posts?page=0&size=10&city=${slicedCity}&district=${location.district}&sort=${sortOrder} `,
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+            Authorization: localStorage.getItem('accessToken'),
           },
         },
       );
@@ -110,7 +113,7 @@ export default function Post() {
       setPostList([]);
       const getFilterdPosts = async () => {
         const response = await axios.post(
-          `${BASEURL}posts/search`,
+          `${BASEURL}/posts/search`,
           {
             page: 0,
             size: 10,
@@ -123,7 +126,7 @@ export default function Post() {
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+              Authorization: localStorage.getItem('accessToken'),
             },
           },
         );

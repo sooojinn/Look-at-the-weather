@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
-import HrLine from '@components/common/atom/HrLine';
+import { Line } from '@components/common/atom/Line';
 import LinkMenu from '@/components/common/molecules/LinkMenu';
 import { getUserInfos } from '@/api/apis';
 
@@ -22,7 +22,7 @@ export default function Mypage() {
       setUserNickname(response.data.nickname);
     };
     getUserNickname();
-  }, [userNickname]);
+  }, []);
 
   return (
     <>
@@ -37,7 +37,7 @@ export default function Mypage() {
           </Text>
         </div>
         <LinkMenu title="설정" menuList={settingList} />
-        <HrLine height={8} />
+        <Line height={8} />
         <LinkMenu title="활동" menuList={activeList} />
         <Line height={8} />
         <div className="h-[57px] flex items-center px-5">

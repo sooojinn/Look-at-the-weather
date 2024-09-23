@@ -30,15 +30,9 @@ export default function KakaoRedirect() {
 
   useEffect(() => {
     if (isSuccess) {
-      const { accessToken, refreshToken } = data;
-      localStorage.setItem('accessToken', accessToken);
-      Cookies.set('refreshToken', refreshToken);
-
-      const { email, name, nickName, social } = data;
-      localStorage.setItem('email', email);
-      localStorage.setItem('name', name);
-      localStorage.setItem('nickName', nickName);
-      localStorage.setItem('social', social);
+      const { accessToken } = data;
+      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      localStorage.setItem('nickName', data.nickName);
 
       navigate('/');
     }

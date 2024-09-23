@@ -48,7 +48,7 @@ export default function PostEdit() {
   const editMutation = useMutation({
     mutationFn: editPost,
     onSuccess: () => {
-      navigate(`/post/${postId}`);
+      navigate(`/post/${postId}`, { state: { id: postId } });
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {

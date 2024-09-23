@@ -24,24 +24,22 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
     setShowForm(true);
   }, []);
 
   const handleLogin = async (data: any) => {
     try {
-      const response = await axios.post(`${BASEURL}auth/login`, data, {
+      const response = await axios.post(`${BASEURL}/auth/login`, data, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
       const { accessToken } = response.data;
 
-
-      setAccessToken(accessToken);
-      console.log(response.data);
-      setUserInfo('nickname', response.data.nickName);
+      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
       localStorage.setItem('nickName', response.data.nickName);
-      handleLoginCheck();
+      setIsLoggedIn(true);
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });

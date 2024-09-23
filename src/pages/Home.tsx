@@ -26,6 +26,7 @@ export default function Home() {
     handleLoginCheck();
   }, []);
 
+  console.log(localStorage.getItem('accessToken'));
   return (
     <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
       {isLoggedIn || <LoginModal setIsLoggedIn={setIsLoggedIn} />}

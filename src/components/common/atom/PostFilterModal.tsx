@@ -154,7 +154,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
   useEffect(() => {
     const getRegions = async () => {
-      const response = await axios.get(`${BASEURL}regions`, {
+      const response = await axios.get(`${BASEURL}/regions`, {
         headers: {
           'Content-Type': 'application/json',
         },

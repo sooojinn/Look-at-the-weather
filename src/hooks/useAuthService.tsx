@@ -2,12 +2,12 @@ export default function useAuthService() {
   // let accessToken: string | null = null;
 
   const setAccessToken = (token: string) => {
-    localStorage.setItem('accesstoken', `Bearer ${token}`);
+    localStorage.setItem('accessToken', `Bearer ${token}`);
   };
 
   const getAccessToken = () => {
     // return accessToken;
-    return localStorage.getItem('accesstoken');
+    return localStorage.getItem('accessToken');
   };
 
   const isLogin = async () => {
