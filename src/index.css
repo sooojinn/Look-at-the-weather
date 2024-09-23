@@ -30,7 +30,6 @@
 
   body {
     /* 기본 css 설정 */
-
     line-height: 1.5;
     letter-spacing: -2%;
     color: #171719;
@@ -43,4 +42,40 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px 3px;
   }
+}
+
+.input {
+  @apply w-full px-3 py-[14px] text-sm border border-line-light rounded-lg placeholder-lightGray focus:outline-none focus:border-primary-main;
+}
+
+.textarea {
+  @apply input resize-none;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50%);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.slideUp {
+  animation: slideUp 0.5s forwards;
+}
+
+.fadeOut {
+  animation: fadeOut 0.4s forwards;
 }

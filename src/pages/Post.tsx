@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import useLocationData from '@/hooks/useLocationData';
+import useLocationAndWeatherData from '@/hooks/useLocationAndWeatherData';
 import Header from '@components/common/Header';
-import Location from '@components/common/molecules/Location';
+import LocationComponent from '@components/common/molecules/LocationComponent';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
 import Text from '@components/common/atom/Text';
@@ -12,16 +12,15 @@ import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/atom/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
-import { DistrictType, FilterItem } from '@/config/types';
-import { generateMockPosts } from '@/mocks/mockPostData';
+import WeatherMessage from '@components/weather/WeatherMessage';
+import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import axios from 'axios';
 import { BASEURL } from '@/config/constants';
 
-type Props = {};
-
-export default function Post({}: Props) {
-  const { location } = useLocationData();
+export default function Post() {
+  const { location, weatherData } = useLocationAndWeatherData();
+  const { weatherType, weatherMessage, minTemp, maxTemp } = weatherData;
   const {
     locationIds,
     seasonTagIds,
@@ -43,6 +42,14 @@ export default function Post({}: Props) {
   const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
   const [sortOrder, setSortOrder] = useState('LATEST');
+  const [postList, setPostList] = useState<PostMeta[]>([]);
+  const [hasFilterData, setHasFilerData] = useState(false);
+  const [filterState, setFilterState] = useState<PostFilterState>({
+    location: [],
+    seasonTagIds: [],
+    temperatureTagIds: [],
+    weatherTagIds: [],
+  });
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -69,19 +76,94 @@ export default function Post({}: Props) {
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   console.log(locationIds);
-  //   const getAllPosts = async () => {
-  //     const response = await axios.get(`${BASEURL}posts?page=0&size=10&city=경북&district=영주시&sort=LATEST `, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `${localStorage.getItem('accessToken')}`,
-  //       },
-  //     });
-  //     console.log(response);
-  //   };
-  //   getAllPosts();
-  // }, []);
+  useEffect(() => {
+    if (hasFilterData) {
+      setPostList([]);
+      return;
+    }
+    if (!location || !location.city || !location.district) {
+      return;
+    }
+    const slicedCity = location.city.substring(0, 2);
+
+    const getAllPosts = async () => {
+      const response = await axios.get(
+        `${BASEURL}posts?page=0&size=10&city=${slicedCity}&district=${location.district}&sort=${sortOrder} `,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+          },
+        },
+      );
+
+      const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
+      console.log(updatePostList);
+
+      setPostList(updatePostList);
+    };
+    getAllPosts();
+  }, [location, hasFilterData]);
+
+  useEffect(() => {
+    if (hasFilterData) {
+      setPostList([]);
+      const getFilterdPosts = async () => {
+        const response = await axios.post(
+          `${BASEURL}posts/search`,
+          {
+            page: 0,
+            size: 10,
+            location: filterState.location,
+            sort: sortOrder,
+            seasonTagIds: filterState.seasonTagIds,
+            weatherTagIds: filterState.weatherTagIds,
+            temperatureTagIds: filterState.temperatureTagIds,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+            },
+          },
+        );
+        setPostList(response.data.posts);
+      };
+      getFilterdPosts();
+    }
+  }, [filterState, sortOrder]);
+
+  useEffect(() => {
+    const areAllEmptyArrays = (...arrs: any[][]): boolean => {
+      for (const arr of arrs) {
+        if (!Array.isArray(arr) || arr.length !== 0) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const isEmptyFilter = areAllEmptyArrays(locationIds, seasonTagIds, temperatureTagIds, weatherTagIds);
+
+    if (!isEmptyFilter) {
+      const locationIdArray = locationIds.map((loc) => ({
+        city: loc.cityId,
+        district: loc.districtId,
+      }));
+      const seasonIds = seasonTagIds.map((tag) => tag.id);
+      const temperatureIds = temperatureTagIds.map((tag) => tag.id);
+      const weatherIds = weatherTagIds.map((tag) => tag.id);
+
+      setFilterState({
+        location: locationIdArray,
+        seasonTagIds: seasonIds,
+        temperatureTagIds: temperatureIds,
+        weatherTagIds: weatherIds,
+      });
+    }
+
+    isEmptyFilter ? setHasFilerData(false) : setHasFilerData(true);
+  }, [locationIds, seasonTagIds, temperatureTagIds, weatherTagIds]);
 
   return (
     <>
@@ -89,14 +171,16 @@ export default function Post({}: Props) {
       <div className="px-5">
         <div className="flex flex-row items-center justify-between py-5">
           <div>
-            <Location location={location} color="lightBlack" />
-            <Text margin={'my-2.5'} color="lightBlack" size={'xl'} weight="bold">
-              조금 쌀쌀해요!
-            </Text>
-            <MinMaxTemps minTemp={19} maxTemp={23} color="gray" />
+            <LocationComponent {...location} size="m" color="lightBlack" />
+            <div className="my-2.5">
+              <WeatherMessage size="xl" color="lightBlack">
+                {weatherMessage}
+              </WeatherMessage>
+            </div>
+            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="gray" />
           </div>
           <div>
-            <WeatherImg weatherType="cloudy" width={134} height={110} />
+            <WeatherImg weatherType={weatherType as string} width={134} height={110} />
           </div>
         </div>
         <HrLine height={1} />
@@ -149,7 +233,10 @@ export default function Post({}: Props) {
         <div className="py-5">
           <div className="flex row justify-end">
             <div onClick={() => setSortOrder('LATEST')}>
-              <Text color={sortOrder === 'L' ? 'gray' : 'lightGray'} weight={sortOrder === 'L' ? 'bold' : 'regular'}>
+              <Text
+                color={sortOrder === 'LATEST' ? 'gray' : 'lightGray'}
+                weight={sortOrder === 'LATEST' ? 'bold' : 'regular'}
+              >
                 최신순
               </Text>
             </div>
@@ -157,7 +244,10 @@ export default function Post({}: Props) {
               <VeLine height={8} />
             </div>
             <div onClick={() => setSortOrder('RECOMMENDED')}>
-              <Text color={sortOrder === 'R' ? 'gray' : 'lightGray'} weight={sortOrder === 'R' ? 'bold' : 'regular'}>
+              <Text
+                color={sortOrder === 'RECOMMENDED' ? 'gray' : 'lightGray'}
+                weight={sortOrder === 'RECOMMENDED' ? 'bold' : 'regular'}
+              >
                 추천순
               </Text>
             </div>
@@ -168,7 +258,7 @@ export default function Post({}: Props) {
         </div>
       </div>
       <div className="px-[-100px]">
-        <PostList postList={generateMockPosts(10)}></PostList>
+        <PostList postList={postList}></PostList>
       </div>
       <div className="mt-[103px]">
         <FooterNavi />

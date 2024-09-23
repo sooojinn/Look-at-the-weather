@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import Text from '../atom/Text';
 import TextWithArrow from '../atom/TextWithArrow';
 

@@ -44,7 +44,7 @@ interface ForecastType {
 type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
 
 // 태그 id를 name으로 변경하는 함수
-export function getTagNameById(id: number) {
+export function getTagNameById(id: number | string) {
   const tag = TAGS.find((tag) => tag.id === id);
   return tag ? tag.name : null;
 }
@@ -142,13 +142,11 @@ function getBaseDate(baseTime: string): string {
 }
 
 // 단기예보 api로 현재 위치의 날씨 데이터를 받아옴
-export async function getWeatherForecasts(baseTime: string, geoPoint: GeoPoint): Promise<ForecastItem[]> {
+export async function getWeatherForecasts(baseTime: string, geoPoint: GeoPoint): Promise<ForecastItem[] | undefined> {
   const baseDate = getBaseDate(baseTime);
 
   const { nx, ny } = await getGrid(geoPoint);
 
-  console.log('발표날짜: ', baseDate);
-  console.log('발표시간: ', baseTime);
   try {
     const response = await axios.get<WeatherApiResponse>(WEATHER_API_URL, {
       params: {
@@ -166,14 +164,13 @@ export async function getWeatherForecasts(baseTime: string, geoPoint: GeoPoint):
       },
     });
 
-    // 예보 데이터가 담긴 배열
-    const items = response.data.response.body.items.item;
-
-    if (!items || items.length === 0) {
-      throw new Error(
-        `지정된 매개변수에 대한 기상 예보 데이터가 없습니다. 발표날짜: ${baseDate}, 발표시간: ${baseTime}, nx: ${nx}, ny: ${ny}`,
-      );
+    // 에러 발생 시 에러 메시지 출력
+    if (!response.data.response.body) {
+      throw new Error(`${response.data.response.header.resultMsg}`);
     }
+
+    // 예보 데이터 반환
+    const items = response.data.response.body.items.item;
     return items;
   } catch (error) {
     console.error('Weather API 요청 실패:', error);
@@ -277,13 +274,13 @@ export async function getHourlyWeatherInfo(geoPoint: GeoPoint) {
   const baseTime = getHourlyForecastBaseTime();
   const forecasts = await getWeatherForecasts(baseTime, geoPoint);
 
+  if (!forecasts) return;
+
   const weatherInfo = extractWeatherInfo(hourly, forecasts);
   const { currentTemp, sky, precipType } = weatherInfo;
 
   weatherInfo.weatherType = getWeatherType(sky, precipType);
   weatherInfo.weatherMessage = getWeatherMessage(currentTemp, sky, precipType);
-
-  console.log(weatherInfo);
 
   return weatherInfo;
 }
@@ -291,9 +288,11 @@ export async function getHourlyWeatherInfo(geoPoint: GeoPoint) {
 // 일별 날씨 정보(일 최저기온, 일 최고기온)를 얻는 함수
 export async function getDailyWeatherInfo(geoPoint: GeoPoint) {
   const baseTime = getDailyForecastBaseTime();
-  const forecast = await getWeatherForecasts(baseTime, geoPoint);
+  const forecasts = await getWeatherForecasts(baseTime, geoPoint);
 
-  const weatherInfo = extractWeatherInfo(daily, forecast);
+  if (!forecasts) return;
+
+  const weatherInfo = extractWeatherInfo(daily, forecasts);
 
   return weatherInfo;
 }

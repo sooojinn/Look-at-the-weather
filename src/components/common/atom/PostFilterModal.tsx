@@ -78,17 +78,16 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
   const onClickCityBtn = (selectedOption: CityType) => {
     setOpenDistrictOption(false);
-    console.log('s', selectedOption);
+
     if (selectedOption.cityId === 55) {
       setSelectedDistrict([{ ...selectedOption, districtId: 0, districtName: '전국' }]);
       setDistrict([]);
     } else {
-      if (selectedDistrict.length > 0 && selectedOption.cityId === 55) {
+      if (selectedDistrict.length > 0 && selectedDistrict.some((item) => item.cityId !== 55)) {
         if (selectedDistrict[0].cityId !== selectedOption.cityId) {
           alert('도시는 최대 1개 선택 가능합니다.');
           return;
         }
-      } else {
       }
       const updatedDistricts = selectedOption.district.map((item) => ({
         ...item,
@@ -117,12 +116,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
         };
         return [updateState];
       } else {
+        const filteredPrev = prev.filter((item) => item.districtId !== 0);
         if (prev.length === 2) {
           alert('지역/구 는 최대 2개까지만 선택 가능합니다.');
           const updatedState = [...prev.slice(1), selectedOption];
           return [...updatedState];
         } else {
-          return [...prev, selectedOption];
+          return [...filteredPrev, selectedOption];
         }
       }
     });
@@ -163,7 +163,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
         ...item,
         cityName: item.cityName.substring(0, 2),
       }));
-      console.log(slicedCities);
+
       setCity(slicedCities);
     };
     getRegions();
@@ -195,7 +195,6 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   // }, []);
 
   useEffect(() => {
-    console.log(selectedDistrict);
     const newSelectedFilterItems: CategoryFilterItem[] = [
       ...selectedDistrict.map((item) => ({
         ...{ tagName: item.districtName, id: item.districtId },
@@ -238,19 +237,18 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
         <div className="fixed bottom-0 left-0 right-0 w-full shadow-md z-20 h-[687px]">
           <div className="bg-background-white w-full h-full px-5 rounded-t-3xl flex flex-col">
             <div className="relative py-[13px]">
-              <div
-                onClick={() => {
-                  isOpen(false);
-                }}
-                className="flex justify-end text-center"
-              >
+              <div className="flex justify-end text-center">
                 <div className="text-center w-full">
                   <Text weight="bold" size="2xl">
                     필터
                   </Text>
                 </div>
                 <div>
-                  <CloseBtn />
+                  <CloseBtn
+                    onClick={() => {
+                      isOpen(false);
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -286,17 +284,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                   {city.map((item) => (
                     <FilterBtn
                       key={item.cityId}
-                      isActive={
-                        selectedDistrict.length === 0
-                          ? city.some((city) => city.cityId === 55)
-                            ? item.cityId === 55
-                            : false
-                          : selectedDistrict.some((district) =>
-                              city.some(
-                                (cityItem) => cityItem.cityId === district.cityId && district.cityId === item.cityId,
-                              ),
-                            )
-                      }
+                      isActive={selectedDistrict.some((city) => item.cityId === city.cityId)}
                       onClickFunc={() => {
                         onClickCityBtn(item);
                       }}

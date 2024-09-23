@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GeoPoint, Location } from '@/config/types';
 import { BASEURL } from '@/config/constants';
+import { useGeoPermissionStore } from '@/store/geoPermissionStore';
 
 // toXY: 위도, 경도를 좌표로 변환
 // toLL: 좌표를 위도, 경도로 변환
@@ -13,29 +14,58 @@ interface DfsResult {
   y: number;
 }
 
+// 서울시청의 위도와 경도
+const defaultGeoPoint: GeoPoint = {
+  latitude: 37.5663,
+  longitude: 126.9779,
+};
+
+// 소수점 넷째 자리까지 내림 처리하는 함수
+function floorToFixed(num: number) {
+  const factor = Math.pow(10, 4);
+  return Math.floor(num * factor) / factor;
+}
+
 // geolocation api로 현재 위치의 위도와 경도를 구함
-export function fetchGeoPoint(): Promise<GeoPoint> {
-  return new Promise((resolve, reject) => {
+export async function fetchGeoPoint(): Promise<GeoPoint> {
+  console.log('geolocation api 실행');
+  // 위치 정보 접근 허용 여부 확인
+  const permissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+  const { setLocationDenied } = useGeoPermissionStore.getState();
+
+  if (permissionStatus.state === 'denied') {
+    console.warn('사용자가 위치 정보 접근을 거부했습니다.');
+    setLocationDenied(true);
+    return defaultGeoPoint;
+  }
+
+  return new Promise((resolve) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          let { latitude, longitude } = position.coords;
+
+          latitude = floorToFixed(latitude);
+          longitude = floorToFixed(longitude);
+
           resolve({ latitude, longitude });
         },
         (error) => {
-          reject(error);
+          console.warn('위치 정보 패칭에 실패했습니다:', error.message);
+          resolve(defaultGeoPoint); // 패칭에 실패하면 defaultGeoPoint 반환
         },
       );
     } else {
-      reject(new Error('Geolocation는 이 브라우저에서 지원되지 않습니다.'));
+      console.warn('Geolocation는 이 브라우저에서 지원되지 않습니다.');
+      resolve(defaultGeoPoint); // Geolocation을 지원하지 않으면 defaultGeoPoint 반환
     }
   });
 }
 
 // 위치 정보('OO시 OO구')를 반환하는 함수
-export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location | undefined> => {
+export const fetchLocation = async (geoPoint: GeoPoint): Promise<Location | undefined> => {
   try {
-    const response = await axios.post(`${BASEURL}/api/v1/locations`, geoPoint, {
+    const response = await axios.post(`${BASEURL}/locations`, geoPoint, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -44,8 +74,8 @@ export const fetchLocation = async (geoPoint: GeoPoint | null): Promise<Location
 
     return response.data.location;
   } catch (error) {
-    console.error(error);
-    throw new Error('위치 정보를 불러오는 데 실패했습니다.');
+    console.error('location api 에러: ', error);
+    throw error;
   }
 };
 

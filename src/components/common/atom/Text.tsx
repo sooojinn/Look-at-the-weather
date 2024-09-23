@@ -5,6 +5,7 @@ type TextType = {
   size?: TextSize;
   color?: TextColor;
   weight?: TextWeight;
+
   href?: string;
   children: ReactNode;
   margin?: TextMargin;
@@ -38,6 +39,8 @@ export default function Text({
     main: 'text-primary-main',
     disabled: 'text-disabled',
     blue: 'text-primary-main',
+    error: 'text-status-error',
+    success: 'text-status-success',
   };
 
   const textWeight = {
