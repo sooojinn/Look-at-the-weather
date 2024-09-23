@@ -3,6 +3,7 @@ import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import { showToast } from '@components/common/molecules/ToastProvider';
+import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
 import { useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -47,15 +48,7 @@ export default function PostReport() {
         </Text>
         <Text color="gray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
       </div>
-      {reportReasons.map((reason) => (
-        <div
-          key={reason}
-          onClick={() => handleReasonClick(reason)}
-          className="h-[60px] px-5 py-[18px] border-b border-line-light cursor-pointer hover:bg-background-light"
-        >
-          {reason}
-        </div>
-      ))}
+      <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       <FooterNavi />
     </>
   );

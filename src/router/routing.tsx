@@ -19,6 +19,7 @@ import SearchAddress from '@pages/SearchAddress.tsx';
 import MyPost from '@pages/MyPost.tsx';
 import MyLikedPost from '@pages/MyLikedPost.tsx';
 import PostReport from '@pages/PostReport.tsx';
+import DeleteAccount from '@pages/DeleteAccount.tsx';
 
 const router = createBrowserRouter([
   {
@@ -32,16 +33,17 @@ const router = createBrowserRouter([
       { path: '/find-email', element: <FindEmail /> },
       { path: '/find-email/result', element: <FindEmailResult /> },
       { path: '/find-password', element: <FindPassword /> },
-      { path: '/mypage', element: <Mypage /> },
       { path: '/password-reset', element: <PasswordReset /> },
       { path: '/post', element: <Post /> },
-      { path: '/profileedit', element: <ProfileEdit /> },
-      { path: '/post-write', element: <PostWrite /> },
       { path: '/post/:id', element: <PostDetail /> },
       { path: '/post/:id/edit', element: <PostEdit /> },
       { path: '/post/:id/report', element: <PostReport /> },
+      { path: '/post-write', element: <PostWrite /> },
+      { path: '/mypage', element: <Mypage /> },
+      { path: '/profileedit', element: <ProfileEdit /> },
       { path: '/mypost', element: <MyPost /> },
       { path: '/like', element: <MyLikedPost /> },
+      { path: '/delete-account', element: <DeleteAccount /> },
       { path: '*', element: <NotFound /> },
     ],
   },

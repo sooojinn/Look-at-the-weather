@@ -33,7 +33,7 @@ export function PostList({ postList, isMyPost }: PostListProps) {
         const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
 
         return (
-          <div className="min-h-[312px] h-auto" key={postId}>
+          <div className="min-h-[312px] h-auto cursor-pointer" key={postId}>
             <div onClick={() => onClickPostHandler(postId)}>
               <PostListImg
                 imgUrl={thumbnail}

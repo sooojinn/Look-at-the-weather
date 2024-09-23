@@ -29,11 +29,9 @@ export default function Mypage() {
       <div>
         <Header>마이 페이지</Header>
       </div>
-      <div className="relative flex-col py-9 px-5">
-        <div className="flex gap-3 items-center mb-6">
-          <div>
-            <img src="../../public/assets/user_icon.png" alt="" />
-          </div>
+      <div className="relative flex-col py-9">
+        <div className="flex gap-3 items-center mb-6 px-5">
+          <img src="../../public/assets/user_icon.png" alt="" />
           <Text size="xl" weight="bold">
             {userNickname}
           </Text>
@@ -41,6 +39,10 @@ export default function Mypage() {
         <LinkMenu title="설정" menuList={settingList} />
         <Line height={8} />
         <LinkMenu title="활동" menuList={activeList} />
+        <Line height={8} />
+        <div className="h-[57px] flex items-center px-5">
+          <Text className="cursor-pointer">로그아웃</Text>
+        </div>
       </div>
       <FooterNavi />
     </>

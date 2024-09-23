@@ -82,3 +82,7 @@ export const hidePost = (postId: number) => {
 export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
   return instance.post(`/posts/${postId}/report?reason=${reason}`, null, config);
 };
+
+export const getDeleteReasons = () => {
+  return instance.get('/users/delete-reasons', config);
+};
