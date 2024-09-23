@@ -16,6 +16,7 @@ export default {
         lightGray: '#c7c8c9',
         white: '#ffffff',
         disabled: '#dfdfe0',
+        blud: '',
 
         background: {
           white: '#FFFFFF',
@@ -62,4 +63,5 @@ export default {
   plugins: [require('tailwind-scrollbar-hide')],
   purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   mode: 'jit',
+  plugins: [require('tailwind-scrollbar-hide')],
 };

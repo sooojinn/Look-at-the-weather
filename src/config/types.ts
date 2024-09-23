@@ -1,16 +1,4 @@
-import {
-  Control,
-  FieldErrors,
-  FieldValues,
-  RegisterOptions,
-  UseFormClearErrors,
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetError,
-  UseFormSetValue,
-  UseFormTrigger,
-  UseFormWatch,
-} from 'react-hook-form';
+import { Control, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 
 export interface GeoPoint {
   latitude: number;
@@ -22,8 +10,8 @@ export interface WeatherInfo {
 }
 
 export interface Location {
-  city: string;
-  district: string;
+  city: string | null;
+  district: string | null;
 }
 
 export interface PostMeta {
@@ -47,9 +35,57 @@ export type TextColor =
   | 'white'
   | 'main'
   | 'disabled'
+  | 'blue'
   | 'error'
   | 'success';
 export type TextWeight = 'regular' | 'bold';
+export type TextMargin = string;
+
+export type HrLineHeight = { height: 1 | 8 };
+
+export type FilterBtn = {
+  id?: string;
+  onClickFunc: (btnValue: string) => void;
+  isActive?: boolean | (() => boolean);
+  isSelected?: boolean;
+};
+export type FilterBtnGroupProps = FilterBtn & {
+  btnData: any[];
+};
+
+export interface FilterItem {
+  id: number | { city: number; district: number };
+  tagName: string;
+}
+
+export type PostFilterModalProps = {
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  btnValue: string;
+  btnIndex: number;
+};
+
+export type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
+
+export interface DistrictProps {
+  city_id: number;
+  district_id: number;
+  district: string;
+}
+
+export type DistrictArray = DistrictProps[];
+
+export type DistrictType = {
+  districtId: number;
+  districtName: string;
+  cityName: string;
+  cityId: number;
+};
+
+export interface CityType {
+  cityId: number;
+  cityName: string;
+  district: DistrictType[];
+}
 
 export interface PostFormData {
   title: string;
@@ -109,20 +145,11 @@ export interface ErrorResponse {
   errorMessage?: string;
 }
 
+export type AuthFormName = 'email' | 'code' | 'password' | 'confirmPassword' | 'name' | 'nickname';
+
 export interface VerifyCodeProps {
   email: string;
   code: string;
-}
-
-export interface FormMethods<T extends FieldValues> {
-  register: UseFormRegister<T>;
-  setValue: UseFormSetValue<T>;
-  setError: UseFormSetError<T>;
-  clearErrors: UseFormClearErrors<T>;
-  trigger: UseFormTrigger<T>;
-  getValues: UseFormGetValues<T>;
-  watch: UseFormWatch<T>;
-  formState: { errors: FieldErrors<T> };
 }
 
 export interface SignupForm {
@@ -141,4 +168,11 @@ export interface RegisterForm {
   name: string;
   nickname: string;
   isSocial: boolean;
+}
+
+export interface PostFilterState {
+  location: { city: number; district: number }[];
+  seasonTagIds: number[];
+  temperatureTagIds: number[];
+  weatherTagIds: number[];
 }

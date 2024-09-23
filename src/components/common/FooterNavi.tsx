@@ -16,7 +16,7 @@ const navList: NavItem[] = [
 
 export default function FooterNavi() {
   return (
-    <nav className="max-w-md fixed bottom-0 w-full bg-background-white border-t border-line-lightest flex justify-around py-2">
+    <nav className="max-w-md bottom-0 fixed w-full bg-background-white border-t border-line-lightest flex justify-around py-2">
       {navList.map((navItem) => (
         <NavLink
           key={navItem.path}

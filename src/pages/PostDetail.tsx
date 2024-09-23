@@ -25,8 +25,10 @@ export interface PostDetail extends PostMeta {
 }
 
 export default function PostDetail() {
+
   const location = useLocation();
   const { id: postId } = location.state;
+
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -61,6 +63,7 @@ export default function PostDetail() {
   const modalHandler = () => {
     setModalOpen(true);
   };
+
 
   return (
     <div className="min-h-screen flex flex-col">

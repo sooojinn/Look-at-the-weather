@@ -21,6 +21,7 @@ import MyLikedPost from '@pages/MyLikedPost.tsx';
 import PostReport from '@pages/PostReport.tsx';
 import DeleteAccount from '@pages/DeleteAccount.tsx';
 
+
 const router = createBrowserRouter([
   {
     path: '/',

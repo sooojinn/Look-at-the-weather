@@ -1,21 +1,34 @@
-// store.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware'; // persist 가져오기
+import create from 'zustand';
+import { persist } from 'zustand/middleware';
+import { FilterItem } from '@/config/types';
+import { DistrictType } from '@/config/types';
 
 interface PostState {
-  postId: number | null;
-  setSelectedPostId: (id: number) => void;
+  locationIds: DistrictType[];
+  seasonTagIds: FilterItem[];
+  weatherTagIds: FilterItem[];
+  temperatureTagIds: FilterItem[];
+  updateLocation: (newLocation: DistrictType[]) => void;
+  updateSeasonTagIds: (newSeasonTagIds: FilterItem[]) => void;
+  updateWeatherTagIds: (newWeatherTagIds: FilterItem[]) => void;
+  updateTemperatureTagIds: (newTemperatureTagIds: FilterItem[]) => void;
 }
 
 export const usePostStore = create<PostState>()(
   persist(
     (set) => ({
-      postId: 1,
-      setSelectedPostId: (id) => set({ postId: id }),
+      locationIds: [],
+      seasonTagIds: [],
+      weatherTagIds: [],
+      temperatureTagIds: [],
+      updateLocation: (newLocation) => set({ locationIds: newLocation }),
+      updateSeasonTagIds: (newSeasonTagIds) => set({ seasonTagIds: newSeasonTagIds }),
+      updateWeatherTagIds: (newWeatherTagIds) => set({ weatherTagIds: newWeatherTagIds }),
+      updateTemperatureTagIds: (newTemperatureTagIds) => set({ temperatureTagIds: newTemperatureTagIds }),
     }),
     {
-      name: 'post-storage', // localStorage에 저장될 키 이름
-      partialize: (state) => ({ postId: state.postId }), // 필요한 부분만 저장
+      name: 'post-store',
+      getStorage: () => localStorage,
     },
   ),
 );

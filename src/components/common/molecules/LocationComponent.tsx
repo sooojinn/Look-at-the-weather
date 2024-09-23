@@ -13,6 +13,7 @@ interface LocationComponentProps {
   color?: TextColor;
 }
 
+
 export default function LocationComponent({
   isPostFormLocation,
   city,
@@ -20,10 +21,12 @@ export default function LocationComponent({
   size,
   color = 'black',
 }: LocationComponentProps) {
+
   const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
+
     navigate('/search-address', { state: { isPostFormLocation } });
   };
 

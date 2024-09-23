@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { postLogin } from '@/api/apis';
+import { BASEURL } from '@/config/constants';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import InputWithLabel from '@components/form/InputWithLabel';
-import useAuthService from '@/hooks/useAuthService';
-import useUserInfo from '@/hooks/useUserInfo';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
@@ -23,27 +23,19 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   } = useForm();
   const [showForm, setShowForm] = useState(false);
 
-  const { setAccessToken, isLogin } = useAuthService();
+  useEffect(() => {
+    setShowForm(true);
+  }, []);
 
-  const { setUserInfo } = useUserInfo();
-
-  const handleLoginCheck = async () => {
-    const loggedIn = await isLogin();
-
-    if (loggedIn) {
-      setIsLoggedIn(true);
-    }
-  };
-
-  const handleLogin = async (loginData: any) => {
+  const handleLogin = async (data: any) => {
     try {
-      const response = await postLogin(loginData);
-      // const response = await postLogin({
-      //   email: 'bbb111@naver.com',
-      //   password: 'ccc123',
-      // });
-
+      const response = await axios.post(`${BASEURL}auth/login`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       const { accessToken } = response.data;
+
 
       setAccessToken(accessToken);
       console.log(response.data);
@@ -61,10 +53,6 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     { path: '/find-email', label: '이메일 찾기' },
     { path: '/find-password', label: '비밀번호 찾기' },
   ];
-
-  useEffect(() => {
-    setShowForm(true);
-  }, []);
 
   return (
     <>
@@ -112,7 +100,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
           </form>
           <div className="h-12 mt-6 flex justify-between">
             {linkList.map(({ path, label }) => (
-              <Link key={path} to={path} className="w-[106px] flex justify-center items-center">
+              <Link to={path} className="w-[106px] flex justify-center items-center">
                 <Text weight="bold">{label}</Text>
               </Link>
             ))}

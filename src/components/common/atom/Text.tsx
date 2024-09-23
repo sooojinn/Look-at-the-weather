@@ -1,4 +1,4 @@
-import { TextColor, TextSize, TextWeight } from '@/config/types';
+import { TextColor, TextSize, TextWeight, TextMargin } from '@/config/types';
 import { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ type TextType = {
   className?: string;
   href?: string;
   children: ReactNode;
+  margin?: TextMargin;
 };
 
 export default function Text({
@@ -16,8 +17,11 @@ export default function Text({
   size = 'm',
   color = 'lightBlack',
   weight = 'regular',
+  href,
+  margin,
   className,
   href,
+
 }: TextType) {
   const textSize = {
     xs: 'text-xs',
@@ -38,6 +42,7 @@ export default function Text({
     white: 'text-white',
     main: 'text-primary-main',
     disabled: 'text-disabled',
+    blue: 'text-primary-main',
     error: 'text-status-error',
     success: 'text-status-success',
   };
@@ -52,7 +57,9 @@ export default function Text({
   return (
     <>
       {href ? (
+
         <NavLink to={href} className={classNames}>
+
           {children}
         </NavLink>
       ) : (

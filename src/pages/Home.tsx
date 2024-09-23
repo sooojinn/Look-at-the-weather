@@ -19,6 +19,9 @@ export default function Home() {
     console.log(getAccessToken());
   };
 
+  // const { refreshAccessToken } = useAuthService();
+
+  // refreshAccessToken();
   useEffect(() => {
     handleLoginCheck();
   }, []);

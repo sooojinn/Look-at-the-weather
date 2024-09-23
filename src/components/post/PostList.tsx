@@ -14,10 +14,12 @@ export function PostList({ postList, isMyPost }: PostListProps) {
 
   const onClickPostHandler = (id: number) => {
     navigate(`/post/${id}`, { state: { id: id } });
+
   };
 
   return (
     <div className="w-full post-list">
+
       {postList.map((post) => {
         const {
           postId,
@@ -31,7 +33,6 @@ export function PostList({ postList, isMyPost }: PostListProps) {
         } = post;
 
         const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
-
         return (
           <div className="min-h-[312px] h-auto cursor-pointer" key={postId}>
             <div onClick={() => onClickPostHandler(postId)}>
