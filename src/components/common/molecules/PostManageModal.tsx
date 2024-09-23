@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import CloseBtn from '@components/icons/CloseBtn';
 import ReportIcon from '@components/icons/ReportIcon';
 import HideIcon from '@components/icons/HideIcon';
@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from './ToastProvider';
+import WarningModal from '../organism/WarningModal';
+import Button from './Button';
 
 type ModalType = {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,9 +22,11 @@ type ModalType = {
 
 export default function PostManageModal({ modalController, isMyPost, postId, postData }: ModalType) {
   const navigate = useNavigate();
+  const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
 
-  console.log(postData);
-  console.log('isMyPost: ', isMyPost);
+  const onClickCloseBtn = () => {
+    modalController(false);
+  };
 
   const hidePostMutation = useMutation({
     mutationFn: hidePost,
@@ -37,31 +41,35 @@ export default function PostManageModal({ modalController, isMyPost, postId, pos
     },
   });
 
-  const onClickCloseBtn = () => {
-    modalController(false);
-  };
+  const deletePostMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      showToast('해당 게시물이 삭제되었습니다.');
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.error(error);
+      showToast('게시물을 삭제하는 데 실패했습니다.');
+      modalController(false);
+    },
+  });
 
-  const onClickDeleteBtn = async () => {
-    try {
-      const response = await deletePost(postId);
-      alert(response.data.message);
-      window.location.href = '/mypost';
-    } catch (err) {
-      console.log(err);
-    }
-    modalController(false);
-  };
-
+  // 수정하기
   const onClickUpdateBtn = async () => {
     navigate(`/post/${postId}/edit`, { state: { postData, postId } });
-
-    modalController(false);
   };
 
+  // 삭제하기
+  const onClickDeleteBtn = async () => {
+    setShowDeleteWarningModal(true);
+  };
+
+  // 숨기기
   const onClickHideBtn = () => {
     hidePostMutation.mutate(postId);
   };
 
+  // 신고하기
   const onClickReportBtn = () => {
     navigate(`/post/${postId}/report`, { state: { postId } });
   };
@@ -76,32 +84,53 @@ export default function PostManageModal({ modalController, isMyPost, postId, pos
   return (
     <>
       <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-      <div className="max-w-md fixed bottom-0 w-full bg-background-white rounded-t-3xl z-20">
-        <div className="h-14 pr-5 flex justify-end">
-          <CloseBtn onClick={onClickCloseBtn} />
-        </div>
-        <div className="pt-5 pb-10">
-          {isMyPost ? (
-            <>
-              <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
-                수정하기
-              </PostMenuItem>
-              <PostMenuItem Icon={DeleteIcon} onClick={onClickDeleteBtn}>
+      {!showDeleteWarningModal && (
+        <>
+          <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
+          <div className="max-w-md fixed bottom-0 w-full bg-background-white rounded-t-3xl z-20">
+            <div className="h-14 pr-5 flex justify-end">
+              <CloseBtn onClick={onClickCloseBtn} />
+            </div>
+            <div className="pt-5 pb-10">
+              {isMyPost ? (
+                <>
+                  <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
+                    수정하기
+                  </PostMenuItem>
+                  <PostMenuItem Icon={DeleteIcon} onClick={onClickDeleteBtn}>
+                    삭제하기
+                  </PostMenuItem>
+                </>
+              ) : (
+                <>
+                  <PostMenuItem Icon={HideIcon} onClick={onClickHideBtn}>
+                    해당 게시물 숨기기
+                  </PostMenuItem>
+                  <PostMenuItem Icon={ReportIcon} onClick={onClickReportBtn}>
+                    신고하기
+                  </PostMenuItem>
+                </>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+      {showDeleteWarningModal && (
+        <WarningModal
+          mainMessage="게시물을 정말 삭제하시겠어요?"
+          subMessage="삭제된 게시물은 복구되지 않아요."
+          buttons={
+            <div className="w-full flex gap-2">
+              <Button type="sub" size="m" onClick={() => deletePostMutation.mutate(postId)}>
                 삭제하기
-              </PostMenuItem>
-            </>
-          ) : (
-            <>
-              <PostMenuItem Icon={HideIcon} onClick={onClickHideBtn}>
-                해당 게시물 숨기기
-              </PostMenuItem>
-              <PostMenuItem Icon={ReportIcon} onClick={onClickReportBtn}>
-                신고하기
-              </PostMenuItem>
-            </>
-          )}
-        </div>
-      </div>
+              </Button>
+              <Button type="main" size="m" onClick={() => setShowDeleteWarningModal(false)}>
+                닫기
+              </Button>
+            </div>
+          }
+        />
+      )}
     </>
   );
 }
