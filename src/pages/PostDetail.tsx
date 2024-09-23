@@ -22,7 +22,6 @@ export interface PostDetail extends PostMeta {
     }[];
   };
   likedCount: number;
-  reportPost: boolean;
 }
 
 export default function PostDetail() {
@@ -36,10 +35,8 @@ export default function PostDetail() {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ['postData'],
+    queryKey: ['postData', postId],
     queryFn: () => getPostDetail(postId),
-    staleTime: 0,
-    gcTime: 0,
   });
 
   const postDetailData = response?.data;
@@ -55,6 +52,7 @@ export default function PostDetail() {
     seasonTag,
     likeByUser,
     likedCount,
+    reportPost,
   }: PostDetail = postDetailData || {};
 
   const myNickname = localStorage.getItem('nickName');
@@ -81,9 +79,28 @@ export default function PostDetail() {
             </div>
             <Menu className="cursor-pointer" onClick={modalHandler} />
           </div>
-          <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
+          <div className="w-full h-[468px] relative">
+            {reportPost && (
+              <div className="w-full h-full bg-dimmer-bg flex flex-col justify-center items-center absolute">
+                <Text color="white" size="l" weight="bold">
+                  신고로 인해
+                </Text>
+                <Text color="white" size="l" weight="bold">
+                  제제된 게시물입니다
+                </Text>
+              </div>
+            )}
+            <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
+          </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
-            <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
+            <Heart
+              fill="gray"
+              liked={likeByUser}
+              postId={postId}
+              hasUserNumber
+              likedCount={likedCount}
+              isMyPost={isMyPost}
+            />
             <div className="flex flex-col gap-4">
               <Text size="l" weight="bold">
                 {title}
@@ -106,7 +123,13 @@ export default function PostDetail() {
         </>
       )}
       {modalOpen ? (
-        <PostManageModal modalController={setModalOpen} isMyPost={isMyPost} postId={postId} postData={postDetailData} />
+        <PostManageModal
+          modalController={setModalOpen}
+          isMyPost={isMyPost}
+          postId={postId}
+          postData={postDetailData}
+          isReported={reportPost}
+        />
       ) : null}
     </div>
   );

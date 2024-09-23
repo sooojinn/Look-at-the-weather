@@ -34,6 +34,7 @@ export interface PostMeta {
   weatherTags: string[];
   temperatureTags: string[];
   likeByUser: boolean;
+  reportPost?: boolean;
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';

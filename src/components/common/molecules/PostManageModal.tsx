@@ -13,14 +13,21 @@ import { showToast } from './ToastProvider';
 import WarningModal from '../organism/WarningModal';
 import Button from './Button';
 
-type ModalType = {
+interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
   isMyPost?: boolean;
   postId: number;
   postData: PostDetail | undefined;
-};
+  isReported?: boolean;
+}
 
-export default function PostManageModal({ modalController, isMyPost, postId, postData }: ModalType) {
+export default function PostManageModal({
+  modalController,
+  isMyPost,
+  postId,
+  postData,
+  isReported,
+}: PostManageModalProps) {
   const navigate = useNavigate();
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
 
@@ -94,9 +101,11 @@ export default function PostManageModal({ modalController, isMyPost, postId, pos
             <div className="pt-5 pb-10">
               {isMyPost ? (
                 <>
-                  <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
-                    수정하기
-                  </PostMenuItem>
+                  {isReported || (
+                    <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
+                      수정하기
+                    </PostMenuItem>
+                  )}
                   <PostMenuItem Icon={DeleteIcon} onClick={onClickDeleteBtn}>
                     삭제하기
                   </PostMenuItem>
