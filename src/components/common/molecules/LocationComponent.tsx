@@ -6,18 +6,25 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface LocationComponentProps {
+  isPostFormLocation?: boolean;
   city?: string;
   district?: string;
   size?: TextSize;
   color?: TextColor;
 }
 
-export default function LocationComponent({ city, district, size, color = 'black' }: LocationComponentProps) {
+export default function LocationComponent({
+  isPostFormLocation,
+  city,
+  district,
+  size,
+  color = 'black',
+}: LocationComponentProps) {
   const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
-    navigate('/search-address');
+    navigate('/search-address', { state: { isPostFormLocation } });
   };
 
   useEffect(() => {

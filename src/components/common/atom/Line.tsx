@@ -3,5 +3,5 @@ type HeightTYpe = {
 };
 
 export function Line({ height }: HeightTYpe) {
-  return <div className={`bg-line-lightest h-[${height}px]`} />;
+  return <div style={{ height: `${height}px` }} className="bg-line-lightest" />;
 }

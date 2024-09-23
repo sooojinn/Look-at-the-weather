@@ -1,19 +1,14 @@
-import { BASEURL } from '@/config/constants';
-import { FileProps } from '@/config/types';
+import { FileProps, ImageItem } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
-
-interface ImageItem {
-  id?: number;
-  url: string;
-  tempId?: string;
-}
+import { deleteImage } from '@/api/apis';
+import axios from 'axios';
+import { BASEURL } from '@/constants/constants';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -30,26 +25,21 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
   const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      Authorization: `${localStorage.getItem('accesstoken')}`,
     },
   });
   return response.data;
 };
 
-// 이미지 삭제 함수
-const deleteImage = async (id: number) => {
-  await axios.delete(`${BASEURL}/s3/post-image/${id}`, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-    },
-  });
-};
-
-export default function File({ name, rules, setValue, register }: FileProps) {
+export default function File({ name, rules, setValue, register, defaultImages }: FileProps) {
   const [selectedImages, setSelectedImages] = useState<ImageItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_IMAGES = 3;
+
+  useEffect(() => {
+    // selectedImages에 defaultImages 등록
+    setSelectedImages(defaultImages || []);
+  }, [defaultImages]);
 
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
@@ -133,7 +123,7 @@ export default function File({ name, rules, setValue, register }: FileProps) {
       <div className="h-[197px] flex space-x-2 overflow-auto scrollbar-hide">
         {selectedImages.map((image) => {
           const { id, url, tempId } = image;
-          return <PreviewImage key={tempId} id={id} url={url} onDelete={handleDeleteImage} />;
+          return <PreviewImage key={id || tempId} id={id} url={url} onDelete={handleDeleteImage} />;
         })}
         {selectedImages.length < MAX_IMAGES && <AddImageBtn handleAddClick={handleAddClick} />}
       </div>

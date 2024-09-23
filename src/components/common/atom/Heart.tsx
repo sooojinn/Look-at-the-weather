@@ -1,19 +1,18 @@
-import { BASEURL } from '@/config/constants';
 import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/heartIcons';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import Text from './Text';
+import { deleteLike, postLike } from '@/api/apis';
+import { useMutation } from '@tanstack/react-query';
+import { showToast } from '../molecules/ToastProvider';
 
 interface HeartProps {
   fill?: string;
   liked?: boolean;
   postId: number;
   hasUserNumber?: boolean;
-}
-
-interface ResponseCommonDTO {
-  success: boolean;
-  message: string;
+  likedCount?: number;
+  isMyPost?: boolean;
 }
 
 interface ErrorResponse {
@@ -21,62 +20,46 @@ interface ErrorResponse {
   errorMessage: string;
 }
 
-// 좋아요 처리하는 함수
-const postLike = async (postId: number): Promise<ResponseCommonDTO> => {
-  const response = await axios.post<ResponseCommonDTO>(
-    `${BASEURL}/likes/posts/${postId}`,
-    {},
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
+export default function Heart({
+  fill = 'white',
+  liked = false,
+  postId,
+  hasUserNumber,
+  likedCount: initialLikedCount,
+  isMyPost,
+}: HeartProps) {
+  const [isLiked, setIsLiked] = useState<boolean>(liked);
+  const [likedCount, setLikedCount] = useState(initialLikedCount);
+
+  const toggleLikeMutation = useMutation({
+    mutationFn: async () => {
+      return isLiked ? await deleteLike(postId) : await postLike(postId);
     },
-  );
-
-  return response.data;
-};
-
-// 좋아요 취소 처리하는 함수
-const deleteLike = async (postId: number): Promise<ResponseCommonDTO> => {
-  const response = await axios.delete<ResponseCommonDTO>(`${BASEURL}/likes/posts/${postId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    onSuccess: (res) => {
+      setIsLiked((prev) => !prev);
+      setLikedCount(res.data.likedCount);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response) {
+        const { errorMessage } = error.response.data;
+        console.error(errorMessage, error);
+        showToast(`${errorMessage}`);
+      } else {
+        console.error('예상치 못한 에러가 발생했습니다.', error);
+      }
     },
   });
 
-  return response.data;
-};
-
-// 하트 컴포넌트
-export default function Heart({ fill = 'white', liked = false, postId, hasUserNumber }: HeartProps) {
-  const [isLiked, setIsLiked] = useState<boolean>(liked);
-
-  const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    try {
-      const res = isLiked ? await deleteLike(postId) : await postLike(postId);
-      if (res.success) {
-        setIsLiked((prev) => !prev);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<ErrorResponse>;
-        if (axiosError.response) {
-          const { errorCode, errorMessage } = axiosError.response.data;
-          console.error(`Error: ${errorCode} - ${errorMessage}`);
-        }
-      } else {
-        console.error('예상치 못한 에러가 발생했습니다:', error);
-      }
-    }
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    if (isMyPost) showToast('내 게시물엔 좋아요를 누를 수 없습니다.');
+    else toggleLikeMutation.mutate();
   };
 
   return (
     <div onClick={handleClick} className="flex row gap-x-2">
-      {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}{' '}
-      {hasUserNumber ? <Text color="lightGray">3</Text> : null}
+      {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}
+      {hasUserNumber && <Text color="lightGray">{likedCount || 0}</Text>}
     </div>
   );
 }

@@ -30,10 +30,11 @@ export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
-  seasonTagId: number;
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
+  seasonTag: string;
+  weatherTags: string[];
+  temperatureTags: string[];
   likeByUser: boolean;
+  reportPost?: boolean;
 }
 
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
@@ -58,7 +59,27 @@ export interface PostFormData {
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
-  imageId: number[];
+  imageIds: number[];
+}
+
+export interface Tag {
+  id: number;
+  category: string;
+  value: string;
+  name: string;
+}
+export interface SelectProps {
+  name: keyof PostFormData;
+  options: Tag[];
+  maxSelection?: number;
+  control: Control<any>;
+  rules?: RegisterOptions; // 유효성 검사 규칙
+}
+
+export interface ImageItem {
+  id?: number;
+  url: string;
+  tempId?: string;
 }
 
 export interface Tag {
@@ -80,6 +101,7 @@ export interface FileProps {
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   setValue: UseFormSetValue<PostFormData>;
   register: UseFormRegister<PostFormData>;
+  defaultImages?: ImageItem[];
 }
 
 export interface ErrorResponse {

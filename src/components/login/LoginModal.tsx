@@ -48,6 +48,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       setAccessToken(accessToken);
       console.log(response.data);
       setUserInfo('nickname', response.data.nickName);
+      localStorage.setItem('nickName', response.data.nickName);
       handleLoginCheck();
     } catch (error) {
       console.error(error);

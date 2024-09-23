@@ -1,3 +1,4 @@
+import { PostFormData } from '@/config/types';
 import { instance } from './instance';
 import useAuthService from '@/hooks/useAuthService';
 import { AxiosRequestConfig } from 'axios';
@@ -47,4 +48,41 @@ export const getPostDetail = (postId: number) => {
 
 export const deletePost = (postId: number) => {
   return instance.delete(`/posts/${postId}`, config);
+};
+
+export const fetchTopLikedPosts = () => {
+  return instance.get('/posts/top-liked', config);
+};
+
+export const deleteImage = async (id: number) => {
+  instance.delete(`/s3/post-image/${id}`, config);
+};
+
+export const uploadPost = async (data: PostFormData) => {
+  return instance.post('/posts', data, config);
+};
+
+export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
+  console.log('수정 데이터: ', data);
+  return instance.patch(`/posts/${postId}`, data, config);
+};
+
+export const postLike = (postId: number) => {
+  return instance.post(`/likes/posts/${postId}`, null, config);
+};
+
+export const deleteLike = (postId: number) => {
+  return instance.delete(`/likes/posts/${postId}`, config);
+};
+
+export const hidePost = (postId: number) => {
+  return instance.post(`/posts/${postId}/hide`, null, config);
+};
+
+export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
+  return instance.post(`/posts/${postId}/report?reason=${reason}`, null, config);
+};
+
+export const getDeleteReasons = () => {
+  return instance.get('/users/delete-reasons', config);
 };

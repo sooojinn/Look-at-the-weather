@@ -9,15 +9,11 @@ type TextType = {
 
 export default function TextWithArrow({ children, href }: TextType) {
   return (
-    <div className="flex justify-between py-[18px]">
-      <span>
-        <Text size="l" weight="bold" href={href}>
-          {children}
-        </Text>
-      </span>
-      <span>
-        <ArrowIcon fill="#171719" />
-      </span>
+    <div className="flex justify-between items-center py-[18px] cursor-pointer">
+      <Text size="l" weight="bold" href={href}>
+        {children}
+      </Text>
+      <ArrowIcon fill="#171719" />
     </div>
   );
 }

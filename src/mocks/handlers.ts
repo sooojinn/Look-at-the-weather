@@ -229,4 +229,48 @@ export const handlers = [
       { status: 200 },
     );
   }),
+
+  http.post(`${BASEURL}/api/v1/s3/post-image`, async () => {
+    // 3초 지연 후 응답 반환
+    await new Promise<void>((resolve) => setTimeout(resolve, 3000));
+
+    const id = Date.now();
+    return HttpResponse.json({ id: id }, { status: 201 });
+  }),
+
+  http.post(`${BASEURL}/api/v1/posts`, async () => {
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 등록 성공',
+      },
+      { status: 200 },
+    );
+  }),
+
+  http.put(`${BASEURL}/api/v1/posts/:postId`, async () => {
+    return HttpResponse.json(
+      {
+        success: true,
+        message: '게시글 수정 성공',
+      },
+      { status: 200 },
+    );
+  }),
+
+  // 게시물 작성 중 이미지 삭제
+  http.delete(`${BASEURL}/api/v1/s3/post-image/:imageId`, ({ params }) => {
+    const { imageId } = params;
+    if (imageId) {
+      return HttpResponse.json({}, { status: 201 });
+    } else {
+      return HttpResponse.json(
+        {
+          errorCode: 'FAIL_DELETE_POST',
+          errorMessage: '게시글 삭제 실패',
+        },
+        { status: 400 },
+      );
+    }
+  }),
 ];

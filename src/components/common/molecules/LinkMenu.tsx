@@ -13,7 +13,7 @@ type PropsType = {
 
 export default function LinkMenu({ title, menuList }: PropsType) {
   return (
-    <div className="bg-background-white">
+    <div className="bg-background-white px-5">
       <div className="py-[18px]">
         <Text color="gray" size="m">
           {title}
