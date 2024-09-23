@@ -1,11 +1,12 @@
 import { TextColor, TextSize, TextWeight, TextMargin } from '@/config/types';
 import { ReactNode } from 'react';
+import { NavLink } from 'react-router-dom';
 
 type TextType = {
   size?: TextSize;
   color?: TextColor;
   weight?: TextWeight;
-
+  className?: string;
   href?: string;
   children: ReactNode;
   margin?: TextMargin;
@@ -18,6 +19,9 @@ export default function Text({
   weight = 'regular',
   href,
   margin,
+  className,
+  href,
+
 }: TextType) {
   const textSize = {
     xs: 'text-xs',
@@ -48,14 +52,18 @@ export default function Text({
     bold: 'font-bold',
   };
 
+  const classNames = `${textSize[size]} ${textColor[color]} ${textWeight[weight]} ${className}`;
+
   return (
     <>
       {href ? (
-        <a href={href} className={`${margin} ${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>
+
+        <NavLink to={href} className={classNames}>
+
           {children}
-        </a>
+        </NavLink>
       ) : (
-        <div className={`${margin} ${textSize[size]} ${textColor[color]} ${textWeight[weight]}`}>{children}</div>
+        <div className={classNames}>{children}</div>
       )}
     </>
   );

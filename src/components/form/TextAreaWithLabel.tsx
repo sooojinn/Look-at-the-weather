@@ -1,16 +1,19 @@
-import { RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { RegisterOptions, UseFormGetValues, UseFormRegister } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { PostFormData } from '@/config/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Text from '@components/common/atom/Text';
 
+type TextAreaFields = 'title' | 'content';
+
 interface TextAreaWithLabelProps {
-  name: keyof PostFormData;
+  name: TextAreaFields;
   label: string;
   placeholder: string;
   maxLength: number;
   register: UseFormRegister<PostFormData>;
-  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
+  getValues: UseFormGetValues<PostFormData>;
+  rules?: RegisterOptions<PostFormData, TextAreaFields>;
   className?: string;
 }
 
@@ -20,10 +23,16 @@ export default function TextAreaWithLabel({
   placeholder,
   maxLength,
   register,
+  getValues,
   rules,
   className = '',
 }: TextAreaWithLabelProps) {
   const [charCount, setCharCount] = useState(0);
+
+  useEffect(() => {
+    const defaultValue = getValues(name);
+    setCharCount(defaultValue.length);
+  }, [register, name]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCharCount(e.target.value.length);

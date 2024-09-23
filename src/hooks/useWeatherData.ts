@@ -1,25 +1,8 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { fetchGeoPoint, fetchLocation } from '@/lib/geo';
-import { GeoPoint, Location } from '@/config/types';
+import { useQuery } from '@tanstack/react-query';
+import { GeoPoint } from '@/config/types';
 import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
-
-export const useGeoPointQuery = () =>
-  useQuery({
-    queryKey: ['geoPoint'],
-    queryFn: fetchGeoPoint,
-    staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
-  });
-
-// 위치 정보('OO시 OO구')를 패칭
-export const useLocationQuery = (geoPoint: GeoPoint | undefined): UseQueryResult<Location | undefined, Error> =>
-  useQuery({
-    queryKey: ['location', geoPoint?.latitude, geoPoint?.longitude], // 의존성에 위도와 경도 추가 -> 위도와 경도 값이 바뀌면 리패칭
-    queryFn: () => fetchLocation(geoPoint as GeoPoint),
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60,
-    retry: 1,
-    enabled: !!geoPoint,
-  });
+import { showToast } from '@components/common/molecules/ToastProvider';
+import { useEffect } from 'react';
 
 const useHourlyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
   useQuery({
@@ -41,19 +24,15 @@ const useDailyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
     enabled: !!geoPoint,
   });
 
-export default function useLocationAndWeatherData() {
-  const geoPointQuery = useGeoPointQuery();
-  const geoPoint = geoPointQuery.data;
-
-  const locationQuery = useLocationQuery(geoPoint);
+export default function useWeatherData(geoPoint: GeoPoint | undefined) {
   const hourlyWeatherQuery = useHourlyWeatherQuery(geoPoint);
   const dailyWeatherQuery = useDailyWeatherQuery(geoPoint);
 
-  const queries = [locationQuery, hourlyWeatherQuery, dailyWeatherQuery];
+  const queries = [hourlyWeatherQuery, dailyWeatherQuery];
 
-  const isLoading = queries.some((query) => query.isLoading);
-  const isSuccess = queries.every((query) => query.isSuccess);
-  const isError = !isLoading && queries.some((query) => query.isError);
+  const isWeatherLoading = queries.some((query) => query.isLoading);
+  const isWeatherSuccess = queries.every((query) => query.isSuccess);
+  const isWeatherError = !isWeatherLoading && queries.some((query) => query.isError);
 
   const handleRefetch = () => {
     queries.forEach((query) => {
@@ -61,12 +40,17 @@ export default function useLocationAndWeatherData() {
     });
   };
 
+  useEffect(() => {
+    if (isWeatherError) {
+      showToast('현재 날씨 정보를 불러올 수 없어요.', '재시도', handleRefetch);
+    }
+  }, [isWeatherError]);
+
   return {
-    location: locationQuery.data,
     weatherData: { ...hourlyWeatherQuery.data, ...dailyWeatherQuery.data },
-    isLoading,
-    isSuccess,
-    isError,
+    isWeatherLoading,
+    isWeatherSuccess,
+    isWeatherError,
     handleRefetch,
   };
 }

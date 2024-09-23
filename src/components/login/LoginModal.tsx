@@ -35,8 +35,13 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
         },
       });
       const { accessToken } = response.data;
-      localStorage.setItem('accesstoken', accessToken);
-      setIsLoggedIn(true);
+
+
+      setAccessToken(accessToken);
+      console.log(response.data);
+      setUserInfo('nickname', response.data.nickName);
+      localStorage.setItem('nickName', response.data.nickName);
+      handleLoginCheck();
     } catch (error) {
       console.error(error);
       setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
@@ -45,8 +50,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const linkList = [
     { path: '/signup', label: '회원가입' },
-    { path: '/findemail', label: '이메일 찾기' },
-    { path: '/findpassword', label: '비밀번호 찾기' },
+    { path: '/find-email', label: '이메일 찾기' },
+    { path: '/find-password', label: '비밀번호 찾기' },
   ];
 
   return (

@@ -62,7 +62,7 @@ export default function PasswordReset() {
       <Header>비밀번호 재설정</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
-          <PasswordInput<PasswordResetForm> isPasswordReset={true} {...formMethods} />
+          <PasswordInput<PasswordResetForm> isPasswordReset {...formMethods} />
           <PasswordCheckInput<PasswordResetForm> {...formMethods} />
         </div>
         <Button>비밀번호 재설정하기</Button>

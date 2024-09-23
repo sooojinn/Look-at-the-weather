@@ -6,6 +6,7 @@ export default {
         'weather-light-gradient': 'linear-gradient(118.17deg, #F5AF16 -4.95%, #FFEA73 101.98%)',
         'weather-normal-gradient': 'linear-gradient(118.17deg, #29ACFF -4.95%, #BAE1FA 101.98%)',
         'weather-dark-gradient': 'linear-gradient(118.17deg, #0E3363 -4.95%, #4484D9 101.98%)',
+        'weather-error-gradient': 'linear-gradient(120.34deg, #063F80 -4.79%, #130B59 43.81%, #390F5F 90.11%)',
       },
       colors: {
         black: '#000000',
