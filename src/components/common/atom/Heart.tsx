@@ -12,7 +12,6 @@ interface HeartProps {
   postId: number;
   hasUserNumber?: boolean;
   likedCount?: number;
-  isMyPost?: boolean;
 }
 
 interface ErrorResponse {
@@ -26,7 +25,6 @@ export default function Heart({
   postId,
   hasUserNumber,
   likedCount: initialLikedCount,
-  isMyPost,
 }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
   const [likedCount, setLikedCount] = useState(initialLikedCount);
@@ -52,8 +50,7 @@ export default function Heart({
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    if (isMyPost) showToast('내 게시물엔 좋아요를 누를 수 없습니다.');
-    else toggleLikeMutation.mutate();
+    toggleLikeMutation.mutate();
   };
 
   return (

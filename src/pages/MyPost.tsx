@@ -65,7 +65,7 @@ export default function MyPost() {
   return (
     <div>
       <Header>내 게시물</Header>
-      <PostList postList={postList} isMyPost />
+      <PostList postList={postList} />
       <Loading ref={pageEnd} isLoading={loading} />
     </div>
   );

@@ -6,20 +6,17 @@ import { useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   postList: PostMeta[];
-  isMyPost?: boolean;
 }
 
-export function PostList({ postList, isMyPost }: PostListProps) {
+export function PostList({ postList }: PostListProps) {
   const navigate = useNavigate();
 
   const onClickPostHandler = (id: number) => {
     navigate(`/post/${id}`, { state: { id: id } });
-
   };
 
   return (
     <div className="w-full post-list">
-
       {postList.map((post) => {
         const {
           postId,
@@ -36,13 +33,7 @@ export function PostList({ postList, isMyPost }: PostListProps) {
         return (
           <div className="min-h-[312px] h-auto cursor-pointer" key={postId}>
             <div onClick={() => onClickPostHandler(postId)}>
-              <PostListImg
-                imgUrl={thumbnail}
-                liked={likeByUser}
-                postId={postId}
-                isReported={reportPost}
-                isMyPost={isMyPost}
-              />
+              <PostListImg imgUrl={thumbnail} liked={likeByUser} postId={postId} isReported={reportPost} />
               <div className="mt-2.5 px-5">
                 <Text>
                   {city} {district}
