@@ -25,10 +25,8 @@ export interface PostDetail extends PostMeta {
 }
 
 export default function PostDetail() {
-
   const location = useLocation();
   const { id: postId } = location.state;
-
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -64,7 +62,6 @@ export default function PostDetail() {
     setModalOpen(true);
   };
 
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -96,14 +93,7 @@ export default function PostDetail() {
             <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
-            <Heart
-              fill="gray"
-              liked={likeByUser}
-              postId={postId}
-              hasUserNumber
-              likedCount={likedCount}
-              isMyPost={isMyPost}
-            />
+            <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
             <div className="flex flex-col gap-4">
               <Text size="l" weight="bold">
                 {title}
