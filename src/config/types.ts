@@ -51,6 +51,12 @@ export type TextColor =
   | 'success';
 export type TextWeight = 'regular' | 'bold';
 
+export interface ImageItem {
+  imageId: number;
+  url: string;
+  fileName?: string;
+}
+
 export interface PostFormData {
   title: string;
   content: string;
@@ -60,6 +66,7 @@ export interface PostFormData {
   temperatureTagIds: number[];
   seasonTagId: number | null;
   imageIds: number[];
+  images: ImageItem[];
 }
 
 export interface Tag {
@@ -68,40 +75,21 @@ export interface Tag {
   value: string;
   name: string;
 }
+
 export interface SelectProps {
   name: keyof PostFormData;
   options: Tag[];
   maxSelection?: number;
-  control: Control<any>;
-  rules?: RegisterOptions; // 유효성 검사 규칙
-}
-
-export interface ImageItem {
-  id?: number;
-  url: string;
-  tempId?: string;
-}
-
-export interface Tag {
-  id: number;
-  category: string;
-  value: string;
-  name: string;
-}
-export interface SelectProps {
-  name: keyof PostFormData;
-  options: Tag[];
-  maxSelection?: number;
-  control: Control<any>;
-  rules?: RegisterOptions; // 유효성 검사 규칙
+  control: Control<PostFormData>;
+  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
 }
 
 export interface FileProps {
   name: keyof PostFormData;
-  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
   setValue: UseFormSetValue<PostFormData>;
+  getValues: UseFormGetValues<PostFormData>;
   register: UseFormRegister<PostFormData>;
-  defaultImages?: ImageItem[];
+  rules?: RegisterOptions<PostFormData, keyof PostFormData>;
 }
 
 export interface ErrorResponse {

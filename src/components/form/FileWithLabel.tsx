@@ -14,8 +14,8 @@ export default function FileWithLabel({
   description,
   rules,
   setValue,
+  getValues,
   register,
-  defaultImages,
 }: FileWithLabelProps) {
   return (
     <div className="flex flex-col gap-4">
@@ -27,7 +27,7 @@ export default function FileWithLabel({
           {description}
         </Text>
       </div>
-      <File name={name} rules={rules} setValue={setValue} register={register} defaultImages={defaultImages} />
+      <File name={name} rules={rules} setValue={setValue} getValues={getValues} register={register} />
     </div>
   );
 }

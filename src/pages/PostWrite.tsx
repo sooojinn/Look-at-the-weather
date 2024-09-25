@@ -20,6 +20,7 @@ export default function PostWrite() {
     temperatureTagIds: [],
     seasonTagId: null,
     imageIds: [],
+    images: [],
   };
 
   const uploadMutation = useMutation({
