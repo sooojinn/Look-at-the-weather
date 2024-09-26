@@ -33,7 +33,6 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
     formState: { isDirty, isValid, isSubmitting },
   } = formMethods;
 
-  console.log('isDirty', isDirty);
   console.log(getValues());
 
   const postFormLocation = useGeoLocationStore((state) => state.postFormLocation);

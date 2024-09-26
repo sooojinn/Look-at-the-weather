@@ -48,14 +48,22 @@ export default function File({ name, rules }: FileProps) {
       setValue('images', [...existingFiles, newFile]);
       setValue(name, [...existingImageIds, newFile.imageId], { shouldDirty: true });
     },
-    onError: () => {
+    onError: (error) => {
       showToast('이미지 업로드 실패. 다시 시도해주세요.');
+      console.error('이미지 업로드에 실패했습니다:', error);
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteImage,
+    onSuccess: (_, id) => {
+      const updatedImages = getValues('images').filter((img) => img.imageId !== id);
+      const updatedImageIds = getValues('imageIds').filter((imageId) => imageId !== id);
+      setValue('images', updatedImages);
+      setValue(name, updatedImageIds, { shouldDirty: true });
+    },
     onError: (error) => {
+      showToast('이미지 삭제 실패. 다시 시도해주세요.');
       console.error('이미지 삭제에 실패했습니다:', error);
     },
   });
@@ -68,6 +76,7 @@ export default function File({ name, rules }: FileProps) {
         // 이미 업로드된 이미지인지 확인
         const existingFiles = getValues('images') || [];
         const fileExists = existingFiles.some((img) => img.fileName === file.name);
+        console.log('fileExist', fileExists);
         if (!fileExists) {
           uploadImageMutation.mutate(file);
         }
@@ -77,14 +86,8 @@ export default function File({ name, rules }: FileProps) {
 
   // 특정 이미지를 삭제하는 함수
   const handleDeleteImage = async (id: number) => {
-    const updatedImages = getValues('images').filter((img) => img.imageId !== id);
-    const updatedImageIds = getValues('imageIds').filter((imageId) => imageId !== id);
-    setValue('images', updatedImages);
-    setValue(name, updatedImageIds, { shouldDirty: true });
     deleteMutation.mutate(id);
   };
-
-  console.log(getValues('images'));
 
   const previewImageStyle = 'w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light';
 
