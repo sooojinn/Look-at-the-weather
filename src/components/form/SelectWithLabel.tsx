@@ -14,7 +14,6 @@ export default function SelectWithLabel({
   name,
   options,
   rules,
-  control,
   maxSelection,
 }: SelectWithLabelProps) {
   return (
@@ -29,7 +28,7 @@ export default function SelectWithLabel({
           </Text>
         )}
       </div>
-      <Select name={name} options={options} control={control} rules={rules} maxSelection={maxSelection} />
+      <Select name={name} options={options} rules={rules} maxSelection={maxSelection} />
     </div>
   );
 }

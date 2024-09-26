@@ -1,6 +1,6 @@
 import { editPost } from '@/api/apis';
 import { TAGS } from '@/config/constants';
-import { PostFormData } from '@/config/types';
+import { ImageItem, PostFormData } from '@/config/types';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -28,11 +28,11 @@ export default function PostEdit() {
     weatherTags,
     temperatureTags,
     seasonTag,
+    images,
   } = postData;
 
-  const imageList: { imageId: number; url: string }[] = postData.images.image;
-  const imageIds = imageList.map((img) => img.imageId);
-  const defaultImages = imageList.map(({ imageId, url }) => ({ id: imageId, url }));
+  const imageList = postData.images.image;
+  const imageIds = imageList.map((img: ImageItem) => img.imageId);
 
   const defaultValues = {
     title,
@@ -43,12 +43,13 @@ export default function PostEdit() {
     temperatureTagIds: tagNamesToIds(temperatureTags),
     seasonTagId: tagNameToId(seasonTag),
     imageIds,
+    images: images.image,
   };
 
   const editMutation = useMutation({
     mutationFn: editPost,
     onSuccess: () => {
-      navigate(`/post/${postId}`, { state: { id: postId } });
+      navigate(`/post/${postId}`, { state: { id: postId }, replace: true });
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {
@@ -62,5 +63,5 @@ export default function PostEdit() {
     editMutation.mutate({ postId, data });
   };
 
-  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} defaultImages={defaultImages} />;
+  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }
