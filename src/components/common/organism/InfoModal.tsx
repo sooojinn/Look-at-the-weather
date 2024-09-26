@@ -4,16 +4,24 @@ import Button from '../molecules/Button';
 interface InfoModalProps {
   message: string;
   onClose: () => void;
+  onContinue?: () => void;
 }
 
-export default function InfoModal({ message, onClose }: InfoModalProps) {
+export default function InfoModal({ message, onClose, onContinue }: InfoModalProps) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
       <div className="bg-white p-6 flex flex-col gap-6 rounded-lg">
         <Text color="black">{message}</Text>
-        <Button size="m" onClick={onClose}>
-          확인
-        </Button>
+        <div className="flex gap-2">
+          <Button size="m" type={onContinue ? 'sub' : 'main'} onClick={onClose}>
+            닫기
+          </Button>
+          {onContinue && (
+            <Button size="m" onClick={onContinue}>
+              확인
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
