@@ -1,5 +1,4 @@
 import {
-  Control,
   FieldErrors,
   FieldValues,
   RegisterOptions,

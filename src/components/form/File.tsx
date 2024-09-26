@@ -9,13 +9,16 @@ import { deleteImage } from '@/api/apis';
 import axios from 'axios';
 import { BASEURL } from '@/constants/constants';
 import { useFormContext } from 'react-hook-form';
+import Spinner from '@components/icons/Spinner';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
+  classNames: string;
 }
 
 interface AddImageBtnProps {
   handleAddClick: () => void;
+  classNames: string;
 }
 
 // 이미지 업로드 함수
@@ -81,15 +84,32 @@ export default function File({ name, rules }: FileProps) {
     deleteMutation.mutate(id);
   };
 
+  console.log(getValues('images'));
+
+  const previewImageStyle = 'w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light';
+
   return (
     <>
       <div className="h-[197px] flex space-x-2 overflow-auto scrollbar-hide">
         {(getValues('images') || []).map((image) => {
           const { imageId, url } = image;
-          return <PreviewImage key={imageId} imageId={imageId} url={url} onDelete={handleDeleteImage} />;
+          return (
+            <PreviewImage
+              key={imageId}
+              imageId={imageId}
+              url={url}
+              onDelete={handleDeleteImage}
+              classNames={previewImageStyle}
+            />
+          );
         })}
+        {uploadImageMutation.isPending && (
+          <div className={previewImageStyle}>
+            <Spinner width={20} />
+          </div>
+        )}
         {(getValues('images') || []).length < MAX_IMAGES && (
-          <AddImageBtn handleAddClick={() => fileInputRef.current?.click()} />
+          <AddImageBtn handleAddClick={() => fileInputRef.current?.click()} classNames={previewImageStyle} />
         )}
       </div>
       <input
@@ -105,21 +125,18 @@ export default function File({ name, rules }: FileProps) {
   );
 }
 
-function PreviewImage({ imageId, url, onDelete }: PreviewImageProps) {
+function PreviewImage({ imageId, url, onDelete, classNames }: PreviewImageProps) {
   return (
-    <div className="w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light relative">
+    <div className={`${classNames} relative`}>
       <img src={url} alt={`사진 ${imageId}`} className="w-full h-full object-cover" />
       <ImgDeleteIcon id={imageId} onDelete={onDelete} />
     </div>
   );
 }
 
-function AddImageBtn({ handleAddClick }: AddImageBtnProps) {
+function AddImageBtn({ handleAddClick, classNames }: AddImageBtnProps) {
   return (
-    <div
-      className="w-[158px] bg-background-light flex justify-center items-center flex-shrink-0 cursor-pointer"
-      onClick={handleAddClick}
-    >
+    <div className={`${classNames} cursor-pointer`} onClick={handleAddClick}>
       <div className="flex flex-col justify-center items-center gap-[2px]">
         <PlusIcon />
         <Text color="gray">사진 추가</Text>
