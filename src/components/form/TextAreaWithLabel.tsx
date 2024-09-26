@@ -1,4 +1,4 @@
-import { RegisterOptions, UseFormGetValues, UseFormRegister } from 'react-hook-form';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { PostFormData } from '@/config/types';
 import { useEffect, useState } from 'react';
@@ -11,8 +11,6 @@ interface TextAreaWithLabelProps {
   label: string;
   placeholder: string;
   maxLength: number;
-  register: UseFormRegister<PostFormData>;
-  getValues: UseFormGetValues<PostFormData>;
   rules?: RegisterOptions<PostFormData, TextAreaFields>;
   className?: string;
 }
@@ -22,11 +20,10 @@ export default function TextAreaWithLabel({
   label,
   placeholder,
   maxLength,
-  register,
-  getValues,
   rules,
   className = '',
 }: TextAreaWithLabelProps) {
+  const { register, getValues } = useFormContext<PostFormData>();
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {

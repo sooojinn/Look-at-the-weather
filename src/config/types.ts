@@ -80,15 +80,11 @@ export interface SelectProps {
   name: keyof PostFormData;
   options: Tag[];
   maxSelection?: number;
-  control: Control<PostFormData>;
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
 }
 
 export interface FileProps {
   name: keyof PostFormData;
-  setValue: UseFormSetValue<PostFormData>;
-  getValues: UseFormGetValues<PostFormData>;
-  register: UseFormRegister<PostFormData>;
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
 }
 

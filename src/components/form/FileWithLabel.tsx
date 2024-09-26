@@ -8,15 +8,7 @@ interface FileWithLabelProps extends FileProps {
   description: string;
 }
 
-export default function FileWithLabel({
-  name,
-  label,
-  description,
-  rules,
-  setValue,
-  getValues,
-  register,
-}: FileWithLabelProps) {
+export default function FileWithLabel({ name, label, description, rules }: FileWithLabelProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
@@ -27,7 +19,7 @@ export default function FileWithLabel({
           {description}
         </Text>
       </div>
-      <File name={name} rules={rules} setValue={setValue} getValues={getValues} register={register} />
+      <File name={name} rules={rules} />
     </div>
   );
 }

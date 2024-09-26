@@ -1,4 +1,4 @@
-import { FileProps, ImageItem } from '@/config/types';
+import { FileProps, ImageItem, PostFormData } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
 import PlusIcon from '@components/icons/PlusIcon';
@@ -8,6 +8,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import { deleteImage } from '@/api/apis';
 import axios from 'axios';
 import { BASEURL } from '@/constants/constants';
+import { useFormContext } from 'react-hook-form';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -30,7 +31,8 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
   return response.data;
 };
 
-export default function File({ name, rules, setValue, getValues, register }: FileProps) {
+export default function File({ name, rules }: FileProps) {
+  const { register, getValues, setValue } = useFormContext<PostFormData>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_IMAGES = 3;
 
@@ -41,7 +43,7 @@ export default function File({ name, rules, setValue, getValues, register }: Fil
       const existingImageIds = existingFiles.map((file) => file.imageId);
       const newFile = { imageId: data.id, url: URL.createObjectURL(file), fileName: file.name };
       setValue('images', [...existingFiles, newFile]);
-      setValue(name, [...existingImageIds, newFile.imageId]);
+      setValue(name, [...existingImageIds, newFile.imageId], { shouldDirty: true });
     },
     onError: () => {
       showToast('이미지 업로드 실패. 다시 시도해주세요.');
@@ -72,17 +74,17 @@ export default function File({ name, rules, setValue, getValues, register }: Fil
 
   // 특정 이미지를 삭제하는 함수
   const handleDeleteImage = async (id: number) => {
-    const updatedImages = getValues('images').filter((img: ImageItem) => img.imageId !== id);
+    const updatedImages = getValues('images').filter((img) => img.imageId !== id);
     const updatedImageIds = getValues('imageIds').filter((imageId) => imageId !== id);
     setValue('images', updatedImages);
-    setValue('imageIds', updatedImageIds);
+    setValue(name, updatedImageIds, { shouldDirty: true });
     deleteMutation.mutate(id);
   };
 
   return (
     <>
       <div className="h-[197px] flex space-x-2 overflow-auto scrollbar-hide">
-        {(getValues('images') || []).map((image: ImageItem) => {
+        {(getValues('images') || []).map((image) => {
           const { imageId, url } = image;
           return <PreviewImage key={imageId} imageId={imageId} url={url} onDelete={handleDeleteImage} />;
         })}
