@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import Text from './Text';
 import { deleteLike, postLike } from '@/api/apis';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
 
 interface HeartProps {
@@ -28,6 +28,7 @@ export default function Heart({
 }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
   const [likedCount, setLikedCount] = useState(initialLikedCount);
+  const queryClient = useQueryClient();
 
   const toggleLikeMutation = useMutation({
     mutationFn: async () => {
@@ -36,6 +37,7 @@ export default function Heart({
     onSuccess: (res) => {
       setIsLiked((prev) => !prev);
       setLikedCount(res.data.likedCount);
+      queryClient.invalidateQueries({ queryKey: ['postDetail'] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
