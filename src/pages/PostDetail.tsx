@@ -9,6 +9,7 @@ import { PostMeta } from '@/config/types';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
+import PostImgBlind from '@components/post/PostImgBlind';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -35,7 +36,7 @@ export default function PostDetail() {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ['postData', postId],
+    queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
   });
 
@@ -62,6 +63,8 @@ export default function PostDetail() {
     setModalOpen(true);
   };
 
+  console.log(postDetailData);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -80,16 +83,7 @@ export default function PostDetail() {
             <Menu className="cursor-pointer" onClick={modalHandler} />
           </div>
           <div className="w-full h-[468px] relative">
-            {reportPost && (
-              <div className="w-full h-full bg-dimmer-bg flex flex-col justify-center items-center absolute">
-                <Text color="white" size="l" weight="bold">
-                  신고로 인해
-                </Text>
-                <Text color="white" size="l" weight="bold">
-                  제제된 게시물입니다
-                </Text>
-              </div>
-            )}
+            {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
             <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
