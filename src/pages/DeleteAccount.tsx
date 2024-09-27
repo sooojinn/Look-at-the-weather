@@ -1,24 +1,48 @@
-import { getDeleteReasons } from '@/api/apis';
+import { deleteAccount, getDeleteReasons } from '@/api/apis';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
+import Button from '@components/common/molecules/Button';
+import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
-import { useQuery } from '@tanstack/react-query';
+import InfoModal from '@components/common/organism/InfoModal';
+import WarningModal from '@components/common/organism/WarningModal';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function DeleteAccount() {
-  // const { data: reasons } = useQuery({
-  //   queryKey: ['deleteReasons'],
-  //   queryFn: getDeleteReasons,
-  // });
+  const navigate = useNavigate();
+  const [selectedReason, setSelectedReason] = useState('');
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 
-  // console.log(reasons);
+  const { data: response } = useQuery({
+    queryKey: ['deleteReasons'],
+    queryFn: getDeleteReasons,
+  });
 
-  const deleteReasons = [
-    '사용을 잘 안하게 돼요',
-    '서비스 활성화가 잘 안되어 있어요',
-    '개인정보 보호를 위해 삭제할 필요가 있어요',
-    '서비스 기능이 미흡해요',
-    '오류가 잦아요',
-  ];
+  const deleteAccountMutation = useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: () => {
+      setShowDeleteSuccessModal(true);
+    },
+    onError: (error) => {
+      console.error(error);
+      showToast('탈퇴 처리 중 에러가 발생했습니다.');
+      setShowWarningModal(false);
+    },
+  });
+
+  const deleteReasons = response?.data;
+
+  const handleReasonClick = (reason: string) => {
+    setSelectedReason(reason);
+    setShowWarningModal(true);
+  };
+
+  const handleDeleteClick = () => {
+    deleteAccountMutation.mutate(selectedReason);
+  };
 
   return (
     <div>
@@ -37,7 +61,39 @@ export default function DeleteAccount() {
           <br /> 만들기 위해 노력하겠습니다.
         </Text>
       </div>
-      <UnderlineOptionList optionList={deleteReasons} handleOptionClick={() => {}} />
+      {deleteReasons && <UnderlineOptionList optionList={deleteReasons} handleOptionClick={handleReasonClick} />}
+      {showWarningModal && (
+        <WarningModal
+          mainMessage="회원 탈퇴"
+          subMessage={
+            <>
+              <p>
+                회원 탈퇴 시 계정이 완전히 삭제되며,
+                <br />
+                삭제된 계정 정보는 복구가 불가능합니다.
+                <br />
+                또한 삭제 후 서비스를 이용하시려면
+                <br />
+                새로 가입하셔야 합니다.
+              </p>
+              <p>정말로 탈퇴하시겠습니까?</p>
+            </>
+          }
+          buttons={
+            <>
+              <Button type="sub" size="m" onClick={() => setShowWarningModal(false)}>
+                취소
+              </Button>
+              <Button type="main" size="m" onClick={handleDeleteClick}>
+                탈퇴하기
+              </Button>
+            </>
+          }
+        />
+      )}
+      {showDeleteSuccessModal && (
+        <InfoModal message="탈퇴가 완료되었습니다. 그동안 이용해주셔서 감사합니다." onClose={() => navigate('/')} />
+      )}
     </div>
   );
 }
