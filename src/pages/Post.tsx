@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Header from '@components/common/Header';
 import LocationComponent from '@components/common/molecules/LocationComponent';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
@@ -14,10 +14,11 @@ import { usePostStore } from '@/store/postStore';
 import WeatherMessage from '@components/weather/WeatherMessage';
 import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
-import axios from 'axios';
-import { BASEURL } from '@/config/constants';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
+import Loading from '@components/common/atom/Loading';
+import { postFilteredPosts, allPosts } from '@/api/apis';
+import NoPost from '@components/icons/NoPost';
 
 export default function Post() {
   const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
@@ -46,13 +47,19 @@ export default function Post() {
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [postList, setPostList] = useState<PostMeta[]>([]);
-  const [hasFilterData, setHasFilerData] = useState(false);
+  const [hasFilterData, setHasFilterData] = useState<null | boolean>(null);
   const [filterState, setFilterState] = useState<PostFilterState>({
     location: [],
     seasonTagIds: [],
     temperatureTagIds: [],
     weatherTagIds: [],
   });
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [noPost, setNoPost] = useState(false);
+
+  const pageEnd = useRef<HTMLDivElement>(null);
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -62,6 +69,7 @@ export default function Post() {
 
   const onClickResetBtn = () => {
     clearPostFilterStorage();
+    setPage(0);
     updateLocation([]);
     updateWeatherTagIds([]);
     updateTemperatureTagIds([]);
@@ -70,6 +78,7 @@ export default function Post() {
     setSeasonArr([]);
     setWeatherArr([]);
     setTemperatureArr([]);
+    setNoPost(false);
   };
 
   useEffect(() => {
@@ -79,62 +88,88 @@ export default function Post() {
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
 
+  const getAllPosts = useCallback(
+    async (pageNum: number) => {
+      if (!hasMore) return;
+      setLoading(true);
+
+      if (!location || !location.city || !location.district) {
+        return;
+      }
+      try {
+        const slicedCity = location.city.substring(0, 2);
+        const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
+        // const response = await allPosts(pageNum, '서울', '강남구', sortOrder);
+        const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
+        if (updatePostList.length > 0) {
+          setPostList((prev) => [...prev, ...updatePostList]);
+          setPage(pageNum + 1);
+        } else {
+          setHasMore(false);
+          if (pageNum === 0) {
+            setNoPost(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [hasMore, location],
+  );
+
+  const getFilteredPosts = useCallback(
+    async (pageNum: number) => {
+      console.log('page', pageNum);
+      if (!hasMore) return;
+      setLoading(true);
+      try {
+        const response = await postFilteredPosts({
+          page: pageNum,
+          location: filterState.location,
+          sort: sortOrder,
+          seasonTagIds: filterState.seasonTagIds,
+          weatherTagIds: filterState.weatherTagIds,
+          temperatureTagIds: filterState.temperatureTagIds,
+        });
+
+        const newPosts = response.data.posts;
+
+        if (newPosts.length > 0) {
+          setPostList((prev) => [...prev, ...newPosts]);
+          setPage(pageNum + 1);
+        } else {
+          setHasMore(false);
+          if (pageNum === 0) {
+            setNoPost(true);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [hasMore, filterState],
+  );
+
   useEffect(() => {
-    if (hasFilterData) {
-      setPostList([]);
-      return;
+    setPostList([]);
+    setNoPost(false);
+    // console.log('Current page:', page);
+
+    if (location && hasFilterData !== null) {
+      setPage(0);
+      if (!hasFilterData) {
+        // console.log('getAllPosts 실행');
+        getAllPosts(0);
+      } else {
+        console.log('getFilteredPosts 실행');
+        getFilteredPosts(0);
+      }
     }
-    if (!location || !location.city || !location.district) {
-      return;
-    }
-    const slicedCity = location.city.substring(0, 2);
-
-    const getAllPosts = async () => {
-      const response = await axios.get(
-        `${BASEURL}/posts?page=0&size=10&city=${slicedCity}&district=${location.district}&sort=${sortOrder} `,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('accessToken'),
-          },
-        },
-      );
-
-      const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
-      console.log(updatePostList);
-
-      setPostList(updatePostList);
-    };
-    getAllPosts();
-  }, [location, hasFilterData]);
-
-  useEffect(() => {
-    if (hasFilterData) {
-      setPostList([]);
-      const getFilterdPosts = async () => {
-        const response = await axios.post(
-          `${BASEURL}/posts/search`,
-          {
-            page: 0,
-            size: 10,
-            location: filterState.location,
-            sort: sortOrder,
-            seasonTagIds: filterState.seasonTagIds,
-            weatherTagIds: filterState.weatherTagIds,
-            temperatureTagIds: filterState.temperatureTagIds,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: localStorage.getItem('accessToken'),
-            },
-          },
-        );
-        setPostList(response.data.posts);
-      };
-      getFilterdPosts();
-    }
-  }, [filterState, sortOrder]);
+  }, [location, hasFilterData, filterState, sortOrder]);
 
   useEffect(() => {
     const areAllEmptyArrays = (...arrs: any[][]): boolean => {
@@ -165,8 +200,33 @@ export default function Post() {
       });
     }
 
-    isEmptyFilter ? setHasFilerData(false) : setHasFilerData(true);
+    isEmptyFilter ? setHasFilterData(false) : setHasFilterData(true);
   }, [locationIds, seasonTagIds, temperatureTagIds, weatherTagIds]);
+
+  useEffect(() => {
+    if (!loading && hasMore) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (hasFilterData !== null) {
+            if (entries[0].isIntersecting) {
+              hasFilterData ? getFilteredPosts(page) : getAllPosts(page);
+            }
+          }
+        },
+        { threshold: 0.7 },
+      );
+
+      if (pageEnd.current) {
+        observer.observe(pageEnd.current);
+      }
+
+      return () => {
+        if (pageEnd.current) {
+          observer.unobserve(pageEnd.current);
+        }
+      };
+    }
+  }, [loading]);
 
   return (
     <>
@@ -261,7 +321,19 @@ export default function Post() {
         </div>
       </div>
       <div className="px-[-100px]">
-        <PostList postList={postList}></PostList>
+        {noPost ? (
+          <div className="flex flex-col justify-center items-center mt-[100px] mb-[119px]">
+            <NoPost className="mb-[20px]" />
+            <Text weight="bold" size="xl" color="lightBlack" className="mb-[6px]">
+              조건에 맞는 게시물이 없어요
+            </Text>
+            <Text color="gray">더 넓은 범위로</Text>
+            <Text color="gray">검색해 보시는 건 어떨까요?</Text>
+          </div>
+        ) : (
+          <PostList postList={postList}></PostList>
+        )}
+        <Loading ref={pageEnd} isLoading={loading} />
       </div>
       <div className="mt-[103px]">
         <FooterNavi />

@@ -62,6 +62,7 @@ export default function MyPost() {
       };
     }
   }, [loading]);
+
   return (
     <div>
       <Header>내 게시물</Header>

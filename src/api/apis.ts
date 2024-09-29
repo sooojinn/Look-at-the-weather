@@ -86,3 +86,11 @@ export const reportPost = ({ postId, reason }: { postId: number; reason: string 
 export const getDeleteReasons = () => {
   return instance.get('/users/delete-reasons', config);
 };
+
+export const postFilteredPosts = (request: RequestBody) => {
+  return instance.post(`/posts/search`, { ...request, size: 10 }, config);
+};
+
+export const allPosts = (page: number, city: string, district: string, sort: string) => {
+  return instance.get(`/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`, config);
+};
