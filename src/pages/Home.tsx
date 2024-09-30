@@ -8,15 +8,12 @@ import TodayBestWearList from '@/components/post/TodayBestWearList';
 import useAuthService from '@/hooks/useAuthService';
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  const { isLogin, getAccessToken } = useAuthService();
+  const [showLoginModal, setShowLoginModal] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLoginCheck = async () => {
-    const loggedIn = await isLogin();
-    setIsLoggedIn(loggedIn);
-    console.log(loggedIn);
-    console.log(getAccessToken());
+    const accessToken = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!accessToken);
   };
 
   // const { refreshAccessToken } = useAuthService();
@@ -26,10 +23,14 @@ export default function Home() {
     handleLoginCheck();
   }, []);
 
-  console.log(localStorage.getItem('accessToken'));
+  useEffect(() => {
+    if (isLoggedIn) setShowLoginModal(false);
+    else setShowLoginModal(true);
+  }, [isLoggedIn]);
+
   return (
     <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
-      {isLoggedIn || <LoginModal setIsLoggedIn={setIsLoggedIn} />}
+      {showLoginModal && <LoginModal />}
       <Header>
         <Logo />
       </Header>
