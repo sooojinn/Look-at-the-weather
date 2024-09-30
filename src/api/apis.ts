@@ -86,3 +86,7 @@ export const reportPost = ({ postId, reason }: { postId: number; reason: string 
 export const getDeleteReasons = () => {
   return instance.get('/users/delete-reasons', config);
 };
+
+export const deleteAccount = (reason: string) => {
+  return instance.delete(`/users?deleteReason=${reason}`, config);
+};
