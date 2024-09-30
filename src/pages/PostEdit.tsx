@@ -1,6 +1,7 @@
-import { editPost } from '@/api/apis';
+import { deleteImage, editPost } from '@/api/apis';
 import { TAGS } from '@/config/constants';
 import { ImageItem, PostFormData } from '@/config/types';
+import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -19,6 +20,8 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const location = useLocation();
   const { postData, postId } = location.state;
+  const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
+
   console.log(postData);
 
   const {
@@ -58,8 +61,25 @@ export default function PostEdit() {
     },
   });
 
+  const deleteDefaultImageMutation = useMutation({
+    mutationFn: deleteImage,
+    onError: (error) => {
+      console.error(error);
+      showToast('게시물을 수정하는 데 실패했습니다.');
+    },
+  });
+
+  const deleteDefaultImages = (imageIds: number[]) => {
+    imageIds.forEach((id) => {
+      deleteDefaultImageMutation.mutate(id);
+    });
+  };
+
   const onSubmit = (data: PostFormData) => {
     console.log(data);
+    if (deletedDefaultImageIds.length) {
+      deleteDefaultImages(deletedDefaultImageIds);
+    }
     editMutation.mutate({ postId, data });
   };
 

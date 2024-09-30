@@ -85,6 +85,7 @@ export interface SelectProps {
 export interface FileProps {
   name: keyof PostFormData;
   rules?: RegisterOptions<PostFormData, keyof PostFormData>;
+  defaultImageIds: number[];
 }
 
 export interface ErrorResponse {

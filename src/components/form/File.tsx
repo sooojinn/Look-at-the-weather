@@ -3,13 +3,14 @@ import Text from '@components/common/atom/Text';
 import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { deleteImage } from '@/api/apis';
 import axios from 'axios';
 import { BASEURL } from '@/constants/constants';
 import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
+import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -34,19 +35,27 @@ const uploadImage = async (file: File): Promise<{ id: number }> => {
   return response.data;
 };
 
-export default function File({ name, rules }: FileProps) {
+export default function File({ name, rules, defaultImageIds }: FileProps) {
   const { register, getValues, setValue } = useFormContext<PostFormData>();
+  const { deletedDefaultImageIds, setDeletedDefaultImageIds, reset } = useDeletedImagesStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_IMAGES = 3;
+
+  const removeImageAndId = (id: number) => {
+    const updatedImages = getValues('images').filter((img) => img.imageId !== id);
+    const updatedImageIds = getValues('imageIds').filter((imageId) => imageId !== id);
+    setValue('images', updatedImages);
+    setValue(name, updatedImageIds, { shouldDirty: true, shouldValidate: true });
+  };
 
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
     onSuccess: (data, file) => {
       const existingFiles = getValues('images') || [];
       const existingImageIds = existingFiles.map((file) => file.imageId);
-      const newFile = { imageId: data.id, url: URL.createObjectURL(file), fileName: file.name };
+      const newFile = { imageId: data.id, url: URL.createObjectURL(file) };
       setValue('images', [...existingFiles, newFile]);
-      setValue(name, [...existingImageIds, newFile.imageId], { shouldDirty: true });
+      setValue(name, [...existingImageIds, newFile.imageId], { shouldDirty: true, shouldValidate: true });
     },
     onError: (error) => {
       showToast('이미지 업로드 실패. 다시 시도해주세요.');
@@ -54,14 +63,9 @@ export default function File({ name, rules }: FileProps) {
     },
   });
 
-  const deleteMutation = useMutation({
+  const deleteImageMutation = useMutation({
     mutationFn: deleteImage,
-    onSuccess: (_, id) => {
-      const updatedImages = getValues('images').filter((img) => img.imageId !== id);
-      const updatedImageIds = getValues('imageIds').filter((imageId) => imageId !== id);
-      setValue('images', updatedImages);
-      setValue(name, updatedImageIds, { shouldDirty: true });
-    },
+    onSuccess: (_, id) => removeImageAndId(id),
     onError: (error) => {
       showToast('이미지 삭제 실패. 다시 시도해주세요.');
       console.error('이미지 삭제에 실패했습니다:', error);
@@ -69,25 +73,34 @@ export default function File({ name, rules }: FileProps) {
   });
 
   // 이미지 업로드 시 실행되는 함수
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
     if (files) {
       Array.from(files).forEach((file) => {
-        // 이미 업로드된 이미지인지 확인
-        const existingFiles = getValues('images') || [];
-        const fileExists = existingFiles.some((img) => img.fileName === file.name);
-        console.log('fileExist', fileExists);
-        if (!fileExists) {
-          uploadImageMutation.mutate(file);
-        }
+        uploadImageMutation.mutate(file);
       });
+      e.target.value = '';
     }
   };
 
   // 특정 이미지를 삭제하는 함수
   const handleDeleteImage = async (id: number) => {
-    deleteMutation.mutate(id);
+    // 기존의 이미지면 api를 보내지 않고 배열에 저장
+    if (defaultImageIds.includes(id)) {
+      setDeletedDefaultImageIds([...deletedDefaultImageIds, id]);
+      removeImageAndId(id);
+      return;
+    }
+    deleteImageMutation.mutate(id);
   };
+
+  console.log('images: ', getValues('images'));
+
+  useEffect(() => {
+    return () => {
+      reset(); // 언마운트 시 deletedDefaultImageIds 값 초기화
+    };
+  }, [reset]);
 
   const previewImageStyle = 'w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light';
 
