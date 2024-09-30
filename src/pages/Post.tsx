@@ -68,6 +68,7 @@ export default function Post() {
   };
 
   const onClickResetBtn = () => {
+    setHasMore(true);
     clearPostFilterStorage();
     setPage(0);
     updateLocation([]);
@@ -101,27 +102,22 @@ export default function Post() {
         const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
         // const response = await allPosts(pageNum, '서울', '강남구', sortOrder);
         const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
-        if (updatePostList.length > 0) {
-          setPostList((prev) => [...prev, ...updatePostList]);
-          setPage(pageNum + 1);
-        } else {
-          setHasMore(false);
-          if (pageNum === 0) {
-            setNoPost(true);
-          }
-        }
+
+        setPostList((prev) => [...prev, ...updatePostList]);
+        setPage(pageNum + 1);
+        setHasMore(updatePostList.length > 0);
+        setNoPost(updatePostList.length === 0 && pageNum === 0);
       } catch (error) {
         console.error('Error fetching posts:', error);
       } finally {
         setLoading(false);
       }
     },
-    [hasMore, location],
+    [sortOrder, location],
   );
 
   const getFilteredPosts = useCallback(
     async (pageNum: number) => {
-      console.log('page', pageNum);
       if (!hasMore) return;
       setLoading(true);
       try {
@@ -135,16 +131,10 @@ export default function Post() {
         });
 
         const newPosts = response.data.posts;
-
-        if (newPosts.length > 0) {
-          setPostList((prev) => [...prev, ...newPosts]);
-          setPage(pageNum + 1);
-        } else {
-          setHasMore(false);
-          if (pageNum === 0) {
-            setNoPost(true);
-          }
-        }
+        setPostList((prev) => [...prev, ...newPosts]);
+        setPage(pageNum + 1);
+        setHasMore(newPosts.length > 0);
+        setNoPost(newPosts.length === 0 && pageNum === 0);
       } catch (error) {
         console.error(error);
       } finally {
@@ -157,19 +147,21 @@ export default function Post() {
   useEffect(() => {
     setPostList([]);
     setNoPost(false);
-    // console.log('Current page:', page);
+    setPage(0);
 
     if (location && hasFilterData !== null) {
       setPage(0);
       if (!hasFilterData) {
-        // console.log('getAllPosts 실행');
         getAllPosts(0);
       } else {
-        console.log('getFilteredPosts 실행');
         getFilteredPosts(0);
       }
     }
   }, [location, hasFilterData, filterState, sortOrder]);
+
+  useEffect(() => {
+    setHasMore(true);
+  }, [getAllPosts, getFilteredPosts]);
 
   useEffect(() => {
     const areAllEmptyArrays = (...arrs: any[][]): boolean => {
@@ -219,7 +211,6 @@ export default function Post() {
       if (pageEnd.current) {
         observer.observe(pageEnd.current);
       }
-
       return () => {
         if (pageEnd.current) {
           observer.unobserve(pageEnd.current);
