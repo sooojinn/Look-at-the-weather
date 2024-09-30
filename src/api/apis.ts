@@ -88,5 +88,5 @@ export const getDeleteReasons = () => {
 };
 
 export const deleteAccount = (reason: string) => {
-  return instance.delete(`/users/reason=${reason}`, config);
+  return instance.delete(`/users?deleteReason=${reason}`, config);
 };

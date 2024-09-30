@@ -24,6 +24,7 @@ export default function DeleteAccount() {
   const deleteAccountMutation = useMutation({
     mutationFn: deleteAccount,
     onSuccess: () => {
+      setShowWarningModal(false);
       setShowDeleteSuccessModal(true);
     },
     onError: (error) => {
@@ -92,7 +93,16 @@ export default function DeleteAccount() {
         />
       )}
       {showDeleteSuccessModal && (
-        <InfoModal message="탈퇴가 완료되었습니다. 그동안 이용해주셔서 감사합니다." onClose={() => navigate('/')} />
+        <InfoModal
+          message={
+            <p>
+              탈퇴가 완료되었습니다.
+              <br />
+              그동안 이용해주셔서 감사합니다.
+            </p>
+          }
+          onClose={() => navigate('/')}
+        />
       )}
     </div>
   );
