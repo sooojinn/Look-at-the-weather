@@ -5,6 +5,8 @@ import Text from './Text';
 import { deleteLike, postLike } from '@/api/apis';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
+import { ErrorResponse } from '@/config/types';
+import { PostDetail } from '@pages/PostDetail';
 
 interface HeartProps {
   fill?: string;
@@ -12,11 +14,6 @@ interface HeartProps {
   postId: number;
   hasUserNumber?: boolean;
   likedCount?: number;
-}
-
-interface ErrorResponse {
-  errorCode: string;
-  errorMessage: string;
 }
 
 export default function Heart({
@@ -37,7 +34,14 @@ export default function Heart({
     onSuccess: (res) => {
       setIsLiked((prev) => !prev);
       setLikedCount(res.data.likedCount);
-      queryClient.invalidateQueries({ queryKey: ['postDetail'] });
+      queryClient.setQueryData(['postDetail', postId], (oldData: PostDetail) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          likeByUser: !oldData.likeByUser,
+          likedCount: res.data.likedCount,
+        };
+      });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {

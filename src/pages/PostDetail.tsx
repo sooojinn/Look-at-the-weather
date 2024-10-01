@@ -32,7 +32,7 @@ export default function PostDetail() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const {
-    data: response,
+    data: postDetailData,
     isLoading,
     isSuccess,
   } = useQuery({
@@ -40,7 +40,6 @@ export default function PostDetail() {
     queryFn: () => getPostDetail(postId),
   });
 
-  const postDetailData = response?.data;
   const {
     nickname,
     location: postLocation,

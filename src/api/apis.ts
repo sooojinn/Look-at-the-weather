@@ -42,8 +42,9 @@ export const getMyLikedPosts = ({ page, size }: RequestBody) => {
   return instance.get(`/likes/posts?page=${page}&size=${size}`, config);
 };
 
-export const getPostDetail = (postId: number) => {
-  return instance.get(`/posts/${postId}`, config);
+export const getPostDetail = async (postId: number) => {
+  const response = await instance.get(`/posts/${postId}`, config);
+  return response.data;
 };
 
 export const deletePost = (postId: number) => {
