@@ -1,96 +1,98 @@
 import { PostFormData } from '@/config/types';
 import { instance } from './instance';
-import useAuthService from '@/hooks/useAuthService';
 import { AxiosRequestConfig } from 'axios';
+import { getAccessToken } from './instance';
 
-const { getAccessToken } = useAuthService();
-
-const headers: AxiosRequestConfig['headers'] = { Authorization: getAccessToken() };
-const config: AxiosRequestConfig = {
-  headers,
-};
+const getConfig = (): AxiosRequestConfig => ({
+  headers: {
+    Authorization: getAccessToken(),
+  },
+});
 type RequestBody = Record<string, any>;
 
 export const postLogin = (request: RequestBody) => {
   return instance.post('/auth/login', request);
 };
 export const postLogout = () => {
-  return instance.post('/auth/logout', null, config);
+  return instance.post('/auth/logout', null, getConfig());
 };
 
 export const postFindEmail = (request: RequestBody) => {
   return instance.post('/auth/logout', request);
 };
-
-// export const postReissue = (request: RequestBody, addConfig: RequestHeader) => {
-//   return instance.post('/auth/reissue', request, addConfig);
-// };
-
 export const getUserInfos = () => {
-  return instance.get('/users/me', config);
+  return instance.get('/users/me', getConfig());
 };
 
 export const patchEditProfile = (request: RequestBody) => {
-  return instance.patch('/users/me', request, config);
+  return instance.patch('/users/me', request, getConfig());
 };
 
 export const getMyPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/posts/me?page=${page}&size=${size}`, config);
+  return instance.get(`/posts/me?page=${page}&size=${size}`, getConfig());
 };
 
 export const getMyLikedPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/likes/posts?page=${page}&size=${size}`, config);
+  return instance.get(`/likes/posts?page=${page}&size=${size}`, getConfig());
 };
 
 export const getPostDetail = (postId: number) => {
-  return instance.get(`/posts/${postId}`, config);
+  return instance.get(`/posts/${postId}`, getConfig());
 };
 
 export const deletePost = (postId: number) => {
-  return instance.delete(`/posts/${postId}`, config);
+  return instance.delete(`/posts/${postId}`, getConfig());
 };
 
 export const fetchTopLikedPosts = () => {
-  return instance.get('/posts/top-liked', config);
+  return instance.get('/posts/top-liked', getConfig());
 };
 
 export const deleteImage = async (id: number) => {
-  instance.delete(`/s3/post-image/${id}`, config);
+  instance.delete(`/s3/post-image/${id}`, getConfig());
 };
 
 export const uploadPost = async (data: PostFormData) => {
-  return instance.post('/posts', data, config);
+  return instance.post('/posts', data, getConfig());
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
   console.log('수정 데이터: ', data);
-  return instance.patch(`/posts/${postId}`, data, config);
+  return instance.patch(`/posts/${postId}`, data, getConfig());
 };
 
 export const postLike = (postId: number) => {
-  return instance.post(`/likes/posts/${postId}`, null, config);
+  return instance.post(`/likes/posts/${postId}`, null, getConfig());
 };
 
 export const deleteLike = (postId: number) => {
-  return instance.delete(`/likes/posts/${postId}`, config);
+  return instance.delete(`/likes/posts/${postId}`, getConfig());
 };
 
 export const hidePost = (postId: number) => {
-  return instance.post(`/posts/${postId}/hide`, null, config);
+  return instance.post(`/posts/${postId}/hide`, null, getConfig());
 };
 
 export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
-  return instance.post(`/posts/${postId}/report?reason=${reason}`, null, config);
+  return instance.post(`/posts/${postId}/report?reason=${reason}`, null, getConfig());
 };
 
 export const getDeleteReasons = () => {
-  return instance.get('/users/delete-reasons', config);
+  return instance.get('/users/delete-reasons', getConfig());
 };
 
 export const postFilteredPosts = (request: RequestBody) => {
-  return instance.post(`/posts/search`, { ...request, size: 10 }, config);
+  return instance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
 };
 
 export const allPosts = (page: number, city: string, district: string, sort: string) => {
-  return instance.get(`/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`, config);
+  return instance.get(`/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`, getConfig());
+};
+
+export const reissue = () => {
+  return instance.post(`/auth/reissue`, null, getConfig());
+};
+
+export const logout = () => {
+  return instance.post('/auth/logout', null, getConfig());
 };

@@ -3,11 +3,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BASEURL } from '@/config/constants';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
+import { setAccessToken, getAccessToken } from '@/api/instance';
 
 interface LoginFormProps {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +24,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('accessToken')) setIsLoggedIn(true);
+    if (getAccessToken()) setIsLoggedIn(true);
     setShowForm(true);
   }, []);
 
@@ -37,7 +37,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
       });
       const { accessToken } = response.data;
 
-      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      // localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      setAccessToken(accessToken);
       localStorage.setItem('nickName', response.data.nickName);
       setIsLoggedIn(true);
     } catch (error) {

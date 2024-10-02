@@ -1,31 +1,32 @@
 export default function useAuthService() {
-  // let accessToken: string | null = null;
+  let accessToken: string | null = null;
 
-  const setAccessToken = (token: string) => {
-    localStorage.setItem('accessToken', `Bearer ${token}`);
-  };
+  // const setAccessToken = (token: string) => {
+  //   // localStorage.setItem('accessToken', `Bearer ${token}`);
+  //   accessToken = `Bearer ${token}`;
+  // };
 
-  const getAccessToken = () => {
-    // return accessToken;
-    return localStorage.getItem('accessToken');
-  };
+  // const getAccessToken = () => {
+  //   return accessToken;
+  //   // return localStorage.getItem('accessToken');
+  // };
 
-  const isLogin = async () => {
-    try {
-      let token = getAccessToken();
+  // const isLogin = async () => {
+  //   try {
+  //     let token = getAccessToken();
 
-      if (!token) {
-        // await refreshTokens();
-        console.log('token?', token);
-        token = getAccessToken();
-      }
+  //     if (!token) {
+  //       // await refreshTokens();
+  //       console.log('token?', token);
+  //       token = getAccessToken();
+  //     }
 
-      return !!token; // boolean 값으로 반환
-    } catch (error) {
-      console.error('로그인 실패:', error);
-      return false;
-    }
-  };
+  //     return !!token; // boolean 값으로 반환
+  //   } catch (error) {
+  //     console.error('로그인 실패:', error);
+  //     return false;
+  //   }
+  // };
 
   // const refreshTokens = async () => {
   //   try {
@@ -38,5 +39,5 @@ export default function useAuthService() {
   //   }
   // };
 
-  return { setAccessToken, getAccessToken, isLogin };
+  // return { setAccessToken, getAccessToken, isLogin };
 }

@@ -4,7 +4,7 @@ import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import { Line } from '@components/common/atom/Line';
 import LinkMenu from '@/components/common/molecules/LinkMenu';
-import { getUserInfos } from '@/api/apis';
+import { getUserInfos, logout } from '@/api/apis';
 
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
@@ -24,6 +24,11 @@ export default function Mypage() {
     getUserNickname();
   }, []);
 
+  const onClickLogout = async () => {
+    const response = await logout();
+    if (response.status === 200) window.location.href = '/';
+  };
+
   return (
     <>
       <div>
@@ -40,7 +45,7 @@ export default function Mypage() {
         <Line height={8} />
         <LinkMenu title="활동" menuList={activeList} />
         <Line height={8} />
-        <div className="h-[57px] flex items-center px-5">
+        <div className="h-[57px] flex items-center px-5" onClick={onClickLogout}>
           <Text className="cursor-pointer">로그아웃</Text>
         </div>
       </div>

@@ -186,9 +186,9 @@ export default function Post() {
 
       setFilterState({
         location: locationIdArray,
-        seasonTagIds: seasonIds,
-        temperatureTagIds: temperatureIds,
-        weatherTagIds: weatherIds,
+        seasonTagIds: seasonIds as number[],
+        temperatureTagIds: temperatureIds as number[],
+        weatherTagIds: weatherIds as number[],
       });
     }
 
@@ -211,6 +211,7 @@ export default function Post() {
       if (pageEnd.current) {
         observer.observe(pageEnd.current);
       }
+
       return () => {
         if (pageEnd.current) {
           observer.unobserve(pageEnd.current);
@@ -220,7 +221,7 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <>
+    <div className="scrollbar-hide">
       <Header>Look</Header>
       <div className="px-5">
         <div className="flex flex-row items-center justify-between py-5">
@@ -329,6 +330,6 @@ export default function Post() {
       <div className="mt-[103px]">
         <FooterNavi />
       </div>
-    </>
+    </div>
   );
 }
