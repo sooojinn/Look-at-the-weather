@@ -312,9 +312,9 @@ export default function Post() {
           {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
         </div>
       </div>
-      <div className="px-[-100px]">
+      <div className="bg-white">
         {noPost ? (
-          <div className="flex flex-col justify-center items-center mt-[100px] mb-[119px]">
+          <div className="flex flex-col justify-center items-center pt-[100px] pb-[119px]">
             <NoPost className="mb-[20px]" />
             <Text weight="bold" size="xl" color="lightBlack" className="mb-[6px]">
               조건에 맞는 게시물이 없어요
@@ -327,7 +327,7 @@ export default function Post() {
         )}
         <Loading ref={pageEnd} isLoading={loading} />
       </div>
-      <div className="mt-[103px]">
+      <div className="">
         <FooterNavi />
       </div>
     </div>

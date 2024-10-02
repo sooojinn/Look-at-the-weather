@@ -38,6 +38,7 @@ export default {
           lightest: '#f4f4f5',
           lighter: '#e8e8ea',
           light: '#e0e0e2',
+          black: '#171719',
         },
         primary: {
           main: '#1769ff',

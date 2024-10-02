@@ -1,4 +1,11 @@
-export default function HrLine(height: number) {
-  const hrHeight = height === 1 ? 'border-[1px]' : 'border-4';
-  return <hr className={`-mx-5 bg-gray-200 ${hrHeight} border-line-lightest`} />;
+export default function HrLine({ height }: number) {
+  return (
+    <>
+      {height === 1 ? (
+        <hr className={`-mx-5 bg-gray-200 border-line-lightest`} />
+      ) : (
+        <hr className={`-mx-5 bg-gray-200 border-[4px] border-line-lightest`} />
+      )}
+    </>
+  );
 }
