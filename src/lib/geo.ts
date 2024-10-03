@@ -104,7 +104,7 @@ export const searchAddresses = async (address: string): Promise<AddressItem[]> =
       return { address_name, latitude, longitude, city, district };
     });
 
-    return addressList;
+    return addressList.filter((address: AddressItem) => address.district !== '');
   } catch (error) {
     throw new Error('주소를 불러오는 데 실패했습니다.');
   }
