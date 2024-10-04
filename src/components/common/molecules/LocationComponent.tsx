@@ -13,20 +13,11 @@ interface LocationComponentProps {
   color?: TextColor;
 }
 
-
-export default function LocationComponent({
-  isPostFormLocation,
-  city,
-  district,
-  size,
-  color = 'black',
-}: LocationComponentProps) {
-
+export default function LocationComponent({ isPostFormLocation, city, district, size, color }: LocationComponentProps) {
   const navigate = useNavigate();
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
-
     navigate('/search-address', { state: { isPostFormLocation } });
   };
 
@@ -60,7 +51,7 @@ export default function LocationComponent({
 
 function LocationTooltip({ onClose }: { onClose: () => void }) {
   return (
-    <div className="absolute -top-10 -left-2 flex gap-2 px-3 py-2 bg-primary-main rounded-md">
+    <div className="absolute -top-10 -left-2 flex gap-2 px-3 py-2 bg-primary-main rounded-md z-10">
       <Text size="xs" color="white">
         위치를 변경하려면 클릭해 주세요
       </Text>

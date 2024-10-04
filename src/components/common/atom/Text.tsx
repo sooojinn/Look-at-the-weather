@@ -38,7 +38,6 @@ export default function Text({
     white: 'text-white',
     main: 'text-primary-main',
     disabled: 'text-disabled',
-    blue: 'text-primary-main',
     error: 'text-status-error',
     success: 'text-status-success',
   };
@@ -48,7 +47,7 @@ export default function Text({
     bold: 'font-bold',
   };
 
-  const classNames = `${textSize[size]} ${textColor[color]} ${textWeight[weight]} ${className}`;
+  const classNames = `${textSize[size]} ${textColor[color]} ${textWeight[weight]} ${className} whitespace-nowrap`;
 
   return (
     <>
