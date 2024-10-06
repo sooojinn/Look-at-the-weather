@@ -1,83 +1,112 @@
 import { Link } from 'react-router-dom';
-import { Dispatch, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '../../constants/constants';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { AxiosError } from 'axios';
+import InputWithLabel from '@components/form/InputWithLabel';
+import Button from '@components/common/molecules/Button';
+import Text from '@components/common/atom/Text';
+import KakaoLogin from './KakaoLogin';
+import { postLogin } from '@/api/apis';
+import { useMutation } from '@tanstack/react-query';
+import { showToast } from '@components/common/molecules/ToastProvider';
+import { ErrorResponse } from '@/config/types';
 
-interface LoginFormProps {
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-}
+export default function LoginModal() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
-  const { register, handleSubmit } = useForm();
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    setShowForm(true);
+  }, []);
+
+  const loginMutation = useMutation({
+    mutationFn: postLogin,
+    onSuccess: ({ data }) => {
+      const { accessToken, nickName } = data;
+      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      localStorage.setItem('nickName', nickName);
+      window.location.reload();
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {
+        setError('email', { message: '이메일이 존재하지 않습니다.' });
+      } else if (error.response?.data.errorCode === 'INVALID_PASSWORD') {
+        setError('password', { message: '잘못된 비밀번호입니다.' });
+      } else {
+        console.error('로그인 실패: ', error);
+        showToast('로그인 실패. 다시 시도해주세요.');
+      }
+    },
+  });
 
   const handleLogin = async (data: any) => {
-    try {
-      const response = await axios.post(`${BASEURL}/api/v1/auth/login`, data);
-      const { accessToken, refreshToken } = response.data;
-      localStorage.setItem('accessToken', accessToken);
-      Cookies.set('refreshToken', refreshToken);
-      console.log(data);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error(error);
-    }
+    loginMutation.mutate(data);
   };
+
+  const linkList = [
+    { path: '/signup', label: '회원가입' },
+    { path: '/find-email', label: '이메일 찾기' },
+    { path: '/find-password', label: '비밀번호 찾기' },
+  ];
 
   return (
     <>
-      {/* 배경 흐리게 */}
-      <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-      <div className={'max-w-md absolute bottom-0 w-full h-[470px] bg-white p-5 shadow-md z-20'}>
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <div className="">
-            <label className="block mb-2 text-gray-600 font-bold">
-              이메일<span className="text-red-500">*</span>
-            </label>
-            <input
-              type="email"
-              {...register('email', { required: true })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="(예시) abcde@naver.com"
-            />
+      <div className="fixed inset-0 z-50 flex justify-center items-end">
+        {/* 배경 흐리게 */}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div
+          className={`w-full max-w-md bg-white px-5 py-10 rounded-t-3xl z-20 transition-transform duration-500 ease-out ${
+            showForm ? 'transform translate-y-0' : 'transform translate-y-full'
+          }`}
+        >
+          <form className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              <InputWithLabel
+                name="email"
+                label="이메일"
+                placeholder="(예시) abcde@naver.com"
+                register={register}
+                rules={{
+                  required: '이메일을 입력해 주세요.',
+                }}
+                errors={errors}
+                setValue={setValue}
+              />
+
+              <InputWithLabel
+                name="password"
+                type="password"
+                label="비밀번호"
+                placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
+                register={register}
+                rules={{
+                  required: '비밀번호를 입력해 주세요.',
+                }}
+                errors={errors}
+                setValue={setValue}
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Button type="main" onClick={handleSubmit(handleLogin)}>
+                이메일로 로그인
+              </Button>
+              <KakaoLogin />
+            </div>
+          </form>
+          <div className="h-12 mt-6 flex justify-between">
+            {linkList.map(({ path, label }) => (
+              <Link to={path} className="w-[106px] flex justify-center items-center">
+                <Text weight="bold">{label}</Text>
+              </Link>
+            ))}
           </div>
-          <div className=" mt-4">
-            <label className="block mb-2 text-gray-600 font-bold">
-              비밀번호<span className="text-red-500">*</span>
-            </label>
-            <input
-              type="password"
-              {...register('password', { required: true })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
-            />
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full h-14 bg-blue-600 text-white font-bold px-4 py-2 mt-6 mb-3 rounded-lg hover:bg-blue-500 transition-colors duration-300"
-            >
-              이메일로 로그인
-            </button>
-            <button
-              type="button"
-              className="w-full h-14 bg-[#FEE500] font-bold px-4 py-2 rounded-lg hover:bg-yellow-300 transition-colors duration-300 mb-6"
-            >
-              카카오 로그인
-            </button>
-          </div>
-        </form>
-        <div className="flex justify-between mt-6">
-          <Link to="/signup" className="font-bold hover:underline">
-            회원가입
-          </Link>
-          <Link to="/findemail" className="font-bold hover:underline">
-            이메일 찾기
-          </Link>
-          <Link to="/findpassword" className="font-bold hover:underline">
-            비밀번호 찾기
-          </Link>
         </div>
       </div>
     </>

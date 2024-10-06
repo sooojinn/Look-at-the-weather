@@ -1,29 +1,31 @@
+import BackBtn from '@components/icons/BackBtn';
+import CloseBtn from '@components/icons/CloseBtn';
 import { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Text from './atom/Text';
 
 interface HeaderProps {
-  children: ReactNode;
+  children?: ReactNode;
+  showBackBtn?: boolean;
+  onClose?: () => void;
 }
 
-export default function Header({ children }: HeaderProps) {
+export default function Header({ children, showBackBtn = true, onClose }: HeaderProps) {
   const location = useLocation();
-  const mainPageList = ['/', '/post', '/postwrite', '/mypage'];
+  const mainPageList = ['/', '/post', '/post-write', '/mypage'];
   const isMainPage = mainPageList.includes(location.pathname);
 
   const navigate = useNavigate();
   const handleBackBtn = () => navigate(-1);
   return (
-    <header className="w-full sticky top-0 bg-background-white flex justify-between border-b px-5 py-4 text-xl">
-      <div className="w-6 h-6">
-        {/* 메인 페이지가 아니면 뒤로가기 버튼 생성 */}
-        <button className={`${isMainPage ? 'hidden' : 'block'}`} onClick={handleBackBtn}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#171719" />
-          </svg>
-        </button>
+    <header className="w-full sticky top-0 bg-background-white flex justify-between items-center border-b border-line-lightest px-5 py-4 z-10">
+      <div className="w-6 h-6">{!isMainPage && showBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
+      <div className="flex justify-center items-center">
+        <Text size="2xl" color="black" weight="bold">
+          {children}
+        </Text>
       </div>
-      <div className="font-bold">{children}</div>
-      <div className="w-6 h-6"></div>
+      <div className="w-6 h-6">{onClose && <CloseBtn onClick={onClose} />}</div>
     </header>
   );
 }

@@ -1,27 +1,35 @@
 import { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@/components/common/Header';
+import Logo from '@components/common/atom/Logo';
 import LoginModal from '@/components/login/LoginModal';
-import WeatherInfo from '@/components/home/WeatherInfo';
-import TodayBestWearList from '@/components/home/TodayBestWearList';
+import HomeWeatherInfo from '@components/weather/HomeWeatherInfo';
+import TodayBestWearList from '@/components/post/TodayBestWearList';
+import useAuthService from '@/hooks/useAuthService';
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  useEffect(() => {
+  const handleLoginCheck = async () => {
     const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = Cookies.get('refreshToken');
-    if (accessToken && refreshToken) {
-      setIsLoggedIn(true);
-    }
+    setIsLoggedIn(!!accessToken);
+  };
+
+  // const { refreshAccessToken } = useAuthService();
+
+  // refreshAccessToken();
+  useEffect(() => {
+    handleLoginCheck();
   }, []);
 
   return (
-    <div className="max-w-md m-auto min-h-screen flex flex-col items-center justify-start relative">
-      <Header>로고</Header>
-      <WeatherInfo />
-      {isLoggedIn ? <TodayBestWearList /> : <LoginModal setIsLoggedIn={setIsLoggedIn} />}
+    <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
+      {isLoggedIn || <LoginModal />}
+      <Header>
+        <Logo />
+      </Header>
+      <HomeWeatherInfo />
+      {isLoggedIn && <TodayBestWearList />}
       <FooterNavi />
     </div>
   );
