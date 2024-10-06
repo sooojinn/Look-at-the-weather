@@ -34,12 +34,14 @@ export const patchEditProfile = (request: RequestBody) => {
   return instance.patch('/users/me', request, config);
 };
 
-export const getMyPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/posts/me?page=${page}&size=${size}`, config);
+export const getMyPosts = async ({ page, size }: RequestBody) => {
+  const response = await instance.get(`/posts/me?page=${page}&size=${size}`, config);
+  return response.data;
 };
 
-export const getMyLikedPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/likes/posts?page=${page}&size=${size}`, config);
+export const getMyLikedPosts = async ({ page, size }: RequestBody) => {
+  const response = await instance.get(`/likes/posts?page=${page}&size=${size}`, config);
+  return response.data;
 };
 
 export const getPostDetail = async (postId: number) => {

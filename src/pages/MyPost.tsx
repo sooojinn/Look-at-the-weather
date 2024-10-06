@@ -1,72 +1,34 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
 import { PostList } from '@components/post/PostList';
-import { PostMeta } from '@/config/types';
 import Header from '@components/common/Header';
-import Loading from '@components/common/atom/Loading';
+import FooterNavi from '@components/common/FooterNavi';
 import { getMyPosts } from '@/api/apis';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import Spinner from '@components/icons/Spinner';
+import { showToast } from '@components/common/molecules/ToastProvider';
 
 export default function MyPost() {
-  const [postList, setPostList] = useState<PostMeta[]>([]);
-  const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  const pageEnd = useRef<HTMLDivElement>(null);
-
-  const fetchPosts = useCallback(
-    async (pageNum: number) => {
-      if (!hasMore) return;
-      console.log('page', pageNum);
-      setLoading(true);
-      try {
-        const response = await getMyPosts({ page: pageNum, size: 10 });
-        const newPosts = response.data.myPosts;
-        if (newPosts.length > 0) {
-          setPostList((prev) => [...prev, ...newPosts]);
-          setPage(pageNum + 1);
-        } else {
-          setHasMore(false);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [hasMore],
+  const { isFetchingNextPage, isLoading, isError, error, pageEndRef, postList } = useInfiniteScroll(
+    ['myPosts'],
+    getMyPosts,
+    10,
   );
 
-  useEffect(() => {
-    fetchPosts(page);
-  }, [fetchPosts]);
+  if (isError) {
+    console.error(error.message);
+    showToast('내가 좋아요한 게시물을 불러오는 데 실패했습니다.');
+  }
 
-  useEffect(() => {
-    if (!loading && hasMore) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            fetchPosts(page);
-          }
-        },
-        { threshold: 0.7 },
-      );
-
-      if (pageEnd.current) {
-        observer.observe(pageEnd.current);
-      }
-
-      return () => {
-        if (pageEnd.current) {
-          observer.unobserve(pageEnd.current);
-        }
-      };
-    }
-  }, [loading]);
   return (
-    <div>
+    <div className="pb-[61px]">
       <Header>내 게시물</Header>
       <PostList postList={postList} />
-      <Loading ref={pageEnd} isLoading={loading} />
+      <div ref={pageEndRef}></div>
+      {(isLoading || isFetchingNextPage) && (
+        <div className="my-5 flex justify-center items-center">
+          <Spinner />
+        </div>
+      )}
+      <FooterNavi />
     </div>
   );
 }

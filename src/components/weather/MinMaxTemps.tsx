@@ -9,10 +9,8 @@ interface MinMaxTempsProps {
 
 export default function MinMaxTemps({ minTemp, maxTemp, color }: MinMaxTempsProps) {
   return (
-    <div className="mt-1">
-      <Text color={color}>
-        최고 {maxTemp}° / 최저 {minTemp}°
-      </Text>
-    </div>
+    <Text color={color}>
+      최고 {maxTemp}° / 최저 {minTemp}°
+    </Text>
   );
 }
