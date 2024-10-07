@@ -52,7 +52,7 @@ export default function Mypage() {
       <Header>마이 페이지</Header>
       <div className="relative flex-col py-9">
         <div className="flex gap-3 items-center mb-6 px-5">
-          <img src="/assets/user_icon.png" alt="" />
+          <img src="/dist/assets/user_icon.png" alt="" />
           <Text size="xl" weight="bold">
             {userNickname}
           </Text>

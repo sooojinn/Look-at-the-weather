@@ -29,7 +29,6 @@ export const instance: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization: getAccessToken(),
-    withCredentials: true,
   },
 });
 
