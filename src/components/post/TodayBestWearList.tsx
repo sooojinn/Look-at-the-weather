@@ -25,7 +25,7 @@ export default function TodayBestWearList() {
       ) : (
         <div className="flex flex-col justify-center items-center pt-[100px] pb-[119px]">
           <NoPost className="mb-[20px]" />
-          <Text weight="bold" size="xl" color="lightBlack" className="mb-[6px]">
+          <Text weight="bold" size="xl" className="mb-[6px]">
             오늘의 베스트 코디가
             <br /> 아직 선정되지 않았어요
           </Text>
