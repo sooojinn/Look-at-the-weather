@@ -1,4 +1,4 @@
-import FilterBtn from '../atom/FilterBtn';
+import FilterBtn from '../atom/FilterBtnComp';
 import { FilterBtnGroupProps } from '@/config/types';
 import { v4 as uuidv4 } from 'uuid';
 

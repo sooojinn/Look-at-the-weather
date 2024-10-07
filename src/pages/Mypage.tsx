@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useNavigate } from 'react-router-dom';
+import { setAccessToken } from '@/api/instance';
 
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
@@ -33,8 +34,7 @@ export default function Mypage() {
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
-      localStorage.clear();
-      console.log('로그아웃되었습니다.');
+      setAccessToken(null);
       navigate('/');
     },
     onError: (error) => {

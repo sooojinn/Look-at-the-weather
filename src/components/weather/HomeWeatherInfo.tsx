@@ -46,13 +46,13 @@ export default function HomeWeatherInfo() {
             <div className="flex justify-between">
               <div>
                 {isSuccess && (
-                  <>
+                  <div className="flex flex-col gap-1">
                     <CurrentTemp>{currentTemp}</CurrentTemp>
                     <WeatherMessage size="l" color="white">
                       {weatherMessage}
                     </WeatherMessage>
                     <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
-                  </>
+                  </div>
                 )}
                 {isError && (
                   <>

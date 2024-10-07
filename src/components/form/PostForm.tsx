@@ -33,8 +33,6 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
     formState: { isDirty, isValid, isSubmitting },
   } = formMethods;
 
-  console.log(getValues());
-
   const postFormLocation = useGeoLocationStore((state) => state.postFormLocation);
   const setPostFormLocation = useGeoLocationStore((state) => state.setPostFormLocation);
   const { city, district } = postFormLocation || defaultValues;
@@ -53,7 +51,6 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
   // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
   const handleSaveToSessionStorage = () => {
     const formData = getValues();
-    console.log(formData);
     sessionStorage.setItem('formData', JSON.stringify(formData));
   };
 

@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
+import ImageSlider from '@components/post/ImageSlider';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -55,14 +56,14 @@ export default function PostDetail() {
     reportPost,
   }: PostDetail = postDetailData || {};
 
+  const imgUrlList = images?.image.map((img) => img.url);
+
   const myNickname = localStorage.getItem('nickName');
   const isMyPost = nickname === myNickname;
 
   const modalHandler = () => {
     setModalOpen(true);
   };
-
-  console.log(postDetailData);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,7 +84,7 @@ export default function PostDetail() {
           </div>
           <div className="w-full h-[468px] relative">
             {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
-            <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
+            <ImageSlider images={imgUrlList} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
             <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
