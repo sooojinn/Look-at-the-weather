@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import {
   FieldErrors,
   FieldValues,
@@ -172,4 +173,8 @@ export type FilterBtnGroupProps = FilterBtn & {
 
 export interface HrLineHeight {
   height: number;
+}
+
+export interface LoginModalProps {
+  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }

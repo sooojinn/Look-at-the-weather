@@ -11,8 +11,9 @@ import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
 import { AxiosError } from 'axios';
+import { LoginModalProps } from '@/config/types';
 
-export default function LoginModal() {
+export default function LoginModal({ setIsLoggedIn }: LoginModalProps) {
   const {
     register,
     handleSubmit,
@@ -33,6 +34,7 @@ export default function LoginModal() {
       const { accessToken, nickName } = data;
       setAccessToken(accessToken);
       localStorage.setItem('nickName', nickName);
+      setIsLoggedIn(true);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {
