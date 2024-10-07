@@ -11,8 +11,9 @@ const getConfig = (): AxiosRequestConfig => ({
 type RequestBody = Record<string, any>;
 
 export const postLogin = (request: RequestBody) => {
-  return instance.post('/auth/login', request);
+  return instance.post('/auth/login', request, { withCredentials: true });
 };
+
 export const postLogout = () => {
   return instance.post('/auth/logout', null, getConfig());
 };
