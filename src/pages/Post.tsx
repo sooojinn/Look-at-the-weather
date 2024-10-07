@@ -36,8 +36,6 @@ export default function Post() {
     updateSeasonTagIds,
   } = usePostStore();
 
-  const clearPostFilterStorage = usePostStore.persist.clearStorage;
-
   const [isOpen, setIsOpen] = useState(false);
   const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
@@ -68,8 +66,8 @@ export default function Post() {
   };
 
   const onClickResetBtn = () => {
+    setPostList([]);
     setHasMore(true);
-    clearPostFilterStorage();
     setPage(0);
     updateLocation([]);
     updateWeatherTagIds([]);
@@ -79,7 +77,6 @@ export default function Post() {
     setSeasonArr([]);
     setWeatherArr([]);
     setTemperatureArr([]);
-    setNoPost(false);
   };
 
   useEffect(() => {
@@ -100,7 +97,6 @@ export default function Post() {
       try {
         const slicedCity = location.city.substring(0, 2);
         const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
-        // const response = await allPosts(pageNum, '서울', '강남구', sortOrder);
         const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
 
         setPostList((prev) => [...prev, ...updatePostList]);
@@ -108,7 +104,10 @@ export default function Post() {
         setHasMore(updatePostList.length > 0);
         setNoPost(updatePostList.length === 0 && pageNum === 0);
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.log('error', error);
+        // 임시 작성코드
+        setLoading(false);
+        setHasMore(false);
       } finally {
         setLoading(false);
       }
@@ -136,6 +135,9 @@ export default function Post() {
         setHasMore(newPosts.length > 0);
         setNoPost(newPosts.length === 0 && pageNum === 0);
       } catch (error) {
+        console.log('error', error);
+        setLoading(false);
+        setHasMore(false);
         console.error(error);
       } finally {
         setLoading(false);

@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { BASEURL } from '@/config/constants';
-import axios from 'axios';
+import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
@@ -30,14 +29,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
 
   const handleLogin = async (data: any) => {
     try {
-      const response = await axios.post(`${BASEURL}/auth/login`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await postLogin(data);
       const { accessToken } = response.data;
-
-      // localStorage.setItem('accessToken', `Bearer ${accessToken}`);
       setAccessToken(accessToken);
       localStorage.setItem('nickName', response.data.nickName);
       setIsLoggedIn(true);
@@ -48,9 +41,9 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
   };
 
   const linkList = [
-    { path: '/signup', label: '회원가입' },
-    { path: '/find-email', label: '이메일 찾기' },
-    { path: '/find-password', label: '비밀번호 찾기' },
+    { path: '/signup', label: '회원가입', index: 1 },
+    { path: '/find-email', label: '이메일 찾기', index: 2 },
+    { path: '/find-password', label: '비밀번호 찾기', index: 3 },
   ];
 
   return (
@@ -98,8 +91,8 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
             </div>
           </form>
           <div className="h-12 mt-6 flex justify-between">
-            {linkList.map(({ path, label }) => (
-              <Link to={path} className="w-[106px] flex justify-center items-center">
+            {linkList.map(({ path, label, index }) => (
+              <Link key={index} to={path} className="w-[106px] flex justify-center items-center">
                 <Text weight="bold">{label}</Text>
               </Link>
             ))}

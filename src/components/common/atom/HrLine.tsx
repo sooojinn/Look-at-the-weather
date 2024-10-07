@@ -1,4 +1,8 @@
-export default function HrLine({ height }: number) {
+interface HrLineProps {
+  height: number;
+}
+
+export default function HrLine({ height }: HrLineProps) {
   return (
     <>
       {height === 1 ? (

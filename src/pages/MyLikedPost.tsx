@@ -4,6 +4,7 @@ import { PostMeta } from '@/config/types';
 import Header from '@components/common/Header';
 import { getMyLikedPosts } from '@/api/apis';
 import Loading from '@components/common/atom/Loading';
+import FooterNavi from '@components/common/FooterNavi';
 
 export default function MyLikedPost() {
   const [postList, setPostList] = useState<PostMeta[]>([]);
@@ -68,6 +69,7 @@ export default function MyLikedPost() {
       <Header>내가 좋아요한 게시물</Header>
       <PostList postList={postList} />
       <Loading ref={pageEnd} isLoading={loading} />
+      <FooterNavi />
     </div>
   );
 }

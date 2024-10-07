@@ -8,7 +8,7 @@ import TodayBestWearList from '@/components/post/TodayBestWearList';
 import { isLogin } from '@/api/instance';
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLoginCheck = async () => {
     setIsLoggedIn(isLogin);

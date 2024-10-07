@@ -90,7 +90,7 @@ export const allPosts = (page: number, city: string, district: string, sort: str
 };
 
 export const reissue = () => {
-  return instance.post(`/auth/reissue`, null, getConfig());
+  return instance.post(`/auth/reissue`);
 };
 
 export const logout = () => {

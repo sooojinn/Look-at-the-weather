@@ -29,6 +29,7 @@ export const instance: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Authorization: getAccessToken(),
+    withCredentials: true,
   },
 });
 
@@ -43,9 +44,6 @@ instance.interceptors.response.use(
     console.log('Interceptor caught an error:', error);
 
     if (error.response) {
-      console.log('Error response status:', error.response.status);
-      console.log('Error response data:', error.response.data);
-
       if (error.response.status === 401 && reissueAttemptCount < 3) {
         console.log('401 error detected, attempting to reissue token');
         reissueAttemptCount++;
@@ -54,7 +52,7 @@ instance.interceptors.response.use(
             const response = await reissue();
             if (response.data.accessToken) {
               setAccessToken(response.data.accessToken);
-
+              console.log(reissueAttemptCount);
               error.config.headers['Authorization'] = getAccessToken();
               return instance(error.config);
             } else {
@@ -69,6 +67,7 @@ instance.interceptors.response.use(
     } else if (error.request) {
       console.log('No response received:', error.request);
     } else {
+      reissueAttemptCount = 0;
       console.log('Error setting up request:', error.message);
     }
 
