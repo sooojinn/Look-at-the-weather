@@ -8,16 +8,15 @@ import TodayBestWearList from '@/components/post/TodayBestWearList';
 import { isLogin } from '@/api/instance';
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLoginCheck = async () => {
-    setIsLoggedIn(isLogin);
-
+    setIsLoggedIn(isLogin());
   };
 
   useEffect(() => {
     handleLoginCheck();
-  }, []);
+  }, [isLogin()]);
 
   return (
     <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">

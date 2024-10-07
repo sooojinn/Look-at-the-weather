@@ -8,8 +8,6 @@ export default function FindEmailResult() {
   const location = useLocation();
   const { name, email } = location.state;
 
-  console.log(email);
-
   return (
     <div className="flex flex-col h-screen">
       <Header onClose={() => navigate('/')}>이메일 찾기</Header>

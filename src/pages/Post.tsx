@@ -3,7 +3,7 @@ import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
-import FilterBtn from '@components/common/atom/FilterBtn';
+import FilterBtn from '@components/common/atom/FilterBtnComp';
 import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/atom/PostFilterModal';
 import { PostList } from '@components/post/PostList';
@@ -11,13 +11,10 @@ import { usePostStore } from '@/store/postStore';
 import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
-import useWeatherData from '@/hooks/useWeatherData';
 import Loading from '@components/common/atom/Loading';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPost from '@components/icons/NoPost';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
-import useLocationData from '@/hooks/useLocationData';
-
 
 export default function Post() {
   const { location } = useLocationData();
@@ -102,7 +99,6 @@ export default function Post() {
         setHasMore(updatePostList.length > 0);
         setNoPost(updatePostList.length === 0 && pageNum === 0);
       } catch (error) {
-        console.log('error', error);
         // 임시 작성코드
         setLoading(false);
         setHasMore(false);
@@ -133,7 +129,6 @@ export default function Post() {
         setHasMore(newPosts.length > 0);
         setNoPost(newPosts.length === 0 && pageNum === 0);
       } catch (error) {
-        console.log('error', error);
         setLoading(false);
         setHasMore(false);
         console.error(error);
@@ -221,7 +216,6 @@ export default function Post() {
   }, [loading]);
 
   return (
-
     <div className="h-screen relative">
       <Header>Look</Header>
       <div className="px-5">
@@ -231,28 +225,28 @@ export default function Post() {
           <ResetIcon onClick={onClickResetBtn} />
           <VeLine height={8} />
           <div className="flex gap-2 overflow-y-auto scrollbar-hide">
-            <FilterBtn isActive={locationArr.length} onClickFunc={() => onClickFilterBtn(0, 'location')}>
+            <FilterBtn isActive={!!locationArr.length} onClickFunc={() => onClickFilterBtn(0, 'location')}>
               {locationArr.length > 1
                 ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
                 : locationArr.length === 1
                 ? `${locationArr[0].districtName}`
                 : '지역'}
             </FilterBtn>
-            <FilterBtn isActive={weatherArr.length} onClickFunc={() => onClickFilterBtn(1, 'weather')}>
+            <FilterBtn isActive={!!weatherArr.length} onClickFunc={() => onClickFilterBtn(1, 'weather')}>
               {weatherArr.length > 1
                 ? `${weatherArr[0].tagName} 외 ${weatherArr.length - 1}`
                 : weatherArr.length === 1
                 ? `${weatherArr[0].tagName}`
                 : '날씨'}
             </FilterBtn>
-            <FilterBtn isActive={temperatureArr.length} onClickFunc={() => onClickFilterBtn(2, 'temperature')}>
+            <FilterBtn isActive={!!temperatureArr.length} onClickFunc={() => onClickFilterBtn(2, 'temperature')}>
               {temperatureArr.length > 1
                 ? `${temperatureArr[0].tagName} 외 ${temperatureArr.length - 1}`
                 : temperatureArr.length === 1
                 ? `${temperatureArr[0].tagName}`
                 : '온도'}
             </FilterBtn>
-            <FilterBtn isActive={seasonArr.length} onClickFunc={() => onClickFilterBtn(3, 'season')}>
+            <FilterBtn isActive={!!seasonArr.length} onClickFunc={() => onClickFilterBtn(3, 'season')}>
               {seasonArr.length > 1
                 ? `${seasonArr[0].tagName} 외 ${seasonArr.length - 1}`
                 : seasonArr.length === 1

@@ -5,7 +5,7 @@ import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilte
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from './Text';
 import CloseBtn from '@components/icons/CloseBtn';
-import FilterBtn from './FilterBtn';
+import FilterBtn from './FilterBtnComp';
 import HrLine from './HrLine';
 import axios from 'axios';
 
@@ -169,31 +169,6 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     getRegions();
   }, []);
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         console.log(entry.target.id, entry.intersectionRatio);
-  //         if (entry.isIntersecting) {
-  //           // setCurrentSection(entry.target.id);
-  //         }
-  //       });
-  //     },
-  //     {
-  //       root: document.querySelector('#viewport'),
-  //       rootMargin: '-50px 0px',
-  //     },
-  //   );
-
-  //   Object.values(sectionRefs.current).forEach((section) => {
-  //     if (section) observer.observe(section);
-  //   });
-
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, []);
-
   useEffect(() => {
     const newSelectedFilterItems: CategoryFilterItem[] = [
       ...selectedDistrict.map((item) => ({
@@ -264,7 +239,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                   }}
                 >
                   <a href={`${tab.href}`}>
-                    <Text size="l" color={activeTab === tab.id ? 'blue' : 'gray'}>
+                    <Text size="l" color={activeTab === tab.id ? 'main' : 'gray'}>
                       {tab.tabName}
                     </Text>
                   </a>
@@ -276,7 +251,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               {/* <div className="fixed z-20 h-[497px] w-80 bg-black"></div> */}
               <div id="location" className="py-5 w-full" ref={(el) => (sectionRefs.current.location = el)}>
                 <a>
-                  <Text size="l" weight="bold" margin="mb-2.5">
+                  <Text size="l" weight="bold" className="mb-2.5">
                     지역
                   </Text>
                 </a>
@@ -318,7 +293,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
               <div id="weather" className="py-5 w-full" ref={(el) => (sectionRefs.current.weather = el)}>
                 <a className="mb-4">
-                  <Text size="l" weight="bold" margin="mb-2.5">
+                  <Text size="l" weight="bold" className="mb-2.5">
                     날씨
                   </Text>
                 </a>
@@ -340,7 +315,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
               <div id="temperature" className="py-5 w-full" ref={(el) => (sectionRefs.current.temperature = el)}>
                 <a className="mb-4">
-                  <Text size="l" weight="bold" margin="mb-2.5">
+                  <Text size="l" weight="bold" className="mb-2.5">
                     온도
                   </Text>
                 </a>
@@ -362,7 +337,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
               <div id="season" className="py-5 w-full" ref={(el) => (sectionRefs.current.season = el)}>
                 <a className="mb-4">
-                  <Text size="l" weight="bold" margin="mb-2.5">
+                  <Text size="l" weight="bold" className="mb-2.5">
                     계절
                   </Text>
                 </a>
@@ -392,7 +367,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       </Text>
                     </div>
                     <div>
-                      <Text color="blue">{selectedFilterItems.length}</Text>
+                      <Text color="main">{selectedFilterItems.length}</Text>
                     </div>
                   </div>
                   <div className="overflow whitespace-nowrap scrollbar-hide">

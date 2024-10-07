@@ -36,7 +36,6 @@ export default function PostWrite() {
   });
 
   const onSubmit = (data: PostFormData) => {
-    console.log(data);
     uploadMutation.mutate(data);
   };
 

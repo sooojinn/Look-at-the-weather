@@ -145,3 +145,31 @@ export interface FilterItem {
   id: number | { city: number; district: number };
   tagName: string;
 }
+
+export type FilterBtn = {
+  id?: string;
+  onClickFunc: () => void;
+  isActive?: boolean | (() => boolean);
+  isSelected?: boolean;
+};
+
+export type PostFilterModalProps = {
+  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  btnValue: string;
+  btnIndex: number;
+};
+export type SectionKey = 'location' | 'weather' | 'temperature' | 'season';
+
+export interface CityType {
+  cityId: number;
+  cityName: string;
+  district: DistrictType[];
+}
+
+export type FilterBtnGroupProps = FilterBtn & {
+  btnData: any[];
+};
+
+export interface HrLineHeight {
+  height: number;
+}

@@ -2,9 +2,9 @@ import axios, { AxiosInstance } from 'axios';
 import { BASEURL } from '@/constants/constants';
 import { reissue } from './apis';
 
-let accessToken = '';
+let accessToken: null | string = null;
 
-const setAccessToken = (token: string) => {
+const setAccessToken = (token: null | string) => {
   accessToken = `Bearer ${token}`;
   instance.defaults.headers.common['Authorization'] = accessToken;
 };
@@ -15,7 +15,7 @@ const getAccessToken = () => {
 
 const isLogin = () => {
   const token = getAccessToken();
-
+  // const isAbleToken = token.length > 4;
   if (!token) {
     return false;
   } else {

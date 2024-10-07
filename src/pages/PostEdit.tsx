@@ -22,7 +22,7 @@ export default function PostEdit() {
   const { postData, postId } = location.state;
   const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
 
-  console.log(postData);
+  postData;
 
   const {
     title,
@@ -76,7 +76,6 @@ export default function PostEdit() {
   };
 
   const onSubmit = (data: PostFormData) => {
-    console.log(data);
     if (deletedDefaultImageIds.length) {
       deleteDefaultImages(deletedDefaultImageIds);
     }

@@ -57,7 +57,6 @@ export default function PostDetail() {
   }: PostDetail = postDetailData || {};
 
   const imgUrlList = images?.image.map((img) => img.url);
-  console.log(imgUrlList);
 
   const myNickname = localStorage.getItem('nickName');
   const isMyPost = nickname === myNickname;
@@ -65,8 +64,6 @@ export default function PostDetail() {
   const modalHandler = () => {
     setModalOpen(true);
   };
-
-  console.log(postDetailData);
 
   return (
     <div className="min-h-screen flex flex-col">

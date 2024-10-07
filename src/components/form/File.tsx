@@ -94,8 +94,6 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
     deleteImageMutation.mutate(id);
   };
 
-  console.log('images: ', getValues('images'));
-
   useEffect(() => {
     return () => {
       reset(); // 언마운트 시 deletedDefaultImageIds 값 초기화

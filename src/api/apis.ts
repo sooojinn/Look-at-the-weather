@@ -28,7 +28,6 @@ export const patchEditProfile = (request: RequestBody) => {
   return instance.patch('/users/me', request, getConfig());
 };
 
-
 export const getMyPosts = async ({ page, size }: RequestBody) => {
   const response = await instance.get(`/posts/me?page=${page}&size=${size}`, getConfig());
   return response.data;
@@ -42,7 +41,6 @@ export const getMyLikedPosts = async ({ page, size }: RequestBody) => {
 export const getPostDetail = async (postId: number) => {
   const response = await instance.get(`/posts/${postId}`, getConfig());
   return response.data;
-
 };
 
 export const deletePost = (postId: number) => {
@@ -62,7 +60,6 @@ export const uploadPost = async (data: PostFormData) => {
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
-  console.log('수정 데이터: ', data);
   return instance.patch(`/posts/${postId}`, data, getConfig());
 };
 
