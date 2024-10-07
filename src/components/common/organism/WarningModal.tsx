@@ -12,7 +12,7 @@ interface WarningModalProps {
 export default function WarningModal({ mainMessage, subMessage, detailMessage, buttons }: WarningModalProps) {
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
+      <div className="fixed inset-0 bg-black opacity-50 z-20"></div>
       <div className="fixed inset-0 flex items-center justify-center z-20">
         <div className="min-w-[256px] p-6 flex flex-col bg-background-white rounded-xl z-20">
           <div className="flex flex-col justify-center items-center gap-4">

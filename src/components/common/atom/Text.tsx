@@ -47,7 +47,7 @@ export default function Text({
     bold: 'font-bold',
   };
 
-  const classNames = `${textSize[size]} ${textColor[color]} ${textWeight[weight]} ${className} whitespace-nowrap`;
+  const classNames = `${textSize[size]} ${textColor[color]} ${textWeight[weight]} ${className}`;
 
   return (
     <>
