@@ -15,6 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     handleLoginCheck();
+    console.log('로그인 성공, 쿠키 확인:', document.cookie);
   }, [isLoggedIn]);
 
   return (
