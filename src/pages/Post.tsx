@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
@@ -10,10 +10,14 @@ import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
 import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
-import axios from 'axios';
-import { BASEURL } from '@/config/constants';
+import useLocationData from '@/hooks/useLocationData';
+import useWeatherData from '@/hooks/useWeatherData';
+import Loading from '@components/common/atom/Loading';
+import { postFilteredPosts, allPosts } from '@/api/apis';
+import NoPost from '@components/icons/NoPost';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import useLocationData from '@/hooks/useLocationData';
+
 
 export default function Post() {
   const { location } = useLocationData();
@@ -28,8 +32,6 @@ export default function Post() {
     updateSeasonTagIds,
   } = usePostStore();
 
-  const clearPostFilterStorage = usePostStore.persist.clearStorage;
-
   const [isOpen, setIsOpen] = useState(false);
   const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
@@ -41,13 +43,19 @@ export default function Post() {
 
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [postList, setPostList] = useState<PostMeta[]>([]);
-  const [hasFilterData, setHasFilerData] = useState(false);
+  const [hasFilterData, setHasFilterData] = useState<null | boolean>(null);
   const [filterState, setFilterState] = useState<PostFilterState>({
     location: [],
     seasonTagIds: [],
     temperatureTagIds: [],
     weatherTagIds: [],
   });
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [noPost, setNoPost] = useState(false);
+
+  const pageEnd = useRef<HTMLDivElement>(null);
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -56,7 +64,9 @@ export default function Post() {
   };
 
   const onClickResetBtn = () => {
-    clearPostFilterStorage();
+    setPostList([]);
+    setHasMore(true);
+    setPage(0);
     updateLocation([]);
     updateWeatherTagIds([]);
     updateTemperatureTagIds([]);
@@ -74,62 +84,84 @@ export default function Post() {
     setTemperatureArr(temperatureTagIds);
   }, [isOpen]);
 
+  const getAllPosts = useCallback(
+    async (pageNum: number) => {
+      if (!hasMore) return;
+      setLoading(true);
+
+      if (!location || !location.city || !location.district) {
+        return;
+      }
+      try {
+        const slicedCity = location.city.substring(0, 2);
+        const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
+        const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
+
+        setPostList((prev) => [...prev, ...updatePostList]);
+        setPage(pageNum + 1);
+        setHasMore(updatePostList.length > 0);
+        setNoPost(updatePostList.length === 0 && pageNum === 0);
+      } catch (error) {
+        console.log('error', error);
+        // 임시 작성코드
+        setLoading(false);
+        setHasMore(false);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [sortOrder, location],
+  );
+
+  const getFilteredPosts = useCallback(
+    async (pageNum: number) => {
+      if (!hasMore) return;
+      setLoading(true);
+      try {
+        const response = await postFilteredPosts({
+          page: pageNum,
+          location: filterState.location,
+          sort: sortOrder,
+          seasonTagIds: filterState.seasonTagIds,
+          weatherTagIds: filterState.weatherTagIds,
+          temperatureTagIds: filterState.temperatureTagIds,
+        });
+
+        const newPosts = response.data.posts;
+        setPostList((prev) => [...prev, ...newPosts]);
+        setPage(pageNum + 1);
+        setHasMore(newPosts.length > 0);
+        setNoPost(newPosts.length === 0 && pageNum === 0);
+      } catch (error) {
+        console.log('error', error);
+        setLoading(false);
+        setHasMore(false);
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [hasMore, filterState],
+  );
+
   useEffect(() => {
-    if (hasFilterData) {
-      setPostList([]);
-      return;
+    setPostList([]);
+    setNoPost(false);
+    setPage(0);
+
+    if (location && hasFilterData !== null) {
+      setPage(0);
+      if (!hasFilterData) {
+        getAllPosts(0);
+      } else {
+        getFilteredPosts(0);
+      }
     }
-    if (!location || !location.city || !location.district) {
-      return;
-    }
-    const slicedCity = location.city.substring(0, 2);
-
-    const getAllPosts = async () => {
-      const response = await axios.get(
-        `${BASEURL}/posts?page=0&size=10&city=${slicedCity}&district=${location.district}&sort=${sortOrder} `,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: localStorage.getItem('accessToken'),
-          },
-        },
-      );
-
-      const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
-      console.log(updatePostList);
-
-      setPostList(updatePostList);
-    };
-    getAllPosts();
-  }, [location, hasFilterData]);
+  }, [location, hasFilterData, filterState, sortOrder]);
 
   useEffect(() => {
-    if (hasFilterData) {
-      setPostList([]);
-      const getFilterdPosts = async () => {
-        const response = await axios.post(
-          `${BASEURL}/posts/search`,
-          {
-            page: 0,
-            size: 10,
-            location: filterState.location,
-            sort: sortOrder,
-            seasonTagIds: filterState.seasonTagIds,
-            weatherTagIds: filterState.weatherTagIds,
-            temperatureTagIds: filterState.temperatureTagIds,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: localStorage.getItem('accessToken'),
-            },
-          },
-        );
-        setPostList(response.data.posts);
-      };
-      getFilterdPosts();
-    }
-  }, [filterState, sortOrder]);
+    setHasMore(true);
+  }, [getAllPosts, getFilteredPosts]);
 
   useEffect(() => {
     const areAllEmptyArrays = (...arrs: any[][]): boolean => {
@@ -154,16 +186,42 @@ export default function Post() {
 
       setFilterState({
         location: locationIdArray,
-        seasonTagIds: seasonIds,
-        temperatureTagIds: temperatureIds,
-        weatherTagIds: weatherIds,
+        seasonTagIds: seasonIds as number[],
+        temperatureTagIds: temperatureIds as number[],
+        weatherTagIds: weatherIds as number[],
       });
     }
 
-    isEmptyFilter ? setHasFilerData(false) : setHasFilerData(true);
+    isEmptyFilter ? setHasFilterData(false) : setHasFilterData(true);
   }, [locationIds, seasonTagIds, temperatureTagIds, weatherTagIds]);
 
+  useEffect(() => {
+    if (!loading && hasMore) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (hasFilterData !== null) {
+            if (entries[0].isIntersecting) {
+              hasFilterData ? getFilteredPosts(page) : getAllPosts(page);
+            }
+          }
+        },
+        { threshold: 0.7 },
+      );
+
+      if (pageEnd.current) {
+        observer.observe(pageEnd.current);
+      }
+
+      return () => {
+        if (pageEnd.current) {
+          observer.unobserve(pageEnd.current);
+        }
+      };
+    }
+  }, [loading]);
+
   return (
+
     <div className="h-screen relative">
       <Header>Look</Header>
       <div className="px-5">
@@ -228,8 +286,20 @@ export default function Post() {
           </div>
         </div>
       </div>
-      <div className="px-[-100px]">
-        <PostList postList={postList}></PostList>
+      <div className="bg-white">
+        {noPost ? (
+          <div className="flex flex-col justify-center items-center pt-[100px] pb-[119px]">
+            <NoPost className="mb-[20px]" />
+            <Text weight="bold" size="xl" color="lightBlack" className="mb-[6px]">
+              조건에 맞는 게시물이 없어요
+            </Text>
+            <Text color="gray">더 넓은 범위로</Text>
+            <Text color="gray">검색해 보시는 건 어떨까요?</Text>
+          </div>
+        ) : (
+          <PostList postList={postList}></PostList>
+        )}
+        <Loading ref={pageEnd} isLoading={loading} />
       </div>
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}

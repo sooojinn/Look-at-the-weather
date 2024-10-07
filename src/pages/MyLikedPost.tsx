@@ -6,6 +6,7 @@ import Spinner from '@components/icons/Spinner';
 import FooterNavi from '@components/common/FooterNavi';
 import { showToast } from '@components/common/molecules/ToastProvider';
 
+
 export default function MyLikedPost() {
   const { isFetchingNextPage, isLoading, isError, error, pageEndRef, postList } = useInfiniteScroll(
     ['myLikedPosts'],

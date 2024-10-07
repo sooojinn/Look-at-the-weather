@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
+import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
+import { setAccessToken, getAccessToken } from '@/api/instance';
 import { postLogin } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
+
 
 export default function LoginModal() {
   const {
@@ -30,9 +32,8 @@ export default function LoginModal() {
     mutationFn: postLogin,
     onSuccess: ({ data }) => {
       const { accessToken, nickName } = data;
-      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      setAccessToken(accessToken);
       localStorage.setItem('nickName', nickName);
-      window.location.reload();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {
@@ -51,9 +52,9 @@ export default function LoginModal() {
   };
 
   const linkList = [
-    { path: '/signup', label: '회원가입' },
-    { path: '/find-email', label: '이메일 찾기' },
-    { path: '/find-password', label: '비밀번호 찾기' },
+    { path: '/signup', label: '회원가입', index: 1 },
+    { path: '/find-email', label: '이메일 찾기', index: 2 },
+    { path: '/find-password', label: '비밀번호 찾기', index: 3 },
   ];
 
   return (
@@ -101,8 +102,8 @@ export default function LoginModal() {
             </div>
           </form>
           <div className="h-12 mt-6 flex justify-between">
-            {linkList.map(({ path, label }) => (
-              <Link to={path} className="w-[106px] flex justify-center items-center">
+            {linkList.map(({ path, label, index }) => (
+              <Link key={index} to={path} className="w-[106px] flex justify-center items-center">
                 <Text weight="bold">{label}</Text>
               </Link>
             ))}

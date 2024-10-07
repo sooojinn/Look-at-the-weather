@@ -1,4 +1,3 @@
-// routing.tsx
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App.tsx';
 import NotFound from '../pages/NotFound.tsx';
@@ -20,7 +19,7 @@ import MyPost from '@pages/MyPost.tsx';
 import MyLikedPost from '@pages/MyLikedPost.tsx';
 import PostReport from '@pages/PostReport.tsx';
 import DeleteAccount from '@pages/DeleteAccount.tsx';
-
+import ProtectedRoute from './ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
@@ -35,16 +34,86 @@ const router = createBrowserRouter([
       { path: '/find-email/result', element: <FindEmailResult /> },
       { path: '/find-password', element: <FindPassword /> },
       { path: '/password-reset', element: <PasswordReset /> },
-      { path: '/post', element: <Post /> },
-      { path: '/post/:id', element: <PostDetail /> },
-      { path: '/post/:id/edit', element: <PostEdit /> },
-      { path: '/post/:id/report', element: <PostReport /> },
-      { path: '/post-write', element: <PostWrite /> },
-      { path: '/mypage', element: <Mypage /> },
-      { path: '/profileedit', element: <ProfileEdit /> },
-      { path: '/mypost', element: <MyPost /> },
-      { path: '/like', element: <MyLikedPost /> },
-      { path: '/delete-account', element: <DeleteAccount /> },
+      {
+        path: '/post',
+        element: (
+          <ProtectedRoute>
+            <Post />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/post/:id',
+        element: (
+          <ProtectedRoute>
+            <PostDetail />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/post/:id/edit',
+        element: (
+          <ProtectedRoute>
+            <PostEdit />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/post/:id/report',
+        element: (
+          <ProtectedRoute>
+            <PostReport />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/post-write',
+        element: (
+          <ProtectedRoute>
+            <PostWrite />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/mypage',
+        element: (
+          <ProtectedRoute>
+            <Mypage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/profileedit',
+        element: (
+          <ProtectedRoute>
+            <ProfileEdit />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/mypost',
+        element: (
+          <ProtectedRoute>
+            <MyPost />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/like',
+        element: (
+          <ProtectedRoute>
+            <MyLikedPost />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/delete-account',
+        element: (
+          <ProtectedRoute>
+            <DeleteAccount />
+          </ProtectedRoute>
+        ),
+      },
       { path: '*', element: <NotFound /> },
     ],
   },

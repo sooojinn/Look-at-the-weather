@@ -1,6 +1,15 @@
-import { HrLineHeight } from '@/config/types';
+interface HrLineProps {
+  height: number;
+}
 
-export default function HrLine({ height }: HrLineHeight) {
-  const hrHeight = height === 1 ? 'border-[1px]' : 'border-4';
-  return <hr className={`-mx-5 bg-gray-200 ${hrHeight} border-line-lightest`} />;
+export default function HrLine({ height }: HrLineProps) {
+  return (
+    <>
+      {height === 1 ? (
+        <hr className={`-mx-5 bg-gray-200 border-line-lightest`} />
+      ) : (
+        <hr className={`-mx-5 bg-gray-200 border-[4px] border-line-lightest`} />
+      )}
+    </>
+  );
 }

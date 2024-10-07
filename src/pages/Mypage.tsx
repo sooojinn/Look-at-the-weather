@@ -10,6 +10,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
   const activeList = [
@@ -29,6 +30,7 @@ export default function Mypage() {
     };
     getUserNickname();
   }, []);
+
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
@@ -65,6 +67,7 @@ export default function Mypage() {
           <div onClick={() => setShowLogoutModal(true)}>
             <Text className="cursor-pointer">로그아웃</Text>
           </div>
+
         </div>
       </div>
       <FooterNavi />
