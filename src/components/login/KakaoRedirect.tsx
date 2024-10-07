@@ -2,7 +2,6 @@ import { BASEURL } from '@/config/constants';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
@@ -35,6 +34,7 @@ export default function KakaoRedirect() {
       localStorage.setItem('nickName', data.nickName);
 
       navigate('/');
+      window.location.reload();
     }
 
     if (error) {

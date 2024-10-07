@@ -7,10 +7,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface PostListProps {
   postList: PostMeta[];
-  isMyPost?: boolean;
 }
 
-export function PostList({ postList, isMyPost }: PostListProps) {
+export function PostList({ postList }: PostListProps) {
   const navigate = useNavigate();
 
   const onClickPostHandler = (id: number) => {
@@ -35,13 +34,7 @@ export function PostList({ postList, isMyPost }: PostListProps) {
         return (
           <div className="min-h-[312px] h-auto cursor-pointer" key={uuidv4()}>
             <div onClick={() => onClickPostHandler(postId)}>
-              <PostListImg
-                imgUrl={thumbnail}
-                liked={likeByUser}
-                postId={postId}
-                isReported={reportPost}
-                isMyPost={isMyPost}
-              />
+              <PostListImg imgUrl={thumbnail} liked={likeByUser} postId={postId} isReported={reportPost} />
               <div className="mt-2.5 px-5">
                 <Text>
                   {city} {district}

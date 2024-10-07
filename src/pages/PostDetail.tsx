@@ -9,6 +9,8 @@ import { PostMeta } from '@/config/types';
 import { useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
+import PostImgBlind from '@components/post/PostImgBlind';
+import ImageSlider from '@components/post/ImageSlider';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -25,23 +27,20 @@ export interface PostDetail extends PostMeta {
 }
 
 export default function PostDetail() {
-
   const location = useLocation();
   const { id: postId } = location.state;
-
 
   const [modalOpen, setModalOpen] = useState(false);
 
   const {
-    data: response,
+    data: postDetailData,
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ['postData', postId],
+    queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
   });
 
-  const postDetailData = response?.data;
   const {
     nickname,
     location: postLocation,
@@ -57,6 +56,9 @@ export default function PostDetail() {
     reportPost,
   }: PostDetail = postDetailData || {};
 
+  const imgUrlList = images?.image.map((img) => img.url);
+  console.log(imgUrlList);
+
   const myNickname = localStorage.getItem('nickName');
   const isMyPost = nickname === myNickname;
 
@@ -64,6 +66,7 @@ export default function PostDetail() {
     setModalOpen(true);
   };
 
+  console.log(postDetailData);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,27 +86,11 @@ export default function PostDetail() {
             <Menu className="cursor-pointer" onClick={modalHandler} />
           </div>
           <div className="w-full h-[468px] relative">
-            {reportPost && (
-              <div className="w-full h-full bg-dimmer-bg flex flex-col justify-center items-center absolute">
-                <Text color="white" size="l" weight="bold">
-                  신고로 인해
-                </Text>
-                <Text color="white" size="l" weight="bold">
-                  제제된 게시물입니다
-                </Text>
-              </div>
-            )}
-            <img className="w-full h-[468px] object-cover" src={images?.image[0]?.url} />
+            {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
+            <ImageSlider images={imgUrlList} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
-            <Heart
-              fill="gray"
-              liked={likeByUser}
-              postId={postId}
-              hasUserNumber
-              likedCount={likedCount}
-              isMyPost={isMyPost}
-            />
+            <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
             <div className="flex flex-col gap-4">
               <Text size="l" weight="bold">
                 {title}

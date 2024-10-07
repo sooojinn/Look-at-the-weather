@@ -3,8 +3,10 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import Text from './Text';
 import { deleteLike, postLike } from '@/api/apis';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
+import { ErrorResponse } from '@/config/types';
+import { PostDetail } from '@pages/PostDetail';
 
 interface HeartProps {
   fill?: string;
@@ -12,12 +14,6 @@ interface HeartProps {
   postId: number;
   hasUserNumber?: boolean;
   likedCount?: number;
-  isMyPost?: boolean;
-}
-
-interface ErrorResponse {
-  errorCode: string;
-  errorMessage: string;
 }
 
 export default function Heart({
@@ -26,10 +22,10 @@ export default function Heart({
   postId,
   hasUserNumber,
   likedCount: initialLikedCount,
-  isMyPost,
 }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
   const [likedCount, setLikedCount] = useState(initialLikedCount);
+  const queryClient = useQueryClient();
 
   const toggleLikeMutation = useMutation({
     mutationFn: async () => {
@@ -38,6 +34,14 @@ export default function Heart({
     onSuccess: (res) => {
       setIsLiked((prev) => !prev);
       setLikedCount(res.data.likedCount);
+      queryClient.setQueryData(['postDetail', postId], (oldData: PostDetail) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          likeByUser: !oldData.likeByUser,
+          likedCount: res.data.likedCount,
+        };
+      });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
@@ -52,8 +56,7 @@ export default function Heart({
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    if (isMyPost) showToast('내 게시물엔 좋아요를 누를 수 없습니다.');
-    else toggleLikeMutation.mutate();
+    toggleLikeMutation.mutate();
   };
 
   return (

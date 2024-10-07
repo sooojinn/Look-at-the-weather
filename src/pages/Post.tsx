@@ -1,8 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import Header from '@components/common/Header';
-import LocationComponent from '@components/common/molecules/LocationComponent';
-import MinMaxTemps from '@components/weather/MinMaxTemps';
-import WeatherImg from '@components/weather/WeatherImg';
 import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
@@ -11,7 +8,6 @@ import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/atom/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
-import WeatherMessage from '@components/weather/WeatherMessage';
 import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
@@ -19,12 +15,12 @@ import useWeatherData from '@/hooks/useWeatherData';
 import Loading from '@components/common/atom/Loading';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPost from '@components/icons/NoPost';
+import LookWeatherInfo from '@components/weather/LookWeatherInfo';
+import useLocationData from '@/hooks/useLocationData';
+
 
 export default function Post() {
-  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
-  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
-  const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
-
+  const { location } = useLocationData();
   const {
     locationIds,
     seasonTagIds,
@@ -39,10 +35,12 @@ export default function Post() {
   const [isOpen, setIsOpen] = useState(false);
   const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
+
   const [locationArr, setLocationArr] = useState<DistrictType[]>([]);
   const [weatherArr, setWeatherArr] = useState<FilterItem[]>([]);
   const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
   const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
+
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [postList, setPostList] = useState<PostMeta[]>([]);
   const [hasFilterData, setHasFilterData] = useState<null | boolean>(null);
@@ -223,61 +221,38 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="scrollbar-hide">
+
+    <div className="h-screen relative">
       <Header>Look</Header>
       <div className="px-5">
-        <div className="flex flex-row items-center justify-between py-5">
-          <div>
-            <LocationComponent {...location} size="m" color="lightBlack" />
-            <div className="my-2.5">
-              <WeatherMessage size="xl" color="lightBlack">
-                {weatherMessage}
-              </WeatherMessage>
-            </div>
-            <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="gray" />
-          </div>
-          <div>
-            <WeatherImg weatherType={weatherType as string} width={134} height={110} />
-          </div>
-        </div>
+        <LookWeatherInfo />
         <HrLine height={1} />
-        <div className="flex row py-4">
-          <div className="pe-4" onClick={onClickResetBtn}>
-            <ResetIcon />
-          </div>
+        <div className="flex gap-4 items-center py-4">
+          <ResetIcon onClick={onClickResetBtn} />
           <VeLine height={8} />
-          <div className="flex row gap-4 pl-4 overflow-y-auto whitespace-nowrap scrollbar-hide">
-            <FilterBtn
-              isActive={locationArr.length > 0 ? true : false}
-              onClickFunc={() => onClickFilterBtn(0, 'location')}
-            >
+          <div className="flex gap-2 overflow-y-auto scrollbar-hide">
+            <FilterBtn isActive={locationArr.length} onClickFunc={() => onClickFilterBtn(0, 'location')}>
               {locationArr.length > 1
                 ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
                 : locationArr.length === 1
                 ? `${locationArr[0].districtName}`
                 : '지역'}
             </FilterBtn>
-            <FilterBtn
-              isActive={weatherArr.length > 0 ? true : false}
-              onClickFunc={() => onClickFilterBtn(1, 'weather')}
-            >
+            <FilterBtn isActive={weatherArr.length} onClickFunc={() => onClickFilterBtn(1, 'weather')}>
               {weatherArr.length > 1
                 ? `${weatherArr[0].tagName} 외 ${weatherArr.length - 1}`
                 : weatherArr.length === 1
                 ? `${weatherArr[0].tagName}`
                 : '날씨'}
             </FilterBtn>
-            <FilterBtn
-              isActive={temperatureArr.length > 0 ? true : false}
-              onClickFunc={() => onClickFilterBtn(2, 'temperature')}
-            >
+            <FilterBtn isActive={temperatureArr.length} onClickFunc={() => onClickFilterBtn(2, 'temperature')}>
               {temperatureArr.length > 1
                 ? `${temperatureArr[0].tagName} 외 ${temperatureArr.length - 1}`
                 : temperatureArr.length === 1
                 ? `${temperatureArr[0].tagName}`
                 : '온도'}
             </FilterBtn>
-            <FilterBtn isActive={seasonArr.length > 0 ? true : false} onClickFunc={() => onClickFilterBtn(3, 'season')}>
+            <FilterBtn isActive={seasonArr.length} onClickFunc={() => onClickFilterBtn(3, 'season')}>
               {seasonArr.length > 1
                 ? `${seasonArr[0].tagName} 외 ${seasonArr.length - 1}`
                 : seasonArr.length === 1
@@ -310,9 +285,6 @@ export default function Post() {
             </div>
           </div>
         </div>
-        <div className="relative">
-          {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
-        </div>
       </div>
       <div className="bg-white">
         {noPost ? (
@@ -329,9 +301,8 @@ export default function Post() {
         )}
         <Loading ref={pageEnd} isLoading={loading} />
       </div>
-      <div className="">
-        <FooterNavi />
-      </div>
+      <FooterNavi />
+      {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
     </div>
   );
 }

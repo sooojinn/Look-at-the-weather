@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { postLogin } from '@/api/apis';
 import InputWithLabel from '@components/form/InputWithLabel';
@@ -7,12 +7,13 @@ import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
 import { setAccessToken, getAccessToken } from '@/api/instance';
+import { postLogin } from '@/api/apis';
+import { useMutation } from '@tanstack/react-query';
+import { showToast } from '@components/common/molecules/ToastProvider';
+import { ErrorResponse } from '@/config/types';
 
-interface LoginFormProps {
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
-}
 
-export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
+export default function LoginModal() {
   const {
     register,
     handleSubmit,
@@ -20,24 +21,34 @@ export default function LoginModal({ setIsLoggedIn }: LoginFormProps) {
     setValue,
     formState: { errors },
   } = useForm();
+
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    if (getAccessToken()) setIsLoggedIn(true);
     setShowForm(true);
   }, []);
 
-  const handleLogin = async (data: any) => {
-    try {
-      const response = await postLogin(data);
-      const { accessToken } = response.data;
+  const loginMutation = useMutation({
+    mutationFn: postLogin,
+    onSuccess: ({ data }) => {
+      const { accessToken, nickName } = data;
       setAccessToken(accessToken);
-      localStorage.setItem('nickName', response.data.nickName);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error(error);
-      setError('password', { message: '이메일 혹은 비밀번호가 일치하지 않습니다.' });
-    }
+      localStorage.setItem('nickName', nickName);
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {
+        setError('email', { message: '이메일이 존재하지 않습니다.' });
+      } else if (error.response?.data.errorCode === 'INVALID_PASSWORD') {
+        setError('password', { message: '잘못된 비밀번호입니다.' });
+      } else {
+        console.error('로그인 실패: ', error);
+        showToast('로그인 실패. 다시 시도해주세요.');
+      }
+    },
+  });
+
+  const handleLogin = async (data: any) => {
+    loginMutation.mutate(data);
   };
 
   const linkList = [

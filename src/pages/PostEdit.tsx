@@ -1,6 +1,7 @@
-import { editPost } from '@/api/apis';
+import { deleteImage, editPost } from '@/api/apis';
 import { TAGS } from '@/config/constants';
-import { PostFormData } from '@/config/types';
+import { ImageItem, PostFormData } from '@/config/types';
+import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -19,6 +20,8 @@ export default function PostEdit() {
   const navigate = useNavigate();
   const location = useLocation();
   const { postData, postId } = location.state;
+  const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
+
   console.log(postData);
 
   const {
@@ -28,11 +31,11 @@ export default function PostEdit() {
     weatherTags,
     temperatureTags,
     seasonTag,
+    images,
   } = postData;
 
-  const imageList: { imageId: number; url: string }[] = postData.images.image;
-  const imageIds = imageList.map((img) => img.imageId);
-  const defaultImages = imageList.map(({ imageId, url }) => ({ id: imageId, url }));
+  const imageList = postData.images.image;
+  const imageIds = imageList.map((img: ImageItem) => img.imageId);
 
   const defaultValues = {
     title,
@@ -43,12 +46,13 @@ export default function PostEdit() {
     temperatureTagIds: tagNamesToIds(temperatureTags),
     seasonTagId: tagNameToId(seasonTag),
     imageIds,
+    images: images.image,
   };
 
   const editMutation = useMutation({
     mutationFn: editPost,
     onSuccess: () => {
-      navigate(`/post/${postId}`, { state: { id: postId } });
+      navigate(`/post/${postId}`, { state: { id: postId }, replace: true });
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {
@@ -57,10 +61,27 @@ export default function PostEdit() {
     },
   });
 
+  const deleteDefaultImageMutation = useMutation({
+    mutationFn: deleteImage,
+    onError: (error) => {
+      console.error(error);
+      showToast('게시물을 수정하는 데 실패했습니다.');
+    },
+  });
+
+  const deleteDefaultImages = (imageIds: number[]) => {
+    imageIds.forEach((id) => {
+      deleteDefaultImageMutation.mutate(id);
+    });
+  };
+
   const onSubmit = (data: PostFormData) => {
     console.log(data);
+    if (deletedDefaultImageIds.length) {
+      deleteDefaultImages(deletedDefaultImageIds);
+    }
     editMutation.mutate({ postId, data });
   };
 
-  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} defaultImages={defaultImages} />;
+  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }

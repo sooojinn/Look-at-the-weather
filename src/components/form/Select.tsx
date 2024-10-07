@@ -1,8 +1,9 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import OptionBtn from '../common/molecules/OptionBtn';
-import { SelectProps } from '@/config/types';
+import { PostFormData, SelectProps } from '@/config/types';
 
-export default function Select({ name, options, maxSelection = 1, control, rules }: SelectProps) {
+export default function Select({ name, options, maxSelection = 1, rules }: SelectProps) {
+  const { control } = useFormContext<PostFormData>();
   return (
     <Controller
       name={name}
@@ -28,7 +29,7 @@ export default function Select({ name, options, maxSelection = 1, control, rules
   );
 }
 
-function isSelected(value: number | number[] | null, id: number): boolean {
+function isSelected(value: any, id: number): boolean {
   // value가 배열(다중선택)일 때
   if (Array.isArray(value)) {
     return value.includes(id);
@@ -38,10 +39,10 @@ function isSelected(value: number | number[] | null, id: number): boolean {
 
 function handleOptionClick(
   e: React.MouseEvent<HTMLButtonElement>,
-  value: number | number[] | null,
+  value: any,
   id: number,
   maxSelection: number,
-  onChange: (value: number | number[] | null) => void,
+  onChange: (value: any) => void,
 ) {
   e.preventDefault();
 

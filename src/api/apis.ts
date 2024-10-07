@@ -28,16 +28,21 @@ export const patchEditProfile = (request: RequestBody) => {
   return instance.patch('/users/me', request, getConfig());
 };
 
-export const getMyPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/posts/me?page=${page}&size=${size}`, getConfig());
+
+export const getMyPosts = async ({ page, size }: RequestBody) => {
+  const response = await instance.get(`/posts/me?page=${page}&size=${size}`, getConfig());
+  return response.data;
 };
 
-export const getMyLikedPosts = ({ page, size }: RequestBody) => {
-  return instance.get(`/likes/posts?page=${page}&size=${size}`, getConfig());
+export const getMyLikedPosts = async ({ page, size }: RequestBody) => {
+  const response = await instance.get(`/likes/posts?page=${page}&size=${size}`, getConfig());
+  return response.data;
 };
 
-export const getPostDetail = (postId: number) => {
-  return instance.get(`/posts/${postId}`, getConfig());
+export const getPostDetail = async (postId: number) => {
+  const response = await instance.get(`/posts/${postId}`, getConfig());
+  return response.data;
+
 };
 
 export const deletePost = (postId: number) => {
@@ -95,4 +100,8 @@ export const reissue = () => {
 
 export const logout = () => {
   return instance.post('/auth/logout', null, getConfig());
+};
+
+export const deleteAccount = (reason: string) => {
+  return instance.delete(`/users?deleteReason=${reason}`, getConfig());
 };

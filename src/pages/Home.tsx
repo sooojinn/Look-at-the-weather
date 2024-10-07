@@ -12,6 +12,7 @@ export default function Home() {
 
   const handleLoginCheck = async () => {
     setIsLoggedIn(isLogin);
+
   };
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export default function Home() {
 
   return (
     <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
-      {isLoggedIn || <LoginModal setIsLoggedIn={setIsLoggedIn} />}
+      {isLoggedIn || <LoginModal />}
       <Header>
         <Logo />
       </Header>
