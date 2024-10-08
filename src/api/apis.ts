@@ -3,8 +3,9 @@ import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 import { getAccessToken } from './instance';
 
-const getConfig = (): AxiosRequestConfig => ({
+const getConfig = (contentType = 'application/json'): AxiosRequestConfig => ({
   headers: {
+    'Content-Type': contentType,
     Authorization: getAccessToken(),
   },
 });

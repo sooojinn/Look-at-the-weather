@@ -27,7 +27,6 @@ export const instance: AxiosInstance = axios.create({
   baseURL: BASEURL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
     Authorization: getAccessToken(),
   },
 });
