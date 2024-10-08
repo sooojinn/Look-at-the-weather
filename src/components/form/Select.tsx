@@ -16,9 +16,9 @@ export default function Select({ name, options, maxSelection = 1, rules }: Selec
               <OptionBtn
                 key={id}
                 name={name}
-                selected={isSelected(value, id)}
-                onClick={(e) => {
-                  handleOptionClick(e, value, id, maxSelection, onChange);
+                isActive={isSelected(value, id)}
+                onClickFunc={() => {
+                  handleOptionClick(value, id, maxSelection, onChange);
                 }}
               />
             );
@@ -37,15 +37,7 @@ function isSelected(value: any, id: number): boolean {
   return value === id;
 }
 
-function handleOptionClick(
-  e: React.MouseEvent<HTMLButtonElement>,
-  value: any,
-  id: number,
-  maxSelection: number,
-  onChange: (value: any) => void,
-) {
-  e.preventDefault();
-
+function handleOptionClick(value: any, id: number, maxSelection: number, onChange: (value: any) => void) {
   // 다중선택이 아닐 때
   if (maxSelection === 1) {
     onChange(value === id ? null : id);

@@ -5,9 +5,9 @@ import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilte
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from './Text';
 import CloseBtn from '@components/icons/CloseBtn';
-import FilterBtn from './FilterBtnComp';
 import HrLine from './HrLine';
 import axios from 'axios';
+import OptionBtn from '../molecules/OptionBtn';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
@@ -209,7 +209,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     <div>
       <div className="relative">
         <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-        <div className="fixed bottom-0 left-0 right-0 w-full shadow-md z-20 h-[687px]">
+        <div className="fixed bottom-0 left-0 right-0 w-full shadow-md z-20 h-4/5">
           <div className="bg-background-white w-full h-full px-5 rounded-t-3xl flex flex-col">
             <div className="relative py-[13px]">
               <div className="flex justify-end text-center">
@@ -246,7 +246,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </div>
               ))}
             </div>
-
+            <HrLine height={1} />
             <div id="viewport" className="relative overflow-y-auto overflow-x-hidden flex-grow scrollbar-hide">
               {/* <div className="fixed z-20 h-[497px] w-80 bg-black"></div> */}
               <div id="location" className="py-5 w-full" ref={(el) => (sectionRefs.current.location = el)}>
@@ -257,23 +257,23 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </a>
                 <div className="flex flex-wrap gap-2 w-full">
                   {city.map((item) => (
-                    <FilterBtn
+                    <OptionBtn
                       key={item.cityId}
+                      name={item.cityName}
                       isActive={selectedDistrict.some((city) => item.cityId === city.cityId)}
                       onClickFunc={() => {
                         onClickCityBtn(item);
                       }}
-                    >
-                      {item.cityName}
-                    </FilterBtn>
+                    />
                   ))}
                 </div>
               </div>
               {openDistrictOption ? (
                 <div className="flex flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray w-full">
                   {district.map((item) => (
-                    <FilterBtn
+                    <OptionBtn
                       key={item.districtId}
+                      name={item.districtName}
                       isActive={
                         selectedDistrict.some((district) => district.cityId === 55)
                           ? false
@@ -282,9 +282,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                       onClickFunc={() => {
                         onClickDistrictBtn(item);
                       }}
-                    >
-                      {item.districtName}
-                    </FilterBtn>
+                    />
                   ))}
                 </div>
               ) : null}
@@ -299,15 +297,14 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </a>
                 <div className="flex flex-wrap gap-2 w-full">
                   {mockWeatherData.map((item) => (
-                    <FilterBtn
+                    <OptionBtn
                       key={item.id}
+                      name={item.name}
                       isActive={selectedWeather.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
                         onClickFilterItemBtn(item.id, item.name, setSelectedWeather, '날씨');
                       }}
-                    >
-                      {item.name}
-                    </FilterBtn>
+                    />
                   ))}
                 </div>
               </div>
@@ -321,15 +318,14 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </a>
                 <div className="flex flex-wrap gap-2 w-full">
                   {mockTempData.map((item) => (
-                    <FilterBtn
+                    <OptionBtn
                       key={item.id}
+                      name={item.name}
                       isActive={selectedTemperature.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
                         onClickFilterItemBtn(item.id, item.name, setSelectedTemperature, '온도');
                       }}
-                    >
-                      {item.name}
-                    </FilterBtn>
+                    />
                   ))}
                 </div>
               </div>
@@ -343,15 +339,14 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                 </a>
                 <div className="flex flex-wrap gap-2 w-full">
                   {mockSeasonData.map((item) => (
-                    <FilterBtn
+                    <OptionBtn
                       key={item.id}
+                      name={item.name}
                       isActive={selectedSeason.some((selected) => selected.id === item.id)}
                       onClickFunc={() => {
                         onClickFilterItemBtn(item.id, item.name, setSelectedSeason, '계절');
                       }}
-                    >
-                      {item.name}
-                    </FilterBtn>
+                    />
                   ))}
                 </div>
               </div>
@@ -371,16 +366,15 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                     </div>
                   </div>
                   <div className="overflow whitespace-nowrap scrollbar-hide">
-                    <div className="flex row gap-1">
+                    <div className="flex row gap-2">
                       {selectedFilterItems.map((item, index) => (
-                        <FilterBtn
+                        <OptionBtn
                           key={index}
-                          isActive={true}
-                          isSelected={true}
+                          name={item.tagName}
+                          isActive
+                          showCloseBtn
                           onClickFunc={() => onClickSelectedItemBtn(item.id, item.category)}
-                        >
-                          {item.tagName}
-                        </FilterBtn>
+                        />
                       ))}
                     </div>
                   </div>
