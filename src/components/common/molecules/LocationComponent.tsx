@@ -3,7 +3,7 @@ import Text from '@components/common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LocationComponentProps {
   isPostFormLocation?: boolean;
@@ -15,6 +15,10 @@ interface LocationComponentProps {
 
 export default function LocationComponent({ isPostFormLocation, city, district, size, color }: LocationComponentProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const showTooltipPage = ['/'];
+  const isShowTooltipPage = showTooltipPage.includes(location.pathname);
+
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
@@ -22,11 +26,13 @@ export default function LocationComponent({ isPostFormLocation, city, district, 
   };
 
   useEffect(() => {
-    const lastTooltipClosedDate = localStorage.getItem('lastTooltipClosedDate');
-    const currentDate = new Date().toISOString().split('T')[0];
+    if (isShowTooltipPage) {
+      const lastTooltipClosedDate = localStorage.getItem('lastTooltipClosedDate');
+      const currentDate = new Date().toISOString().split('T')[0];
 
-    if (!lastTooltipClosedDate || lastTooltipClosedDate !== currentDate) {
-      setShowTooltip(true);
+      if (!lastTooltipClosedDate || lastTooltipClosedDate !== currentDate) {
+        setShowTooltip(true);
+      }
     }
   }, []);
 

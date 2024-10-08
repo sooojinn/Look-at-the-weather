@@ -4,18 +4,18 @@ import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
 import { ResetIcon } from '@components/icons/ResetIcon';
-import PostFilterModal from '@components/common/atom/PostFilterModal';
+import PostFilterModal from '@components/common/organism/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
 import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
-import Loading from '@components/common/atom/Loading';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPost from '@components/icons/NoPost';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 
 export default function Post() {
   const { location } = useLocationData();
@@ -219,93 +219,98 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="h-screen flex flex-col relative">
+    <div className="h-screen flex flex-col pb-[61px] relative">
       <Header>Look</Header>
-      <div className="px-5">
-        <LookWeatherInfo />
-        <HrLine height={1} />
-        <div className="flex gap-4 items-center py-4">
-          <ResetIcon onClick={onClickResetBtn} />
-          <VeLine height={8} />
-          <div className="flex gap-2 overflow-y-auto scrollbar-hide">
-            <OptionBtn
-              isActive={!!locationArr.length}
-              onClickFunc={() => onClickFilterBtn(0, 'location')}
-              name={
-                locationArr.length > 1
-                  ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
-                  : locationArr.length === 1
-                  ? `${locationArr[0].districtName}`
-                  : '지역'
-              }
-            />
+      <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
+        <div className="px-5">
+          <LookWeatherInfo />
+          <HrLine height={1} />
+          <div className="flex gap-4 items-center py-4">
+            <ResetIcon onClick={onClickResetBtn} />
+            <VeLine height={8} />
+            <div className="flex gap-2 overflow-y-auto scrollbar-hide">
+              <OptionBtn
+                isActive={!!locationArr.length}
+                onClickFunc={() => onClickFilterBtn(0, 'location')}
+                name={
+                  locationArr.length > 1
+                    ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
+                    : locationArr.length === 1
+                    ? `${locationArr[0].districtName}`
+                    : '지역'
+                }
+              />
 
-            <OptionBtn
-              isActive={!!weatherArr.length}
-              onClickFunc={() => onClickFilterBtn(1, 'weather')}
-              name={
-                weatherArr.length > 1
-                  ? `${weatherArr[0].tagName} 외 ${weatherArr.length - 1}`
-                  : weatherArr.length === 1
-                  ? `${weatherArr[0].tagName}`
-                  : '날씨'
-              }
-            />
-            <OptionBtn
-              isActive={!!temperatureArr.length}
-              onClickFunc={() => onClickFilterBtn(2, 'temperature')}
-              name={
-                temperatureArr.length > 1
-                  ? `${temperatureArr[0].tagName} 외 ${temperatureArr.length - 1}`
-                  : temperatureArr.length === 1
-                  ? `${temperatureArr[0].tagName}`
-                  : '온도'
-              }
-            />
-            <OptionBtn
-              isActive={!!seasonArr.length}
-              onClickFunc={() => onClickFilterBtn(3, 'season')}
-              name={
-                seasonArr.length > 1
-                  ? `${seasonArr[0].tagName} 외 ${seasonArr.length - 1}`
-                  : seasonArr.length === 1
-                  ? `${seasonArr[0].tagName}`
-                  : '계절'
-              }
-            />
-          </div>
-        </div>
-        <HrLine height={8} />
-        <div className="py-5">
-          <div className="flex row justify-end">
-            <div onClick={() => setSortOrder('LATEST')}>
-              <Text
-                color={sortOrder === 'LATEST' ? 'gray' : 'lightGray'}
-                weight={sortOrder === 'LATEST' ? 'bold' : 'regular'}
-              >
-                최신순
-              </Text>
-            </div>
-            <div className="mx-2">
-              <VeLine height={8} />
-            </div>
-            <div onClick={() => setSortOrder('RECOMMENDED')}>
-              <Text
-                color={sortOrder === 'RECOMMENDED' ? 'gray' : 'lightGray'}
-                weight={sortOrder === 'RECOMMENDED' ? 'bold' : 'regular'}
-              >
-                추천순
-              </Text>
+              <OptionBtn
+                isActive={!!weatherArr.length}
+                onClickFunc={() => onClickFilterBtn(1, 'weather')}
+                name={
+                  weatherArr.length > 1
+                    ? `${weatherArr[0].tagName} 외 ${weatherArr.length - 1}`
+                    : weatherArr.length === 1
+                    ? `${weatherArr[0].tagName}`
+                    : '날씨'
+                }
+              />
+              <OptionBtn
+                isActive={!!temperatureArr.length}
+                onClickFunc={() => onClickFilterBtn(2, 'temperature')}
+                name={
+                  temperatureArr.length > 1
+                    ? `${temperatureArr[0].tagName} 외 ${temperatureArr.length - 1}`
+                    : temperatureArr.length === 1
+                    ? `${temperatureArr[0].tagName}`
+                    : '온도'
+                }
+              />
+              <OptionBtn
+                isActive={!!seasonArr.length}
+                onClickFunc={() => onClickFilterBtn(3, 'season')}
+                name={
+                  seasonArr.length > 1
+                    ? `${seasonArr[0].tagName} 외 ${seasonArr.length - 1}`
+                    : seasonArr.length === 1
+                    ? `${seasonArr[0].tagName}`
+                    : '계절'
+                }
+              />
             </div>
           </div>
+          <HrLine height={8} />
+          <div className="py-5">
+            <div className="flex row justify-end cursor-pointer">
+              <div onClick={() => setSortOrder('LATEST')}>
+                <Text
+                  color={sortOrder === 'LATEST' ? 'gray' : 'lightGray'}
+                  weight={sortOrder === 'LATEST' ? 'bold' : 'regular'}
+                >
+                  최신순
+                </Text>
+              </div>
+              <div className="mx-2">
+                <VeLine height={8} />
+              </div>
+              <div onClick={() => setSortOrder('RECOMMENDED')}>
+                <Text
+                  color={sortOrder === 'RECOMMENDED' ? 'gray' : 'lightGray'}
+                  weight={sortOrder === 'RECOMMENDED' ? 'bold' : 'regular'}
+                >
+                  추천순
+                </Text>
+              </div>
+            </div>
+          </div>
         </div>
+        {isAllPostEmpty ? (
+          <AllPostEmpty />
+        ) : isFilteredPostEmpty ? (
+          <FilteredPostEmpty />
+        ) : (
+          <PostList postList={postList} />
+        )}
+        <div ref={pageEnd}></div>
+        {loading && <InfiniteScrollLoading />}
       </div>
-
-      {isAllPostEmpty ? <AllPostEmpty /> : <PostList postList={postList} />}
-      {isFilteredPostEmpty ? <FilteredPostEmpty /> : <PostList postList={postList} />}
-
-      <Loading ref={pageEnd} isLoading={loading} />
-
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
     </div>

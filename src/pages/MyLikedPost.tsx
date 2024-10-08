@@ -2,12 +2,12 @@ import { PostList } from '@components/post/PostList';
 import Header from '@components/common/Header';
 import { getMyLikedPosts } from '@/api/apis';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import Spinner from '@components/icons/Spinner';
 import FooterNavi from '@components/common/FooterNavi';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPost from '@components/icons/NoPost';
 import { useNavigate } from 'react-router-dom';
+import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 
 export default function MyLikedPost() {
   const { isFetchingNextPage, isLoading, isError, error, isSuccess, pageEndRef, postList } = useInfiniteScroll(
@@ -26,11 +26,7 @@ export default function MyLikedPost() {
       <Header>내가 좋아요한 게시물</Header>
       {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyLikedPostEmpty />)}
       <div ref={pageEndRef}></div>
-      {(isLoading || isFetchingNextPage) && (
-        <div className="my-5 flex justify-center items-center">
-          <Spinner />
-        </div>
-      )}
+      {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
       <FooterNavi />
     </div>
   );
