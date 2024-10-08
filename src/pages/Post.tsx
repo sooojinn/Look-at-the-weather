@@ -15,6 +15,7 @@ import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPost from '@components/icons/NoPost';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import OptionBtn from '@components/common/molecules/OptionBtn';
+import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 
 export default function Post() {
   const { location } = useLocationData();
@@ -50,7 +51,8 @@ export default function Post() {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [noPost, setNoPost] = useState(false);
+  const [isAllPostEmpty, setIsAllPostEmpty] = useState(false);
+  const [isFilteredPostEmpty, setIsFilteredPostEmpty] = useState(false);
 
   const pageEnd = useRef<HTMLDivElement>(null);
 
@@ -97,7 +99,7 @@ export default function Post() {
         setPostList((prev) => [...prev, ...updatePostList]);
         setPage(pageNum + 1);
         setHasMore(updatePostList.length > 0);
-        setNoPost(updatePostList.length === 0 && pageNum === 0);
+        setIsAllPostEmpty(updatePostList.length === 0 && pageNum === 0);
       } catch (error) {
         // 임시 작성코드
         setLoading(false);
@@ -127,7 +129,7 @@ export default function Post() {
         setPostList((prev) => [...prev, ...newPosts]);
         setPage(pageNum + 1);
         setHasMore(newPosts.length > 0);
-        setNoPost(newPosts.length === 0 && pageNum === 0);
+        setIsFilteredPostEmpty(newPosts.length === 0 && pageNum === 0);
       } catch (error) {
         setLoading(false);
         setHasMore(false);
@@ -141,7 +143,8 @@ export default function Post() {
 
   useEffect(() => {
     setPostList([]);
-    setNoPost(false);
+    setIsAllPostEmpty(false);
+    setIsFilteredPostEmpty(false);
     setPage(0);
 
     if (location && hasFilterData !== null) {
@@ -216,7 +219,7 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="h-screen relative">
+    <div className="h-screen flex flex-col relative">
       <Header>Look</Header>
       <div className="px-5">
         <LookWeatherInfo />
@@ -297,23 +300,46 @@ export default function Post() {
           </div>
         </div>
       </div>
-      <div className="bg-white">
-        {noPost ? (
-          <div className="flex flex-col justify-center items-center pt-[100px] pb-[119px]">
-            <NoPost className="mb-[20px]" />
-            <Text weight="bold" size="xl" color="lightBlack" className="mb-[6px]">
-              조건에 맞는 게시물이 없어요
-            </Text>
-            <Text color="gray">더 넓은 범위로</Text>
-            <Text color="gray">검색해 보시는 건 어떨까요?</Text>
-          </div>
-        ) : (
-          <PostList postList={postList}></PostList>
-        )}
-        <Loading ref={pageEnd} isLoading={loading} />
-      </div>
+
+      {isAllPostEmpty ? <AllPostEmpty /> : <PostList postList={postList} />}
+      {isFilteredPostEmpty ? <FilteredPostEmpty /> : <PostList postList={postList} />}
+
+      <Loading ref={pageEnd} isLoading={loading} />
+
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
     </div>
+  );
+}
+
+function FilteredPostEmpty() {
+  return (
+    <StatusPlaceholder
+      ImgComp={NoPost}
+      boldMessage="조건에 맞는 게시물이 없어요"
+      lightMessage={
+        <>
+          더 넓은 범위로
+          <br />
+          검색해 보시는 건 어떨까요?
+        </>
+      }
+    />
+  );
+}
+
+function AllPostEmpty() {
+  return (
+    <StatusPlaceholder
+      ImgComp={NoPost}
+      boldMessage="내 지역에 올라온 코디가 아직 없어요"
+      lightMessage={
+        <>
+          다른 지역의 코디를 먼저
+          <br />
+          둘러보시는 건 어떠세요?
+        </>
+      }
+    />
   );
 }

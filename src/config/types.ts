@@ -167,10 +167,6 @@ export interface CityType {
   district: DistrictType[];
 }
 
-export type FilterBtnGroupProps = FilterBtn & {
-  btnData: any[];
-};
-
 export interface HrLineHeight {
   height: number;
 }

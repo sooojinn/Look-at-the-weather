@@ -5,9 +5,12 @@ import { getMyPosts } from '@/api/apis';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
+import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import NoPost from '@components/icons/NoPost';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyPost() {
-  const { isFetchingNextPage, isLoading, isError, error, pageEndRef, postList } = useInfiniteScroll(
+  const { isFetchingNextPage, isLoading, isError, error, isSuccess, pageEndRef, postList } = useInfiniteScroll(
     ['myPosts'],
     getMyPosts,
     10,
@@ -19,9 +22,9 @@ export default function MyPost() {
   }
 
   return (
-    <div className="pb-[61px]">
+    <div className="h-screen flex flex-col pb-[61px]">
       <Header>내 게시물</Header>
-      <PostList postList={postList} />
+      {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyPostEmpty />)}
       <div ref={pageEndRef}></div>
       {(isLoading || isFetchingNextPage) && (
         <div className="my-5 flex justify-center items-center">
@@ -30,5 +33,25 @@ export default function MyPost() {
       )}
       <FooterNavi />
     </div>
+  );
+}
+
+function MyPostEmpty() {
+  const navigate = useNavigate();
+
+  return (
+    <StatusPlaceholder
+      ImgComp={NoPost}
+      boldMessage="아직 작성한 게시물이 없어요"
+      lightMessage={
+        <>
+          첫 게시물을 작성하고 오늘의
+          <br />
+          룩엣더웨더를 공유해보세요!
+        </>
+      }
+      btnText="글 작성하기"
+      btnFunc={() => navigate('/post-write')}
+    />
   );
 }
