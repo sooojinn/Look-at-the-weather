@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import { Line } from '@components/common/atom/Line';
 import LinkMenu from '@/components/common/molecules/LinkMenu';
-import { getUserInfos, postLogout } from '@/api/apis';
+import { postLogout } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
@@ -14,22 +14,14 @@ import { setAccessToken } from '@/api/instance';
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
   const activeList = [
-    { menu: '내 게시물', href: '/mypost' },
-    { menu: '내가 좋아요한 게시물', href: '/like' },
+    { menu: '내 게시물', href: '/mypage/mypost' },
+    { menu: '내가 좋아요한 게시물', href: '/mypage/like' },
   ];
 
-  const [userNickname, setUserNickname] = useState('');
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getUserNickname = async () => {
-      const response = await getUserInfos();
-
-      setUserNickname(response.data.nickname);
-    };
-    getUserNickname();
-  }, []);
+  const nickName = localStorage.getItem('nickName');
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
@@ -54,7 +46,7 @@ export default function Mypage() {
         <div className="flex gap-3 items-center mb-6 px-5">
           <img src="/assets/user_icon.png" alt="" />
           <Text size="xl" weight="bold">
-            {userNickname}
+            {nickName}
           </Text>
         </div>
         <LinkMenu title="설정" menuList={settingList} />
