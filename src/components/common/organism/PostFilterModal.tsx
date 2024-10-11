@@ -10,6 +10,7 @@ import OptionBtn from '../molecules/OptionBtn';
 import Button from '../molecules/Button';
 import Header from '../Header';
 import { showToast } from '../molecules/ToastProvider';
+import BackgroundShadow from './BackgroundShadow';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
@@ -193,13 +194,6 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   };
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
-  useEffect(() => {
     // 렌더링 시 저장된 필터 데이터 매칭
     setSelectedDistrict(locationIds);
     setSelectedWeather(weatherTagIds);
@@ -208,9 +202,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, []);
 
   return (
-    <div>
-      <div className="fixed inset-0 bg-black opacity-50 z-30"></div>
-      <div className="absolute bottom-0 left-0 right-0 w-full h-4/5 max-h-screen overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl z-30">
+    <BackgroundShadow>
+      <div className="fixed bottom-0 w-full max-w-md h-4/5 overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl">
         <Header onClose={() => isOpen(false)} hasBorder={false}>
           필터
         </Header>
@@ -384,6 +377,6 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           </div>
         </div>
       </div>
-    </div>
+    </BackgroundShadow>
   );
 }

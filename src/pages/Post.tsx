@@ -219,7 +219,7 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="h-screen flex flex-col pb-[61px] relative">
+    <div className="h-screen flex flex-col pb-[61px]">
       <Header>Look</Header>
       <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
         <div className="px-5">

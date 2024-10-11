@@ -12,6 +12,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
 import { AxiosError } from 'axios';
 import { LoginModalProps } from '@/config/types';
+import BackgroundShadow from '@components/common/organism/BackgroundShadow';
 
 export default function LoginModal({ setIsLoggedIn }: LoginModalProps) {
   const {
@@ -61,11 +62,9 @@ export default function LoginModal({ setIsLoggedIn }: LoginModalProps) {
   return (
     <>
       {!isLogin() ? (
-        <div className="fixed inset-0 z-50 flex justify-center items-end">
-          {/* 배경 흐리게 */}
-          <div className="absolute inset-0 bg-black opacity-50"></div>
+        <BackgroundShadow>
           <div
-            className={`w-full max-w-md bg-white px-5 py-10 rounded-t-3xl z-20 transition-transform duration-500 ease-out ${
+            className={`fixed bottom-0 w-full max-w-md bg-white px-5 py-10 rounded-t-3xl z-20 transition-transform duration-500 ease-out ${
               showForm ? 'transform translate-y-0' : 'transform translate-y-full'
             }`}
           >
@@ -111,7 +110,7 @@ export default function LoginModal({ setIsLoggedIn }: LoginModalProps) {
               ))}
             </div>
           </div>
-        </div>
+        </BackgroundShadow>
       ) : null}
     </>
   );
