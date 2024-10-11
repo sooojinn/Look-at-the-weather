@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Menu from '@components/icons/Menu';
@@ -6,11 +6,13 @@ import PostManageModal from '@components/common/molecules/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
 import ImageSlider from '@components/post/ImageSlider';
+import { showToast } from '@components/common/molecules/ToastProvider';
+import { AxiosError } from 'axios';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -28,6 +30,7 @@ export interface PostDetail extends PostMeta {
 
 export default function PostDetail() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { id: postId } = location.state;
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,9 +39,12 @@ export default function PostDetail() {
     data: postDetailData,
     isLoading,
     isSuccess,
+    isError,
+    error,
   } = useQuery({
     queryKey: ['postDetail', postId],
     queryFn: () => getPostDetail(postId),
+    retry: 1,
   });
 
   const {
@@ -64,6 +70,16 @@ export default function PostDetail() {
   const modalHandler = () => {
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    if (isError) {
+      if (error instanceof AxiosError) {
+        showToast(`${error.response?.data.errorMessage}`);
+      }
+      console.log(error);
+      navigate(-1);
+    }
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
