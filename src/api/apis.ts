@@ -53,6 +53,13 @@ export const fetchTopLikedPosts = () => {
   return instance.get('/posts/top-liked', getConfig());
 };
 
+export const uploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await instance.post(`/s3/post-image`, formData, getConfig('multipart/form-data'));
+  return response.data;
+};
+
 export const deleteImage = async (id: number) => {
   instance.delete(`/s3/post-image/${id}`, getConfig());
 };

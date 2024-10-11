@@ -5,9 +5,7 @@ import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import { deleteImage } from '@/api/apis';
-import axios from 'axios';
-import { BASEURL } from '@/constants/constants';
+import { deleteImage, uploadImage } from '@/api/apis';
 import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
@@ -21,19 +19,6 @@ interface AddImageBtnProps {
   handleAddClick: () => void;
   classNames: string;
 }
-
-// 이미지 업로드 함수
-const uploadImage = async (file: File): Promise<{ id: number }> => {
-  const formData = new FormData();
-  formData.append('file', file);
-  const response = await axios.post(`${BASEURL}/s3/post-image`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `${localStorage.getItem('accessToken')}`,
-    },
-  });
-  return response.data;
-};
 
 export default function File({ name, rules, defaultImageIds }: FileProps) {
   const { register, getValues, setValue } = useFormContext<PostFormData>();
