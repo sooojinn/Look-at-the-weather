@@ -31,14 +31,13 @@ export const instance: AxiosInstance = axios.create({
   },
 });
 
-let reissueAttemptCount = 0;
-
 // 인터셉터를 인스턴스에 적용
 instance.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
+    let reissueAttemptCount = 0;
     console.log('Interceptor caught an error:', error);
 
     if (error.response) {

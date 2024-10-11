@@ -209,8 +209,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
   return (
     <div>
-      <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-      <div className="absolute bottom-0 left-0 right-0 w-full h-4/5 max-h-screen overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl z-20">
+      <div className="fixed inset-0 bg-black opacity-50 z-30"></div>
+      <div className="absolute bottom-0 left-0 right-0 w-full h-4/5 max-h-screen overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl z-30">
         <Header onClose={() => isOpen(false)} hasBorder={false}>
           필터
         </Header>

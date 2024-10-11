@@ -10,7 +10,6 @@ const useHourlyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
     queryFn: () => getHourlyWeatherInfo(geoPoint as GeoPoint),
     staleTime: calHourlyWeatherStaleTime(), // 매 정각에 리패칭
     gcTime: 1000 * 60 * 60,
-    retry: 1,
     enabled: !!geoPoint,
   });
 
@@ -20,7 +19,6 @@ const useDailyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
     queryFn: () => getDailyWeatherInfo(geoPoint as GeoPoint),
     staleTime: calDailyWeatherStaleTime(), // 매일 2시 11분이 지나면 리패칭
     gcTime: 1000 * 60 * 60,
-    retry: 1,
     enabled: !!geoPoint,
   });
 
