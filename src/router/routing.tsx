@@ -91,7 +91,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/mypost',
+        path: '/mypage/mypost',
         element: (
           <ProtectedRoute>
             <MyPost />
@@ -99,7 +99,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/like',
+        path: '/mypage/like',
         element: (
           <ProtectedRoute>
             <MyLikedPost />

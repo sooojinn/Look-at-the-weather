@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
+import { setAccessToken } from '@/api/instance';
 
 const getUserInfo = async (code: string | null) => {
   const response = await axios.get(`${BASEURL}/oauth/kakao?code=${code}`, {
@@ -30,11 +31,10 @@ export default function KakaoRedirect() {
   useEffect(() => {
     if (isSuccess) {
       const { accessToken } = data;
-      localStorage.setItem('accessToken', `Bearer ${accessToken}`);
+      setAccessToken(accessToken);
       localStorage.setItem('nickName', data.nickName);
 
       navigate('/');
-      window.location.reload();
     }
 
     if (error) {

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import CloseBtn from '@components/icons/CloseBtn';
 import ReportIcon from '@components/icons/ReportIcon';
 import HideIcon from '@components/icons/HideIcon';
@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { showToast } from './ToastProvider';
 import WarningModal from '../organism/WarningModal';
 import Button from './Button';
+import BackgroundShadow from '../organism/BackgroundShadow';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -81,20 +82,11 @@ export default function PostManageModal({
     navigate(`/post/${postId}/report`, { state: { postId } });
   };
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
   return (
     <>
-      <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
       {!showDeleteWarningModal && (
-        <>
-          <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
-          <div className="max-w-md fixed bottom-0 w-full bg-background-white rounded-t-3xl z-20">
+        <BackgroundShadow>
+          <div className="fixed bottom-0 w-full max-w-md bg-background-white rounded-t-3xl">
             <div className="h-14 pr-5 flex justify-end items-center">
               <CloseBtn onClick={onClickCloseBtn} />
             </div>
@@ -122,7 +114,7 @@ export default function PostManageModal({
               )}
             </div>
           </div>
-        </>
+        </BackgroundShadow>
       )}
       {showDeleteWarningModal && (
         <WarningModal

@@ -3,8 +3,9 @@ import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 import { getAccessToken } from './instance';
 
-const getConfig = (): AxiosRequestConfig => ({
+const getConfig = (contentType = 'application/json'): AxiosRequestConfig => ({
   headers: {
+    'Content-Type': contentType,
     Authorization: getAccessToken(),
   },
 });
@@ -50,6 +51,13 @@ export const deletePost = (postId: number) => {
 
 export const fetchTopLikedPosts = () => {
   return instance.get('/posts/top-liked', getConfig());
+};
+
+export const uploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await instance.post(`/s3/post-image`, formData, getConfig('multipart/form-data'));
+  return response.data;
 };
 
 export const deleteImage = async (id: number) => {

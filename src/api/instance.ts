@@ -21,18 +21,17 @@ export const instance: AxiosInstance = axios.create({
   baseURL: BASEURL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
     Authorization: getAccessToken(),
   },
 });
 
-let reissueAttemptCount = 0;
 
 instance.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
+    let reissueAttemptCount = 0;
     console.log('Interceptor caught an error:', error);
 
     console.log(reissueAttemptCount);
