@@ -1,6 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import { BASEURL } from '@/constants/constants';
 import { reissue } from './apis';
+import { useAuthStore } from '@/store/authStore';
+import { showToast } from '@components/common/molecules/ToastProvider';
+
+const { setIsLogin } = useAuthStore.getState();
 
 let accessToken: null | string = null;
 
@@ -11,16 +15,6 @@ const setAccessToken = (token: null | string) => {
 
 const getAccessToken = () => {
   return accessToken;
-};
-
-const isLogin = () => {
-  const token = getAccessToken();
-  // const isAbleToken = token.length > 4;
-  if (!token) {
-    return false;
-  } else {
-    return true;
-  }
 };
 
 export const instance: AxiosInstance = axios.create({
@@ -34,7 +28,6 @@ export const instance: AxiosInstance = axios.create({
 
 let reissueAttemptCount = 0;
 
-// 인터셉터를 인스턴스에 적용
 instance.interceptors.response.use(
   (response) => {
     return response;
@@ -42,17 +35,18 @@ instance.interceptors.response.use(
   async (error) => {
     console.log('Interceptor caught an error:', error);
 
+    console.log(reissueAttemptCount);
+
     if (error.response) {
       if (error.response.status === 401 && reissueAttemptCount < 3) {
-        console.log('401 error detected, attempting to reissue token');
         reissueAttemptCount++;
         try {
           for (let i = 1; i <= 3; i++) {
             const response = await reissue();
             if (response.data.accessToken) {
               setAccessToken(response.data.accessToken);
-              console.log(reissueAttemptCount);
               error.config.headers['Authorization'] = getAccessToken();
+              setIsLogin(true);
               return instance(error.config);
             } else {
               console.log(`${i}번째 토큰 재요청 실패`);
@@ -61,6 +55,9 @@ instance.interceptors.response.use(
           }
         } catch (reissueError) {
           console.log('Token reissue failed:', reissueError);
+          setIsLogin(false);
+          showToast('세션 정보가 만료되었습니다. 재로그인 해주세요.');
+          window.location.href = '/';
         }
       }
     } else if (error.request) {
@@ -74,4 +71,4 @@ instance.interceptors.response.use(
   },
 );
 
-export { setAccessToken, getAccessToken, isLogin };
+export { setAccessToken, getAccessToken };
