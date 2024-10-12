@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import {
   FieldErrors,
   FieldValues,
@@ -169,8 +168,4 @@ export interface CityType {
 
 export interface HrLineHeight {
   height: number;
-}
-
-export interface LoginModalProps {
-  setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
 }

@@ -1,20 +1,28 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-interface AuthState {
-  accessToken: string | null;
-  refreshToken: string | null;
-  setTokens: (tokens: { accessToken: string; refreshToken: string }) => void;
-  clearTokens: () => void;
-  isLogin: () => boolean;
+interface AuthStore {
+  isLogin: boolean;
+  nickName: string | null;
+  setIsLogin: (isLogin: boolean) => void;
+  setNickName: (newNickname: string | null) => void;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
-  accessToken: null,
-  refreshToken: null,
-  setTokens: ({ accessToken, refreshToken }) => set({ accessToken, refreshToken }),
-  clearTokens: () => set({ accessToken: null, refreshToken: null }),
-  isLogin: () => {
-    const { accessToken } = get();
-    return accessToken !== null;
-  },
-}));
+export const useAuthStore = create(
+  persist<AuthStore>(
+    (set) => ({
+      isLogin: false,
+      nickName: null,
+      setIsLogin: (isLogin: boolean) => {
+        set({ isLogin });
+      },
+      setNickName: (newNickname: string | null) => {
+        set({ nickName: newNickname });
+      },
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
