@@ -12,9 +12,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
-import { LoginModalProps } from '@/config/types';
 import BackgroundShadow from '@components/common/organism/BackgroundShadow';
-
 
 export default function LoginModal() {
   const { setIsLogin, setNickName } = useAuthStore();
@@ -64,25 +62,25 @@ export default function LoginModal() {
 
   return (
     <>
-        <BackgroundShadow>
-          <div
-            className={`fixed bottom-0 w-full max-w-md bg-white px-5 py-10 rounded-t-3xl z-20 transition-transform duration-500 ease-out ${
-              showForm ? 'transform translate-y-0' : 'transform translate-y-full'
-            }`}
-          >
-            <form className="flex flex-col gap-6">
-              <div className="flex flex-col gap-4">
-                <InputWithLabel
-                  name="email"
-                  label="이메일"
-                  placeholder="(예시) abcde@naver.com"
-                  register={register}
-                  rules={{
-                    required: '이메일을 입력해 주세요.',
-                  }}
-                  errors={errors}
-                  setValue={setValue}
-                />
+      <BackgroundShadow>
+        <div
+          className={`fixed bottom-0 w-full max-w-md bg-white px-5 py-10 rounded-t-3xl z-20 transition-transform duration-500 ease-out ${
+            showForm ? 'transform translate-y-0' : 'transform translate-y-full'
+          }`}
+        >
+          <form className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              <InputWithLabel
+                name="email"
+                label="이메일"
+                placeholder="(예시) abcde@naver.com"
+                register={register}
+                rules={{
+                  required: '이메일을 입력해 주세요.',
+                }}
+                errors={errors}
+                setValue={setValue}
+              />
               <InputWithLabel
                 name="password"
                 type="password"
@@ -110,7 +108,8 @@ export default function LoginModal() {
               </Link>
             ))}
           </div>
-        </BackgroundShadow>
+        </div>
+      </BackgroundShadow>
     </>
   );
 }
