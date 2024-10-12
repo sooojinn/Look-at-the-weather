@@ -10,6 +10,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useNavigate } from 'react-router-dom';
 import { setAccessToken } from '@/api/instance';
+import { useAuthStore } from '@/store/authStore';
 
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
@@ -19,7 +20,7 @@ export default function Mypage() {
   ];
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const navigate = useNavigate();
+  const { setIsLogin } = useAuthStore();
 
   const nickName = localStorage.getItem('nickName');
 
@@ -27,7 +28,7 @@ export default function Mypage() {
     mutationFn: postLogout,
     onSuccess: () => {
       setAccessToken(null);
-      navigate('/');
+      setIsLogin(false);
     },
     onError: (error) => {
       showToast('로그아웃 실패. 다시 시도해주세요.');
