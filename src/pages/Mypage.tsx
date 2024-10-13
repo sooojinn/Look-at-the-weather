@@ -8,7 +8,6 @@ import { postLogout } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
-import { useNavigate } from 'react-router-dom';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 

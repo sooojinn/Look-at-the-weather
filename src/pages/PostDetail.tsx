@@ -6,7 +6,7 @@ import PostManageModal from '@components/common/molecules/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
@@ -31,6 +31,11 @@ export interface PostDetail extends PostMeta {
 export default function PostDetail() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  if (!location.state || typeof location.state.id !== 'number') {
+    return <Navigate to="/not-found" />;
+  }
+
   const { id: postId } = location.state;
 
   const [modalOpen, setModalOpen] = useState(false);
