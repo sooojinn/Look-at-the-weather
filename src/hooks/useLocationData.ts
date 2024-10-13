@@ -36,8 +36,7 @@ export const useGeoPointQuery = () => {
   return useQuery({
     queryKey: ['geoPoint', customGeoPoint, isLocationAllowed],
     queryFn: getGeoPoint,
-    staleTime: 0, // 컴포넌트가 마운트될 때마다 패칭
-    gcTime: 0,
+    staleTime: 1000 * 60 * 5,
     enabled: isLocationAllowed !== undefined,
   });
 };
