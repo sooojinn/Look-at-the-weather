@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Menu from '@components/icons/Menu';
-import PostManageModal from '@components/common/molecules/PostManageModal';
+import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';

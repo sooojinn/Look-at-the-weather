@@ -1,18 +1,18 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import CloseBtn from '@components/icons/CloseBtn';
 import ReportIcon from '@components/icons/ReportIcon';
 import HideIcon from '@components/icons/HideIcon';
 import DeleteIcon from '@components/icons/DeleteIcon';
 import EditIcon from '@components/icons/EditIcon';
-import Text from '../atom/Text';
 import { deletePost, hidePost } from '@/api/apis';
 import { useNavigate } from 'react-router-dom';
 import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
-import { showToast } from './ToastProvider';
-import WarningModal from '../organism/WarningModal';
-import Button from './Button';
-import BackgroundShadow from '../organism/BackgroundShadow';
+import { showToast } from '../molecules/ToastProvider';
+import WarningModal from './WarningModal';
+import Button from '../molecules/Button';
+import BackgroundShadow from './BackgroundShadow';
+import PostMenuItem from '../molecules/PostMenuItem';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +31,7 @@ export default function PostManageModal({
 }: PostManageModalProps) {
   const navigate = useNavigate();
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
+  const [showHideWarningModal, setShowHideWarningModal] = useState(false);
 
   const onClickCloseBtn = () => {
     modalController(false);
@@ -74,7 +75,7 @@ export default function PostManageModal({
 
   // 숨기기
   const onClickHideBtn = () => {
-    hidePostMutation.mutate(postId);
+    setShowHideWarningModal(true);
   };
 
   // 신고하기
@@ -84,7 +85,7 @@ export default function PostManageModal({
 
   return (
     <>
-      {!showDeleteWarningModal && (
+      {!showDeleteWarningModal && !showHideWarningModal && (
         <BackgroundShadow>
           <div className="fixed bottom-0 w-full max-w-md bg-background-white rounded-t-3xl">
             <div className="h-14 pr-5 flex justify-end items-center">
@@ -125,7 +126,37 @@ export default function PostManageModal({
               <Button type="sub" size="m" onClick={() => deletePostMutation.mutate(postId)}>
                 삭제하기
               </Button>
-              <Button type="main" size="m" onClick={() => setShowDeleteWarningModal(false)}>
+              <Button
+                type="main"
+                size="m"
+                onClick={() => {
+                  setShowDeleteWarningModal(false);
+                  modalController(false);
+                }}
+              >
+                닫기
+              </Button>
+            </div>
+          }
+        />
+      )}
+      {showHideWarningModal && (
+        <WarningModal
+          mainMessage="게시물을 정말 숨기기 하시겠어요?"
+          subMessage="숨겨진 게시물은 복구되지 않아요."
+          buttons={
+            <div className="w-full flex gap-2">
+              <Button type="sub" size="m" onClick={() => hidePostMutation.mutate(postId)}>
+                숨기기
+              </Button>
+              <Button
+                type="main"
+                size="m"
+                onClick={() => {
+                  setShowHideWarningModal(false);
+                  modalController(false);
+                }}
+              >
                 닫기
               </Button>
             </div>
@@ -133,20 +164,5 @@ export default function PostManageModal({
         />
       )}
     </>
-  );
-}
-
-interface PostMenuItemProps {
-  children: ReactNode;
-  Icon: React.ComponentType;
-  onClick: () => void;
-}
-
-function PostMenuItem({ children, Icon, onClick }: PostMenuItemProps) {
-  return (
-    <div className="flex gap-3 px-5 py-3 items-center hover:bg-background-light cursor-pointer" onClick={onClick}>
-      <Icon />
-      <Text size="l">{children}</Text>
-    </div>
   );
 }

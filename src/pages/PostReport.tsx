@@ -2,15 +2,20 @@ import { reportPost } from '@/api/apis';
 import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
+import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
+import WarningModal from '@components/common/organism/WarningModal';
 import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function PostReport() {
   const location = useLocation();
   const { postId } = location.state;
   const navigate = useNavigate();
+  const [reason, setReason] = useState('');
+  const [showReportWarningModal, setShowReportWarningModal] = useState(false);
 
   const reportReasons = [
     '관련 없는 내용이에요',
@@ -34,7 +39,8 @@ export default function PostReport() {
   });
 
   const handleReasonClick = (reason: string) => {
-    reportPostMutation.mutate({ postId, reason });
+    setReason(reason);
+    setShowReportWarningModal(true);
   };
 
   return (
@@ -50,6 +56,22 @@ export default function PostReport() {
       </div>
       <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       <FooterNavi />
+      {showReportWarningModal && (
+        <WarningModal
+          mainMessage="게시물을 정말 신고하시겠어요?"
+          subMessage="신고 처리는 취소할 수 없어요."
+          buttons={
+            <div className="w-full flex gap-2">
+              <Button type="sub" size="m" onClick={() => reportPostMutation.mutate({ postId, reason })}>
+                신고하기
+              </Button>
+              <Button type="main" size="m" onClick={() => setShowReportWarningModal(false)}>
+                닫기
+              </Button>
+            </div>
+          }
+        />
+      )}
     </>
   );
 }
