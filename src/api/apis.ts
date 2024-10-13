@@ -65,7 +65,8 @@ export const deleteImage = async (id: number) => {
 };
 
 export const uploadPost = async (data: PostFormData) => {
-  return instance.post('/posts', data, getConfig());
+  const response = await instance.post('/posts', data, getConfig());
+  return response.data;
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
