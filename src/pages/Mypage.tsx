@@ -19,9 +19,7 @@ export default function Mypage() {
   ];
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const { setIsLogin } = useAuthStore();
-
-  const nickName = localStorage.getItem('nickName');
+  const { setIsLogin, nickName } = useAuthStore();
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
@@ -44,7 +42,7 @@ export default function Mypage() {
       <Header>마이 페이지</Header>
       <div className="relative flex-col py-9">
         <div className="flex gap-3 items-center mb-6 px-5">
-          <img src="/assets/user_icon.png" alt="" />
+          <img src="/assets/user_icon.png" alt="Preloaded" />
           <Text size="xl" weight="bold">
             {nickName}
           </Text>
