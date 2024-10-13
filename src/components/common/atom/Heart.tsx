@@ -42,6 +42,7 @@ export default function Heart({
           likedCount: res.data.likedCount,
         };
       });
+      queryClient.removeQueries({ queryKey: ['myLikedPosts'] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
