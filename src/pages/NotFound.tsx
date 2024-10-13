@@ -1,32 +1,27 @@
 import NotFoundIcon from '@components/icons/NotFound';
-import Text from '@components/common/atom/Text';
 import FooterNavi from '@components/common/FooterNavi';
-import Button from '@components/common/molecules/Button';
+import { useNavigate } from 'react-router-dom';
+import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 
 export default function NotFound() {
+  const navigate = useNavigate();
   return (
-    <div className="flex flex-col items-center h-screen justify-center">
-      <NotFoundIcon className="mb-[20px]" />
-      <Text weight="bold" color="lightBlack" size="xl" className="mb-[6px]">
-        Not Found
-      </Text>
-      <Text color="gray" className="leading-normal text-center mb-[40px]">
-        존재하지 않는 주소를 입력하셨거나,
-        <br />
-        요청하신 페이지의 주소가 변경,
-        <br />
-        삭제되어 찾을 수 없습니다.
-      </Text>
-      <Button
-        size="l"
-        width={164}
-        type="sub"
-        onClick={() => {
-          window.location.href = '/';
-        }}
-      >
-        홈으로
-      </Button>
+    <div className="h-screen flex">
+      <StatusPlaceholder
+        ImgComp={NotFoundIcon}
+        boldMessage="Not Found"
+        lightMessage={
+          <>
+            존재하지 않는 주소를 입력하셨거나,
+            <br />
+            요청하신 페이지의 주소가 변경,
+            <br />
+            삭제되어 찾을 수 없습니다.
+          </>
+        }
+        btnText="홈으로"
+        btnFunc={() => navigate('/')}
+      />
       <FooterNavi />
     </div>
   );
