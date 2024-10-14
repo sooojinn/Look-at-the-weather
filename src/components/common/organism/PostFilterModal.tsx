@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
-import { BASEURL, POSTFILTERTAPLIST } from '@/config/constants';
-import { mockSeasonData, mockWeatherData, mockTempData } from '@/mocks/mockFilterData';
+import { BASEURL, POSTFILTERTAPLIST, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from '../atom/Text';
 import HrLine from '../atom/HrLine';
@@ -281,7 +280,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </Text>
             </a>
             <div className="flex flex-wrap gap-2 w-full">
-              {mockWeatherData.map((item) => (
+              {WEATHER_TAGS.map((item) => (
                 <OptionBtn
                   key={item.id}
                   name={item.name}
@@ -302,7 +301,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </Text>
             </a>
             <div className="flex flex-wrap gap-2 w-full">
-              {mockTempData.map((item) => (
+              {TEMPERATURE_TAGS.map((item) => (
                 <OptionBtn
                   key={item.id}
                   name={item.name}
@@ -323,7 +322,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               </Text>
             </a>
             <div className="flex flex-wrap gap-2 w-full">
-              {mockSeasonData.map((item) => (
+              {SEASON_TAGS.map((item) => (
                 <OptionBtn
                   key={item.id}
                   name={item.name}
