@@ -58,12 +58,22 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
   });
 
   // 이미지 업로드 시 실행되는 함수
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
-      Array.from(files).forEach((file) => {
-        uploadImageMutation.mutate(file);
-      });
+      for (const file of Array.from(files)) {
+        try {
+          // 이미지 업로드 순차적으로 실행
+          await new Promise<void>((resolve, reject) => {
+            uploadImageMutation.mutate(file, {
+              onSuccess: () => resolve(),
+              onError: (error) => reject(error),
+            });
+          });
+        } catch (error) {
+          console.error('이미지 업로드 실패:', error);
+        }
+      }
       e.target.value = '';
     }
   };
