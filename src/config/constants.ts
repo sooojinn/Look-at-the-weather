@@ -7,6 +7,7 @@ export const WEATHER_API_URL = import.meta.env.VITE_WEATHER_API_URL;
 export const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 
 export const REDIRECT_URI = 'http://localhost:5173/oauth';
+
 export const TAGS = [
   { id: 1, category: 'weather', value: 'CLOUDY', name: '흐림' },
   { id: 2, category: 'weather', value: 'SUNNY', name: '맑음' },

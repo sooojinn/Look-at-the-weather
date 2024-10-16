@@ -14,6 +14,7 @@ export function ToastProvider() {
       hideProgressBar
       closeButton={false}
       newestOnTop={false}
+      pauseOnFocusLoss={false}
       transition={CustomTransition} // 사용자 정의 transition 적용
       position="bottom-center"
       theme="dark"

@@ -6,12 +6,12 @@ import Text from './atom/Text';
 
 interface HeaderProps {
   children?: ReactNode;
-  showBackBtn?: boolean;
-  hasBorder?: boolean;
+  hideBackBtn?: boolean;
+  noBorder?: boolean;
   onClose?: () => void;
 }
 
-export default function Header({ children, showBackBtn = true, hasBorder = true, onClose }: HeaderProps) {
+export default function Header({ children, hideBackBtn, noBorder, onClose }: HeaderProps) {
   const location = useLocation();
   const mainPageList = ['/', '/post', '/post-write', '/mypage'];
   const isMainPage = mainPageList.includes(location.pathname);
@@ -21,10 +21,10 @@ export default function Header({ children, showBackBtn = true, hasBorder = true,
   return (
     <header
       className={`w-full sticky top-0 bg-background-white flex justify-between items-center px-5 py-4 z-20 ${
-        hasBorder ? 'border-b border-line-lightest' : ''
+        noBorder ? '' : 'border-b border-line-lightest'
       }`}
     >
-      <div className="w-6 h-6">{!isMainPage && showBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
+      <div className="w-6 h-6">{!isMainPage && !hideBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
       <div className="flex justify-center items-center">
         <Text size="2xl" color="black" weight="bold">
           {children}
