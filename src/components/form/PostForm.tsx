@@ -68,7 +68,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
 
   return (
     <>
-      <Header onClose={handleFormCloseBtn} showBackBtn={false}>
+      <Header onClose={handleFormCloseBtn} hideBackBtn>
         게시글 {type}하기
       </Header>
       {shoWModal && (

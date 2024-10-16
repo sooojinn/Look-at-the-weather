@@ -7,9 +7,10 @@ import HrLine from '../atom/HrLine';
 import axios from 'axios';
 import OptionBtn from '../molecules/OptionBtn';
 import Button from '../molecules/Button';
-import Header from '../Header';
 import { showToast } from '../molecules/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
+import useResizeModal from '@/hooks/useResizeModal';
+import ModalHeader from '../molecules/ModalHeader';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
@@ -28,6 +29,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   } = usePostStore();
 
   const [activeTab, setActiveTab] = useState<number>(btnIndex);
+  const [showModal, setShowModal] = useState(false);
 
   const [selectedWeather, setSelectedWeather] = useState<FilterItem[]>([]);
   const [selectedTemperature, setSelectedTemperature] = useState<FilterItem[]>([]);
@@ -200,12 +202,37 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     setSelectedSeason(seasonTagIds);
   }, []);
 
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
+
+  const { modalHeight, handleMouseDown, handleTouchStart } = useResizeModal({
+    minHeight: window.innerHeight * 0.3,
+    maxHeight: window.innerHeight * 0.8,
+    defaultHeight: window.innerHeight * 0.7,
+  });
+
+  useEffect(() => {
+    if (modalHeight <= window.innerHeight * 0.31) {
+      setShowModal(false);
+      setTimeout(() => isOpen(false), 300);
+    }
+  }, [modalHeight]);
+
   return (
-    <BackgroundShadow>
-      <div className="fixed bottom-0 w-full max-w-md h-4/5 overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl">
-        <Header onClose={() => isOpen(false)} hasBorder={false}>
-          필터
-        </Header>
+    <BackgroundShadow isBackdropVisible={showModal}>
+      <div
+        className={`fixed bottom-0 w-full max-w-md h-4/5 overflow-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl ${
+          showModal ? 'transform translate-y-0' : 'transform translate-y-full'
+        } transition-transform duration-500 ease-out`}
+        style={{ height: `${modalHeight}px` }} // 동적 높이 설정
+      >
+        <div
+          onMouseDown={handleMouseDown} // 마우스 드래그 시작
+          onTouchStart={handleTouchStart} // 터치 드래그 시작
+        >
+          <ModalHeader onClose={() => isOpen(false)}>필터</ModalHeader>
+        </div>
 
         {/* 필터 항목 탭 */}
         <div className="bg-white flex px-5">
@@ -214,9 +241,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
               id={String(index)}
               key={index}
               className={`me-3 p-2.5 ${activeTab === tab.id ? 'border-b-2 border-primary-main' : ''}`}
-              onClick={() => {
-                setActiveTab(tab.id);
-              }}
+              onClick={() => setActiveTab(tab.id)}
             >
               <a href={`${tab.href}`}>
                 <Text
