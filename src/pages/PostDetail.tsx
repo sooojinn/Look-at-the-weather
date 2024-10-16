@@ -13,6 +13,7 @@ import PostImgBlind from '@components/post/PostImgBlind';
 import ImageSlider from '@components/post/ImageSlider';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { AxiosError } from 'axios';
+import { useAuthStore } from '@/store/authStore';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -69,8 +70,8 @@ export default function PostDetail() {
 
   const imgUrlList = images?.image.map((img) => img.url);
 
-  const myNickname = localStorage.getItem('nickName');
-  const isMyPost = nickname === myNickname;
+  const myNickName = useAuthStore((state) => state.nickName);
+  const isMyPost = nickname === myNickName;
 
   const modalHandler = () => {
     setModalOpen(true);
