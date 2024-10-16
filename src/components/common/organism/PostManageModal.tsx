@@ -123,11 +123,8 @@ export default function PostManageModal({
           subMessage="삭제된 게시물은 복구되지 않아요."
           buttons={
             <div className="w-full flex gap-2">
-              <Button type="sub" size="m" onClick={() => deletePostMutation.mutate(postId)}>
-                삭제하기
-              </Button>
               <Button
-                type="main"
+                type="sub"
                 size="m"
                 onClick={() => {
                   setShowDeleteWarningModal(false);
@@ -135,6 +132,9 @@ export default function PostManageModal({
                 }}
               >
                 닫기
+              </Button>
+              <Button type="main" size="m" onClick={() => deletePostMutation.mutate(postId)}>
+                삭제하기
               </Button>
             </div>
           }
@@ -146,11 +146,8 @@ export default function PostManageModal({
           subMessage="숨겨진 게시물은 복구되지 않아요."
           buttons={
             <div className="w-full flex gap-2">
-              <Button type="sub" size="m" onClick={() => hidePostMutation.mutate(postId)}>
-                숨기기
-              </Button>
               <Button
-                type="main"
+                type="sub"
                 size="m"
                 onClick={() => {
                   setShowHideWarningModal(false);
@@ -158,6 +155,9 @@ export default function PostManageModal({
                 }}
               >
                 닫기
+              </Button>
+              <Button type="main" size="m" onClick={() => hidePostMutation.mutate(postId)}>
+                숨기기
               </Button>
             </div>
           }

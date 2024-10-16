@@ -62,11 +62,11 @@ export default function PostReport() {
           subMessage="신고 처리는 취소할 수 없어요."
           buttons={
             <div className="w-full flex gap-2">
-              <Button type="sub" size="m" onClick={() => reportPostMutation.mutate({ postId, reason })}>
-                신고하기
-              </Button>
-              <Button type="main" size="m" onClick={() => setShowReportWarningModal(false)}>
+              <Button type="sub" size="m" onClick={() => setShowReportWarningModal(false)}>
                 닫기
+              </Button>
+              <Button type="main" size="m" onClick={() => reportPostMutation.mutate({ postId, reason })}>
+                신고하기
               </Button>
             </div>
           }
