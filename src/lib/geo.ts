@@ -114,7 +114,7 @@ const CityNames = {
   세종특별자치시: '세종시',
   강원특별자치도: '강원도',
   전북특별자치도: '전북',
-  제주특별자치도: '제주도',
+  제주특별자치도: '제주',
 };
 
 function convertCityName(name: keyof typeof CityNames) {
