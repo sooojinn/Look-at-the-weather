@@ -25,7 +25,6 @@ export const instance: AxiosInstance = axios.create({
   },
 });
 
-
 instance.interceptors.response.use(
   (response) => {
     return response;
@@ -56,7 +55,6 @@ instance.interceptors.response.use(
           console.log('Token reissue failed:', reissueError);
           setIsLogin(false);
           showToast('세션 정보가 만료되었습니다. 재로그인 해주세요.');
-          window.location.href = '/';
         }
       }
     } else if (error.request) {

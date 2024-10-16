@@ -7,6 +7,7 @@ import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { setAccessToken } from '@/api/instance';
+import { useAuthStore } from '@/store/authStore';
 
 const getUserInfo = async (code: string | null) => {
   const response = await axios.get(`${BASEURL}/oauth/kakao?code=${code}`, {
@@ -21,6 +22,7 @@ const getUserInfo = async (code: string | null) => {
 export default function KakaoRedirect() {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
+  const { setIsLogin, setNickName } = useAuthStore();
 
   const { data, isSuccess, error, isLoading } = useQuery({
     queryKey: ['data'],
@@ -30,10 +32,10 @@ export default function KakaoRedirect() {
 
   useEffect(() => {
     if (isSuccess) {
-      const { accessToken } = data;
+      const { accessToken, nickName } = data;
       setAccessToken(accessToken);
-      localStorage.setItem('nickName', data.nickName);
-
+      setIsLogin(true);
+      setNickName(nickName);
       navigate('/');
     }
 
