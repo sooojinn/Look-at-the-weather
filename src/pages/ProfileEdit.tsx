@@ -10,6 +10,9 @@ import { getUserInfos, patchEditProfile } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import Button from '@components/common/molecules/Button';
 import { useAuthStore } from '@/store/authStore';
+import { useMutation } from '@tanstack/react-query';
+import { showToast } from '@components/common/molecules/ToastProvider';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileEditType {
   nickname: string;
@@ -30,23 +33,23 @@ export default function ProfileEdit() {
   });
   const { handleSubmit } = formMethods;
   const setNickName = useAuthStore((state) => state.setNickName);
+  const navigate = useNavigate();
+
+  const editProfileMutation = useMutation({
+    mutationFn: patchEditProfile,
+    onSuccess: (_, variables) => {
+      showToast('개인 정보가 수정되었습니다.');
+      setNickName(variables.nickname);
+      navigate(-1);
+    },
+    onError: () => {
+      showToast('개인 정보 수정 실패. 다시 시도해주세요.');
+    },
+  });
 
   const onSubmit = async (data: ProfileEditType) => {
     const { password, nickname } = data;
-    setNickName(nickname);
-
-    try {
-      const response = await patchEditProfile({ password, nickname });
-
-      if (response.status === 200) {
-        alert('정보 수정 완료');
-        window.location.href = '/mypage';
-      } else {
-        alert('정보 수정 실패, 다시 시도해 주세요.');
-      }
-    } catch (error) {
-      console.error('Profile update failed:', error);
-    }
+    editProfileMutation.mutate({ password, nickname });
   };
 
   useEffect(() => {
