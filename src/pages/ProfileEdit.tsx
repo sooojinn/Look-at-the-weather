@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { getUserInfos, patchEditProfile } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import Button from '@components/common/molecules/Button';
+import { useAuthStore } from '@/store/authStore';
 
 interface ProfileEditType {
   nickname: string;
@@ -28,10 +29,11 @@ export default function ProfileEdit() {
     },
   });
   const { handleSubmit } = formMethods;
+  const setNickName = useAuthStore((state) => state.setNickName);
 
   const onSubmit = async (data: ProfileEditType) => {
     const { password, nickname } = data;
-    localStorage.setItem('nickName', nickname);
+    setNickName(nickname);
 
     try {
       const response = await patchEditProfile({ password, nickname });
