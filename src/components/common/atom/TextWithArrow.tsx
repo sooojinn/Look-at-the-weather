@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Text from './Text';
 import { ArrowIcon } from '@components/icons/ArrowIcons';
+import { NavLink } from 'react-router-dom';
 
 type TextType = {
   href: string;
@@ -9,11 +10,13 @@ type TextType = {
 
 export default function TextWithArrow({ children, href }: TextType) {
   return (
-    <div className="flex justify-between items-center py-[18px] cursor-pointer">
-      <Text size="l" weight="bold" href={href}>
-        {children}
-      </Text>
-      <ArrowIcon fill="#171719" />
-    </div>
+    <NavLink to={href}>
+      <div className="flex justify-between items-center py-[18px] cursor-pointer">
+        <Text size="l" weight="bold">
+          {children}
+        </Text>
+        <ArrowIcon fill="#171719" />
+      </div>
+    </NavLink>
   );
 }
