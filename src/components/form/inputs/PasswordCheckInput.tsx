@@ -4,14 +4,19 @@ import InputWithLabel from '../InputWithLabel';
 import { FormMethods } from '@/config/types';
 import { FieldValues, Path } from 'react-hook-form';
 
+interface PasswordCheckInputProps<T extends FieldValues> extends FormMethods<T> {
+  isDisabled?: boolean;
+}
+
 export default function PasswordCheckInput<T extends FieldValues>({
+  isDisabled,
   register,
   setValue,
   watch,
   getValues,
   trigger,
   formState: { errors },
-}: FormMethods<T>) {
+}: PasswordCheckInputProps<T>) {
   useEffect(() => {
     if (getValues('confirmPassword' as Path<T>)) trigger('confirmPassword' as Path<T>);
   }, [watch('password' as Path<T>), watch('confirmPassword' as Path<T>)]);
@@ -28,6 +33,7 @@ export default function PasswordCheckInput<T extends FieldValues>({
           required: '비밀번호를 다시 입력해 주세요.',
           validate: (value) => value === watch('password' as Path<T>) || '비밀번호가 일치하지 않습니다',
         }}
+        isDisabled={isDisabled}
         errors={errors}
         setValue={setValue}
       />

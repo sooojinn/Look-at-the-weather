@@ -30,20 +30,20 @@ export default function Signup() {
   return (
     <div className="h-screen flex flex-col">
       <Header>회원가입</Header>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between px-5 pb-10">
-        <div className="h-[calc(100vh-159px)] overflow-auto scrollbar-hide pt-5 flex flex-col gap-4">
-          <EmailInput<SignupForm> shouldValidate {...formMethods} />
-          <CodeInput<SignupForm> {...formMethods} />
-          <PasswordInput<SignupForm> {...formMethods} />
-          <PasswordCheckInput<SignupForm> {...formMethods} />
-          <NameInput<SignupForm> shouldValidate {...formMethods} />
-          <NicknameInput<SignupForm> shouldValidate {...formMethods} />
-          <LocationTermsCheckBox register={register} errors={errors} isChecked={watch('terms')} />
-        </div>
-        <Button type="main" isSubmitting={isSubmitting}>
+      <form className="flex flex-col flex-grow gap-4 justify-between pt-5 px-5 overflow-auto scrollbar-hide">
+        <EmailInput<SignupForm> shouldValidate {...formMethods} />
+        <CodeInput<SignupForm> {...formMethods} />
+        <PasswordInput<SignupForm> {...formMethods} />
+        <PasswordCheckInput<SignupForm> {...formMethods} />
+        <NameInput<SignupForm> shouldValidate {...formMethods} />
+        <NicknameInput<SignupForm> shouldValidate {...formMethods} />
+        <LocationTermsCheckBox register={register} errors={errors} isChecked={watch('terms')} />
+      </form>
+      <div className="px-5 pb-10">
+        <Button type="main" isSubmitting={isSubmitting} onClick={handleSubmit(onSubmit)}>
           가입하기
         </Button>
-      </form>
+      </div>
     </div>
   );
 }

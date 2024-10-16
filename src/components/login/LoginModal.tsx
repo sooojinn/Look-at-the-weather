@@ -15,7 +15,7 @@ import { useAuthStore } from '@/store/authStore';
 import BackgroundShadow from '@components/common/organism/BackgroundShadow';
 
 export default function LoginModal() {
-  const { setIsLogin, setNickName } = useAuthStore();
+  const { setIsLogin, setNickName, setIsSocial } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -33,10 +33,11 @@ export default function LoginModal() {
   const loginMutation = useMutation({
     mutationFn: postLogin,
     onSuccess: ({ data }) => {
-      const { accessToken, nickName } = data;
+      const { accessToken, nickName, social } = data;
       setAccessToken(accessToken);
       setNickName(nickName);
       setIsLogin(true);
+      setIsSocial(social);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {

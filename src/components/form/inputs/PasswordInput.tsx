@@ -5,10 +5,12 @@ import { FieldValues, Path } from 'react-hook-form';
 
 interface PasswordInputProps<T extends FieldValues> extends FormMethods<T> {
   isPasswordReset?: boolean;
+  isDisabled?: boolean;
 }
 
 export default function PasswordInput<T extends FieldValues>({
   isPasswordReset,
+  isDisabled,
   register,
   setValue,
   getValues,
@@ -35,6 +37,7 @@ export default function PasswordInput<T extends FieldValues>({
         },
       }}
       maxLength={15}
+      isDisabled={isDisabled}
       errors={errors}
       setValue={setValue}
     />

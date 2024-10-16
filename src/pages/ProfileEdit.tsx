@@ -33,6 +33,7 @@ export default function ProfileEdit() {
   });
   const { handleSubmit } = formMethods;
   const setNickName = useAuthStore((state) => state.setNickName);
+  const isSocial = useAuthStore((state) => state.isSocial);
   const navigate = useNavigate();
 
   const editProfileMutation = useMutation({
@@ -77,8 +78,8 @@ export default function ProfileEdit() {
             </div>
             <DefaultDisabledInput defaultValue={userInfo.email} />
           </div>
-          <PasswordInput<ProfileEditType> {...formMethods} />
-          <PasswordCheckInput<ProfileEditType> {...formMethods} />
+          <PasswordInput<ProfileEditType> {...formMethods} isDisabled={isSocial} />
+          <PasswordCheckInput<ProfileEditType> {...formMethods} isDisabled={isSocial} />
           <div>
             <div className="mb-2.5">
               <Label required>이름</Label>
