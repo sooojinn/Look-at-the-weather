@@ -9,20 +9,17 @@ import { FieldValues, Path } from 'react-hook-form';
 
 interface EmailInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
-  isDisabled?: boolean;
+  disabled?: boolean;
+  defaultValue?: string;
 }
 
 export default function EmailInput<T extends FieldValues>({
   shouldValidate,
-  isDisabled,
-  register,
-  setValue,
-  setError,
-  trigger,
-  getValues,
-  watch,
-  formState: { errors },
+  disabled,
+  defaultValue,
+  ...formMethods
 }: EmailInputProps<T>) {
+  const { setError, trigger, getValues, watch } = formMethods;
   const { isEmailVerified, isCodeSended, setIsEmailVerified, setIsCodeSended } = useSignupStore();
   const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation<T>(setError);
 
@@ -51,9 +48,9 @@ export default function EmailInput<T extends FieldValues>({
         name={'email' as Path<T>}
         label="이메일"
         placeholder="(예시) abcde@naver.com"
-        isDisabled={isDisabled}
+        disabled={disabled}
         rules={{
-          required: '이메일을 입력해 주세요.',
+          required: !disabled ? '이메일을 입력해 주세요.' : false,
           ...(shouldValidate && {
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -62,9 +59,8 @@ export default function EmailInput<T extends FieldValues>({
           }),
         }}
         maxLength={30}
-        register={register}
-        setValue={setValue}
-        errors={errors}
+        defaultValue={defaultValue}
+        {...formMethods}
         button={
           shouldValidate && (
             <Button

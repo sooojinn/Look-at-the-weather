@@ -1,24 +1,22 @@
-import { FieldErrors, FieldValues, Path, RegisterOptions, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { ReactNode, useEffect, useState } from 'react';
 import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
 import InputDeleteBtn from '@components/icons/InputDeleteBtn';
 import SearchIcon from '@components/icons/SearchIcon';
+import { FormMethods } from '@/config/types';
 
-interface InputWithLabelProps<T extends FieldValues> {
+interface InputWithLabelProps<T extends FieldValues> extends FormMethods<T> {
   name: Path<T>;
   type?: 'text' | 'password';
   label?: string;
-  isDisabled?: boolean;
+  disabled?: boolean;
   placeholder?: string;
   search?: boolean;
   maxLength?: number;
   button?: ReactNode;
   rules?: RegisterOptions<T>;
-  register: UseFormRegister<T>;
-  setValue: UseFormSetValue<T>;
-  errors?: FieldErrors<T>;
   defaultValue?: string;
 }
 
@@ -26,17 +24,20 @@ export default function InputWithLabel<T extends FieldValues>({
   name,
   type = 'text',
   label,
-  isDisabled,
+  disabled,
   placeholder,
   search,
   maxLength,
   button,
-  rules,
-  register,
-  setValue,
-  defaultValue,
-  errors,
+  ...formMethods
 }: InputWithLabelProps<T>) {
+  const {
+    rules,
+    register,
+    setValue,
+    defaultValue,
+    formState: { errors },
+  } = formMethods;
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
@@ -71,7 +72,7 @@ export default function InputWithLabel<T extends FieldValues>({
   const handleBlur = () => {
     setTimeout(() => {
       setShowDeleteBtn(false); // 포커스 아웃 시 삭제 버튼 숨김 (클릭 이벤트가 먼저 처리되도록 setTimeout 사용)
-    }, 0);
+    }, 100);
   };
 
   useEffect(() => {
@@ -89,11 +90,11 @@ export default function InputWithLabel<T extends FieldValues>({
           <div className="w-full relative">
             <input
               type={inputType}
-              disabled={isDisabled}
+              disabled={disabled}
               autoComplete="off"
               maxLength={maxLength}
               className={`input h-12 ${search ? '!pl-8' : ''} ${hasError ? '!border-status-error' : ''} ${
-                isDisabled ? '!text-lightGray !bg-interactive-disabled' : ''
+                disabled ? '!text-lightGray !bg-interactive-disabled' : ''
               } focus:pr-9`}
               placeholder={placeholder}
               {...register(name, {
@@ -110,7 +111,7 @@ export default function InputWithLabel<T extends FieldValues>({
               </div>
             )}
             <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center">
-              {type === 'password' && (
+              {type === 'password' && !disabled && (
                 <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
               )}
               {type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}

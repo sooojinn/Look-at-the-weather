@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import InputWithLabel from '@components/form/InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import Text from '@components/common/atom/Text';
 import KakaoLogin from './KakaoLogin';
@@ -13,16 +12,13 @@ import { ErrorResponse } from '@/config/types';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import BackgroundShadow from '@components/common/organism/BackgroundShadow';
+import EmailInput from '@components/form/inputs/EmailInput';
+import PasswordInput from '@components/form/inputs/PasswordInput';
 
 export default function LoginModal() {
   const { setIsLogin, setNickName, setIsSocial } = useAuthStore();
-  const {
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const formMethods = useForm();
+  const { handleSubmit, setError } = formMethods;
 
   const [showForm, setShowForm] = useState(false);
 
@@ -73,29 +69,8 @@ export default function LoginModal() {
         >
           <form className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <InputWithLabel
-                name="email"
-                label="이메일"
-                placeholder="(예시) abcde@naver.com"
-                register={register}
-                rules={{
-                  required: '이메일을 입력해 주세요.',
-                }}
-                errors={errors}
-                setValue={setValue}
-              />
-              <InputWithLabel
-                name="password"
-                type="password"
-                label="비밀번호"
-                placeholder="영문/숫자/특수문자 2가지 이상 조합 (8-15자)"
-                register={register}
-                rules={{
-                  required: '비밀번호를 입력해 주세요.',
-                }}
-                errors={errors}
-                setValue={setValue}
-              />
+              <EmailInput {...formMethods} />
+              <PasswordInput {...formMethods} />
             </div>
             <div className="flex flex-col gap-3">
               <Button type="main" onClick={handleSubmit(handleLogin)}>

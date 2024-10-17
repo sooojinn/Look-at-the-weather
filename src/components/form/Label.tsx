@@ -8,7 +8,7 @@ interface LabelProps {
   required?: boolean;
 }
 
-export default function Label({ children, size = 'm', required = false }: LabelProps) {
+export default function Label({ children, size = 'm', required }: LabelProps) {
   return (
     <Text size={size} color="black" weight="bold">
       {children}

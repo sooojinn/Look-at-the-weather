@@ -1,8 +1,6 @@
 import Header from '@/components/common/Header';
-import DefaultDisabledInput from '@components/form/DefaultDisabledInpust';
 import { useForm } from 'react-hook-form';
 import Text from '@components/common/atom/Text';
-import Label from '@components/form/Label';
 import PasswordInput from '@components/form/inputs/PasswordInput';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import { useEffect, useState } from 'react';
@@ -13,6 +11,8 @@ import { useAuthStore } from '@/store/authStore';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { useNavigate } from 'react-router-dom';
+import EmailInput from '@components/form/inputs/EmailInput';
+import NameInput from '@components/form/inputs/NameInput';
 
 interface ProfileEditType {
   nickname: string;
@@ -70,29 +70,21 @@ export default function ProfileEdit() {
   return (
     <div className="flex flex-col h-screen">
       <Header>개인정보 수정</Header>
-      <form className="flex flex-col flex-grow justify-between p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-4 pb-10">
-          <div>
-            <div className="mb-2.5">
-              <Label required>이메일</Label>
-            </div>
-            <DefaultDisabledInput defaultValue={userInfo.email} />
-          </div>
-          <PasswordInput<ProfileEditType> {...formMethods} isDisabled={isSocial} />
-          <PasswordCheckInput<ProfileEditType> {...formMethods} isDisabled={isSocial} />
-          <div>
-            <div className="mb-2.5">
-              <Label required>이름</Label>
-            </div>
-            <DefaultDisabledInput defaultValue={userInfo.name} />
-          </div>
-          <NicknameInput<ProfileEditType> {...formMethods} shouldValidate={true} defaultValue={userInfo.nickname} />
-          <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
-            회원탈퇴
-          </Text>
-        </div>
-        <Button>수정하기</Button>
+      <form className="flex flex-col flex-grow  gap-4 overflow-y-auto scrollbar-hide justify-between p-5">
+        <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo.email} />
+        <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={isSocial} />
+        <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={isSocial} />
+        <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo.name} />
+        <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo.nickname} />
+        <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
+          회원탈퇴
+        </Text>
       </form>
+      <div className="px-5 pb-10">
+        <Button onClick={handleSubmit(onSubmit)} isSubmitting={editProfileMutation.isPending}>
+          수정하기
+        </Button>
+      </div>
     </div>
   );
 }

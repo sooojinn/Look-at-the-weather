@@ -5,15 +5,8 @@ import { useVerifyCodeMutation } from '@/lib/signupMutations';
 import { FormMethods } from '@/config/types';
 import { FieldValues, Path } from 'react-hook-form';
 
-export default function CodeInput<T extends FieldValues>({
-  register,
-  setValue,
-  setError,
-  clearErrors,
-  getValues,
-  watch,
-  formState: { errors },
-}: FormMethods<T>) {
+export default function CodeInput<T extends FieldValues>({ ...formMethods }: FormMethods<T>) {
+  const { setError, clearErrors, getValues, watch } = formMethods;
   const { isEmailVerified, isCodeSended } = useSignupStore();
   const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation<T>(setError, clearErrors);
 
@@ -28,15 +21,13 @@ export default function CodeInput<T extends FieldValues>({
     <InputWithLabel<T>
       name={'code' as Path<T>}
       label="인증번호 확인"
-      isDisabled={isEmailVerified}
+      disabled={isEmailVerified}
       placeholder="인증번호를 입력해 주세요."
-      register={register}
       rules={{
         required: '인증번호를 입력해 주세요.',
         validate: () => isEmailVerified || '이메일 인증을 완료해 주세요.',
       }}
-      errors={errors}
-      setValue={setValue}
+      {...formMethods}
       button={
         <Button
           size="m"

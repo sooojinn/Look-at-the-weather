@@ -16,14 +16,9 @@ interface NicknameInputProps<T extends FieldValues> extends FormMethods<T> {
 export default function NicknameInput<T extends FieldValues>({
   defaultValue,
   shouldValidate,
-  register,
-  setValue,
-  setError,
-  clearErrors,
-  getValues,
-  watch,
-  formState: { errors },
+  ...formMethods
 }: NicknameInputProps<T>) {
+  const { setError, clearErrors, getValues, watch } = formMethods;
   const { isNicknameChecked, setIsNicknameChecked } = useSignupStore();
   const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation<T>(
     setError,
@@ -60,7 +55,6 @@ export default function NicknameInput<T extends FieldValues>({
         name={'nickname' as Path<T>}
         label="닉네임"
         placeholder={shouldValidate ? '한/영 10자 이내, 특수문자, 공백 불가' : '닉네임을 입력해 주세요.'}
-        register={register}
         rules={{
           required: '닉네임을 입력해 주세요.',
           ...(shouldValidate && {
@@ -68,9 +62,8 @@ export default function NicknameInput<T extends FieldValues>({
           }),
         }}
         maxLength={10}
-        errors={errors}
-        setValue={setValue}
         defaultValue={defaultValue ? defaultValue : ''}
+        {...formMethods}
         button={
           shouldValidate && (
             <Button

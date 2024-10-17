@@ -16,7 +16,8 @@ interface AddressForm {
 }
 
 export default function SearchAddress() {
-  const { register, setValue, handleSubmit, watch } = useForm<AddressForm>();
+  const formMethods = useForm<AddressForm>();
+  const { handleSubmit, watch } = formMethods;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,13 +76,7 @@ export default function SearchAddress() {
           현재 계신 주소를 알려주세요
         </Text>
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-          <InputWithLabel
-            name="address"
-            placeholder="지번 or 도로명으로 검색"
-            search
-            register={register}
-            setValue={setValue}
-          />
+          <InputWithLabel name="address" placeholder="지번 or 도로명으로 검색" search {...formMethods} />
         </form>
         <div
           onClick={handleCurrentLocationClick}

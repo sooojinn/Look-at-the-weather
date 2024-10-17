@@ -33,7 +33,7 @@ export default function Signup() {
       <form className="flex flex-col flex-grow gap-4 justify-between pt-5 px-5 overflow-auto scrollbar-hide">
         <EmailInput<SignupForm> shouldValidate {...formMethods} />
         <CodeInput<SignupForm> {...formMethods} />
-        <PasswordInput<SignupForm> {...formMethods} />
+        <PasswordInput<SignupForm> shouldValidate {...formMethods} />
         <PasswordCheckInput<SignupForm> {...formMethods} />
         <NameInput<SignupForm> shouldValidate {...formMethods} />
         <NicknameInput<SignupForm> shouldValidate {...formMethods} />

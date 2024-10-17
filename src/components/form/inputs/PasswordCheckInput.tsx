@@ -5,18 +5,15 @@ import { FormMethods } from '@/config/types';
 import { FieldValues, Path } from 'react-hook-form';
 
 interface PasswordCheckInputProps<T extends FieldValues> extends FormMethods<T> {
-  isDisabled?: boolean;
+  disabled?: boolean;
 }
 
 export default function PasswordCheckInput<T extends FieldValues>({
-  isDisabled,
-  register,
-  setValue,
-  watch,
-  getValues,
-  trigger,
-  formState: { errors },
+  disabled,
+  ...formMethods
 }: PasswordCheckInputProps<T>) {
+  const { watch, getValues, trigger } = formMethods;
+
   useEffect(() => {
     if (getValues('confirmPassword' as Path<T>)) trigger('confirmPassword' as Path<T>);
   }, [watch('password' as Path<T>), watch('confirmPassword' as Path<T>)]);
@@ -28,14 +25,12 @@ export default function PasswordCheckInput<T extends FieldValues>({
         type="password"
         label="비밀번호 확인"
         placeholder="비밀번호를 한 번 더 입력해 주세요."
-        register={register}
         rules={{
-          required: '비밀번호를 다시 입력해 주세요.',
+          required: !disabled ? '비밀번호를 다시 입력해 주세요.' : false,
           validate: (value) => value === watch('password' as Path<T>) || '비밀번호가 일치하지 않습니다',
         }}
-        isDisabled={isDisabled}
-        errors={errors}
-        setValue={setValue}
+        disabled={disabled}
+        {...formMethods}
       />
       <InputStatusMessage
         status="success"
