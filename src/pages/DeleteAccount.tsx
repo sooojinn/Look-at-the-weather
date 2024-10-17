@@ -1,4 +1,6 @@
 import { deleteAccount, getDeleteReasons } from '@/api/apis';
+import { setAccessToken } from '@/api/instance';
+import { useAuthStore } from '@/store/authStore';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
@@ -12,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function DeleteAccount() {
   const navigate = useNavigate();
+  const { setIsLogin } = useAuthStore();
   const [selectedReason, setSelectedReason] = useState('');
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
@@ -101,7 +104,11 @@ export default function DeleteAccount() {
               그동안 이용해주셔서 감사합니다.
             </p>
           }
-          onClose={() => navigate('/')}
+          onClose={() => {
+            navigate('/');
+            setAccessToken(null);
+            setIsLogin(false);
+          }}
         />
       )}
     </div>
