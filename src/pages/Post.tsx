@@ -16,6 +16,7 @@ import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
 
 export default function Post() {
   const { location } = useLocationData();
@@ -225,10 +226,10 @@ export default function Post() {
         <div className="px-5">
           <LookWeatherInfo />
           <HrLine height={1} />
-          <div className="flex gap-4 items-center py-4">
-            <ResetIcon onClick={onClickResetBtn} />
+          <div className="relative flex gap-4 items-center py-4">
+            <ResetIcon onClick={onClickResetBtn} className="flex-shrink-0 cursor-pointer" />
             <VeLine height={8} />
-            <div className="flex gap-2 overflow-y-auto scrollbar-hide">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               <OptionBtn
                 isActive={!!locationArr.length}
                 onClickFunc={() => onClickFilterBtn(0, 'location')}
@@ -275,6 +276,7 @@ export default function Post() {
                 }
               />
             </div>
+            <ScrollFadeOverlay />
           </div>
           <HrLine height={8} />
           <div className="py-5">

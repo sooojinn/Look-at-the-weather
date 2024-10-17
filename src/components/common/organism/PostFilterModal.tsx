@@ -11,6 +11,7 @@ import { showToast } from '../molecules/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
 import useResizeModal from '@/hooks/useResizeModal';
 import ModalHeader from '../molecules/ModalHeader';
+import ScrollFadeOverlay from '../atom/ScrollFadeOverlay';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';
@@ -257,7 +258,10 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
         </div>
         <HrLine height={1} />
 
-        <div id="viewport" className="px-5 flex flex-col flex-grow overflow-y-auto scrollbar-hide">
+        <div
+          id="viewport"
+          className="w-full px-5 flex flex-col flex-grow overflow-x-hidden overflow-y-auto scrollbar-hide"
+        >
           <div id="location" className="py-5 w-full" ref={(el) => (sectionRefs.current.location = el)}>
             <a>
               <Text size="l" weight="bold" className="mb-2.5">
@@ -375,8 +379,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                   <Text color="main">{selectedFilterItems.length}</Text>
                 </div>
               </div>
-              <div className="overflow whitespace-nowrap scrollbar-hide">
-                <div className="flex row gap-2">
+              <div className="relative">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
                   {selectedFilterItems.map((item, index) => (
                     <OptionBtn
                       key={index}
@@ -387,6 +391,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
                     />
                   ))}
                 </div>
+                <ScrollFadeOverlay />
               </div>
             </div>
           ) : null}

@@ -99,7 +99,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
 
   return (
     <>
-      <div className="h-[197px] flex space-x-2 overflow-auto scrollbar-hide">
+      <div className="h-[197px] -mx-5 px-5 flex space-x-2 overflow-auto scrollbar-hide">
         {(getValues('images') || []).map((image) => {
           const { imageId, url } = image;
           return (

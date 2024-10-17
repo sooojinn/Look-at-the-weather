@@ -1,7 +1,7 @@
 interface WeatherImgProps {
   weatherType: string;
   width: number;
-  height: number;
+  height?: number;
 }
 
 export default function WeatherImg({ weatherType, width, height }: WeatherImgProps) {
