@@ -82,7 +82,6 @@ export default function PostDetail() {
       if (error instanceof AxiosError) {
         showToast(`${error.response?.data.errorMessage}`);
       }
-      console.log(error);
       navigate(-1);
     }
   });
