@@ -74,6 +74,7 @@ export default function Post() {
     setSeasonArr([]);
     setWeatherArr([]);
     setTemperatureArr([]);
+    getAllPosts(0);
   };
 
   useEffect(() => {
@@ -101,7 +102,6 @@ export default function Post() {
         setHasMore(updatePostList.length > 0);
         setIsAllPostEmpty(updatePostList.length === 0 && pageNum === 0);
       } catch (error) {
-        // 임시 작성코드
         setLoading(false);
         setHasMore(false);
       } finally {

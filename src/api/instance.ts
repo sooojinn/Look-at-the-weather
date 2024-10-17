@@ -25,7 +25,6 @@ export const instance: AxiosInstance = axios.create({
   },
 });
 
-
 instance.interceptors.response.use(
   (response) => {
     return response;
