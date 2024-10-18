@@ -30,37 +30,40 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    let reissueAttemptCount = 0;
     console.log('Interceptor caught an error:', error);
 
-    console.log(reissueAttemptCount);
-
     if (error.response) {
-      if (error.response.status === 401 && reissueAttemptCount < 3) {
-        reissueAttemptCount++;
+      // accessToken이 만료됐을 때
+      if (error.response.data.errorCode === 'INVALID_CREDENTIALS') {
         try {
-          for (let i = 1; i <= 3; i++) {
-            const response = await reissue();
-            if (response.data.accessToken) {
-              setAccessToken(response.data.accessToken);
-              error.config.headers['Authorization'] = getAccessToken();
-              setIsLogin(true);
-              return instance(error.config);
-            } else {
-              console.log(`${i}번째 토큰 재요청 실패`);
-              setTimeout(() => {}, 500);
-            }
+          // accessToken 재발급 요청
+          const response = await reissue();
+          if (response.data.accessToken) {
+            setAccessToken(response.data.accessToken);
+            error.config.headers['Authorization'] = getAccessToken();
+            setIsLogin(true);
+            return instance(error.config);
           }
         } catch (reissueError) {
-          console.log('Token reissue failed:', reissueError);
+          console.log('리이슈 요청 에러 발생:', reissueError);
+          if (axios.isAxiosError(reissueError) && reissueError.response?.data) {
+            // refreshToken이 만료되었거나 인증 쿠키가 존재하지 않을 경우
+            if (
+              reissueError.response.data.errorCode === 'REFRESH_TOKEN_EXPIRED' ||
+              reissueError.response.data.errorCode === 'NOT_FOUND_COOKIE'
+            ) {
+              showToast('세션 정보가 만료되었습니다. 다시 로그인 해주세요.');
+            }
+          } else {
+            console.log('알 수 없는 에러 발생:', reissueError);
+            showToast('알 수 없는 에러가 발생했습니다.');
+          }
           setIsLogin(false);
-          showToast('세션 정보가 만료되었습니다. 재로그인 해주세요.');
         }
       }
     } else if (error.request) {
       console.log('No response received:', error.request);
     } else {
-      reissueAttemptCount = 0;
       console.log('Error setting up request:', error.message);
     }
 
