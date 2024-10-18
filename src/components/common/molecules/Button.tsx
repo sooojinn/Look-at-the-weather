@@ -36,7 +36,7 @@ export default function Button({
   } = {
     main: 'white',
     white: 'main',
-    sub: 'black',
+    sub: 'lightBlack',
     disabled: 'disabled',
   };
 

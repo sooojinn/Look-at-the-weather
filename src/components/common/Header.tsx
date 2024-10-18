@@ -26,7 +26,7 @@ export default function Header({ children, hideBackBtn, noBorder, onClose }: Hea
     >
       <div className="w-6 h-6">{!isMainPage && !hideBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
       <div className="flex justify-center items-center">
-        <Text size="2xl" color="black" weight="bold">
+        <Text size="2xl" weight="bold">
           {children}
         </Text>
       </div>

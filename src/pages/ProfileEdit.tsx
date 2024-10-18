@@ -70,7 +70,7 @@ export default function ProfileEdit() {
   return (
     <div className="flex flex-col h-screen">
       <Header>개인정보 수정</Header>
-      <form className="flex flex-col flex-grow  gap-4 overflow-y-auto scrollbar-hide justify-between p-5">
+      <form className="flex flex-col flex-grow gap-4 overflow-y-auto scrollbar-hide p-5">
         <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo.email} />
         <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={isSocial} />
         <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={isSocial} />

@@ -19,10 +19,8 @@ export function ToastProvider() {
       transition={CustomTransition}
       position="bottom-center"
       theme="dark"
-      toastClassName={() =>
-        'w-[335px] flex items-center fixed bottom-24 left-[calc(50%-335px/2)] bg-lightBlack opacity-90 rounded-lg fade'
-      }
-      bodyClassName={() => 'w-full px-5 py-3'}
+      toastClassName={() => 'fixed bottom-24 w-full flex justify-center items-center'}
+      bodyClassName={() => 'max-w-[335px] w-[90%] px-5 py-3 bg-lightBlack opacity-90 rounded-lg'}
     />
   );
 }
