@@ -34,7 +34,7 @@ instance.interceptors.response.use(
 
     if (error.response) {
       // accessToken이 만료됐을 때
-      if (error.response.data.errorCode === 'INVALID_CREDENTIALS') {
+      if (error.response.data.errorCode === 'ACCESS_TOKEN_EXPIRED') {
         try {
           // accessToken 재발급 요청
           const response = await reissue();
