@@ -21,7 +21,7 @@ interface AddImageBtnProps {
 }
 
 export default function File({ name, rules, defaultImageIds }: FileProps) {
-  const { register, getValues, setValue } = useFormContext<PostFormData>();
+  const { register, getValues, setValue, watch } = useFormContext<PostFormData>();
   const { deletedDefaultImageIds, setDeletedDefaultImageIds, reset } = useDeletedImagesStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_IMAGES = 3;
@@ -63,6 +63,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
     if (files) {
       for (const file of Array.from(files)) {
         try {
+          if (getValues('images').length >= MAX_IMAGES) break;
           // 이미지 업로드 순차적으로 실행
           await new Promise<void>((resolve, reject) => {
             uploadImageMutation.mutate(file, {
@@ -100,7 +101,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
   return (
     <>
       <div className="h-[197px] -mx-5 px-5 flex space-x-2 overflow-auto scrollbar-hide">
-        {(getValues('images') || []).map((image) => {
+        {(watch('images') || []).map((image) => {
           const { imageId, url } = image;
           return (
             <PreviewImage
@@ -117,7 +118,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
             <Spinner width={20} />
           </div>
         )}
-        {(getValues('images') || []).length < MAX_IMAGES && (
+        {(watch('images') || []).length < MAX_IMAGES && (
           <AddImageBtn handleAddClick={() => fileInputRef.current?.click()} classNames={previewImageStyle} />
         )}
       </div>
