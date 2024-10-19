@@ -28,7 +28,7 @@ export const usePostStore = create<PostState>()(
     }),
     {
       name: 'post-store',
-      getStorage: () => localStorage,
+      getStorage: () => sessionStorage,
     },
   ),
 );
