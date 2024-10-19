@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Text from './Text';
-import { ArrowIcon } from '@components/icons/ArrowIcons';
+import ArrowIcon from '@components/icons/ArrowIcon';
 import { NavLink } from 'react-router-dom';
 
 type TextType = {

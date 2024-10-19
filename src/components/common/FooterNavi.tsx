@@ -1,5 +1,8 @@
+import HangerIcon from '@components/icons/nav/HangerIcon';
+import HomeIcon from '@components/icons/nav/HomeIcon';
+import MyPageIcon from '@components/icons/nav/MyPageIcon';
+import WriteIcon from '@components/icons/nav/WriteIcon';
 import { NavLink } from 'react-router-dom';
-import { HangerIcon, HomeIcon, MyPageIcon, WriteIcon } from '../icons/navIcons';
 
 interface NavItem {
   path: string;

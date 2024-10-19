@@ -5,7 +5,7 @@ import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import FooterNavi from '@components/common/FooterNavi';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
-import NoPost from '@components/icons/NoPost';
+import NoPostImg from '@components/icons/NoPostImg';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 
@@ -36,7 +36,7 @@ function MyLikedPostEmpty() {
   const navigate = useNavigate();
   return (
     <StatusPlaceholder
-      ImgComp={NoPost}
+      ImgComp={NoPostImg}
       boldMessage="좋아요한 게시물이 없어요"
       lightMessage={
         <>

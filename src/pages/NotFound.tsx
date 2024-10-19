@@ -1,4 +1,4 @@
-import NotFoundIcon from '@components/icons/NotFound';
+import NotFoundImg from '@components/icons/NotFoundImg';
 import FooterNavi from '@components/common/FooterNavi';
 import { useNavigate } from 'react-router-dom';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <div className="h-screen flex">
       <StatusPlaceholder
-        ImgComp={NotFoundIcon}
+        ImgComp={NotFoundImg}
         boldMessage="Not Found"
         lightMessage={
           <>

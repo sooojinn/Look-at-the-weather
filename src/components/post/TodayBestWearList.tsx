@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import Text from '@components/common/atom/Text';
 import { fetchTopLikedPosts } from '@/api/apis';
-import NoPost from '@components/icons/NoPost';
+import NoPostImg from '@components/icons/NoPostImg';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 
 export default function TodayBestWearList() {
@@ -38,7 +38,7 @@ export default function TodayBestWearList() {
 function TopLikedPostEmpty() {
   return (
     <StatusPlaceholder
-      ImgComp={NoPost}
+      ImgComp={NoPostImg}
       boldMessage={
         <>
           오늘의 베스트 코디가

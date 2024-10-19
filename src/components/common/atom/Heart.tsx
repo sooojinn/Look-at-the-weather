@@ -1,4 +1,3 @@
-import { EmptyHeartIcon, RedHeartIcon } from '@components/icons/heartIcons';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import Text from './Text';
@@ -7,6 +6,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
 import { PostDetail } from '@pages/PostDetail';
+import RedHeartIcon from '@components/icons/hearts/RedHeartIcon';
+import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
 
 interface HeartProps {
   fill?: string;

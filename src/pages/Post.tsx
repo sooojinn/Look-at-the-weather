@@ -11,7 +11,7 @@ import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/ty
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
-import NoPost from '@components/icons/NoPost';
+import NoPostImg from '@components/icons/NoPostImg';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
@@ -322,7 +322,7 @@ export default function Post() {
 function FilteredPostEmpty() {
   return (
     <StatusPlaceholder
-      ImgComp={NoPost}
+      ImgComp={NoPostImg}
       boldMessage="조건에 맞는 게시물이 없어요"
       lightMessage={
         <>
@@ -338,7 +338,7 @@ function FilteredPostEmpty() {
 function AllPostEmpty() {
   return (
     <StatusPlaceholder
-      ImgComp={NoPost}
+      ImgComp={NoPostImg}
       boldMessage="내 지역에 올라온 코디가 아직 없어요"
       lightMessage={
         <>

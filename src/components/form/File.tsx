@@ -1,6 +1,6 @@
 import { FileProps, ImageItem, PostFormData } from '@/config/types';
 import Text from '@components/common/atom/Text';
-import ImgDeleteIcon from '@components/icons/ImgDeleteIcon';
+import ImgDeleteBtn from '@components/icons/ImgDeleteBtn';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
@@ -139,7 +139,7 @@ function PreviewImage({ imageId, url, onDelete, classNames }: PreviewImageProps)
   return (
     <div className={`${classNames} relative`}>
       <img src={url} alt={`사진 ${imageId}`} className="w-full h-full object-cover" />
-      <ImgDeleteIcon id={imageId} onDelete={onDelete} />
+      <ImgDeleteBtn onClick={() => onDelete(imageId)} className="absolute top-2 right-2 cursor-pointer" />
     </div>
   );
 }

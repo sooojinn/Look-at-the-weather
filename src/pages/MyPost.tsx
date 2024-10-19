@@ -5,7 +5,7 @@ import { getMyPosts } from '@/api/apis';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
-import NoPost from '@components/icons/NoPost';
+import NoPostImg from '@components/icons/NoPostImg';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 
@@ -37,7 +37,7 @@ function MyPostEmpty() {
 
   return (
     <StatusPlaceholder
-      ImgComp={NoPost}
+      ImgComp={NoPostImg}
       boldMessage="아직 작성한 게시물이 없어요"
       lightMessage={
         <>
