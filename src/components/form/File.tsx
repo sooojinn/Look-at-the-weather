@@ -9,6 +9,7 @@ import { deleteImage, uploadImage } from '@/api/apis';
 import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
+import HorizontalScroll from '@components/common/organism/HorizontalScroll';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -99,29 +100,27 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
   const previewImageStyle = 'w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light';
 
   return (
-    <>
-      <div className="h-[197px] -mx-5 px-5 flex space-x-2 overflow-auto scrollbar-hide">
-        {(watch('images') || []).map((image) => {
-          const { imageId, url } = image;
-          return (
-            <PreviewImage
-              key={imageId}
-              imageId={imageId}
-              url={url}
-              onDelete={handleDeleteImage}
-              classNames={previewImageStyle}
-            />
-          );
-        })}
-        {uploadImageMutation.isPending && (
-          <div className={previewImageStyle}>
-            <Spinner width={20} />
-          </div>
-        )}
-        {(watch('images') || []).length < MAX_IMAGES && (
-          <AddImageBtn handleAddClick={() => fileInputRef.current?.click()} classNames={previewImageStyle} />
-        )}
-      </div>
+    <HorizontalScroll className="h-[197px] -mx-5 px-5 flex space-x-2">
+      {(watch('images') || []).map((image) => {
+        const { imageId, url } = image;
+        return (
+          <PreviewImage
+            key={imageId}
+            imageId={imageId}
+            url={url}
+            onDelete={handleDeleteImage}
+            classNames={previewImageStyle}
+          />
+        );
+      })}
+      {uploadImageMutation.isPending && (
+        <div className={previewImageStyle}>
+          <Spinner width={20} />
+        </div>
+      )}
+      {(watch('images') || []).length < MAX_IMAGES && (
+        <AddImageBtn handleAddClick={() => fileInputRef.current?.click()} classNames={previewImageStyle} />
+      )}
       <input
         type="file"
         accept="image/*"
@@ -131,7 +130,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
         ref={fileInputRef}
         className="hidden"
       />
-    </>
+    </HorizontalScroll>
   );
 }
 
