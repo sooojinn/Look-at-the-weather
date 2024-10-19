@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
-import { BASEURL } from '@/constants/constants';
 import { reissue } from './apis';
 import { useAuthStore } from '@/store/authStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
+import { BASEURL } from '@/config/constants';
 
 const { setIsLogin } = useAuthStore.getState();
 

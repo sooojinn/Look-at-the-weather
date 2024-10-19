@@ -10,7 +10,7 @@ export default function Home() {
   const { isLogin } = useAuthStore();
 
   return (
-    <div className="max-w-md m-auto min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
+    <div className="max-w-md min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
       {isLogin || <LoginModal />}
       <Header>
         <Logo />
