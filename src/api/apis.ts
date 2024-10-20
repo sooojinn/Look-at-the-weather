@@ -12,7 +12,9 @@ const getConfig = (contentType = 'application/json'): AxiosRequestConfig => ({
 type RequestBody = Record<string, any>;
 
 export const postLogin = (request: RequestBody) => {
-  return instance.post('/auth/login', request, { withCredentials: true });
+  const option = { withCredentials: true };
+
+  return instance.post('/auth/login', request, option);
 };
 
 export const postLogout = () => {
@@ -20,8 +22,17 @@ export const postLogout = () => {
 };
 
 export const postFindEmail = (request: RequestBody) => {
-  return instance.post('/auth/logout', request);
+  return instance.post('/users/email', request);
 };
+
+export const postFindPassword = (request: RequestBody) => {
+  return instance.post('/users/password', request);
+};
+
+export const patchPasswordReset = (request: RequestBody) => {
+  return instance.patch('/users/password', request);
+};
+
 export const getUserInfos = () => {
   return instance.get('/users/me', getConfig());
 };
@@ -102,7 +113,9 @@ export const allPosts = (page: number, city: string, district: string, sort: str
 };
 
 export const reissue = () => {
-  return instance.post(`/auth/reissue`, null, { withCredentials: true });
+  const option = { withCredentials: true };
+
+  return instance.post(`/auth/reissue`, null, option);
 };
 
 export const logout = () => {
@@ -111,4 +124,8 @@ export const logout = () => {
 
 export const deleteAccount = (reason: string) => {
   return instance.delete(`/users?deleteReason=${reason}`, getConfig());
+};
+
+export const getRegion = () => {
+  return instance.get(`/regions`);
 };

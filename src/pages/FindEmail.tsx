@@ -1,13 +1,14 @@
 import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
-import { BASEURL } from '@/config/constants';
+
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
+import { postFindEmail } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
 
@@ -15,15 +16,6 @@ interface FindEmailForm {
   name: string;
   nickname: string;
 }
-
-const findEmail = async (data: FindEmailForm) => {
-  const response = await axios.post(`${BASEURL}/users/email`, data, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response.data;
-};
 
 export default function FindEmail() {
   const formMethods = useForm<FindEmailForm>();
@@ -33,9 +25,9 @@ export default function FindEmail() {
   const navigate = useNavigate();
 
   const findEmailMutation = useMutation({
-    mutationFn: findEmail,
-    onSuccess: (data) => {
-      const { email } = data;
+    mutationFn: postFindEmail,
+    onSuccess: (res) => {
+      const { email } = res.data;
       navigate('/find-email/result', {
         state: {
           name: getValues('name'),

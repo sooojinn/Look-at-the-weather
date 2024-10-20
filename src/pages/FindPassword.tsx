@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
-import { BASEURL } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
+import { postFindPassword } from '@/api/apis';
 import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
@@ -18,15 +18,6 @@ interface FindPasswordForm {
   nickname: string;
 }
 
-const findPassword = async (data: FindPasswordForm) => {
-  const response = await axios.post(`${BASEURL}/users/password`, data, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response.data;
-};
-
 export default function FindPassword() {
   const formMethods = useForm<FindPasswordForm>();
   const { handleSubmit } = formMethods;
@@ -35,9 +26,9 @@ export default function FindPassword() {
   const navigate = useNavigate();
 
   const findPasswordMutation = useMutation({
-    mutationFn: findPassword,
-    onSuccess: ({ userId }) => {
-      navigate('/password-reset', { state: { userId: userId } });
+    mutationFn: postFindPassword,
+    onSuccess: ({ data }) => {
+      navigate('/password-reset', { state: { userId: data.userId } });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_USER') {

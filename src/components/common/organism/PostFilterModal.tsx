@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
-import { BASEURL, POSTFILTERTAPLIST, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
+import { POSTFILTERTAPLIST, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
 import Text from '../atom/Text';
 import HrLine from '../atom/HrLine';
-import axios from 'axios';
+import { getRegion } from '@/api/apis';
+import { useQuery } from '@tanstack/react-query';
 import OptionBtn from '../molecules/OptionBtn';
 import Button from '../molecules/Button';
 import { showToast } from '../molecules/ToastProvider';
@@ -28,6 +29,11 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     temperatureTagIds,
     seasonTagIds,
   } = usePostStore();
+
+  const { data: response, isSuccess } = useQuery({
+    queryKey: ['getRegion'],
+    queryFn: getRegion,
+  });
 
   const [activeTab, setActiveTab] = useState<number>(btnIndex);
   const [showModal, setShowModal] = useState(false);
@@ -158,20 +164,8 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [btnValue]);
 
   useEffect(() => {
-    const getRegions = async () => {
-      const response = await axios.get(`${BASEURL}/regions`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const slicedCities = response.data.region.map((item: DistrictType) => ({
-        ...item,
-        cityName: item.cityName.substring(0, 2),
-      }));
-
-      setCity(slicedCities);
-    };
-    getRegions();
+    const city = response?.data.region;
+    if (isSuccess) setCity(city);
   }, []);
 
   useEffect(() => {
