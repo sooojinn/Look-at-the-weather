@@ -1,12 +1,11 @@
 import Header from '@/components/common/Header';
-import { BASEURL } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import InfoModal from '@components/common/organism/InfoModal';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import PasswordInput from '@components/form/inputs/PasswordInput';
+import { patchPasswordReset } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,21 +15,6 @@ interface PasswordResetForm {
   password: string;
   confirmPassword: string;
 }
-
-const passwordReset = async (data: PasswordResetForm) => {
-  const { userId, password } = data;
-
-  const response = await axios.patch(
-    `${BASEURL}/users/password`,
-    { userId, password },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-  return response.data;
-};
 
 export default function PasswordReset() {
   const formMethods = useForm<PasswordResetForm>({ mode: 'onChange' });
@@ -44,7 +28,7 @@ export default function PasswordReset() {
   setValue('userId', userId);
 
   const passwordResetMutation = useMutation({
-    mutationFn: passwordReset,
+    mutationFn: patchPasswordReset,
     onSuccess: () => setShowModal(true),
     onError: (error) => {
       console.error('비밀번호 재설정 실패: ', error);
