@@ -26,7 +26,7 @@ export default function PostWrite() {
   const uploadMutation = useMutation({
     mutationFn: uploadPost,
     onSuccess: ({ postId }) => {
-      navigate(`/post/${postId}`, { state: { id: postId } });
+      navigate(`/post/${postId}`, { state: { id: postId }, replace: true });
       showToast('게시물이 등록되었습니다');
     },
     onError: (error) => {

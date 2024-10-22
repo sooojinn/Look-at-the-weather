@@ -37,8 +37,8 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
   const setPostFormLocation = useGeoLocationStore((state) => state.setPostFormLocation);
   const { city, district } = postFormLocation || defaultValues;
 
-  setValue('city', city);
-  setValue('district', district);
+  setValue('city', city, { shouldDirty: true });
+  setValue('district', district, { shouldDirty: true });
 
   const [shoWModal, setShoWModal] = useState(false);
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
     if (savedData) {
       const parsedData: PostFormData = JSON.parse(savedData);
       (Object.keys(parsedData) as Array<keyof PostFormData>).forEach((name) => {
-        setValue(name, parsedData[name]);
+        setValue(name, parsedData[name], { shouldValidate: true });
       });
       sessionStorage.removeItem('formData');
     }

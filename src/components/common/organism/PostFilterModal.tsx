@@ -166,7 +166,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   useEffect(() => {
     const city = response?.data.region;
     if (isSuccess) setCity(city);
-  }, []);
+  }, [isSuccess]);
 
   useEffect(() => {
     const newSelectedFilterItems: CategoryFilterItem[] = [
