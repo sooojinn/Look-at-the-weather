@@ -68,7 +68,7 @@ export default function HomeWeatherInfo() {
           </>
         )}
         {isLoading && (
-          <div className="absolute inset-0 bg-black opacity-20 flex justify-center items-center">
+          <div className="absolute inset-0 bg-opacity-black20 flex justify-center items-center">
             <Spinner width={40} />
           </div>
         )}

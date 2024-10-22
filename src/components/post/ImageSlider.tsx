@@ -65,8 +65,8 @@ export default function ImageSlider({ images }: { images: string[] }) {
         {images.map((_, index) => (
           <span
             key={index}
-            className={`block w-1.5 h-1.5 bg-white rounded-full cursor-pointer ${
-              index === currentIndex ? '' : 'opacity-40'
+            className={`block w-1.5 h-1.5 rounded-full cursor-pointer ${
+              index === currentIndex ? '' : 'bg-opacity-white40'
             }`}
             onClick={() => setCurrentIndex(index)}
           ></span>

@@ -8,7 +8,7 @@ interface PostImgBlindProps {
 
 export default function PostImgBlind({ textSize, textWeight }: PostImgBlindProps) {
   return (
-    <div className="w-full h-full bg-dimmer-bg flex flex-col justify-center items-center absolute">
+    <div className="w-full h-full bg-opacity-lightBlack52 flex flex-col justify-center items-center absolute">
       <Text size={textSize} weight={textWeight} color="white">
         신고로 인해
       </Text>
