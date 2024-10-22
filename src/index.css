@@ -2,6 +2,16 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+:root {
+  --color-gray-100: #000000;
+  --color-gray-200: #171719;
+  --color-gray-300: #47484c;
+  --color-gray-400: #858588;
+  --color-gray-500: #c7c8c9;
+  --color-gray-600: #dfdfe0;
+  --color-gray-700: #ffffff;
+}
+
 @font-face {
   font-family: 'SpoqaHanSansNeo';
   src: url('/fonts/SpoqaHanSansNeo-Regular.ttf') format('truetype');
