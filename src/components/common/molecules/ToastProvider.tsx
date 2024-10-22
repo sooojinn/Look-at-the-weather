@@ -20,7 +20,7 @@ export function ToastProvider() {
       position="bottom-center"
       theme="dark"
       toastClassName={() => 'fixed bottom-24 w-full flex justify-center items-center'}
-      bodyClassName={() => 'max-w-[335px] w-[90%] px-5 py-3 bg-lightBlack opacity-90 rounded-lg'}
+      bodyClassName={() => 'max-w-[335px] w-[90%] px-5 py-3 bg-opacity-lightBlack90 rounded-lg'}
     />
   );
 }
