@@ -9,7 +9,7 @@ export default function WeatherImg({ weatherType, width, height }: WeatherImgPro
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px` }} className="flex justify-end">
-      <img src={weatherImgSrc} className="h-[80%] object-contain" />
+      <img src={weatherImgSrc} className="h-[80%] object-contain" alt={`${weatherType}`} />
     </div>
   );
 }

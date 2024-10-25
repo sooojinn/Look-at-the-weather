@@ -216,7 +216,7 @@ export async function getDailyWeatherInfo(geoPoint: GeoPoint) {
 
   if (!minForecasts || !maxForecasts) return;
 
-  const weatherInfo = { ...extractWeatherInfo(minTemp, minForecasts), ...extractWeatherInfo(maxTemp, minForecasts) };
+  const weatherInfo = { ...extractWeatherInfo(minTemp, minForecasts), ...extractWeatherInfo(maxTemp, maxForecasts) };
 
   return weatherInfo;
 }
