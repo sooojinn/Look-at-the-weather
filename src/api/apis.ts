@@ -1,4 +1,4 @@
-import { PostFormData } from '@/config/types';
+import { PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 import { getAccessToken } from './instance';
@@ -10,6 +10,26 @@ const getConfig = (contentType = 'application/json'): AxiosRequestConfig => ({
   },
 });
 type RequestBody = Record<string, any>;
+
+export const sendVerificationCode = async (email: string) => {
+  const response = await instance.post(`/email/send-verification`, { email });
+  return response.data;
+};
+
+export const verifyCode = async ({ email, code }: VerifyCodeProps) => {
+  const response = await instance.post(`/email/verify-code`, { email, code });
+  return response.data;
+};
+
+export const checkNickname = async (nickname: string) => {
+  const response = await instance.get(`/users/nickname-check/${nickname}`);
+  return response.data;
+};
+
+export const registerUser = async (data: RegisterForm) => {
+  const response = await instance.post(`/users/register`, data);
+  return response.data;
+};
 
 export const postLogin = (request: RequestBody) => {
   const option = { withCredentials: true };
@@ -35,6 +55,11 @@ export const patchPasswordReset = (request: RequestBody) => {
 
 export const getUserInfos = () => {
   return instance.get('/users/me', getConfig());
+};
+
+export const kakaoLogin = async (code: string | null) => {
+  const response = await instance.get(`/oauth/kakao?code=${code}`);
+  return response.data;
 };
 
 export const patchEditProfile = (request: RequestBody) => {

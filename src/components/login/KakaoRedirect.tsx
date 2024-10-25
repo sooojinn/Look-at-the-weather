@@ -1,5 +1,3 @@
-import { BASEURL } from '@/config/constants';
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -8,16 +6,7 @@ import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
-
-const getUserInfo = async (code: string | null) => {
-  const response = await axios.get(`${BASEURL}/oauth/kakao?code=${code}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return response.data;
-};
+import { kakaoLogin } from '@/api/apis';
 
 export default function KakaoRedirect() {
   const navigate = useNavigate();
@@ -26,7 +15,7 @@ export default function KakaoRedirect() {
 
   const { data, isSuccess, error, isLoading } = useQuery({
     queryKey: ['data'],
-    queryFn: () => getUserInfo(code),
+    queryFn: () => kakaoLogin(code),
     enabled: !!code,
   });
 

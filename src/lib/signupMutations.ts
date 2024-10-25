@@ -1,11 +1,11 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { sendVerificationCode, verifyCode, checkNickname, registerUser } from '@/lib/signupApi';
 import { ErrorResponse, RegisterForm, VerifyCodeProps } from '@/config/types';
 import useSignupStore from '@/store/signupStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, Path, UseFormClearErrors, UseFormSetError } from 'react-hook-form';
+import { checkNickname, registerUser, sendVerificationCode, verifyCode } from '@/api/apis';
 
 // 이메일 인증번호 전송
 export const useSendVerificationMutation = <T extends FieldValues>(
@@ -13,7 +13,7 @@ export const useSendVerificationMutation = <T extends FieldValues>(
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
   const { setIsCodeSended } = useSignupStore();
 
-  return useMutation<void, AxiosError<ErrorResponse>, string>({
+  return useMutation({
     mutationFn: sendVerificationCode,
     onSuccess: () => {
       setIsCodeSended(true);
@@ -37,7 +37,7 @@ export const useVerifyCodeMutation = <T extends FieldValues>(
 ): UseMutationResult<void, AxiosError<ErrorResponse>, VerifyCodeProps> => {
   const { setIsEmailVerified } = useSignupStore();
 
-  return useMutation<void, AxiosError<ErrorResponse>, VerifyCodeProps>({
+  return useMutation({
     mutationFn: verifyCode,
     onSuccess: () => {
       setIsEmailVerified(true);
@@ -60,7 +60,7 @@ export const useCheckNicknameMutation = <T extends FieldValues>(
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
   const { setIsNicknameChecked } = useSignupStore();
 
-  return useMutation<void, AxiosError<ErrorResponse>, string>({
+  return useMutation({
     mutationFn: checkNickname,
     onSuccess: () => {
       setIsNicknameChecked(true);
@@ -81,7 +81,7 @@ export const useRegisterMutation = (): UseMutationResult<void, AxiosError<ErrorR
   const { resetSignupState } = useSignupStore();
   const navigate = useNavigate();
 
-  return useMutation<void, AxiosError<ErrorResponse>, RegisterForm>({
+  return useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
       navigate('/');
