@@ -15,7 +15,7 @@ export default function TextWithArrow({ children, href }: TextType) {
         <Text size="l" weight="bold">
           {children}
         </Text>
-        <ArrowIcon fill="#171719" />
+        <ArrowIcon fill="rgb(var(--color-label-600))" />
       </div>
     </NavLink>
   );

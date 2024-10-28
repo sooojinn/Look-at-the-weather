@@ -4,7 +4,7 @@ interface CloseBtnProps {
   onClick: () => void;
 }
 
-export default function CloseBtn({ width = 24, fill = '#171719', onClick }: CloseBtnProps) {
+export default function CloseBtn({ width = 24, fill = 'rgb(var(--color-label-600))', onClick }: CloseBtnProps) {
   return (
     <svg
       className="cursor-pointer"

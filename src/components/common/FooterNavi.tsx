@@ -32,7 +32,7 @@ export default function FooterNavi() {
             const { Icon } = navItem;
             return (
               <>
-                <Icon fill={isActive ? '#1769ff' : '#C7C8C9'} />
+                <Icon fill={isActive ? 'rgb(var(--color-primary))' : 'rgb(var(--color-label-300))'} />
                 <span className="text-xs mt-1">{navItem.label}</span>
               </>
             );

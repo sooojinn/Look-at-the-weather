@@ -82,7 +82,7 @@ export default function SearchAddress() {
           onClick={handleCurrentLocationClick}
           className="w-full h-14 py-2 flex gap-1 rounded-[10px] justify-center items-center border cursor-pointer"
         >
-          <LocationIcon fill="#171719" />
+          <LocationIcon fill="rgb(var(--color-label-600))" />
           <Text size="l" color="black" weight="bold">
             현재 위치로 찾기
           </Text>

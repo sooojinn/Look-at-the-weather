@@ -11,7 +11,7 @@ export default function ErrorMessage<T extends FieldValues>({ errors, name }: Er
   const hasError = !!errors?.[name as string];
   return (
     <div className="flex gap-1 items-center mt-1 ml-1">
-      <ExclamationMarkIcon width={12} fill="#ff4242" />
+      <ExclamationMarkIcon width={12} fill="rgb(var(--color-error))" />
       <Text size="xs" color="error">
         {hasError && errors[name as string]?.message?.toString()}
       </Text>

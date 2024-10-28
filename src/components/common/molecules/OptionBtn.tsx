@@ -23,7 +23,7 @@ export default function OptionBtn({ id, name, isActive, showCloseBtn, onClickFun
       </Text>
       {showCloseBtn ? (
         <div>
-          <CloseBtn width={16} onClick={onClickFunc} fill="#1769ff" />
+          <CloseBtn width={16} onClick={onClickFunc} fill="rgb(var(--color-primary))" />
         </div>
       ) : null}
     </div>
