@@ -53,11 +53,7 @@ export default function DeleteAccount() {
       <Header>회원 탈퇴</Header>
       <div className="p-5 pt-10 flex flex-col gap-3">
         <Text size="xl" weight="bold">
-          룩엣더웨더를{' '}
-          <Text size="xl" weight="bold" color="error" className="inline">
-            탈퇴
-          </Text>
-          하시는
+          룩엣더웨더를 <strong className="text-status-error">탈퇴</strong>하시는
           <br /> 이유가 있을까요?
         </Text>
         <Text color="gray">
