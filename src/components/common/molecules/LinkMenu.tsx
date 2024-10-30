@@ -13,17 +13,19 @@ type PropsType = {
 
 export default function LinkMenu({ title, menuList }: PropsType) {
   return (
-    <div className="px-5">
+    <>
       <Text color="gray" size="m" className="py-[18px]">
         {title}
       </Text>
       <div>
         {menuList.map((data, index) => (
           <TextWithArrow key={index} href={data.href}>
-            {data.menu}
+            <Text size="l" weight="bold">
+              {data.menu}
+            </Text>
           </TextWithArrow>
         ))}
       </div>
-    </div>
+    </>
   );
 }

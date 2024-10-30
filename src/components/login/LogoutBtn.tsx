@@ -3,19 +3,23 @@ import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { showToast } from './ToastProvider';
-import Text from '../atom/Text';
-import InfoModal from '../organism/InfoModal';
+import { showToast } from '../common/molecules/ToastProvider';
+import Text from '../common/atom/Text';
+import InfoModal from '../common/organism/InfoModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { setIsLogin } = useAuthStore();
+  const navigate = useNavigate();
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
       setAccessToken(null);
       setIsLogin(false);
+      navigate('/');
+      showToast('로그아웃되었습니다.');
     },
     onError: (error) => {
       showToast('로그아웃 실패. 다시 시도해주세요.');
