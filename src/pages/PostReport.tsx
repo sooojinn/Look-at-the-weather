@@ -5,7 +5,7 @@ import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
-import WarningModal from '@components/common/organism/WarningModal';
+import AlertModal from '@components/common/organism/AlertModal';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -57,9 +57,9 @@ export default function PostReport() {
       <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       <FooterNavi />
       {showReportWarningModal && (
-        <WarningModal
-          mainMessage="게시물을 정말 신고하시겠어요?"
-          subMessage="신고 처리는 취소할 수 없어요."
+        <AlertModal
+          boldMessage="게시물을 정말 신고하시겠어요?"
+          regularMessage="신고 처리는 취소할 수 없어요."
           buttons={
             <div className="w-full flex gap-2">
               <Button type="sub" size="m" onClick={() => setShowReportWarningModal(false)}>

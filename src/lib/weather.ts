@@ -43,7 +43,7 @@ interface ForecastType {
   categories: FilterCategories;
 }
 
-type WeatherType = 'clear' | 'hot' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
+type WeatherType = 'clear' | 'partly_cloudy' | 'cloudy' | 'rain' | 'snow' | 'sleet';
 
 function getCurrentDateInfo() {
   const now = new Date();

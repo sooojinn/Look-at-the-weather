@@ -1,40 +1,48 @@
 import { PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
-import { getAccessToken } from './instance';
 
-const getConfig = (contentType = 'application/json'): AxiosRequestConfig => ({
-  headers: {
-    'Content-Type': contentType,
-    Authorization: getAccessToken(),
-  },
-});
+interface ConfigOptions {
+  contentType?: string;
+  withCredentials?: boolean;
+}
+
+const getConfig = ({
+  contentType = 'application/json',
+  withCredentials = false,
+}: ConfigOptions = {}): AxiosRequestConfig => {
+  return {
+    headers: {
+      'Content-Type': contentType,
+    },
+    withCredentials,
+  };
+};
+
 type RequestBody = Record<string, any>;
 
 export const sendVerificationCode = async (email: string) => {
-  const response = await instance.post(`/email/send-verification`, { email });
+  const response = await instance.post(`/email/send-verification`, { email }, getConfig());
   return response.data;
 };
 
 export const verifyCode = async ({ email, code }: VerifyCodeProps) => {
-  const response = await instance.post(`/email/verify-code`, { email, code });
+  const response = await instance.post(`/email/verify-code`, { email, code }, getConfig());
   return response.data;
 };
 
 export const checkNickname = async (nickname: string) => {
-  const response = await instance.get(`/users/nickname-check/${nickname}`);
+  const response = await instance.get(`/users/nickname-check/${nickname}`, getConfig());
   return response.data;
 };
 
 export const registerUser = async (data: RegisterForm) => {
-  const response = await instance.post(`/users/register`, data);
+  const response = await instance.post(`/users/register`, data, getConfig());
   return response.data;
 };
 
 export const postLogin = (request: RequestBody) => {
-  const option = { withCredentials: true };
-
-  return instance.post('/auth/login', request, option);
+  return instance.post('/auth/login', request, getConfig({ withCredentials: true }));
 };
 
 export const postLogout = () => {
@@ -42,15 +50,15 @@ export const postLogout = () => {
 };
 
 export const postFindEmail = (request: RequestBody) => {
-  return instance.post('/users/email', request);
+  return instance.post('/users/email', request, getConfig());
 };
 
 export const postFindPassword = (request: RequestBody) => {
-  return instance.post('/users/password', request);
+  return instance.post('/users/password', request, getConfig());
 };
 
 export const patchPasswordReset = (request: RequestBody) => {
-  return instance.patch('/users/password', request);
+  return instance.patch('/users/password', request, getConfig());
 };
 
 export const getUserInfos = () => {
@@ -58,7 +66,7 @@ export const getUserInfos = () => {
 };
 
 export const kakaoLogin = async (code: string | null) => {
-  const response = await instance.get(`/oauth/kakao?code=${code}`);
+  const response = await instance.get(`/oauth/kakao?code=${code}`, getConfig());
   return response.data;
 };
 
@@ -92,7 +100,7 @@ export const fetchTopLikedPosts = () => {
 export const uploadImage = async (file: File) => {
   const formData = new FormData();
   formData.append('file', file);
-  const response = await instance.post(`/s3/post-image`, formData, getConfig('multipart/form-data'));
+  const response = await instance.post(`/s3/post-image`, formData, getConfig({ contentType: 'multipart/form-data' }));
   return response.data;
 };
 
@@ -138,9 +146,7 @@ export const allPosts = (page: number, city: string, district: string, sort: str
 };
 
 export const reissue = () => {
-  const option = { withCredentials: true };
-
-  return instance.post(`/auth/reissue`, null, option);
+  return instance.post(`/auth/reissue`, null, getConfig({ withCredentials: true }));
 };
 
 export const logout = () => {
@@ -152,5 +158,5 @@ export const deleteAccount = (reason: string) => {
 };
 
 export const getRegion = () => {
-  return instance.get(`/regions`);
+  return instance.get(`/regions`, getConfig());
 };

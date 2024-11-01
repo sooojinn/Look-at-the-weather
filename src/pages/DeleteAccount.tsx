@@ -6,8 +6,8 @@ import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
+import AlertModal from '@components/common/organism/AlertModal';
 import InfoModal from '@components/common/organism/InfoModal';
-import WarningModal from '@components/common/organism/WarningModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -53,11 +53,7 @@ export default function DeleteAccount() {
       <Header>회원 탈퇴</Header>
       <div className="p-5 pt-10 flex flex-col gap-3">
         <Text size="xl" weight="bold">
-          룩엣더웨더를{' '}
-          <Text size="xl" weight="bold" color="error" className="inline">
-            탈퇴
-          </Text>
-          하시는
+          룩엣더웨더를 <strong className="text-status-error">탈퇴</strong>하시는
           <br /> 이유가 있을까요?
         </Text>
         <Text color="gray">
@@ -67,9 +63,9 @@ export default function DeleteAccount() {
       </div>
       {deleteReasons && <UnderlineOptionList optionList={deleteReasons} handleOptionClick={handleReasonClick} />}
       {showWarningModal && (
-        <WarningModal
-          mainMessage="회원 탈퇴"
-          subMessage={
+        <AlertModal
+          boldMessage="회원 탈퇴"
+          regularMessage={
             <>
               <p>
                 회원 탈퇴 시 계정이 완전히 삭제되며,

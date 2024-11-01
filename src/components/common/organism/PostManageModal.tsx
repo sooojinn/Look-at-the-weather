@@ -9,10 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
-import WarningModal from './WarningModal';
 import Button from '../molecules/Button';
 import BackgroundShadow from './BackgroundShadow';
 import PostMenuItem from '../molecules/PostMenuItem';
+import AlertModal from './AlertModal';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -118,9 +118,10 @@ export default function PostManageModal({
         </BackgroundShadow>
       )}
       {showDeleteWarningModal && (
-        <WarningModal
-          mainMessage="게시물을 정말 삭제하시겠어요?"
-          subMessage="삭제된 게시물은 복구되지 않아요."
+        <AlertModal
+          showWarningIcon
+          boldMessage="게시물을 정말 삭제하시겠어요?"
+          regularMessage="삭제된 게시물은 복구되지 않아요."
           buttons={
             <div className="w-full flex gap-2">
               <Button
@@ -141,9 +142,10 @@ export default function PostManageModal({
         />
       )}
       {showHideWarningModal && (
-        <WarningModal
-          mainMessage="게시물을 정말 숨기기 하시겠어요?"
-          subMessage="숨겨진 게시물은 복구되지 않아요."
+        <AlertModal
+          showWarningIcon
+          boldMessage="게시물을 정말 숨기기 하시겠어요?"
+          regularMessage="숨겨진 게시물은 복구되지 않아요."
           buttons={
             <div className="w-full flex gap-2">
               <Button

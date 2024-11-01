@@ -64,6 +64,9 @@ export default {
         regular: 'var(--fw-400)',
         bold: 'var(--fw-700)',
       },
+      dropShadow: {
+        custom: '0px 0px 8px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],

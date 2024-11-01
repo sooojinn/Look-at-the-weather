@@ -20,6 +20,7 @@ import MyLikedPost from '@pages/MyLikedPost.tsx';
 import PostReport from '@pages/PostReport.tsx';
 import DeleteAccount from '@pages/DeleteAccount.tsx';
 import ProtectedRoute from './ProtectedRoute.tsx';
+import Login from '@pages/Login.tsx';
 
 const router = createBrowserRouter([
   {
@@ -29,27 +30,15 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: '/search-address', element: <SearchAddress /> },
       { path: '/oauth', element: <KakaoRedirect /> },
+      { path: '/login', element: <Login /> },
       { path: '/signup', element: <Signup /> },
       { path: '/find-email', element: <FindEmail /> },
       { path: '/find-email/result', element: <FindEmailResult /> },
       { path: '/find-password', element: <FindPassword /> },
       { path: '/password-reset', element: <PasswordReset /> },
-      {
-        path: '/post',
-        element: (
-          <ProtectedRoute>
-            <Post />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/post/:id',
-        element: (
-          <ProtectedRoute>
-            <PostDetail />
-          </ProtectedRoute>
-        ),
-      },
+      { path: '/post', element: <Post /> },
+      { path: '/post/:id', element: <PostDetail /> },
+      { path: '/mypage', element: <Mypage /> },
       {
         path: '/post/:id/edit',
         element: (
@@ -71,14 +60,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <PostWrite />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/mypage',
-        element: (
-          <ProtectedRoute>
-            <Mypage />
           </ProtectedRoute>
         ),
       },
