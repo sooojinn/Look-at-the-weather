@@ -7,11 +7,13 @@ export default function ImageSlider({ images }: { images: string[] }) {
   const [isDragging, setIsDragging] = useState(false);
 
   const prevSlide = () => {
-    setCurrentIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
+    if (currentIndex === 0) return;
+    setCurrentIndex(currentIndex - 1);
   };
 
   const nextSlide = () => {
-    setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
+    if (currentIndex === images.length - 1) return;
+    setCurrentIndex(currentIndex + 1);
   };
 
   // 공통으로 사용하는 슬라이드 이동 로직
