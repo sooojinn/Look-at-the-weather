@@ -6,8 +6,8 @@ import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
+import AlertModal from '@components/common/organism/AlertModal';
 import InfoModal from '@components/common/organism/InfoModal';
-import WarningModal from '@components/common/organism/WarningModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -63,9 +63,9 @@ export default function DeleteAccount() {
       </div>
       {deleteReasons && <UnderlineOptionList optionList={deleteReasons} handleOptionClick={handleReasonClick} />}
       {showWarningModal && (
-        <WarningModal
-          mainMessage="회원 탈퇴"
-          subMessage={
+        <AlertModal
+          boldMessage="회원 탈퇴"
+          regularMessage={
             <>
               <p>
                 회원 탈퇴 시 계정이 완전히 삭제되며,
