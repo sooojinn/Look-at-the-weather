@@ -204,7 +204,7 @@ export default function Post() {
             }
           }
         },
-        { rootMargin: '0px 0px -61px 0px', threshold: 1 },
+        { threshold: 0.7 },
       );
 
       if (pageEnd.current) {
