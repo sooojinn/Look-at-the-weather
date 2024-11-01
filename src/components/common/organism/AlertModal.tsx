@@ -20,7 +20,7 @@ export default function AlertModal({
 }: AlertModalProps) {
   return (
     <BackgroundShadow>
-      <div className="bg-white p-6 flex flex-col text-center gap-6 rounded-lg">
+      <div className="min-w-[256px] bg-white p-6 flex flex-col text-center gap-6 rounded-lg">
         <div className="flex flex-col justify-center items-center gap-4">
           {showWarningIcon && <WarningIcon />}
           <div className="flex flex-col items-center text-center gap-[6px]">

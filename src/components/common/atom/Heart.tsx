@@ -8,6 +8,10 @@ import { ErrorResponse } from '@/config/types';
 import { PostDetail } from '@pages/PostDetail';
 import RedHeartIcon from '@components/icons/hearts/RedHeartIcon';
 import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
+import { useAuthStore } from '@/store/authStore';
+import AlertModal from '../organism/AlertModal';
+import Button from '../molecules/Button';
+import { useNavigate } from 'react-router-dom';
 
 interface HeartProps {
   fill?: string;
@@ -26,7 +30,11 @@ export default function Heart({
 }: HeartProps) {
   const [isLiked, setIsLiked] = useState<boolean>(liked);
   const [likedCount, setLikedCount] = useState(initialLikedCount);
+  const [showLoginPromptModal, setShowLoginPromptModal] = useState(false);
+
+  const isLogin = useAuthStore((state) => state.isLogin);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const toggleLikeMutation = useMutation({
     mutationFn: async () => {
@@ -58,13 +66,42 @@ export default function Heart({
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    toggleLikeMutation.mutate();
+    if (isLogin) toggleLikeMutation.mutate();
+    else setShowLoginPromptModal(true);
   };
 
   return (
     <div onClick={handleClick} className="flex row gap-x-2">
       {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}
       {hasUserNumber && <Text color="lightGray">{likedCount || 0}</Text>}
+      {showLoginPromptModal && (
+        <AlertModal
+          boldMessage={
+            <>
+              해당 기능은 로그인 후<br />
+              사용 가능합니다.
+            </>
+          }
+          regularMessage="로그인하시겠습니까?"
+          buttons={
+            <>
+              <Button
+                size="m"
+                type="sub"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowLoginPromptModal(false);
+                }}
+              >
+                취소
+              </Button>
+              <Button size="m" onClick={() => navigate('/login')}>
+                로그인
+              </Button>
+            </>
+          }
+        />
+      )}
     </div>
   );
 }
