@@ -54,7 +54,7 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
 function LocationTerms() {
   return (
     <div className="px-3 pt-[14px] pb-10 mb-10 bg-background-light rounded-[10px]">
-      <MarkdownRenderer markdownTitle="location-terms" color="black" />
+      <MarkdownRenderer markdownTitle="location-terms" />
     </div>
   );
 }

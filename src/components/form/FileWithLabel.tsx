@@ -15,7 +15,7 @@ export default function FileWithLabel({ name, label, description, rules, default
         <Label size="l" required={!!rules?.required}>
           {label}
         </Label>
-        <Text size="s" color="lightGray">
+        <Text size="s" color="gray">
           {description}
         </Text>
       </div>

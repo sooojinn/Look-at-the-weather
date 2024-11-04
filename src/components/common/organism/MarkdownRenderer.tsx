@@ -6,7 +6,7 @@ import Text from '../atom/Text';
 interface MarkdownRendererProps {
   markdownTitle: string;
   size?: TextSize;
-  color: TextColor;
+  color?: TextColor;
 }
 
 export default function MarkdownRenderer({ markdownTitle, size, color }: MarkdownRendererProps) {
