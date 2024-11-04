@@ -63,13 +63,13 @@ export default function HomeWeatherInfo() {
                   </>
                 )}
               </div>
-              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} width={206} height={169} />
+              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={135} />
             </div>
           </>
         )}
         {isLoading && (
           <div className="absolute inset-0 bg-opacity-black20 flex justify-center items-center">
-            <Spinner width={40} />
+            <Spinner width={30} />
           </div>
         )}
       </div>
