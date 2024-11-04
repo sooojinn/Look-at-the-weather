@@ -26,12 +26,6 @@ export const instance: AxiosInstance = axios.create({
   timeout: 10000,
 });
 
-// 인증 헤더 확인
-instance.interceptors.request.use((config) => {
-  console.log('Request Authorization Header:', config.headers?.Authorization);
-  return config;
-});
-
 instance.interceptors.response.use(
   (response) => {
     return response;

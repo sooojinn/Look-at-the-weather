@@ -6,12 +6,6 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import useLocationPermission from './useLocationPermission';
 
-// 서울시청의 위도와 경도
-const defaultGeoPoint: GeoPoint = {
-  latitude: 37.5663,
-  longitude: 126.9779,
-};
-
 export const useGeoPointQuery = () => {
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
   const { isLocationAllowed } = useLocationPermission();
@@ -20,12 +14,6 @@ export const useGeoPointQuery = () => {
     // store에 저장된 위치가 있는 경우(위치를 직접 설정한 경우)
     if (customGeoPoint) {
       return customGeoPoint;
-    }
-
-    // 위치 정보 접근 거부되어 있는 경우 서울시청의 위치 반환
-    if (!isLocationAllowed) {
-      console.warn('사용자가 위치 정보 접근을 거부했습니다.');
-      return defaultGeoPoint;
     }
 
     // 그 외의 경우 geolocation api로 현재 위치 반환
@@ -37,7 +25,7 @@ export const useGeoPointQuery = () => {
     queryKey: ['geoPoint', customGeoPoint, isLocationAllowed],
     queryFn: getGeoPoint,
     staleTime: 1000 * 60 * 5,
-    enabled: isLocationAllowed !== undefined,
+    enabled: !!getGeoPoint(),
   });
 };
 
