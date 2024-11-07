@@ -7,7 +7,7 @@ import { ResetIcon } from '@components/icons/ResetIcon';
 import PostFilterModal from '@components/common/organism/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
-import { DistrictType, FilterItem, PostMeta, PostFilterState } from '@/config/types';
+import { PostMeta } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
@@ -15,7 +15,7 @@ import NoPostImg from '@components/icons/NoPostImg';
 import LookWeatherInfo from '@components/weather/LookWeatherInfo';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
-import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+// import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
 
 export default function Post() {
@@ -34,21 +34,8 @@ export default function Post() {
   const [isOpen, setIsOpen] = useState(false);
   const [btnIndex, setBtnIndex] = useState(0);
   const [btnValue, setBtnValue] = useState('');
-
-  const [locationArr, setLocationArr] = useState<DistrictType[]>([]);
-  const [weatherArr, setWeatherArr] = useState<FilterItem[]>([]);
-  const [temperatureArr, setTemperatureArr] = useState<FilterItem[]>([]);
-  const [seasonArr, setSeasonArr] = useState<FilterItem[]>([]);
-
   const [sortOrder, setSortOrder] = useState('LATEST');
   const [postList, setPostList] = useState<PostMeta[]>([]);
-  const [hasFilterData, setHasFilterData] = useState<null | boolean>(null);
-  const [filterState, setFilterState] = useState<PostFilterState>({
-    location: [],
-    seasonTagIds: [],
-    temperatureTagIds: [],
-    weatherTagIds: [],
-  });
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -56,6 +43,7 @@ export default function Post() {
   const [isFilteredPostEmpty, setIsFilteredPostEmpty] = useState(false);
 
   const pageEnd = useRef<HTMLDivElement>(null);
+  const isEmptyFilter = areAllEmptyArrays(locationIds, seasonTagIds, temperatureTagIds, weatherTagIds);
 
   const onClickFilterBtn = (btnIndex: number, btnString: string) => {
     setBtnIndex(btnIndex);
@@ -71,28 +59,14 @@ export default function Post() {
     updateWeatherTagIds([]);
     updateTemperatureTagIds([]);
     updateSeasonTagIds([]);
-    setLocationArr([]);
-    setSeasonArr([]);
-    setWeatherArr([]);
-    setTemperatureArr([]);
-    getAllPosts(0);
   };
-
-  useEffect(() => {
-    setLocationArr(locationIds);
-    setSeasonArr(seasonTagIds);
-    setWeatherArr(weatherTagIds);
-    setTemperatureArr(temperatureTagIds);
-  }, [isOpen]);
 
   const getAllPosts = useCallback(
     async (pageNum: number) => {
+      if (!location || !location.city || !location.district) return;
       if (!hasMore) return;
       setLoading(true);
 
-      if (!location || !location.city || !location.district) {
-        return;
-      }
       try {
         const slicedCity = location.city.substring(0, 2);
         const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
@@ -114,16 +88,25 @@ export default function Post() {
 
   const getFilteredPosts = useCallback(
     async (pageNum: number) => {
-      if (!hasMore) return;
+      if (!hasMore || isEmptyFilter) return;
+
+      const location = locationIds.map((loc) => ({
+        city: loc.cityId,
+        district: loc.districtId,
+      }));
+      const seasonIds = seasonTagIds.map((tag) => tag.id);
+      const temperatureIds = temperatureTagIds.map((tag) => tag.id);
+      const weatherIds = weatherTagIds.map((tag) => tag.id);
+
       setLoading(true);
       try {
         const response = await postFilteredPosts({
           page: pageNum,
-          location: filterState.location,
           sort: sortOrder,
-          seasonTagIds: filterState.seasonTagIds,
-          weatherTagIds: filterState.weatherTagIds,
-          temperatureTagIds: filterState.temperatureTagIds,
+          location,
+          seasonTagIds: seasonIds,
+          weatherTagIds: weatherIds,
+          temperatureTagIds: temperatureIds,
         });
 
         const newPosts = response.data.posts;
@@ -139,7 +122,7 @@ export default function Post() {
         setLoading(false);
       }
     },
-    [hasMore, filterState],
+    [hasMore, locationIds, seasonTagIds, weatherTagIds, temperatureTagIds],
   );
 
   useEffect(() => {
@@ -148,59 +131,29 @@ export default function Post() {
     setIsFilteredPostEmpty(false);
     setPage(0);
 
-    if (location && hasFilterData !== null) {
+    if (location && isEmptyFilter !== null) {
       setPage(0);
-      if (!hasFilterData) {
+      if (isEmptyFilter) {
         getAllPosts(0);
       } else {
         getFilteredPosts(0);
       }
     }
-  }, [location, hasFilterData, filterState, sortOrder]);
+  }, [location, locationIds, seasonTagIds, weatherTagIds, temperatureTagIds, sortOrder]);
 
   useEffect(() => {
     setHasMore(true);
   }, [getAllPosts, getFilteredPosts]);
 
   useEffect(() => {
-    const areAllEmptyArrays = (...arrs: any[][]): boolean => {
-      for (const arr of arrs) {
-        if (!Array.isArray(arr) || arr.length !== 0) {
-          return false;
-        }
-      }
-      return true;
-    };
+    const isScrollLoadable = Number.isInteger(postList.length / 10);
 
-    const isEmptyFilter = areAllEmptyArrays(locationIds, seasonTagIds, temperatureTagIds, weatherTagIds);
-
-    if (!isEmptyFilter) {
-      const locationIdArray = locationIds.map((loc) => ({
-        city: loc.cityId,
-        district: loc.districtId,
-      }));
-      const seasonIds = seasonTagIds.map((tag) => tag.id);
-      const temperatureIds = temperatureTagIds.map((tag) => tag.id);
-      const weatherIds = weatherTagIds.map((tag) => tag.id);
-
-      setFilterState({
-        location: locationIdArray,
-        seasonTagIds: seasonIds as number[],
-        temperatureTagIds: temperatureIds as number[],
-        weatherTagIds: weatherIds as number[],
-      });
-    }
-
-    isEmptyFilter ? setHasFilterData(false) : setHasFilterData(true);
-  }, [locationIds, seasonTagIds, temperatureTagIds, weatherTagIds]);
-
-  useEffect(() => {
     if (!loading && hasMore) {
       const observer = new IntersectionObserver(
         (entries) => {
-          if (hasFilterData !== null) {
-            if (entries[0].isIntersecting) {
-              hasFilterData ? getFilteredPosts(page) : getAllPosts(page);
+          if (isEmptyFilter !== null) {
+            if (entries[0].isIntersecting && isScrollLoadable) {
+              isEmptyFilter ? getAllPosts(page) : getFilteredPosts(page);
             }
           }
         },
@@ -231,47 +184,47 @@ export default function Post() {
             <VeLine height={8} />
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               <OptionBtn
-                isActive={!!locationArr.length}
+                isActive={!!locationIds.length}
                 onClickFunc={() => onClickFilterBtn(0, 'location')}
                 name={
-                  locationArr.length > 1
-                    ? `${locationArr[0].districtName} 외 ${locationArr.length - 1}`
-                    : locationArr.length === 1
-                    ? `${locationArr[0].districtName}`
+                  locationIds.length > 1
+                    ? `${locationIds[0].districtName} 외 ${locationIds.length - 1}`
+                    : locationIds.length === 1
+                    ? `${locationIds[0].districtName}`
                     : '지역'
                 }
               />
 
               <OptionBtn
-                isActive={!!weatherArr.length}
+                isActive={!!weatherTagIds.length}
                 onClickFunc={() => onClickFilterBtn(1, 'weather')}
                 name={
-                  weatherArr.length > 1
-                    ? `${weatherArr[0].tagName} 외 ${weatherArr.length - 1}`
-                    : weatherArr.length === 1
-                    ? `${weatherArr[0].tagName}`
+                  weatherTagIds.length > 1
+                    ? `${weatherTagIds[0].tagName} 외 ${weatherTagIds.length - 1}`
+                    : weatherTagIds.length === 1
+                    ? `${weatherTagIds[0].tagName}`
                     : '날씨'
                 }
               />
               <OptionBtn
-                isActive={!!temperatureArr.length}
+                isActive={!!temperatureTagIds.length}
                 onClickFunc={() => onClickFilterBtn(2, 'temperature')}
                 name={
-                  temperatureArr.length > 1
-                    ? `${temperatureArr[0].tagName} 외 ${temperatureArr.length - 1}`
-                    : temperatureArr.length === 1
-                    ? `${temperatureArr[0].tagName}`
+                  temperatureTagIds.length > 1
+                    ? `${temperatureTagIds[0].tagName} 외 ${temperatureTagIds.length - 1}`
+                    : temperatureTagIds.length === 1
+                    ? `${temperatureTagIds[0].tagName}`
                     : '온도'
                 }
               />
               <OptionBtn
-                isActive={!!seasonArr.length}
+                isActive={!!seasonTagIds.length}
                 onClickFunc={() => onClickFilterBtn(3, 'season')}
                 name={
-                  seasonArr.length > 1
-                    ? `${seasonArr[0].tagName} 외 ${seasonArr.length - 1}`
-                    : seasonArr.length === 1
-                    ? `${seasonArr[0].tagName}`
+                  seasonTagIds.length > 1
+                    ? `${seasonTagIds[0].tagName} 외 ${seasonTagIds.length - 1}`
+                    : seasonTagIds.length === 1
+                    ? `${seasonTagIds[0].tagName}`
                     : '계절'
                 }
               />
@@ -311,7 +264,7 @@ export default function Post() {
           <PostList postList={postList} />
         )}
         <div ref={pageEnd}></div>
-        {loading && <InfiniteScrollLoading />}
+        {/* {loading && <InfiniteScrollLoading />} */}
       </div>
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
@@ -350,3 +303,12 @@ function AllPostEmpty() {
     />
   );
 }
+
+const areAllEmptyArrays = (...arrs: any[][]): boolean => {
+  for (const arr of arrs) {
+    if (!Array.isArray(arr) || arr.length !== 0) {
+      return false;
+    }
+  }
+  return true;
+};
