@@ -19,6 +19,10 @@ export default function LogoutBtn() {
     onSuccess: () => {
       setAccessToken(null);
       setIsLogin(false);
+      localStorage.removeItem('nickname');
+      sessionStorage.removeItem('auth-storage');
+      sessionStorage.removeItem('post-storage');
+      // 로그아웃 시 http only cookie 삭제하는 코드 추가해야됨
       navigate('/');
       showToast('로그아웃되었습니다.');
     },

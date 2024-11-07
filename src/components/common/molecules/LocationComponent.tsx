@@ -61,7 +61,7 @@ function LocationTooltip({ onClose }: { onClose: () => void }) {
       <Text size="xs" color="white">
         위치를 변경하려면 클릭해 주세요
       </Text>
-      <CloseBtn width={16} fill="white" onClick={onClose} />
+      <CloseBtn width={16} fill="rgb(var(--color-label-100))" onClick={onClose} />
       <div className="absolute bottom-[-5px] left-[10px] w-0 h-0 border-primary-main border-t-[5px] border-r-[5px] border-r-transparent border-l-[5px] border-l-transparent"></div>
     </div>
   );

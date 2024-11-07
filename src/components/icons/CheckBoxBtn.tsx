@@ -8,7 +8,7 @@ interface CheckBoxBtnProps {
 }
 
 export default function CheckBoxBtn({ isChecked, isError }: CheckBoxBtnProps) {
-  const fill = isChecked || isError ? '#1769ff' : '#e0e0e2';
+  const fill = isChecked || isError ? 'rgb(var(--color-primary))' : 'rgb(var(--line-gray-100))';
   return <div className="mr-2">{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</div>;
 }
 
