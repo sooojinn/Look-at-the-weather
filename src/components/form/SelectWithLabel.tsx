@@ -23,7 +23,7 @@ export default function SelectWithLabel({
           {label}
         </Label>
         {description && (
-          <Text size="s" color="lightGray">
+          <Text size="s" color="gray">
             {description}
           </Text>
         )}

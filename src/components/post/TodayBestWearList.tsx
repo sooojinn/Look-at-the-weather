@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import Text from '@components/common/atom/Text';
 import { fetchTopLikedPosts } from '@/api/apis';
-import NoPostImg from '@components/icons/NoPostImg';
+import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 
 export default function TodayBestWearList() {

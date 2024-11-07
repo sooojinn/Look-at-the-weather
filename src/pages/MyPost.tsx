@@ -5,7 +5,7 @@ import { getMyPosts } from '@/api/apis';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
-import NoPostImg from '@components/icons/NoPostImg';
+import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 

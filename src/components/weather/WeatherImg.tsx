@@ -1,15 +1,19 @@
 interface WeatherImgProps {
   weatherType: string;
-  width: number;
   height?: number;
 }
 
-export default function WeatherImg({ weatherType, width, height }: WeatherImgProps) {
+export default function WeatherImg({ weatherType, height }: WeatherImgProps) {
   const weatherImgSrc = `/weatherImages/${weatherType}.svg`;
 
   return (
-    <div style={{ width: `${width}px`, height: `${height}px` }} className="flex justify-end">
-      <img src={weatherImgSrc} className="h-[80%] object-contain" />
+    <div className="flex justify-end">
+      <img
+        src={weatherImgSrc}
+        style={{ height: `${height}px` }}
+        className="h-[80%] object-contain"
+        alt={`${weatherType}`}
+      />
     </div>
   );
 }

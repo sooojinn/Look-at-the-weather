@@ -8,21 +8,22 @@ const { setIsLogin } = useAuthStore.getState();
 
 let accessToken: null | string = null;
 
-const setAccessToken = (token: null | string) => {
+export const setAccessToken = (token: null | string) => {
   accessToken = `Bearer ${token}`;
-  instance.defaults.headers.common['Authorization'] = accessToken;
+  if (token) {
+    instance.defaults.headers.common['Authorization'] = accessToken;
+  } else {
+    delete instance.defaults.headers.common['Authorization'];
+  }
 };
 
-const getAccessToken = () => {
+export const getAccessToken = () => {
   return accessToken;
 };
 
 export const instance: AxiosInstance = axios.create({
   baseURL: BASEURL,
   timeout: 10000,
-  headers: {
-    Authorization: getAccessToken(),
-  },
 });
 
 instance.interceptors.response.use(
@@ -30,8 +31,6 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log('Interceptor caught an error:', error);
-
     if (error.response) {
       // accessToken이 만료됐거나 새로고침으로 accessToken이 존재하지 않을 때
       if (
@@ -73,5 +72,3 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-export { setAccessToken, getAccessToken };

@@ -41,7 +41,9 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
           <CheckBoxBtn isChecked={!!isChecked} isError={!!errors.terms} />
           <Text color="black">위치 정보 이용약관(필수)</Text>
         </label>
-        <ToggleBtn onClick={toggleTerms} showTerms={showTerms} />
+        <div className={`transition-transform duration-400 ${showTerms ? 'transform rotate-180' : ''}`}>
+          <ToggleBtn onClick={toggleTerms} />
+        </div>
       </div>
       {showTerms && <LocationTerms />}
       {showModal && <InfoModal message="위치 정보 이용약관에 동의해 주세요." onClose={() => setShowModal(false)} />}
@@ -52,7 +54,7 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
 function LocationTerms() {
   return (
     <div className="px-3 pt-[14px] pb-10 mb-10 bg-background-light rounded-[10px]">
-      <MarkdownRenderer markdownTitle="location-terms" color="black" />
+      <MarkdownRenderer markdownTitle="location-terms" />
     </div>
   );
 }

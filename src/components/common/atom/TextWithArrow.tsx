@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import Text from './Text';
 import ArrowIcon from '@components/icons/ArrowIcon';
 import { NavLink } from 'react-router-dom';
 
@@ -12,10 +11,8 @@ export default function TextWithArrow({ children, href }: TextType) {
   return (
     <NavLink to={href}>
       <div className="flex justify-between items-center py-[18px] cursor-pointer">
-        <Text size="l" weight="bold">
-          {children}
-        </Text>
-        <ArrowIcon fill="rgb(var(--color-label-600))" />
+        {children}
+        <ArrowIcon />
       </div>
     </NavLink>
   );

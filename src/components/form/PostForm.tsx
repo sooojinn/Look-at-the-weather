@@ -7,13 +7,13 @@ import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useEffect, useState } from 'react';
-import ExitWarningModal from '@components/common/organism/WarningModal';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 import { useGeoLocationStore } from '@/store/locationStore';
+import AlertModal from '@components/common/organism/AlertModal';
 
 interface PostWriteFormProps {
   type: '작성' | '수정';
@@ -72,9 +72,10 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
         게시글 {type}하기
       </Header>
       {shoWModal && (
-        <ExitWarningModal
-          mainMessage={`${type}하지 않고 나가시겠어요?`}
-          subMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
+        <AlertModal
+          showWarningIcon
+          boldMessage={`${type}하지 않고 나가시겠어요?`}
+          regularMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
           buttons={
             <>
               <Button type="sub" size="m" onClick={() => setShoWModal(false)}>
@@ -154,7 +155,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
               <Text size="s" color="darkGray" weight="bold">
                 게시글 작성 가이드
               </Text>
-              <MarkdownRenderer markdownTitle="post-guide" size="xs" color="darkGray" />
+              <MarkdownRenderer markdownTitle="post-guide" size="xs" />
             </div>
             <Button type="main" disabled={!isValid || !isDirty || isSubmitting}>
               {type === '작성' ? '업로드하기' : '수정하기'}

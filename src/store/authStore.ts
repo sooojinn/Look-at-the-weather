@@ -17,7 +17,11 @@ export const useAuthStore = create(
       nickName: null,
       isSocial: false,
       setIsLogin: (isLogin: boolean) => {
-        set({ isLogin });
+        set((state) => ({
+          isLogin,
+          nickName: isLogin ? state.nickName : null,
+          isSocial: isLogin ? state.isSocial : false,
+        }));
       },
       setNickName: (newNickname: string | null) => {
         set({ nickName: newNickname });

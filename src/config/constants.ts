@@ -1,3 +1,5 @@
+import { GeoPoint } from './types';
+
 export const BASEURL = import.meta.env.VITE_BASE_URL;
 
 export const SERVICE_KEY = import.meta.env.VITE_SERVICE_KEY;
@@ -51,3 +53,9 @@ export const POSTFILTERTAPLIST = [
     href: '#season',
   },
 ];
+
+// 서울시청의 위도와 경도
+export const defaultGeoPoint: GeoPoint = {
+  latitude: 37.5663,
+  longitude: 126.9779,
+};

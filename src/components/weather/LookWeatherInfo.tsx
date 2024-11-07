@@ -16,10 +16,10 @@ export default function LookWeatherInfo() {
   const isSuccess = isLocationSuccess && isWeatherSuccess;
   const isError = isLocationError || isWeatherError;
   return (
-    <div className="h-[129px] flex justify-between py-5 relative">
+    <div className="min-h-[129px] flex justify-between py-5 relative">
       {!isLoading && (
         <>
-          <div className="flex-grow flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5">
             <LocationComponent {...location} size="m" />
             {isSuccess && (
               <>
@@ -40,7 +40,7 @@ export default function LookWeatherInfo() {
               </>
             )}
           </div>
-          <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} width={134} height={110} />
+          <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={88} />
         </>
       )}
       {isLoading && (

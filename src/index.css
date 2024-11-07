@@ -109,10 +109,24 @@
   }
 }
 
+@keyframes bounce-tooltip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 .slideUp {
   animation: slideUp 0.5s forwards;
 }
 
 .fadeOut {
   animation: fadeOut 0.4s forwards;
+}
+
+.animate-bounce-tooltip {
+  animation: bounce-tooltip 1s ease-in-out forwards;
 }

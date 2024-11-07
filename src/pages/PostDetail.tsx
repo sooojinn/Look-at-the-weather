@@ -38,7 +38,7 @@ export default function PostDetail() {
   }
 
   const { id: postId } = location.state;
-
+  const isLogin = useAuthStore((state) => state.isLogin);
   const [modalOpen, setModalOpen] = useState(false);
 
   const {
@@ -101,7 +101,7 @@ export default function PostDetail() {
               <Text weight="bold">{nickname}</Text>
               <Text color="gray">{`${postLocation.city} ${postLocation.district}`}</Text>
             </div>
-            <Menu className="cursor-pointer" onClick={modalHandler} />
+            {isLogin && <Menu className="cursor-pointer" onClick={modalHandler} />}
           </div>
           <div className="w-full h-[468px] relative">
             {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}

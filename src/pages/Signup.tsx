@@ -30,7 +30,7 @@ export default function Signup() {
   return (
     <div className="h-screen flex flex-col">
       <Header>회원가입</Header>
-      <form className="flex flex-col flex-grow gap-4 justify-between pt-5 px-5 overflow-auto scrollbar-hide">
+      <form className="flex flex-col flex-grow gap-4 pt-5 px-5 overflow-auto scrollbar-hide">
         <EmailInput<SignupForm> shouldValidate {...formMethods} />
         <CodeInput<SignupForm> {...formMethods} />
         <PasswordInput<SignupForm> shouldValidate {...formMethods} />

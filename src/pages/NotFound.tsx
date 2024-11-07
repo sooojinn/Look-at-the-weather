@@ -1,4 +1,4 @@
-import NotFoundImg from '@components/icons/NotFoundImg';
+import NotFoundImg from '@components/icons/placeholders/NotFoundImg';
 import FooterNavi from '@components/common/FooterNavi';
 import { useNavigate } from 'react-router-dom';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
