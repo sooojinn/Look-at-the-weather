@@ -80,7 +80,7 @@ export default function ImageSlider({ images }: { images: string[] }) {
     >
       {/* 슬라이드 이미지 표시 */}
       <div
-        className="flex transition-transform duration-500 ease-in-out"
+        className="w-full h-full flex transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((image, index) => (

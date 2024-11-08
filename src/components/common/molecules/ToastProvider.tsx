@@ -3,8 +3,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Text from '../atom/Text';
 
 const CustomTransition = cssTransition({
-  enter: 'slideUp',
-  exit: 'fadeOut',
+  enter: 'animate-slideUp',
+  exit: 'animate-fadeOut',
 });
 
 export function ToastProvider() {

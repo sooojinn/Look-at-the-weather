@@ -17,7 +17,7 @@ export default function BackgroundShadow({
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center bg-opacity-black50 z-50 
-      ${isBackdropVisible ? 'transform bg-opacity-1' : 'transform bg-opacity-0'} transition-transform duration-300`}
+      ${isBackdropVisible ? 'transform bg-opacity-100' : 'transform bg-opacity-0'} transition-transform duration-300`}
     >
       {children}
     </div>

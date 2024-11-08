@@ -41,9 +41,7 @@ export default function KakaoRedirect() {
       {isLoading && (
         <div className="flex flex-col justify-center items-center gap-7">
           <Spinner width={60} />
-          <Text color="black" weight="bold">
-            잠시만 기다려 주세요..
-          </Text>
+          <Text weight="bold">잠시만 기다려 주세요..</Text>
         </div>
       )}
     </div>

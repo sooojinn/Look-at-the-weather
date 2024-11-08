@@ -70,7 +70,7 @@ export default function SearchAddress() {
     <div className="flex flex-col h-screen">
       <Header>주소 검색</Header>
       <div className="px-5 pt-10 pb-5 flex flex-col gap-5">
-        <Text color="black" size="xl" weight="bold">
+        <Text size="xl" weight="bold">
           해당 지역의 룩엣더웨더를 보기 위해
           <br />
           현재 계신 주소를 알려주세요
@@ -83,7 +83,7 @@ export default function SearchAddress() {
           className="w-full h-14 py-2 flex gap-1 rounded-[10px] justify-center items-center border cursor-pointer"
         >
           <LocationIcon fill="rgb(var(--color-label-600))" />
-          <Text size="l" color="black" weight="bold">
+          <Text size="l" weight="bold">
             현재 위치로 찾기
           </Text>
         </div>
@@ -91,9 +91,7 @@ export default function SearchAddress() {
       <div className="flex-1 overflow-y-auto scrollbar-hide">
         {!addressList.length && (
           <div className="mt-3 px-4">
-            <Text color="black" weight="bold">
-              이렇게 검색해 보세요
-            </Text>
+            <Text weight="bold">이렇게 검색해 보세요</Text>
             <div className="mt-2">
               <Text>
                 <span className="mx-2">•</span>도로명 + 건물번호 (화곡로 398)

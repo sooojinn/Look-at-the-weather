@@ -10,7 +10,7 @@ interface LabelProps {
 
 export default function Label({ children, size = 'm', required }: LabelProps) {
   return (
-    <Text size={size} color="black" weight="bold">
+    <Text size={size} weight="bold">
       {children}
       {required && <span className="text-status-error"> *</span>}
     </Text>

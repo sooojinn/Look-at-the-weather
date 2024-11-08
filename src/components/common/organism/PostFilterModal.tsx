@@ -276,7 +276,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
             </div>
           </div>
           {openDistrictOption ? (
-            <div className="flex flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-gray w-full">
+            <div className="flex flex-wrap gap-2 px-3 py-2 mb-5 rounded-[10px] bg-background-light w-full">
               {district.map((item) => (
                 <OptionBtn
                   key={item.districtId}

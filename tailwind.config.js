@@ -9,13 +9,13 @@ export default {
         'weather-error-gradient': 'linear-gradient(120.34deg, #063F80 -4.79%, #130B59 43.81%, #390F5F 90.11%)',
       },
       colors: {
-        black: 'rgb(var(--color-label-700))',
-        lightBlack: 'rgb(var(--color-label-600))',
-        darkGray: 'rgb(var(--color-label-500))',
-        gray: 'rgb(var(--color-label-400))',
-        lightGray: 'rgb(var(--color-label-300))',
-        disabled: 'rgb(var(--color-label-200))',
         white: 'rgb(var(--color-label-100))',
+        disabled: 'rgb(var(--color-label-200))',
+        lightGray: 'rgb(var(--color-label-300))',
+        gray: 'rgb(var(--color-label-400))',
+        darkGray: 'rgb(var(--color-label-500))',
+        lightBlack: 'rgb(var(--color-label-600))',
+        black: 'rgb(var(--color-label-700))',
 
         opacity: {
           black90: 'rgba(var(--color-label-700), 0.9)',
@@ -25,15 +25,10 @@ export default {
           lightBlack90: 'rgb(var(--color-label-600), 0.9)',
           white40: 'rgba(var(--color-label-100),0.4)',
         },
-
         background: {
           white: 'rgb(var(--color-label-100))',
-          light: 'rgb(var(--bg-gray-600))',
-          gray: 'rgb(var(--bg-gray-700))',
-        },
-        interactive: {
-          default: 'rgb(var(--color-inter-default))',
-          disabled: 'rgb(var(--line-gray-300))',
+          light: 'rgb(var(--bg-gray-100))',
+          disabled: 'rgb(var(--bg-gray-200))',
         },
         status: {
           success: 'rgb(var(--color-success))',
@@ -41,10 +36,9 @@ export default {
           error: 'rgb(var(--color-error))',
         },
         line: {
-          lightest: 'rgb(var(--line-gray-300))',
+          lightest: 'rgb(var(--line-gray-100))',
           lighter: 'rgb(var(--line-gray-200))',
-          light: 'rgb(var(--line-gray-100))',
-          black: 'rgb(var(--color-label-600))',
+          light: 'rgb(var(--line-gray-300))',
         },
         primary: {
           main: 'rgb(var(--color-primary))',
@@ -66,6 +60,25 @@ export default {
       },
       dropShadow: {
         custom: '0px 0px 8px rgba(0, 0, 0, 0.1)',
+      },
+      keyframes: {
+        slideUp: {
+          '0%': { transform: 'translateY(50%)', opacity: '0.5' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        bounceTooltip: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+      },
+      animation: {
+        slideUp: 'slideUp 0.5s forwards',
+        fadeOut: 'fadeOut 0.4s forwards',
+        bounceTooltip: 'bounceTooltip 1s ease-in-out forwards',
       },
     },
   },

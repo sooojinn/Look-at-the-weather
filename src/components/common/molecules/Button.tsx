@@ -28,7 +28,7 @@ export default function Button({
     main: 'bg-primary-main',
     white: 'bg-background-white',
     sub: 'bg-background-white',
-    disabled: 'bg-interactive-disabled',
+    disabled: 'bg-background-disabled',
   };
 
   const textColors: {

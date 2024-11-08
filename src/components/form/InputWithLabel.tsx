@@ -94,7 +94,7 @@ export default function InputWithLabel<T extends FieldValues>({
               autoComplete="off"
               maxLength={maxLength}
               className={`input h-12 ${search ? '!pl-8' : ''} ${hasError ? '!border-status-error' : ''} ${
-                disabled ? '!text-lightGray !bg-interactive-disabled' : ''
+                disabled ? '!text-lightGray !bg-background-disabled' : ''
               } focus:pr-9`}
               placeholder={placeholder}
               {...register(name, {

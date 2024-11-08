@@ -17,7 +17,7 @@ export function PostList({ postList }: PostListProps) {
   };
 
   return (
-    <div className="w-full post-list">
+    <div className="w-full grid grid-cols-2 gap-x-[3px] gap-y-2.5">
       {postList.map((post) => {
         const {
           postId,
