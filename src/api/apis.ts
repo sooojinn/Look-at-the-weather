@@ -61,11 +61,12 @@ export const patchPasswordReset = (request: RequestBody) => {
   return instance.patch('/users/password', request, getConfig());
 };
 
-export const getUserInfos = () => {
-  return instance.get('/users/me', getConfig());
+export const getUserInfos = async () => {
+  const response = await instance.get('/users/me', getConfig());
+  return response.data;
 };
 
-export const kakaoLogin = async (code: string | null) => {
+export const getKakaoUserInfos = async (code: string | null) => {
   const response = await instance.get(`/oauth/kakao?code=${code}`, getConfig());
   return response.data;
 };

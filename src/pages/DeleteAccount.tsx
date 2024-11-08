@@ -22,6 +22,7 @@ export default function DeleteAccount() {
   const { data: response } = useQuery({
     queryKey: ['deleteReasons'],
     queryFn: getDeleteReasons,
+    staleTime: Infinity,
   });
 
   const deleteAccountMutation = useMutation({

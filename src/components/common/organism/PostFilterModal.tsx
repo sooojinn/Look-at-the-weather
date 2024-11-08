@@ -33,6 +33,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   const { data: response, isSuccess } = useQuery({
     queryKey: ['getRegion'],
     queryFn: getRegion,
+    staleTime: Infinity,
   });
 
   const [activeTab, setActiveTab] = useState<number>(btnIndex);

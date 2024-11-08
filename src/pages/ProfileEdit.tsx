@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import Text from '@components/common/atom/Text';
 import PasswordInput from '@components/form/inputs/PasswordInput';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getUserInfos, patchEditProfile } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import Button from '@components/common/molecules/Button';
 import { useAuthStore } from '@/store/authStore';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { useNavigate } from 'react-router-dom';
 import EmailInput from '@components/form/inputs/EmailInput';
@@ -20,27 +20,41 @@ interface ProfileEditType {
 }
 
 export default function ProfileEdit() {
-  const [userInfo, setUserInfo] = useState({
-    email: '',
-    nickname: '',
-    name: '',
-  });
-
   const formMethods = useForm<ProfileEditType>({
     defaultValues: {
       nickname: '',
     },
   });
+
   const { handleSubmit } = formMethods;
   const setNickName = useAuthStore((state) => state.setNickName);
   const isSocial = useAuthStore((state) => state.isSocial);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const {
+    data: userInfo,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: getUserInfos,
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    if (isError) {
+      showToast('사용자 정보를 가져오는 데 실패했습니다.');
+      console.error(error);
+    }
+  }, [isError, error]);
 
   const editProfileMutation = useMutation({
     mutationFn: patchEditProfile,
     onSuccess: (_, variables) => {
       showToast('개인 정보가 수정되었습니다.');
       setNickName(variables.nickname);
+      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
       navigate(-1);
     },
     onError: () => {
@@ -53,29 +67,15 @@ export default function ProfileEdit() {
     editProfileMutation.mutate({ password, nickname });
   };
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfos();
-        const { email, nickname, name } = response.data;
-        setUserInfo({ email, nickname, name });
-      } catch (error) {
-        console.error('Failed to fetch user info:', error);
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
-
   return (
     <div className="flex flex-col h-screen">
       <Header>개인정보 수정</Header>
       <form className="flex flex-col flex-grow gap-4 overflow-y-auto scrollbar-hide p-5">
-        <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo.email} />
+        <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.email} />
         <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={isSocial} />
         <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={isSocial} />
-        <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo.name} />
-        <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo.nickname} />
+        <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.name} />
+        <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo?.nickname} />
         <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
           회원탈퇴
         </Text>

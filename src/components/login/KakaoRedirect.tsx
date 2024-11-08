@@ -6,7 +6,7 @@ import Spinner from '@components/icons/Spinner';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
-import { kakaoLogin } from '@/api/apis';
+import { getKakaoUserInfos } from '@/api/apis';
 
 export default function KakaoRedirect() {
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ export default function KakaoRedirect() {
   const { setIsLogin, setNickName, setIsSocial } = useAuthStore();
 
   const { data, isSuccess, error, isLoading } = useQuery({
-    queryKey: ['data'],
-    queryFn: () => kakaoLogin(code),
+    queryKey: ['kakaoUserInfo', code],
+    queryFn: () => getKakaoUserInfos(code),
     enabled: !!code,
   });
 
