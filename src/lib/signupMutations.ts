@@ -84,7 +84,7 @@ export const useRegisterMutation = (): UseMutationResult<void, AxiosError<ErrorR
   return useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      navigate('/');
+      navigate('/login');
       showToast('회원가입에 성공했습니다.');
       resetSignupState();
     },
