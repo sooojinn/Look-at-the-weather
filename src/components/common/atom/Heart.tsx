@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Text from './Text';
 import { deleteLike, postLike } from '@/api/apis';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -35,6 +35,11 @@ export default function Heart({
   const isLogin = useAuthStore((state) => state.isLogin);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLiked(liked);
+    setLikedCount(initialLikedCount);
+  }, [liked, initialLikedCount]);
 
   const toggleLikeMutation = useMutation({
     mutationFn: async () => {

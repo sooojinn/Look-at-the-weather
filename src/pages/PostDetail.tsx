@@ -84,7 +84,7 @@ export default function PostDetail() {
       }
       navigate(-1);
     }
-  });
+  }, [isError, error]);
 
   return (
     <div className="min-h-screen flex flex-col">
