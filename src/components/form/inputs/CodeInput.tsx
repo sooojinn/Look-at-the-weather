@@ -3,12 +3,19 @@ import InputWithLabel from '../InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import { useVerifyCodeMutation } from '@/lib/signupMutations';
 import { FormMethods } from '@/config/types';
-import { FieldValues, Path } from 'react-hook-form';
+import { FieldValues, Path, useWatch } from 'react-hook-form';
 
 export default function CodeInput<T extends FieldValues>({ ...formMethods }: FormMethods<T>) {
-  const { setError, clearErrors, getValues, watch } = formMethods;
-  const { isEmailVerified, isCodeSended } = useSignupStore();
+  const { setError, clearErrors, getValues, control } = formMethods;
+  const isEmailVerified = useSignupStore((state) => state.isEmailVerified);
+  const isCodeSended = useSignupStore((state) => state.isCodeSended);
   const { mutate: verifyCodeMutation, isPending: isVerifyingCode } = useVerifyCodeMutation<T>(setError, clearErrors);
+
+  // useWatch를 사용하여 특정 필드만 관찰
+  const codeValue = useWatch({
+    control,
+    name: 'code' as Path<T>,
+  });
 
   const handleVerifyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -32,7 +39,7 @@ export default function CodeInput<T extends FieldValues>({ ...formMethods }: For
         <Button
           size="m"
           width={123}
-          disabled={!isCodeSended || !watch('code' as Path<T>) || isEmailVerified}
+          disabled={!isCodeSended || !codeValue || isEmailVerified}
           isSubmitting={isVerifyingCode}
           onClick={handleVerifyCode}
         >

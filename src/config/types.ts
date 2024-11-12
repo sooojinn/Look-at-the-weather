@@ -1,4 +1,5 @@
 import {
+  Control,
   FieldErrors,
   FieldValues,
   RegisterOptions,
@@ -106,6 +107,7 @@ export interface FormMethods<T extends FieldValues> {
   trigger: UseFormTrigger<T>;
   getValues: UseFormGetValues<T>;
   watch: UseFormWatch<T>;
+  control: Control<T>;
   formState: { errors: FieldErrors<T> };
 }
 

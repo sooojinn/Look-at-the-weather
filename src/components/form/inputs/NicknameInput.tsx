@@ -5,7 +5,7 @@ import useSignupStore from '@/store/signupStore';
 import { useCheckNicknameMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
 import { FormMethods } from '@/config/types';
-import { FieldValues, Path } from 'react-hook-form';
+import { FieldValues, Path, useWatch } from 'react-hook-form';
 
 interface NicknameInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
@@ -18,12 +18,19 @@ export default function NicknameInput<T extends FieldValues>({
   shouldValidate,
   ...formMethods
 }: NicknameInputProps<T>) {
-  const { setError, clearErrors, getValues, watch } = formMethods;
-  const { isNicknameChecked, setIsNicknameChecked } = useSignupStore();
+  const { setError, clearErrors, getValues, control } = formMethods;
+  const isNicknameChecked = useSignupStore((state) => state.isNicknameChecked);
+  const setIsNicknameChecked = useSignupStore((state) => state.setIsNicknameChecked);
   const { mutate: checkNicknameMutation, isPending: isNicknamePending } = useCheckNicknameMutation<T>(
     setError,
     clearErrors,
   );
+
+  // useWatch를 사용하여 특정 필드만 관찰
+  const nicknameValue = useWatch({
+    control,
+    name: 'nickname' as Path<T>,
+  });
 
   const handleCheckNickname = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -44,10 +51,16 @@ export default function NicknameInput<T extends FieldValues>({
   };
 
   useEffect(() => {
-    setIsNicknameChecked(false);
+    if (nicknameValue && isNicknameChecked) {
+      setIsNicknameChecked(false);
+    }
 
-    return () => setIsNicknameChecked(false);
-  }, [watch('nickname' as Path<T>)]);
+    return () => {
+      if (isNicknameChecked) {
+        setIsNicknameChecked(false);
+      }
+    };
+  }, [nicknameValue]);
 
   return (
     <div>
@@ -69,7 +82,7 @@ export default function NicknameInput<T extends FieldValues>({
             <Button
               size="m"
               width={90}
-              disabled={!watch('nickname' as Path<T>) || isNicknameChecked}
+              disabled={!nicknameValue || isNicknameChecked}
               isSubmitting={isNicknamePending}
               onClick={handleCheckNickname}
             >
