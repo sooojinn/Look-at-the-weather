@@ -99,7 +99,7 @@ export default function Login() {
 
 function LoginTooltip() {
   return (
-    <div className="animate-bounce-tooltip z-30">
+    <div className="animate-bounceTooltip z-30">
       <div className="bg-white rounded-[10px] px-3 py-2.5 drop-shadow-custom">
         <Text size="xs" color="gray" className="text-center whitespace-nowrap">
           지금 로그인하고

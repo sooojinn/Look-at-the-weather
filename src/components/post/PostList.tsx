@@ -9,6 +9,40 @@ interface PostListProps {
   postList: PostMeta[];
 }
 
+interface PostItemProps {
+  post: PostMeta;
+  onClickPostHandler: (id: number) => void;
+}
+
+function PostItem({ post, onClickPostHandler }: PostItemProps) {
+  const {
+    postId,
+    thumbnail,
+    likeByUser,
+    location: { city, district },
+    weatherTags,
+    temperatureTags,
+    seasonTag,
+    reportPost,
+  } = post;
+
+  const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
+
+  return (
+    <div className="min-h-[312px] h-auto cursor-pointer" key={postId}>
+      <div onClick={() => onClickPostHandler(postId)}>
+        <PostListImg imgUrl={thumbnail} liked={likeByUser} postId={postId} isReported={reportPost} />
+        <div className="mt-2.5 px-5">
+          <Text>
+            {city} {district}
+          </Text>
+          <Tags tags={tags} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PostList({ postList }: PostListProps) {
   const navigate = useNavigate();
 
@@ -18,35 +52,9 @@ export function PostList({ postList }: PostListProps) {
 
   return (
     <div className="w-full grid grid-cols-2 gap-x-[3px] gap-y-2.5">
-      {postList.map((post) => {
-        const {
-          postId,
-          thumbnail,
-          likeByUser,
-          location: { city, district },
-          weatherTags,
-          temperatureTags,
-          seasonTag,
-          reportPost,
-        } = post;
-
-        const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
-        return (
-          <div className="min-h-[312px] h-auto cursor-pointer" key={uuidv4()}>
-            <div onClick={() => onClickPostHandler(postId)}>
-              <PostListImg imgUrl={thumbnail} liked={likeByUser} postId={postId} isReported={reportPost} />
-              <div className="mt-2.5 px-5">
-                <Text>
-                  {city} {district}
-                </Text>
-                <div>
-                  <Tags tags={tags} />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+      {postList.map((post) => (
+        <PostItem key={uuidv4()} post={post} onClickPostHandler={onClickPostHandler} />
+      ))}
     </div>
   );
 }
