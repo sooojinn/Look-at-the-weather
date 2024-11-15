@@ -4,14 +4,14 @@ import CloseBtn from '@components/icons/CloseBtn';
 import LoginForm from '@components/login/LoginForm';
 import { Link, useNavigate } from 'react-router-dom';
 
+const linkList = [
+  { path: '/signup', label: '회원가입', index: 1 },
+  { path: '/find-email', label: '이메일 찾기', index: 2 },
+  { path: '/find-password', label: '비밀번호 찾기', index: 3 },
+];
+
 export default function Login() {
   const navigate = useNavigate();
-
-  const linkList = [
-    { path: '/signup', label: '회원가입', index: 1 },
-    { path: '/find-email', label: '이메일 찾기', index: 2 },
-    { path: '/find-password', label: '비밀번호 찾기', index: 3 },
-  ];
 
   return (
     <div className="h-screen flex flex-col">
