@@ -5,7 +5,6 @@ import { deleteLike, postLike } from '@/api/apis';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
 import { ErrorResponse } from '@/config/types';
-import { PostDetail } from '@pages/PostDetail';
 import RedHeartIcon from '@components/icons/hearts/RedHeartIcon';
 import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
 import { useAuthStore } from '@/store/authStore';
@@ -48,14 +47,6 @@ export default function Heart({
     onSuccess: (res) => {
       setIsLiked((prev) => !prev);
       setLikedCount(res.data.likedCount);
-      queryClient.setQueryData(['postDetail', postId], (oldData: PostDetail) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-          likeByUser: !oldData.likeByUser,
-          likedCount: res.data.likedCount,
-        };
-      });
       queryClient.removeQueries({ queryKey: ['myLikedPosts'] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {

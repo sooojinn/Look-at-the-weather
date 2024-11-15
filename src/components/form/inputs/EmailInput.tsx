@@ -5,7 +5,7 @@ import useSignupStore from '@/store/signupStore';
 import { useSendVerificationMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
 import { FormMethods } from '@/config/types';
-import { FieldValues, Path } from 'react-hook-form';
+import { FieldValues, Path, useWatch } from 'react-hook-form';
 
 interface EmailInputProps<T extends FieldValues> extends FormMethods<T> {
   shouldValidate?: boolean;
@@ -19,28 +19,42 @@ export default function EmailInput<T extends FieldValues>({
   defaultValue,
   ...formMethods
 }: EmailInputProps<T>) {
-  const { setError, trigger, getValues, watch } = formMethods;
-  const { isEmailVerified, isCodeSended, setIsEmailVerified, setIsCodeSended } = useSignupStore();
+  const { setError, trigger, control } = formMethods;
+  const isEmailVerified = useSignupStore((state) => state.isEmailVerified);
+  const isCodeSended = useSignupStore((state) => state.isCodeSended);
+  const setIsEmailVerified = useSignupStore((state) => state.setIsEmailVerified);
+  const setIsCodeSended = useSignupStore((state) => state.setIsCodeSended);
+
   const { mutate: sendVerificationMutation, isPending: isCodeSending } = useSendVerificationMutation<T>(setError);
+
+  // useWatch를 사용하여 특정 필드만 관찰
+  const emailValue = useWatch({
+    control,
+    name: 'email' as Path<T>,
+  });
 
   const handleSendVerification = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const isEmailValid = await trigger('email' as Path<T>);
     if (!isEmailValid) return;
 
-    const email = getValues('email' as Path<T>);
-    sendVerificationMutation(email);
+    sendVerificationMutation(emailValue);
   };
 
   useEffect(() => {
-    setIsEmailVerified(false);
-    setIsCodeSended(false);
-
-    return () => {
+    // 이메일이 변경되고, 이전에 코드가 전송된 상태일 때만 실행
+    if (emailValue && isCodeSended) {
       setIsEmailVerified(false);
       setIsCodeSended(false);
+    }
+
+    return () => {
+      if (isCodeSended || isEmailVerified) {
+        setIsEmailVerified(false);
+        setIsCodeSended(false);
+      }
     };
-  }, [watch('email' as Path<T>)]);
+  }, [emailValue]); // 필요한 의존성만 포함
 
   return (
     <div>
@@ -66,7 +80,7 @@ export default function EmailInput<T extends FieldValues>({
             <Button
               size="m"
               width={123}
-              disabled={!watch('email' as Path<T>) || isEmailVerified}
+              disabled={!emailValue || isEmailVerified}
               isSubmitting={isCodeSending}
               onClick={handleSendVerification}
             >

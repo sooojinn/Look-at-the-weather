@@ -20,11 +20,9 @@ export default function TodayBestWearList() {
 
   return (
     <div className="w-full h-full max-w-md flex flex-col flex-grow">
-      <div className="w-full px-5 flex justify-start items-center h-[60px]">
-        <Text size="l" color="black" weight="bold">
-          Today Best Wear 👕
-        </Text>
-      </div>
+      <Text size="l" color="black" weight="bold" className="px-5 flex justify-start items-center h-[60px]">
+        Today Best Wear 👕
+      </Text>
       {isSuccess && (topLikedPosts.length ? <PostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
       {isLoading && (
         <div className="flex flex-grow justify-center items-center">

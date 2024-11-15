@@ -11,7 +11,7 @@ import { checkNickname, registerUser, sendVerificationCode, verifyCode } from '@
 export const useSendVerificationMutation = <T extends FieldValues>(
   setError: UseFormSetError<T>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
-  const { setIsCodeSended } = useSignupStore();
+  const setIsCodeSended = useSignupStore((state) => state.setIsCodeSended);
 
   return useMutation({
     mutationFn: sendVerificationCode,
@@ -35,7 +35,7 @@ export const useVerifyCodeMutation = <T extends FieldValues>(
   setError: UseFormSetError<T>,
   clearErrors: UseFormClearErrors<T>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, VerifyCodeProps> => {
-  const { setIsEmailVerified } = useSignupStore();
+  const setIsEmailVerified = useSignupStore((state) => state.setIsEmailVerified);
 
   return useMutation({
     mutationFn: verifyCode,
@@ -58,7 +58,7 @@ export const useCheckNicknameMutation = <T extends FieldValues>(
   setError: UseFormSetError<T>,
   clearErrors: UseFormClearErrors<T>,
 ): UseMutationResult<void, AxiosError<ErrorResponse>, string> => {
-  const { setIsNicknameChecked } = useSignupStore();
+  const setIsNicknameChecked = useSignupStore((state) => state.setIsNicknameChecked);
 
   return useMutation({
     mutationFn: checkNickname,
