@@ -38,8 +38,10 @@ instance.interceptors.response.use(
         error.response.data.errorCode === 'INVALID_CREDENTIALS'
       ) {
         try {
-          // accessToken 재발급 요청
+          // 인증 헤더 제거 후 accessToken 재발급 요청
+          delete instance.defaults.headers.common['Authorization'];
           const response = await reissue();
+
           if (response.data.accessToken) {
             setAccessToken(response.data.accessToken);
             error.config.headers['Authorization'] = getAccessToken();
