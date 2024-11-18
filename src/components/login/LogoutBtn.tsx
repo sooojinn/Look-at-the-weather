@@ -8,10 +8,12 @@ import Text from '../common/atom/Text';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '@components/common/organism/AlertModal';
 import Button from '@components/common/molecules/Button';
+import { usePostStore } from '@/store/postStore';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const { setIsLogin } = useAuthStore();
+  const { setIsLogin, authStoreClear } = useAuthStore();
+  const { postStoreClear } = usePostStore();
   const navigate = useNavigate();
 
   const LogoutMutation = useMutation({
@@ -19,6 +21,9 @@ export default function LogoutBtn() {
     onSuccess: () => {
       setAccessToken(null);
       setIsLogin(false);
+      localStorage.removeItem('nickname');
+      authStoreClear();
+      postStoreClear();
       navigate('/');
       showToast('로그아웃되었습니다.');
     },
