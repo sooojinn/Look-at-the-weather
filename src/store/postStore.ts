@@ -12,7 +12,6 @@ interface PostState {
   updateSeasonTagIds: (newSeasonTagIds: FilterItem[]) => void;
   updateWeatherTagIds: (newWeatherTagIds: FilterItem[]) => void;
   updateTemperatureTagIds: (newTemperatureTagIds: FilterItem[]) => void;
-  postStoreClear: () => void; // 전체 상태 초기화 함수
 }
 
 export const usePostStore = create<PostState>()(
@@ -26,19 +25,10 @@ export const usePostStore = create<PostState>()(
       updateSeasonTagIds: (newSeasonTagIds) => set({ seasonTagIds: newSeasonTagIds }),
       updateWeatherTagIds: (newWeatherTagIds) => set({ weatherTagIds: newWeatherTagIds }),
       updateTemperatureTagIds: (newTemperatureTagIds) => set({ temperatureTagIds: newTemperatureTagIds }),
-      postStoreClear: () => {
-        set({
-          locationIds: [],
-          seasonTagIds: [],
-          weatherTagIds: [],
-          temperatureTagIds: [],
-        });
-        sessionStorage.removeItem('post-store'); // sessionStorage 데이터 제거
-      },
     }),
     {
       name: 'post-store',
-      getStorage: () => sessionStorage,
+      getStorage: () => localStorage,
     },
   ),
 );

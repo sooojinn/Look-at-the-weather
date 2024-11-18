@@ -8,7 +8,6 @@ interface AuthStore {
   setIsLogin: (isLogin: boolean) => void;
   setNickName: (newNickname: string | null) => void;
   setIsSocial: (isSocial: boolean) => void;
-  authStoreClear: () => void; // 초기화 함수 추가
 }
 
 export const useAuthStore = create(
@@ -29,14 +28,6 @@ export const useAuthStore = create(
       },
       setIsSocial: (isSocial: boolean) => {
         set({ isSocial });
-      },
-      authStoreClear: () => {
-        set({
-          isLogin: false,
-          nickName: null,
-          isSocial: false,
-        });
-        sessionStorage.removeItem('auth-storage'); // sessionStorage 데이터 제거
       },
     }),
     {
