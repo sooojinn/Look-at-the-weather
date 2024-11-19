@@ -51,9 +51,13 @@ export default function Heart({
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {
-        const { errorMessage } = error.response.data;
-        console.error(errorMessage, error);
-        showToast(`${errorMessage}`);
+        const { status, data } = error.response;
+        if (status === 400) {
+          showToast(`${data.errorMessage}`);
+        } else if (status !== 401) {
+          showToast('에러가 발생했습니다. 다시 시도해주세요.');
+          console.error(`${status} 에러: ${error}`);
+        }
       } else {
         console.error('예상치 못한 에러가 발생했습니다.', error);
       }
