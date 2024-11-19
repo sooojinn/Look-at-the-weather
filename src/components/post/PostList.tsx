@@ -8,7 +8,7 @@ interface PostListProps {
 
 export function PostList({ postList }: PostListProps) {
   return (
-    <div className="w-full grid grid-cols-2 gap-x-[3px] gap-y-2.5">
+    <div className="w-full grid grid-cols-2 gap-[3px]">
       {postList.map((post) => (
         <PostItem key={uuidv4()} {...post} />
       ))}

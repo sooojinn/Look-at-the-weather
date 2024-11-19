@@ -68,6 +68,8 @@ export default function PostDetail() {
     reportPost,
   }: PostDetail = postDetailData || {};
 
+  console.log(reportPost);
+
   const imgUrlList = images?.image.map((img) => img.url);
 
   const myNickName = useAuthStore((state) => state.nickName);
@@ -103,7 +105,7 @@ export default function PostDetail() {
             </div>
             {isLogin && <Menu className="cursor-pointer" onClick={modalHandler} />}
           </div>
-          <div className="w-full h-[468px] relative">
+          <div className="w-full relative">
             {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
             <ImageSlider images={imgUrlList} />
           </div>

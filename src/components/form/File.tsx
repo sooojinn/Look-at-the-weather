@@ -97,10 +97,10 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
     };
   }, [reset]);
 
-  const previewImageStyle = 'w-[158px] flex-shrink-0 flex justify-center items-center bg-background-light';
+  const previewImageStyle = 'w-[158px] aspect-[3/4] flex-shrink-0 flex justify-center items-center bg-background-light';
 
   return (
-    <HorizontalScroll className="h-[197px] -mx-5 px-5 flex space-x-2">
+    <HorizontalScroll className="-mx-5 px-5 flex space-x-2">
       {(watch('images') || []).map((image) => {
         const { imageId, url } = image;
         return (

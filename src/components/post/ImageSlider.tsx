@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PostImg from './PostImg';
 
 export default function ImageSlider({ images }: { images: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,7 +85,7 @@ export default function ImageSlider({ images }: { images: string[] }) {
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {images.map((image, index) => (
-          <img key={index} src={image} alt={`이미지 ${index}`} className="w-full h-full object-cover" />
+          <PostImg key={index} imgUrl={image} />
         ))}
       </div>
 

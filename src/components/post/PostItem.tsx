@@ -1,8 +1,10 @@
 import { PostMeta } from '@/config/types';
-import PostListImg from './PostListImg';
+import PostImg from './PostImg';
 import Text from '@components/common/atom/Text';
 import Tags from './Tags';
 import { useNavigate } from 'react-router';
+import Heart from '@components/common/atom/Heart';
+import PostImgBlind from './PostImgBlind';
 
 export default function PostItem({ ...post }: PostMeta) {
   const {
@@ -13,7 +15,7 @@ export default function PostItem({ ...post }: PostMeta) {
     weatherTags,
     temperatureTags,
     seasonTag,
-    reportPost,
+    reportPost: isReported,
   } = post;
 
   const navigate = useNavigate();
@@ -25,9 +27,15 @@ export default function PostItem({ ...post }: PostMeta) {
   const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
 
   return (
-    <div className="min-h-[312px] h-auto cursor-pointer" onClick={() => onClickPostHandler(postId)}>
-      <PostListImg imgUrl={thumbnail} liked={likeByUser} postId={postId} isReported={reportPost} />
-      <div className="mt-2.5 px-5">
+    <div className="cursor-pointer" onClick={() => onClickPostHandler(postId)}>
+      <div className="relative">
+        {isReported && <PostImgBlind />}
+        <PostImg imgUrl={thumbnail} />
+        <div className="absolute right-3 bottom-3">
+          <Heart liked={likeByUser} postId={postId} />
+        </div>
+      </div>
+      <div className="my-2.5 px-5">
         <Text>
           {city} {district}
         </Text>
