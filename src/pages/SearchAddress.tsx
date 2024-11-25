@@ -1,4 +1,4 @@
-import { AddressItem, fetchCurrentLocation, searchAddresses } from '@/lib/geo';
+import { AddressItem, fetchCurrentLocation } from '@/lib/utils';
 import { useGeoLocationStore } from '@/store/locationStore';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
 import useLocationPermission from '@/hooks/useLocationPermission';
+import { searchAddresses } from '@/api/apis';
 
 interface AddressForm {
   address: string;

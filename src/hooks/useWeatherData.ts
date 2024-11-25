@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { GeoPoint } from '@/config/types';
-import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/lib/weather';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { useEffect } from 'react';
+import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/api/apis';
 
 const useHourlyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
   useQuery({
