@@ -56,6 +56,7 @@ export default {
       },
       fontWeight: {
         regular: 'var(--fw-400)',
+        medium: 'var(--fw-500)',
         bold: 'var(--fw-700)',
       },
       dropShadow: {

@@ -36,6 +36,7 @@
 
   /* font weight */
   --fw-400: 400;
+  --fw-500: 500;
   --fw-700: 700;
 }
 
@@ -48,6 +49,17 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'SpoqaHanSansNeo';
+  src:
+    url('/fonts/SpoqaHanSansNeo-Medium.woff2') format('woff2'),
+    url('/fonts/SpoqaHanSansNeo-Medium.woff') format('woff'),
+    url('/fonts/SpoqaHanSansNeo-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'SpoqaHanSansNeo';
   src:

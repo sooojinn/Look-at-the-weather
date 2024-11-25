@@ -43,10 +43,10 @@ export default function Button({
   const textWeights: {
     [key in ButtonType | 'disabled']: TextWeight;
   } = {
-    main: 'bold',
-    white: 'bold',
+    main: 'medium',
+    white: 'medium',
     sub: 'regular',
-    disabled: 'bold',
+    disabled: 'medium',
   };
 
   const borders = {

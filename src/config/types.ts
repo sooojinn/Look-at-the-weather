@@ -49,7 +49,7 @@ export type TextColor =
   | 'disabled'
   | 'error'
   | 'success';
-export type TextWeight = 'regular' | 'bold';
+export type TextWeight = 'regular' | 'medium' | 'bold';
 
 export interface ImageItem {
   imageId: number;
