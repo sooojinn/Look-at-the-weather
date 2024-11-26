@@ -14,6 +14,7 @@ interface InputWithLabelProps<T extends FieldValues> extends FormMethods<T> {
   disabled?: boolean;
   placeholder?: string;
   search?: boolean;
+  hideDeleteBtn?: boolean;
   maxLength?: number;
   button?: ReactNode;
   rules?: RegisterOptions<T>;
@@ -27,6 +28,7 @@ export default function InputWithLabel<T extends FieldValues>({
   disabled,
   placeholder,
   search,
+  hideDeleteBtn,
   maxLength,
   button,
   ...formMethods
@@ -35,11 +37,11 @@ export default function InputWithLabel<T extends FieldValues>({
     rules,
     register,
     setValue,
+    getValues,
     defaultValue,
     formState: { errors },
   } = formMethods;
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [inputValue, setInputValue] = useState('');
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
 
   const togglePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
@@ -48,35 +50,34 @@ export default function InputWithLabel<T extends FieldValues>({
   };
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (hideDeleteBtn) return;
+
     const value = e.target.value;
-    setInputValue(value);
-    if (value) {
+    if (value && !showDeleteBtn) {
       setShowDeleteBtn(true);
-    } else {
+    } else if (!value && showDeleteBtn) {
       setShowDeleteBtn(false);
     }
   };
 
   const handleDeleteClick = () => {
-    setInputValue('');
-    setShowDeleteBtn(false);
     setValue(name, '' as T[typeof name]);
   };
 
   const handleFocus = () => {
-    if (inputValue) {
+    if (getValues(name)) {
       setShowDeleteBtn(true);
     }
   };
 
   const handleBlur = () => {
     setTimeout(() => {
-      setShowDeleteBtn(false); // 포커스 아웃 시 삭제 버튼 숨김 (클릭 이벤트가 먼저 처리되도록 setTimeout 사용)
+      setShowDeleteBtn(false);
     }, 100);
   };
 
   useEffect(() => {
-    if (defaultValue) setInputValue(defaultValue);
+    if (defaultValue) setValue(name, defaultValue as T[typeof name]);
   }, [defaultValue]);
 
   const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
@@ -94,14 +95,13 @@ export default function InputWithLabel<T extends FieldValues>({
               autoComplete="off"
               maxLength={maxLength}
               className={`input h-12 ${search ? '!pl-8' : ''} ${hasError ? '!border-status-error' : ''} ${
-                disabled ? '!text-lightGray !bg-background-disabled' : ''
+                disabled ? '!text-gray !bg-background-disabled' : ''
               } focus:pr-9`}
               placeholder={placeholder}
               {...register(name, {
                 ...rules,
                 onChange: handleInputChange,
               })}
-              value={inputValue}
               onFocus={handleFocus}
               onBlur={handleBlur}
             />
@@ -110,11 +110,11 @@ export default function InputWithLabel<T extends FieldValues>({
                 <SearchIcon />
               </div>
             )}
-            <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center">
-              {type === 'password' && !disabled && (
+            <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center gap-5">
+              {type === 'password' && !disabled && showDeleteBtn && (
                 <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
               )}
-              {type !== 'password' && showDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
+              {showDeleteBtn && !hideDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
             </div>
           </div>
           {button && <div className="ml-3">{button}</div>}

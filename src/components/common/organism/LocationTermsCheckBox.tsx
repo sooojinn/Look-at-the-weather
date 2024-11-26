@@ -38,7 +38,7 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
               required: true,
             })}
           />
-          <CheckBoxBtn isChecked={!!isChecked} isError={!!errors.terms} />
+          <CheckBoxBtn isChecked={!!isChecked} />
           <Text>위치 정보 이용약관(필수)</Text>
         </label>
         <div className={`transition-transform duration-400 ${showTerms ? 'transform rotate-180' : ''}`}>

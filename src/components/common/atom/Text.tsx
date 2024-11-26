@@ -44,6 +44,7 @@ export default function Text({
 
   const textWeight = {
     regular: 'font-regular',
+    medium: 'font-medium',
     bold: 'font-bold',
   };
 

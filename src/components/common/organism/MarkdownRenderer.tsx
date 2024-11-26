@@ -9,7 +9,7 @@ interface MarkdownRendererProps {
   color?: TextColor;
 }
 
-export default function MarkdownRenderer({ markdownTitle, size, color }: MarkdownRendererProps) {
+export default function MarkdownRenderer({ markdownTitle, size, color = 'darkGray' }: MarkdownRendererProps) {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {

@@ -27,9 +27,10 @@ export default function CodeInput<T extends FieldValues>({ ...formMethods }: For
   return (
     <InputWithLabel<T>
       name={'code' as Path<T>}
-      label="인증번호 확인"
+      label="이메일 인증번호 확인"
       disabled={isEmailVerified}
       placeholder="인증번호를 입력해 주세요."
+      hideDeleteBtn
       rules={{
         required: '인증번호를 입력해 주세요.',
         validate: () => isEmailVerified || '이메일 인증을 완료해 주세요.',

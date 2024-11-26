@@ -75,6 +75,7 @@ export default function NicknameInput<T extends FieldValues>({
           }),
         }}
         maxLength={10}
+        hideDeleteBtn
         defaultValue={defaultValue ? defaultValue : ''}
         {...formMethods}
         button={
