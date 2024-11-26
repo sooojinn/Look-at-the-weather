@@ -1,4 +1,4 @@
-import { PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
+import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 
@@ -160,4 +160,24 @@ export const deleteAccount = (reason: string) => {
 
 export const getRegion = () => {
   return instance.get(`/regions`, getConfig());
+};
+
+export const getLocationFromGeoPoint = async ({ latitude, longitude }: GeoPoint) => {
+  const response = await instance.get(`/location?latitude=${latitude}&longitude=${longitude}`, getConfig());
+  return response.data;
+};
+
+export const searchAddresses = async (address: string) => {
+  const response = await instance.get(`/location/search?address=${address}`, getConfig());
+  return response.data;
+};
+
+export const getHourlyWeatherInfo = async ({ latitude, longitude }: GeoPoint) => {
+  const response = await instance.get(`/weather/time?latitude=${latitude}&longitude=${longitude}`, getConfig());
+  return response.data;
+};
+
+export const getDailyWeatherInfo = async ({ latitude, longitude }: GeoPoint) => {
+  const response = await instance.get(`/weather/tmp?latitude=${latitude}&longitude=${longitude}`, getConfig());
+  return response.data;
 };
