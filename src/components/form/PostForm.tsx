@@ -40,11 +40,11 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
   setValue('city', city, { shouldDirty: true });
   setValue('district', district, { shouldDirty: true });
 
-  const [shoWModal, setShoWModal] = useState(false);
+  const [shoWModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   const handleFormCloseBtn = () => {
-    if (isDirty) setShoWModal(true);
+    if (isDirty) setShowModal(true);
     else navigate(-1);
   };
 
@@ -73,12 +73,17 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
       </Header>
       {shoWModal && (
         <AlertModal
-          showWarningIcon
-          boldMessage={`${type}하지 않고 나가시겠어요?`}
-          regularMessage={`지금까지 ${type}한 내용은 삭제됩니다.`}
+          boldMessage={`게시물 ${type} 취소`}
+          regularMessage={
+            <>
+              {`게시물을 ${type}하지 않고 나가시겠어요?`}
+              <br />
+              {`지금까지 ${type}한 내용은 삭제됩니다.`}
+            </>
+          }
           buttons={
             <>
-              <Button type="sub" size="m" onClick={() => setShoWModal(false)}>
+              <Button type="sub" size="m" onClick={() => setShowModal(false)}>
                 닫기
               </Button>
               <Button

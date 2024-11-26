@@ -43,6 +43,7 @@ export default function LogoutBtn() {
       </div>
       {showLogoutModal && (
         <AlertModal
+          boldMessage="로그아웃 확인"
           regularMessage="정말 로그아웃 하시겠습니까?"
           buttons={
             <>

@@ -7,7 +7,6 @@ import Button from '@components/common/molecules/Button';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
 import AlertModal from '@components/common/organism/AlertModal';
-import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -93,19 +92,27 @@ export default function DeleteAccount() {
         />
       )}
       {showDeleteSuccessModal && (
-        <InfoModal
-          message={
+        <AlertModal
+          boldMessage="탈퇴 완료"
+          regularMessage={
             <p>
               탈퇴가 완료되었습니다.
               <br />
               그동안 이용해주셔서 감사합니다.
             </p>
           }
-          onClose={() => {
-            navigate('/');
-            setAccessToken(null);
-            setIsLogin(false);
-          }}
+          buttons={
+            <Button
+              size="m"
+              onClick={() => {
+                navigate('/');
+                setAccessToken(null);
+                setIsLogin(false);
+              }}
+            >
+              확인
+            </Button>
+          }
         />
       )}
     </div>

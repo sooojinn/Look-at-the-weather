@@ -119,9 +119,14 @@ export default function PostManageModal({
       )}
       {showDeleteWarningModal && (
         <AlertModal
-          showWarningIcon
-          boldMessage="게시물을 정말 삭제하시겠어요?"
-          regularMessage="삭제된 게시물은 복구되지 않아요."
+          boldMessage="게시물 삭제"
+          regularMessage={
+            <>
+              게시물을 정말 삭제하시겠어요?
+              <br />
+              삭제된 게시물은 복구되지 않아요.
+            </>
+          }
           buttons={
             <div className="w-full flex gap-2">
               <Button
@@ -132,7 +137,7 @@ export default function PostManageModal({
                   modalController(false);
                 }}
               >
-                닫기
+                취소
               </Button>
               <Button type="main" size="m" onClick={() => deletePostMutation.mutate(postId)}>
                 삭제하기
@@ -143,7 +148,6 @@ export default function PostManageModal({
       )}
       {showHideWarningModal && (
         <AlertModal
-          showWarningIcon
           boldMessage="게시물을 정말 숨기기 하시겠어요?"
           regularMessage="숨겨진 게시물은 복구되지 않아요."
           buttons={
