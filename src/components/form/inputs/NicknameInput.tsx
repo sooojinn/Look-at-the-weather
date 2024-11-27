@@ -82,7 +82,7 @@ export default function NicknameInput<T extends FieldValues>({
           shouldValidate && (
             <Button
               size="m"
-              width={90}
+              width={102}
               disabled={!nicknameValue || isNicknameChecked}
               isSubmitting={isNicknamePending}
               onClick={handleCheckNickname}

@@ -13,7 +13,7 @@ export default function PostImg({ imgUrl }: PostListImgProps) {
       src={isLoaded ? imgUrl : placeholderImg}
       onLoad={() => setIsLoaded(true)}
       onError={() => setIsLoaded(true)}
-      className="w-full h-auto object-cover aspect-[3/4]"
+      className="w-full h-auto object-cover aspect-custom"
       alt="thumbnail"
     />
   );

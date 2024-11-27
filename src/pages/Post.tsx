@@ -174,7 +174,7 @@ export default function Post() {
 
   return (
     <div className="h-screen flex flex-col pb-[61px]">
-      <Header>Look</Header>
+      <Header>LOOK</Header>
       <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
         <div className="px-5">
           <LookWeatherInfo />
@@ -190,8 +190,8 @@ export default function Post() {
                   locationIds.length > 1
                     ? `${locationIds[0].districtName} 외 ${locationIds.length - 1}`
                     : locationIds.length === 1
-                    ? `${locationIds[0].districtName}`
-                    : '지역'
+                      ? `${locationIds[0].districtName}`
+                      : '지역'
                 }
               />
 
@@ -202,8 +202,8 @@ export default function Post() {
                   weatherTagIds.length > 1
                     ? `${weatherTagIds[0].tagName} 외 ${weatherTagIds.length - 1}`
                     : weatherTagIds.length === 1
-                    ? `${weatherTagIds[0].tagName}`
-                    : '날씨'
+                      ? `${weatherTagIds[0].tagName}`
+                      : '날씨'
                 }
               />
               <OptionBtn
@@ -213,8 +213,8 @@ export default function Post() {
                   temperatureTagIds.length > 1
                     ? `${temperatureTagIds[0].tagName} 외 ${temperatureTagIds.length - 1}`
                     : temperatureTagIds.length === 1
-                    ? `${temperatureTagIds[0].tagName}`
-                    : '온도'
+                      ? `${temperatureTagIds[0].tagName}`
+                      : '온도'
                 }
               />
               <OptionBtn
@@ -224,8 +224,8 @@ export default function Post() {
                   seasonTagIds.length > 1
                     ? `${seasonTagIds[0].tagName} 외 ${seasonTagIds.length - 1}`
                     : seasonTagIds.length === 1
-                    ? `${seasonTagIds[0].tagName}`
-                    : '계절'
+                      ? `${seasonTagIds[0].tagName}`
+                      : '계절'
                 }
               />
             </div>
@@ -292,12 +292,12 @@ function AllPostEmpty() {
   return (
     <StatusPlaceholder
       ImgComp={NoPostImg}
-      boldMessage="내 지역에 올라온 코디가 아직 없어요"
+      boldMessage="내 지역에 올라온 룩이 아직 없어요"
       lightMessage={
         <>
-          다른 지역의 코디를 먼저
+          다른 지역의 룩을 먼저
           <br />
-          둘러보시는 건 어떠세요?
+          둘러보시는 건 어떨까요?
         </>
       }
     />

@@ -3,6 +3,7 @@ import HomeIcon from '@components/icons/nav/HomeIcon';
 import MyPageIcon from '@components/icons/nav/MyPageIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
 import { NavLink } from 'react-router-dom';
+import Text from './atom/Text';
 
 interface NavItem {
   path: string;
@@ -19,21 +20,17 @@ const navList: NavItem[] = [
 
 export default function FooterNavi() {
   return (
-    <nav className="max-w-md bottom-0 fixed w-full bg-background-white border-t border-line-lightest flex justify-around py-2">
+    <nav className="max-w-md bottom-0 fixed w-full h-14 bg-background-white border-t border-line-lightest flex justify-around">
       {navList.map((navItem) => (
-        <NavLink
-          key={navItem.path}
-          to={navItem.path}
-          className={({ isActive }) =>
-            `flex flex-col items-center w-14 ${isActive ? 'text-primary-main' : 'text-lightGray'}`
-          }
-        >
+        <NavLink key={navItem.path} to={navItem.path} className="w-14 flex flex-col justify-center items-center gap-1">
           {({ isActive }) => {
             const { Icon } = navItem;
             return (
               <>
-                <Icon fill={isActive ? 'rgb(var(--color-primary))' : 'rgb(var(--color-label-300))'} />
-                <span className="text-xs mt-1">{navItem.label}</span>
+                <Icon fill={isActive ? 'rgb(var(--color-primary))' : 'rgb(var(--color-label-400))'} />
+                <Text size="xs" color={isActive ? 'main' : 'gray'} weight={isActive ? 'bold' : 'regular'}>
+                  {navItem.label}
+                </Text>
               </>
             );
           }}

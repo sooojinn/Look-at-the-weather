@@ -162,7 +162,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
               </Text>
               <MarkdownRenderer markdownTitle="post-guide" size="xs" />
             </div>
-            <Button type="main" disabled={!isValid || !isDirty || isSubmitting}>
+            <Button type="main" disabled={!isValid || !isDirty || isSubmitting} strongDisabled>
               {type === '작성' ? '업로드하기' : '수정하기'}
             </Button>
           </div>

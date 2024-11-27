@@ -71,9 +71,9 @@ export default function Heart({
   };
 
   return (
-    <div onClick={handleClick} className="flex row gap-x-2">
+    <div onClick={handleClick} className="flex items-center gap-x-2">
       {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}
-      {hasUserNumber && <Text color="lightGray">{likedCount || 0}</Text>}
+      {hasUserNumber && <Text>{likedCount || 0}</Text>}
       {showLoginPromptModal && (
         <AlertModal
           boldMessage="로그인 필요"

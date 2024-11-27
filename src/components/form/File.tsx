@@ -97,7 +97,8 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
     };
   }, [reset]);
 
-  const previewImageStyle = 'w-[158px] aspect-[3/4] flex-shrink-0 flex justify-center items-center bg-background-light';
+  const previewImageStyle =
+    'w-[158px] aspect-custom flex-shrink-0 flex justify-center items-center bg-background-light';
 
   return (
     <HorizontalScroll className="-mx-5 px-5 flex space-x-2">

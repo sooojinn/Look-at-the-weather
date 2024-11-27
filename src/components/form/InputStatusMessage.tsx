@@ -1,5 +1,5 @@
 import Text from '@components/common/atom/Text';
-import CheckIcon from '@components/icons/CheckIcon';
+import CheckIcon from '@components/icons/input/CheckIcon';
 import { ReactNode } from 'react';
 
 interface InputStatusMessageProps {

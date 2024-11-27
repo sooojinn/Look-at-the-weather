@@ -20,13 +20,13 @@ export default function Header({ children, hideBackBtn, noBorder, onClose }: Hea
   const handleBackBtn = () => navigate(-1);
   return (
     <header
-      className={`w-full sticky top-0 bg-background-white flex justify-between items-center px-5 py-4 z-20 ${
+      className={`w-full sticky top-0 h-[50px] bg-background-white flex justify-between items-center px-5 z-20 ${
         noBorder ? '' : 'border-b border-line-lightest'
       }`}
     >
       <div className="w-6 h-6">{!isMainPage && !hideBackBtn && <BackBtn onClick={handleBackBtn} />}</div>
       <div className="flex justify-center items-center">
-        <Text size="2xl" weight="bold">
+        <Text size="xl" weight="bold">
           {children}
         </Text>
       </div>

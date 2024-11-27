@@ -10,7 +10,6 @@ const CustomTransition = cssTransition({
 export function ToastProvider() {
   return (
     <ToastContainer
-      autoClose={4000}
       hideProgressBar
       closeOnClick
       closeButton={false}
@@ -43,5 +42,8 @@ export function showToast(message: string, cancelBtnText: string = '', onCancel:
         </button>
       )}
     </div>,
+    {
+      autoClose: message.length > 20 ? 3000 : 2000, // 계산된 autoClose 적용
+    },
   );
 }

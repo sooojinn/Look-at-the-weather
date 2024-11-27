@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
-import Menu from '@components/icons/Menu';
+import Menu from '@components/icons/post-menu/Menu';
 import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
@@ -110,7 +110,13 @@ export default function PostDetail() {
             <ImageSlider images={imgUrlList} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
-            <Heart fill="gray" liked={likeByUser} postId={postId} hasUserNumber likedCount={likedCount} />
+            <Heart
+              fill="rgb(var(--color-label-600))"
+              liked={likeByUser}
+              postId={postId}
+              hasUserNumber
+              likedCount={likedCount}
+            />
             <div className="flex flex-col gap-4">
               <Text size="l" weight="bold">
                 {title}

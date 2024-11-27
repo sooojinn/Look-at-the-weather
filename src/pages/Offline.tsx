@@ -8,7 +8,7 @@ export default function Offline() {
       <StatusPlaceholder
         ImgComp={OfflineImg}
         boldMessage="잠시 연결이 불안정해요"
-        lightMessage="네트워크 상태 확인 후 다시 시도해 주세요."
+        lightMessage="조금 뒤 다시 접속해주세요."
       />
       <FooterNavi />
     </div>

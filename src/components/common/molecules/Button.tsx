@@ -9,6 +9,7 @@ interface ButtonProps {
   children: ReactNode;
   type?: ButtonType;
   disabled?: boolean;
+  strongDisabled?: boolean;
   isSubmitting?: boolean;
   width?: number;
   size?: ButtonSize;
@@ -19,6 +20,7 @@ export default function Button({
   children,
   type = 'main',
   disabled,
+  strongDisabled,
   isSubmitting,
   width,
   size = 'l',
@@ -28,7 +30,7 @@ export default function Button({
     main: 'bg-primary-main',
     white: 'bg-background-white',
     sub: 'bg-background-white',
-    disabled: 'bg-background-disabled',
+    disabled: strongDisabled ? 'bg-disabled' : 'bg-background-disabled',
   };
 
   const textColors: {
@@ -37,7 +39,7 @@ export default function Button({
     main: 'white',
     white: 'main',
     sub: 'lightBlack',
-    disabled: 'disabled',
+    disabled: strongDisabled ? 'gray' : 'disabled',
   };
 
   const textWeights: {

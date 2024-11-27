@@ -39,7 +39,9 @@ export default function LogoutBtn() {
   return (
     <>
       <div onClick={() => setShowLogoutModal(true)}>
-        <Text className="cursor-pointer">로그아웃</Text>
+        <Text color="darkGray" className="cursor-pointer underline">
+          로그아웃
+        </Text>
       </div>
       {showLogoutModal && (
         <AlertModal

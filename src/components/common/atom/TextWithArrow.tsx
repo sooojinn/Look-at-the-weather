@@ -10,7 +10,7 @@ type TextType = {
 export default function TextWithArrow({ children, href }: TextType) {
   return (
     <NavLink to={href}>
-      <div className="flex justify-between items-center py-[18px] cursor-pointer">
+      <div className="flex justify-between items-center py-4 cursor-pointer">
         {children}
         <ArrowIcon />
       </div>

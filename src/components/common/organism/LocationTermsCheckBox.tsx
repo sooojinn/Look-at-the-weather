@@ -1,4 +1,4 @@
-import CheckBoxBtn from '@components/icons/CheckBoxBtn';
+import CheckBoxBtn from '@components/common/atom/CheckBoxBtn';
 import { useEffect, useState } from 'react';
 import Text from '../atom/Text';
 import ToggleBtn from '@components/icons/ToggleBtn';

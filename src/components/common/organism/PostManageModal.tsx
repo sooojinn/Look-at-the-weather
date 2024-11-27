@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import CloseBtn from '@components/icons/CloseBtn';
-import ReportIcon from '@components/icons/ReportIcon';
-import HideIcon from '@components/icons/HideIcon';
-import DeleteIcon from '@components/icons/DeleteIcon';
-import EditIcon from '@components/icons/EditIcon';
+import ReportIcon from '@components/icons/post-menu/ReportIcon';
+import DeleteIcon from '@components/icons/post-menu/DeleteIcon';
 import { deletePost, hidePost } from '@/api/apis';
 import { useNavigate } from 'react-router-dom';
 import { PostDetail } from '@pages/PostDetail';
@@ -13,6 +10,9 @@ import Button from '../molecules/Button';
 import BackgroundShadow from './BackgroundShadow';
 import PostMenuItem from '../molecules/PostMenuItem';
 import AlertModal from './AlertModal';
+import ModalHeader from '../molecules/ModalHeader';
+import HideIcon from '@components/icons/input/HideIcon';
+import WriteIcon from '@components/icons/nav/WriteIcon';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,10 +32,6 @@ export default function PostManageModal({
   const navigate = useNavigate();
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
   const [showHideWarningModal, setShowHideWarningModal] = useState(false);
-
-  const onClickCloseBtn = () => {
-    modalController(false);
-  };
 
   const hidePostMutation = useMutation({
     mutationFn: hidePost,
@@ -87,15 +83,13 @@ export default function PostManageModal({
     <>
       {!showDeleteWarningModal && !showHideWarningModal && (
         <BackgroundShadow>
-          <div className="fixed bottom-0 w-full max-w-md bg-background-white rounded-t-3xl">
-            <div className="h-14 pr-5 flex justify-end items-center">
-              <CloseBtn onClick={onClickCloseBtn} />
-            </div>
+          <div className="fixed bottom-0 w-full max-w-md bg-background-white rounded-t-3xl overflow-hidden">
+            <ModalHeader onClose={() => modalController(false)}></ModalHeader>
             <div className="pt-5 pb-10">
               {isMyPost ? (
                 <>
                   {isReported || (
-                    <PostMenuItem Icon={EditIcon} onClick={onClickUpdateBtn}>
+                    <PostMenuItem Icon={WriteIcon} onClick={onClickUpdateBtn}>
                       수정하기
                     </PostMenuItem>
                   )}
