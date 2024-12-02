@@ -10,17 +10,38 @@ import PasswordInput from '@components/form/inputs/PasswordInput';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AlertModal from '@components/common/organism/AlertModal';
 
 export default function Signup() {
-  const formMethods = useForm<SignupForm>();
+  const formMethods = useForm<SignupForm>({
+    defaultValues: {
+      email: '',
+      code: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      nickname: '',
+      terms: false,
+    },
+  });
+
   const {
     register,
     watch,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isDirty },
   } = formMethods;
 
+  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
   const { mutate: registerMutation } = useRegisterMutation();
+
+  const handleFormCloseBtn = () => {
+    if (isDirty) setShowModal(true);
+    else navigate(-1);
+  };
 
   const onSubmit = async (data: SignupForm) => {
     const { email, password, name, nickname } = data;
@@ -29,7 +50,9 @@ export default function Signup() {
 
   return (
     <div className="h-screen flex flex-col">
-      <Header>회원가입</Header>
+      <Header hideBackBtn onClose={handleFormCloseBtn}>
+        회원가입
+      </Header>
       <form className="flex flex-col flex-grow gap-4 pt-5 px-5 overflow-auto scrollbar-hide">
         <EmailInput<SignupForm> shouldValidate {...formMethods} />
         <CodeInput<SignupForm> {...formMethods} />
@@ -44,6 +67,30 @@ export default function Signup() {
           가입하기
         </Button>
       </div>
+      {showModal && (
+        <AlertModal
+          boldMessage="회원가입 취소"
+          regularMessage={
+            <>
+              회원가입을 취소하시겠어요?
+              <br />
+              다시 가입할 경우 처음부터
+              <br />
+              정보를 입력해야 합니다.
+            </>
+          }
+          buttons={
+            <>
+              <Button size="m" type="sub" onClick={() => setShowModal(false)}>
+                가입 계속하기
+              </Button>
+              <Button size="m" onClick={() => navigate(-1)}>
+                취소하기
+              </Button>
+            </>
+          }
+        />
+      )}
     </div>
   );
 }

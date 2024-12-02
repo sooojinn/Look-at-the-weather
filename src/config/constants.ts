@@ -2,10 +2,6 @@ import { GeoPoint } from './types';
 
 export const BASEURL = import.meta.env.VITE_BASE_URL;
 
-export const SERVICE_KEY = import.meta.env.VITE_SERVICE_KEY;
-
-export const WEATHER_API_URL = import.meta.env.VITE_WEATHER_API_URL;
-
 export const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 
 export const REDIRECT_URI = 'https://www.lookattheweather.store/oauth';
@@ -55,7 +51,7 @@ export const POSTFILTERTAPLIST = [
 ];
 
 // 서울시청의 위도와 경도
-export const defaultGeoPoint: GeoPoint = {
+export const DEFAULT_GEO_POINT: GeoPoint = {
   latitude: 37.5663,
   longitude: 126.9779,
 };

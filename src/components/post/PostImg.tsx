@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import placeholderImg from '/assets/placeholder_img.svg';
 
 interface PostListImgProps {
@@ -7,13 +7,33 @@ interface PostListImgProps {
 
 export default function PostImg({ imgUrl }: PostListImgProps) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsLoaded(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.01 },
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <img
+      ref={imgRef}
       src={isLoaded ? imgUrl : placeholderImg}
-      onLoad={() => setIsLoaded(true)}
-      onError={() => setIsLoaded(true)}
-      className="w-full h-auto object-cover aspect-[3/4]"
+      className="w-full h-auto object-cover aspect-custom"
       alt="thumbnail"
     />
   );

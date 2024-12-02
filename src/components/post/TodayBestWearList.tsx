@@ -39,15 +39,14 @@ function TopLikedPostEmpty() {
       ImgComp={NoPostImg}
       boldMessage={
         <>
-          오늘의 베스트 코디가
+          오늘의 베스트 룩이
           <br /> 아직 선정되지 않았어요
         </>
       }
       lightMessage={
         <>
-          맘에 드는 코디를 선택하고
-          <br />
-          직접 베스트 코디를 뽑아보는 건 어떠세요?
+          맘에 드는 게시물에 좋아요를 눌러 직접
+          <br /> 베스트 룩을 뽑아보세요!
         </>
       }
     />

@@ -1,6 +1,6 @@
+import Header from '@components/common/Header';
 import Logo from '@components/common/atom/Logo';
 import Text from '@components/common/atom/Text';
-import CloseBtn from '@components/icons/CloseBtn';
 import LoginForm from '@components/login/LoginForm';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -15,10 +15,7 @@ export default function Login() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="h-14 px-5 flex items-center flex-shrink-0">
-        <CloseBtn onClick={() => navigate(-1)} />
-      </div>
-
+      <Header hideBackBtn noBorder onClose={() => navigate(-1)}></Header>
       <div className="min-h-[140px] max-h-[200px] flex flex-col gap-3 flex-grow justify-center items-center">
         <Logo width={120} height={54} />
         <Text size="l" color="gray">
@@ -30,7 +27,7 @@ export default function Login() {
         <div className="h-12 mt-6 flex justify-between">
           {linkList.map(({ path, label, index }) => (
             <Link key={index} to={path} className="w-[106px] flex justify-center items-center">
-              <Text weight="bold">{label}</Text>
+              <Text weight="medium">{label}</Text>
             </Link>
           ))}
         </div>

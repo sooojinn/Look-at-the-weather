@@ -52,7 +52,7 @@ export default function PostReport() {
           <br />
           이유를 알려주세요.
         </Text>
-        <Text color="gray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
+        <Text color="darkGray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
       </div>
       <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       <FooterNavi />

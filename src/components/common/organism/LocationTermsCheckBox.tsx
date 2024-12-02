@@ -1,11 +1,12 @@
-import CheckBoxBtn from '@components/icons/CheckBoxBtn';
+import CheckBoxBtn from '@components/common/atom/CheckBoxBtn';
 import { useEffect, useState } from 'react';
 import Text from '../atom/Text';
 import ToggleBtn from '@components/icons/ToggleBtn';
 import MarkdownRenderer from './MarkdownRenderer';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import InfoModal from './InfoModal';
 import { SignupForm } from '@/config/types';
+import AlertModal from './AlertModal';
+import Button from '../molecules/Button';
 
 interface LocationTermsCheckBoxProps {
   register: UseFormRegister<SignupForm>;
@@ -46,7 +47,17 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
         </div>
       </div>
       {showTerms && <LocationTerms />}
-      {showModal && <InfoModal message="위치 정보 이용약관에 동의해 주세요." onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AlertModal
+          boldMessage="이용약관 동의"
+          regularMessage="위치 정보 이용약관에 동의해 주세요."
+          buttons={
+            <Button size="m" onClick={() => setShowModal(false)}>
+              확인
+            </Button>
+          }
+        />
+      )}
     </div>
   );
 }

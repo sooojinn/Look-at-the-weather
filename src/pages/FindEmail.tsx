@@ -3,14 +3,13 @@ import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
-
 import Button from '@components/common/molecules/Button';
-import InfoModal from '@components/common/organism/InfoModal';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
 import { postFindEmail } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
+import AlertModal from '@components/common/organism/AlertModal';
 
 interface FindEmailForm {
   name: string;
@@ -58,7 +57,13 @@ export default function FindEmail() {
         </div>
         <Button>이메일 찾기</Button>
       </form>
-      {showModal && <InfoModal message="가입된 계정 정보가 없습니다." onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <AlertModal
+          boldMessage="이메일 찾기 결과"
+          regularMessage="가입된 계정 정보가 없습니다."
+          buttons={<Button onClick={() => setShowModal(false)}>확인</Button>}
+        />
+      )}
     </div>
   );
 }

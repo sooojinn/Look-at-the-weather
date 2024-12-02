@@ -47,7 +47,7 @@ export default {
       },
       fontSize: {
         xs: 'var(--fs-xs)',
-        s: 'var(--fs-md)',
+        s: 'var(--fs-sm)',
         m: 'var(--fs-md)',
         l: 'var(--fs-lg)',
         xl: 'var(--fs-xl)',
@@ -80,6 +80,9 @@ export default {
         slideUp: 'slideUp 0.5s forwards',
         fadeOut: 'fadeOut 0.4s forwards',
         bounceTooltip: 'bounceTooltip 1s ease-in-out forwards',
+      },
+      aspectRatio: {
+        custom: '4/5',
       },
     },
   },

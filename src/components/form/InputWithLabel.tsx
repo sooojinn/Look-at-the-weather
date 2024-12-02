@@ -1,10 +1,10 @@
 import { FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import Label from '@components/form/Label';
 import { ReactNode, useEffect, useState } from 'react';
-import PasswordToggleBtn from '@components/icons/PasswordToggleBtn';
+import PasswordToggleBtn from '@components/common/atom/PasswordToggleBtn';
 import ErrorMessage from './ErrorMessage';
-import InputDeleteBtn from '@components/icons/InputDeleteBtn';
-import SearchIcon from '@components/icons/SearchIcon';
+import InputDeleteBtn from '@components/icons/input/InputDeleteBtn';
+import SearchIcon from '@components/icons/input/SearchIcon';
 import { FormMethods } from '@/config/types';
 
 interface InputWithLabelProps<T extends FieldValues> extends FormMethods<T> {

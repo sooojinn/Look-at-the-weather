@@ -39,10 +39,13 @@ export default function LogoutBtn() {
   return (
     <>
       <div onClick={() => setShowLogoutModal(true)}>
-        <Text className="cursor-pointer">로그아웃</Text>
+        <Text color="darkGray" className="cursor-pointer underline">
+          로그아웃
+        </Text>
       </div>
       {showLogoutModal && (
         <AlertModal
+          boldMessage="로그아웃 확인"
           regularMessage="정말 로그아웃 하시겠습니까?"
           buttons={
             <>

@@ -227,7 +227,9 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           onMouseDown={handleMouseDown} // 마우스 드래그 시작
           onTouchStart={handleTouchStart} // 터치 드래그 시작
         >
-          <ModalHeader onClose={() => isOpen(false)}>필터</ModalHeader>
+          <ModalHeader resizable onClose={() => isOpen(false)}>
+            필터
+          </ModalHeader>
         </div>
 
         {/* 필터 항목 탭 */}

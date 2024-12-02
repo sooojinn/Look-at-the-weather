@@ -40,7 +40,7 @@ function MyLikedPostEmpty() {
       boldMessage="좋아요한 게시물이 없어요"
       lightMessage={
         <>
-          맘에 드는 코디를 좋아요 하면
+          맘에 드는 룩을 좋아요 하면
           <br />
           언제든 다시 볼 수 있어요.
         </>
