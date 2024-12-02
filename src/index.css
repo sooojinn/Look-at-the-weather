@@ -16,6 +16,7 @@
 
   --bg-gray-100: 247, 247, 248; /* #f7f7f8 */
   --bg-gray-200: 244, 244, 245; /* #f4f4f5 */
+  --bg-gray-300: 244, 247, 251; /* #F4F7FB */
 
   --line-gray-100: 244, 244, 245; /* #f4f4f5 */
   --line-gray-200: 232, 232, 234; /* #E8E8EA */
@@ -42,8 +43,7 @@
 
 @font-face {
   font-family: 'SpoqaHanSansNeo';
-  src:
-    url('/fonts/SpoqaHanSansNeo-Regular.woff2') format('woff2'),
+  src: url('/fonts/SpoqaHanSansNeo-Regular.woff2') format('woff2'),
     url('/fonts/SpoqaHanSansNeo-Regular.woff') format('woff'),
     url('/fonts/SpoqaHanSansNeo-Regular.ttf') format('truetype');
   font-weight: 400;
@@ -52,8 +52,7 @@
 
 @font-face {
   font-family: 'SpoqaHanSansNeo';
-  src:
-    url('/fonts/SpoqaHanSansNeo-Medium.woff2') format('woff2'),
+  src: url('/fonts/SpoqaHanSansNeo-Medium.woff2') format('woff2'),
     url('/fonts/SpoqaHanSansNeo-Medium.woff') format('woff'),
     url('/fonts/SpoqaHanSansNeo-Medium.ttf') format('truetype');
   font-weight: 500;
@@ -62,9 +61,7 @@
 
 @font-face {
   font-family: 'SpoqaHanSansNeo';
-  src:
-    url('/fonts/SpoqaHanSansNeo-Bold.woff2') format('woff2'),
-    url('/fonts/SpoqaHanSansNeo-Bold.woff') format('woff'),
+  src: url('/fonts/SpoqaHanSansNeo-Bold.woff2') format('woff2'), url('/fonts/SpoqaHanSansNeo-Bold.woff') format('woff'),
     url('/fonts/SpoqaHanSansNeo-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;

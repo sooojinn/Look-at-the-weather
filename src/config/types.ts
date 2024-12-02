@@ -171,3 +171,10 @@ export interface CityType {
 export interface HrLineHeight {
   height: number;
 }
+
+export interface GuideProps {
+  Icon: React.FC;
+  title: string;
+  upperDesc: string;
+  lowerDesc: string;
+}
