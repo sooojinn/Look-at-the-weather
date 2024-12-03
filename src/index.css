@@ -85,6 +85,14 @@
     color: #171719;
     font-family: 'SpoqaHanSansNeo', sans-serif;
     user-select: none;
+
+    /* 이미지 드래그 방지 */
+    img {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+    }
   }
 }
 
@@ -94,4 +102,37 @@
 
 .textarea {
   @apply input resize-none;
+}
+
+.swiper-container {
+  .swiper-slide {
+    height: 550px;
+
+    @media (max-width: 375px) {
+      height: 550px;
+    }
+  }
+}
+
+.swiper-container {
+  overflow: visible; /* pagination을 외부로 빼내기 위한 설정 */
+}
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px; /* 위치 조정 */
+}
+
+.custom-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: gray;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background: #ffffff;
 }

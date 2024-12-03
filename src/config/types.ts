@@ -172,9 +172,9 @@ export interface HrLineHeight {
   height: number;
 }
 
-export interface GuideProps {
-  Icon: React.FC;
-  title: string;
-  upperDesc: string;
-  lowerDesc: string;
+export interface GuideContent {
+  page: number;
+  title: React.ReactNode;
+  desc: React.ReactNode;
+  src: string;
 }

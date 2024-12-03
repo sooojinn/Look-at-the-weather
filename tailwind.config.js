@@ -31,6 +31,7 @@ export default {
           light: 'rgb(var(--bg-gray-100))',
           disabled: 'rgb(var(--bg-gray-200))',
           lightGray: 'rgb(var(--bg-gray-300))',
+          primary: 'rgb(var(--color-primary))',
         },
         status: {
           success: 'rgb(var(--color-success))',
@@ -85,6 +86,12 @@ export default {
       },
       aspectRatio: {
         custom: '4/5',
+      },
+      screens: {
+        xs: { max: '375px' },
+        sm: { max: '480px' },
+        md: { max: '768px' },
+        lg: { max: '1024px' },
       },
     },
   },
