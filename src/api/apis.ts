@@ -71,7 +71,7 @@ export const getKakaoUserInfos = async (code: string | null) => {
   return response.data;
 };
 
-export const patchEditProfile = (request: RequestBody) => {
+export const patchEditProfile = (request: RequestBody) => Promise<axios.AxiosResponse<any, any>>{
   return instance.patch('/users/me', request, getConfig());
 };
 
