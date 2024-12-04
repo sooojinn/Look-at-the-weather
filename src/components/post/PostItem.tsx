@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router';
 import Heart from '@components/common/atom/Heart';
 import PostImgBlind from './PostImgBlind';
 
-export default function PostItem({ ...post }: PostMeta) {
+interface NewPostMeta extends PostMeta {
+  isHorizontal?: boolean;
+}
+
+export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta) {
   const {
     postId,
     thumbnail,
@@ -35,7 +39,7 @@ export default function PostItem({ ...post }: PostMeta) {
           <Heart liked={likeByUser} postId={postId} />
         </div>
       </div>
-      <div className="my-2.5 px-5">
+      <div className={`my-2.5 ${isHorizontal ? '' : 'px-5'}`}>
         <Text>
           {city} {district}
         </Text>

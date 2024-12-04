@@ -30,7 +30,7 @@ export const instance: AxiosInstance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     if (config.headers && config.headers['Authorization']) {
-      console.log('Authorization Header:', config.headers['Authorization']);
+      // console.log('Authorization Header:', config.headers['Authorization']);
     } else {
       console.log('Authorization Header: Not Set');
     }

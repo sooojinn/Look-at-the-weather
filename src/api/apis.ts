@@ -71,7 +71,7 @@ export const getKakaoUserInfos = async (code: string | null) => {
   return response.data;
 };
 
-export const patchEditProfile = (request: RequestBody) => Promise<axios.AxiosResponse<any, any>>{
+export const patchEditProfile = (request: RequestBody) => {
   return instance.patch('/users/me', request, getConfig());
 };
 
@@ -179,5 +179,10 @@ export const getHourlyWeatherInfo = async ({ latitude, longitude }: GeoPoint) =>
 
 export const getDailyWeatherInfo = async ({ latitude, longitude }: GeoPoint) => {
   const response = await instance.get(`/weather/tmp?latitude=${latitude}&longitude=${longitude}`, getConfig());
+  return response.data;
+};
+
+export const getOutfitGuide = async (tmp: number) => {
+  const response = await instance.get(`/weather/guide/outfit?tmp=${tmp}`);
   return response.data;
 };

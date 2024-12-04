@@ -5,7 +5,7 @@ import HomeWeatherInfo from '@components/weather/HomeWeatherInfo';
 import TodayBestWearList from '@/components/post/TodayBestWearList';
 import GuidePanel from '@components/common/organism/GuidePanel';
 import TempGuideModal from '@components/common/molecules/TempGuideModal';
-import ManualGuide from '@components/common/template/ManualGuide';
+import ManualGuide from '@components/common/molecules/ManualGuide';
 import { useGuideManageStore } from '@/store/guideManageStore';
 
 export default function Home() {

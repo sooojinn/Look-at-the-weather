@@ -7,10 +7,6 @@
       "@common/*": ["common/*"],
       "@/*": ["*"]
     },
-    "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "jsx": "react"
   },
   "files": [],

@@ -51,7 +51,6 @@ export default function ManualGuide() {
             가이드 닫기
           </Text>
         </div>
-        {/* <CustomCarousel config={guideContent} /> */}
       </div>
     </div>
   );

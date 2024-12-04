@@ -3,9 +3,28 @@ import Text from '../atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import YellowShirts from '@components/icons/clothes/YellowShirts';
 import YellowJacket from '@components/icons/clothes/YellowJacket';
+import { useQuery } from '@tanstack/react-query';
+import { getOutfitGuide } from '@/api/apis';
+import useLocationData from '@/hooks/useLocationData';
+import useWeatherData from '@/hooks/useWeatherData';
+import { useEffect } from 'react';
 
 export default function TempGuideModal() {
   const { isLookGuideModalOpen, setIsLookGuideModal } = useGuideManageStore();
+
+  const { geoPoint } = useLocationData();
+  const { weatherData } = useWeatherData(geoPoint);
+  const { currentTemp } = weatherData;
+
+  const { data: response } = useQuery({
+    queryKey: ['getOutfitGuide', currentTemp],
+    queryFn: () => getOutfitGuide(currentTemp),
+    staleTime: Infinity,
+  });
+
+  useEffect(() => {
+    console.log('response', response);
+  }, [response]);
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-opacity-black70 flex justify-center items-center z-50">

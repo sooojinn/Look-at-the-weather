@@ -1,10 +1,10 @@
-import { PostList } from '@/components/post/PostList';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import Text from '@components/common/atom/Text';
 import { fetchTopLikedPosts } from '@/api/apis';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import HorizonScrollPostList from '@components/common/molecules/HorizonScrollPostList';
 
 export default function TodayBestWearList() {
   const {
@@ -19,11 +19,12 @@ export default function TodayBestWearList() {
   const topLikedPosts = response?.data.topLikedPosts;
 
   return (
-    <div className="w-full h-full max-w-md flex flex-col flex-grow">
-      <Text size="l" color="black" weight="bold" className="px-5 flex justify-start items-center h-[60px]">
-        Today Best Wear 👕
+    <div className="w-full h-full max-w-md flex flex-col flex-grow px-5">
+      <Text size="l" color="black" weight="bold" className="flex justify-start items-center h-[60px]">
+        오늘의 베스트 룩
       </Text>
-      {isSuccess && (topLikedPosts.length ? <PostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
+
+      {isSuccess && (topLikedPosts.length ? <HorizonScrollPostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
       {isLoading && (
         <div className="flex flex-grow justify-center items-center">
           <Spinner />
