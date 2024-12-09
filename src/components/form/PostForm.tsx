@@ -9,7 +9,7 @@ import FileWithLabel from './FileWithLabel';
 import { useEffect, useState } from 'react';
 import Header from '@components/common/Header';
 import { useNavigate } from 'react-router-dom';
-import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
+import { GENDER_TAGS, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 import { useGeoLocationStore } from '@/store/locationStore';
@@ -154,6 +154,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
               maxSelection={2}
             />
             <SelectWithLabel label="계절" name="seasonTagId" options={SEASON_TAGS} rules={{ required: true }} />
+            <SelectWithLabel label="성별" name="gender" options={GENDER_TAGS} />
           </div>
           <div className="bg-background-light p-5 pb-10">
             <div className="flex flex-col gap-2 mb-10">

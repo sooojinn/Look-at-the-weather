@@ -9,7 +9,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 function tagNameToId(tagName: string) {
   const tag = TAGS.find((tag) => tagName === tag.name);
-  return tag?.id as number;
+  if (!tag) return null;
+  return tag?.id;
 }
 
 function tagNamesToIds(tagNames: string[]) {
@@ -22,12 +23,11 @@ export default function PostEdit() {
   const { postData, postId } = location.state;
   const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
 
-  postData;
-
   const {
     title,
     content,
     location: { city, district },
+    gender,
     weatherTags,
     temperatureTags,
     seasonTag,
@@ -42,9 +42,10 @@ export default function PostEdit() {
     content,
     city,
     district,
-    weatherTagIds: tagNamesToIds(weatherTags),
-    temperatureTagIds: tagNamesToIds(temperatureTags),
-    seasonTagId: tagNameToId(seasonTag),
+    gender: tagNameToId(gender) as string | null,
+    weatherTagIds: tagNamesToIds(weatherTags) as number[],
+    temperatureTagIds: tagNamesToIds(temperatureTags) as number[],
+    seasonTagId: tagNameToId(seasonTag) as number,
     imageIds,
     images: images.image,
   };

@@ -16,6 +16,7 @@ export default function PostWrite() {
     content: '',
     city: currentLocation?.city || '',
     district: currentLocation?.district || '',
+    gender: null,
     weatherTagIds: [],
     temperatureTagIds: [],
     seasonTagId: null,

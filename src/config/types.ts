@@ -62,6 +62,7 @@ export interface PostFormData {
   content: string;
   city: string;
   district: string;
+  gender: string | null;
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;
@@ -70,9 +71,8 @@ export interface PostFormData {
 }
 
 export interface Tag {
-  id: number;
+  id: number | string;
   category: string;
-  value: string;
   name: string;
 }
 
@@ -143,8 +143,10 @@ export type DistrictType = {
   cityId: number;
 };
 
+export type FilterItemId = number | string | { city: number; district: number };
+
 export interface FilterItem {
-  id: number | { city: number; district: number };
+  id: FilterItemId;
   tagName: string;
 }
 
