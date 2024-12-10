@@ -69,8 +69,8 @@ export default function Post() {
 
       try {
         const slicedCity = location.city.substring(0, 2);
-        const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
-        const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
+        const data = await allPosts(pageNum, slicedCity, location.district, sortOrder);
+        const updatePostList = data.posts.map((item: PostMeta) => ({ ...item, location }));
 
         setPostList((prev) => [...prev, ...updatePostList]);
         setPage(pageNum + 1);
@@ -100,7 +100,7 @@ export default function Post() {
 
       setLoading(true);
       try {
-        const response = await postFilteredPosts({
+        const data = await postFilteredPosts({
           page: pageNum,
           sort: sortOrder,
           location,
@@ -109,7 +109,7 @@ export default function Post() {
           temperatureTagIds: temperatureIds,
         });
 
-        const newPosts = response.data.posts;
+        const newPosts = data.posts;
         setPostList((prev) => [...prev, ...newPosts]);
         setPage(pageNum + 1);
         setHasMore(newPosts.length > 0);

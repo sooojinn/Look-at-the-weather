@@ -26,7 +26,7 @@ export default function LoginForm() {
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       const { accessToken, nickName, social } = data;
       setAccessToken(accessToken);
       setNickName(nickName);

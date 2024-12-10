@@ -41,24 +41,29 @@ export const registerUser = async (data: RegisterForm) => {
   return response.data;
 };
 
-export const postLogin = (request: RequestBody) => {
-  return instance.post('/auth/login', request, getConfig({ withCredentials: true }));
+export const postLogin = async (request: RequestBody) => {
+  const response = await instance.post('/auth/login', request, getConfig({ withCredentials: true }));
+  return response.data;
 };
 
-export const postLogout = () => {
-  return instance.post('/auth/logout', null, getConfig());
+export const postLogout = async () => {
+  const response = await instance.post('/auth/logout', null, getConfig());
+  return response.data;
 };
 
-export const postFindEmail = (request: RequestBody) => {
-  return instance.post('/users/email', request, getConfig());
+export const postFindEmail = async (request: RequestBody) => {
+  const response = await instance.post('/users/email', request, getConfig());
+  return response.data;
 };
 
-export const postFindPassword = (request: RequestBody) => {
-  return instance.post('/users/password', request, getConfig());
+export const postFindPassword = async (request: RequestBody) => {
+  const response = await instance.post('/users/password', request, getConfig());
+  return response.data;
 };
 
-export const patchPasswordReset = (request: RequestBody) => {
-  return instance.patch('/users/password', request, getConfig());
+export const patchPasswordReset = async (request: RequestBody) => {
+  const response = await instance.patch('/users/password', request, getConfig());
+  return response.data;
 };
 
 export const getUserInfos = async () => {
@@ -71,8 +76,9 @@ export const getKakaoUserInfos = async (code: string | null) => {
   return response.data;
 };
 
-export const patchEditProfile = (request: RequestBody) => {
-  return instance.patch('/users/me', request, getConfig());
+export const patchEditProfile = async (request: RequestBody) => {
+  const response = await instance.patch('/users/me', request, getConfig());
+  return response.data;
 };
 
 export const getMyPosts = async ({ page, size }: RequestBody) => {
@@ -90,12 +96,14 @@ export const getPostDetail = async (postId: number) => {
   return response.data;
 };
 
-export const deletePost = (postId: number) => {
-  return instance.delete(`/posts/${postId}`, getConfig());
+export const deletePost = async (postId: number) => {
+  const response = await instance.delete(`/posts/${postId}`, getConfig());
+  return response.data;
 };
 
-export const fetchTopLikedPosts = () => {
-  return instance.get('/posts/top-liked', getConfig());
+export const fetchTopLikedPosts = async () => {
+  const response = await instance.get('/posts/top-liked', getConfig());
+  return response.data;
 };
 
 export const uploadImage = async (file: File) => {
@@ -106,7 +114,7 @@ export const uploadImage = async (file: File) => {
 };
 
 export const deleteImage = async (id: number) => {
-  instance.delete(`/s3/post-image/${id}`, getConfig());
+  await instance.delete(`/s3/post-image/${id}`, getConfig());
 };
 
 export const uploadPost = async (data: PostFormData) => {
@@ -115,51 +123,61 @@ export const uploadPost = async (data: PostFormData) => {
 };
 
 export const editPost = async ({ postId, data }: { postId: number; data: PostFormData }) => {
-  return instance.patch(`/posts/${postId}`, data, getConfig());
+  const response = await instance.patch(`/posts/${postId}`, data, getConfig());
+  return response.data;
 };
 
-export const postLike = (postId: number) => {
-  return instance.post(`/likes/posts/${postId}`, null, getConfig());
+export const postLike = async (postId: number) => {
+  const response = await instance.post(`/likes/posts/${postId}`, null, getConfig());
+  return response.data;
 };
 
-export const deleteLike = (postId: number) => {
-  return instance.delete(`/likes/posts/${postId}`, getConfig());
+export const deleteLike = async (postId: number) => {
+  const response = await instance.delete(`/likes/posts/${postId}`, getConfig());
+  return response.data;
 };
 
-export const hidePost = (postId: number) => {
-  return instance.post(`/posts/${postId}/hide`, null, getConfig());
+export const hidePost = async (postId: number) => {
+  const response = await instance.post(`/posts/${postId}/hide`, null, getConfig());
+  return response.data;
 };
 
-export const reportPost = ({ postId, reason }: { postId: number; reason: string }) => {
-  return instance.post(`/posts/${postId}/report?reason=${reason}`, null, getConfig());
+export const reportPost = async ({ postId, reason }: { postId: number; reason: string }) => {
+  const response = await instance.post(`/posts/${postId}/report?reason=${reason}`, null, getConfig());
+  return response.data;
 };
 
-export const getDeleteReasons = () => {
-  return instance.get('/users/delete-reasons', getConfig());
+export const getDeleteReasons = async () => {
+  const response = await instance.get('/users/delete-reasons', getConfig());
+  return response.data;
 };
 
-export const postFilteredPosts = (request: RequestBody) => {
-  return instance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
+export const postFilteredPosts = async (request: RequestBody) => {
+  const response = await instance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
+  return response.data;
 };
 
-export const allPosts = (page: number, city: string, district: string, sort: string) => {
-  return instance.get(`/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`, getConfig());
+export const allPosts = async (page: number, city: string, district: string, sort: string) => {
+  const response = await instance.get(
+    `/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`,
+    getConfig(),
+  );
+  return response.data;
 };
 
-export const reissue = () => {
-  return instance.post(`/auth/reissue`, null, getConfig({ withCredentials: true }));
+export const reissue = async () => {
+  const response = await instance.post(`/auth/reissue`, null, getConfig({ withCredentials: true }));
+  return response.data;
 };
 
-export const logout = () => {
-  return instance.post('/auth/logout', null, getConfig());
+export const deleteAccount = async (reason: string) => {
+  const response = await instance.delete(`/users?deleteReason=${reason}`, getConfig());
+  return response.data;
 };
 
-export const deleteAccount = (reason: string) => {
-  return instance.delete(`/users?deleteReason=${reason}`, getConfig());
-};
-
-export const getRegion = () => {
-  return instance.get(`/regions`, getConfig());
+export const getRegion = async () => {
+  const response = await instance.get(`/regions`, getConfig());
+  return response.data;
 };
 
 export const getLocationFromGeoPoint = async ({ latitude, longitude }: GeoPoint) => {

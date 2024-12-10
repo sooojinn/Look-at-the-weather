@@ -42,8 +42,8 @@ instance.interceptors.response.use(
           delete instance.defaults.headers.common['Authorization'];
           const response = await reissue();
 
-          if (response.data.accessToken) {
-            setAccessToken(response.data.accessToken);
+          if (response.accessToken) {
+            setAccessToken(response.accessToken);
             error.config.headers['Authorization'] = getAccessToken();
             setIsLogin(true);
             return instance(error.config);

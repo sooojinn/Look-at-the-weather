@@ -7,16 +7,12 @@ import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 
 export default function TodayBestWearList() {
-  const {
-    data: response,
-    isLoading,
-    isSuccess,
-  } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
 
-  const topLikedPosts = response?.data.topLikedPosts;
+  const topLikedPosts = data?.topLikedPosts;
 
   return (
     <div className="w-full h-full max-w-md flex flex-col flex-grow">

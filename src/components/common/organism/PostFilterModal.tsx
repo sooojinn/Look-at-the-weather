@@ -30,7 +30,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     seasonTagIds,
   } = usePostStore();
 
-  const { data: response, isSuccess } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['getRegion'],
     queryFn: getRegion,
     staleTime: Infinity,
@@ -165,7 +165,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [btnValue]);
 
   useEffect(() => {
-    const city = response?.data.region;
+    const city = data?.region;
     if (isSuccess) setCity(city);
   }, [isSuccess]);
 
