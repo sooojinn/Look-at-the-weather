@@ -2,12 +2,6 @@ import { GeoPoint } from '@/config/types';
 import { DEFAULT_GEO_POINT } from '@/config/constants';
 import { getLocationFromGeoPoint } from '@/api/apis';
 
-export interface AddressItem extends GeoPoint {
-  address_name: string;
-  city: string;
-  district: string;
-}
-
 // 소수점 넷째 자리까지 내림 처리하는 함수
 function floorToFixed(num: number) {
   const factor = Math.pow(10, 4);

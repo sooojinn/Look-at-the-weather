@@ -171,3 +171,9 @@ export interface CityType {
 export interface HrLineHeight {
   height: number;
 }
+
+export interface AddressItem extends GeoPoint {
+  address_name: string;
+  cityName: string;
+  districtName: string;
+}

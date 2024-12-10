@@ -1,4 +1,4 @@
-import { AddressItem, fetchCurrentLocation } from '@/lib/utils';
+import { fetchCurrentLocation } from '@/lib/utils';
 import { useGeoLocationStore } from '@/store/locationStore';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
 import useLocationPermission from '@/hooks/useLocationPermission';
 import { searchAddresses } from '@/api/apis';
+import { AddressItem } from '@/config/types';
 
 interface AddressForm {
   address: string;
@@ -101,12 +102,12 @@ export default function SearchAddress() {
             </Text>
           </div>
         )}
-        {addressList.map(({ address_name, latitude, longitude, city, district }) => (
+        {addressList.map(({ address_name, latitude, longitude, cityName, districtName }) => (
           <div
             key={address_name}
             onClick={() => {
               if (isPostFormLocation) {
-                setPostFormLocation({ city, district });
+                setPostFormLocation({ city: cityName, district: districtName });
               } else {
                 setCustomGeoPoint({ latitude, longitude });
               }
