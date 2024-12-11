@@ -22,11 +22,13 @@ export default function MyPost() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-[61px]">
+    <div className="min-h-screen flex flex-col">
       <Header>내 게시물</Header>
-      {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyPostEmpty />)}
-      <div ref={pageEndRef}></div>
-      {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      <div className="flex-grow flex items-center">
+        {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyPostEmpty />)}
+        <div ref={pageEndRef}></div>
+        {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      </div>
       <FooterNavi />
     </div>
   );

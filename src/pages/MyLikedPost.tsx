@@ -22,11 +22,13 @@ export default function MyLikedPost() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-[61px]">
+    <div className="min-h-screen flex flex-col">
       <Header>내가 좋아요한 게시물</Header>
-      {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyLikedPostEmpty />)}
-      <div ref={pageEndRef}></div>
-      {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      <div className="flex-grow flex items-center">
+        {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyLikedPostEmpty />)}
+        <div ref={pageEndRef}></div>
+        {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      </div>
       <FooterNavi />
     </div>
   );
