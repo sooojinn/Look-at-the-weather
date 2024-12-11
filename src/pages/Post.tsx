@@ -107,6 +107,7 @@ export default function Post() {
           seasonTagIds: seasonIds,
           weatherTagIds: weatherIds,
           temperatureTagIds: temperatureIds,
+          gender: 'ALL',
         });
 
         const newPosts = data.posts;
