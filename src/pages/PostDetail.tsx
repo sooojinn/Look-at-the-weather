@@ -68,8 +68,6 @@ export default function PostDetail() {
     reportPost,
   }: PostDetail = postDetailData || {};
 
-  console.log(reportPost);
-
   const imgUrlList = images?.image.map((img) => img.url);
 
   const myNickName = useAuthStore((state) => state.nickName);

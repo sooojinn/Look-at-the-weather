@@ -18,9 +18,10 @@ export default function Header({ children, hideBackBtn, noBorder, onClose }: Hea
 
   const navigate = useNavigate();
   const handleBackBtn = () => navigate(-1);
+
   return (
     <header
-      className={`w-full sticky top-0 h-[50px] bg-background-white flex justify-between items-center px-5 z-20 ${
+      className={`w-full sticky top-0 h-[50px] bg-background-white flex flex-shrink-0 justify-between items-center px-5 z-20 ${
         noBorder ? '' : 'border-b border-line-lightest'
       }`}
     >

@@ -6,7 +6,7 @@ import TodayBestWearList from '@/components/post/TodayBestWearList';
 
 export default function Home() {
   return (
-    <div className="max-w-md min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
+    <div className="max-w-md min-h-screen flex flex-col items-center justify-start relative">
       <Header>
         <Logo />
       </Header>

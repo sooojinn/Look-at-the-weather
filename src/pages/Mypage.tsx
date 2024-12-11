@@ -17,9 +17,9 @@ export default function Mypage() {
   const isLogin = useAuthStore((state) => state.isLogin);
 
   return (
-    <>
+    <div className="max-w-md min-h-screen flex flex-col">
       <Header>마이 페이지</Header>
-      <div className="flex-col px-5">
+      <div className="flex-col px-5 flex-grow">
         {isLogin ? (
           <UserProfile />
         ) : (
@@ -44,7 +44,7 @@ export default function Mypage() {
         )}
       </div>
       <FooterNavi />
-    </>
+    </div>
   );
 }
 
