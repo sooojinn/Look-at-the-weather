@@ -30,6 +30,7 @@ export interface PostMeta {
   postId: number;
   thumbnail: string;
   location: Location;
+  gender: string;
   seasonTag: string;
   weatherTags: string[];
   temperatureTags: string[];
@@ -63,6 +64,7 @@ export interface PostFormData {
   city: string;
   district: string;
   gender: string | null;
+  temperature: number;
   weatherTagIds: number[];
   temperatureTagIds: number[];
   seasonTagId: number | null;

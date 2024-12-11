@@ -1,13 +1,17 @@
 import { uploadPost } from '@/api/apis';
 import { PostFormData } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
+import useWeatherData from '@/hooks/useWeatherData';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export default function PostWrite() {
-  const { location: currentLocation } = useLocationData();
+  const { location: currentLocation, geoPoint } = useLocationData();
+  const {
+    weatherData: { currentTemp },
+  } = useWeatherData(geoPoint);
 
   const navigate = useNavigate();
 
@@ -17,6 +21,7 @@ export default function PostWrite() {
     city: currentLocation?.city || '',
     district: currentLocation?.district || '',
     gender: null,
+    temperature: +currentTemp,
     weatherTagIds: [],
     temperatureTagIds: [],
     seasonTagId: null,
