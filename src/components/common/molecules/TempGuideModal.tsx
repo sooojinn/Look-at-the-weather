@@ -1,8 +1,6 @@
 import { useGuideManageStore } from '@/store/guideManageStore';
 import Text from '../atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
-import YellowShirts from '@components/icons/clothes/YellowShirts';
-import YellowJacket from '@components/icons/clothes/YellowJacket';
 import { useQuery } from '@tanstack/react-query';
 import { getOutfitGuide } from '@/api/apis';
 import useLocationData from '@/hooks/useLocationData';
@@ -16,15 +14,19 @@ export default function TempGuideModal() {
   const { weatherData } = useWeatherData(geoPoint);
   const { currentTemp } = weatherData;
 
-  const { data: response } = useQuery({
+  const {
+    data: response,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['getOutfitGuide', currentTemp],
     queryFn: () => getOutfitGuide(currentTemp),
     staleTime: Infinity,
   });
 
-  useEffect(() => {
-    console.log('response', response);
-  }, [response]);
+  if (isLoading) return null;
+  if (isError) return null;
+  if (!response) return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-opacity-black70 flex justify-center items-center z-50">
@@ -38,16 +40,16 @@ export default function TempGuideModal() {
               오늘의 추천 룩
             </Text>
             <Text size="2xl" weight="bold">
-              자켓, 셔츠, 가디건, 간절기 야상 등
+              {response.outfit} 등
             </Text>
           </div>
           <div className="flex justify-center w-full h-[180px] bg-background-lightGray mb-4">
-            <YellowShirts />
-            <YellowJacket />
+            <img src={response.outfitImages[0]} alt="outfit 1" />
+            <img src={response.outfitImages[1]} alt="outfit 2" />
           </div>
           <div>
             <Text color="gray" size="s">
-              12℃~16℃ 에 적합한 룩이에요
+              {response.categorySentence}
             </Text>
           </div>
         </div>

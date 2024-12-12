@@ -186,3 +186,8 @@ export const getOutfitGuide = async (tmp: number) => {
   const response = await instance.get(`/weather/guide/outfit?tmp=${tmp}`);
   return response.data;
 };
+
+export const getOutfitByTemperature = async (tmp: number) => {
+  const response = await instance.get(`/posts/tmp?tmp=${tmp}&page=${1}&size=${10}`);
+  return response.data;
+};

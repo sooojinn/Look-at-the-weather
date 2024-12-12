@@ -11,11 +11,11 @@ interface PostListProps {
 
 export default function HorizonScrollPostList({ postList }: PostListProps) {
   return (
-    <div className="">
-      <Swiper spaceBetween={4} slidesPerView={3}>
+    <div className="outer-container">
+      <Swiper className="inner-container" spaceBetween={4} slidesPerView={3}>
         {postList.map((post) => (
-          <SwiperSlide>
-            <PostItem isHorizontal={true} key={uuidv4()} {...post} />
+          <SwiperSlide key={uuidv4()}>
+            <PostItem isHorizontal={true} {...post} />
           </SwiperSlide>
         ))}
       </Swiper>

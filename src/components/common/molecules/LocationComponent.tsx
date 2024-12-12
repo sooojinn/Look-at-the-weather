@@ -34,9 +34,6 @@ export default function LocationComponent({ isPostFormLocation, city, district, 
       }
     }
   }, []);
-  useEffect(() => {
-    console.log(showTooltip);
-  }, [showTooltip]);
 
   // const handleTooltipClose = () => {
   //   setShowTooltip(false);
