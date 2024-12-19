@@ -24,7 +24,7 @@ export default function MyPost() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header>내 게시물</Header>
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-col items-center">
         {isSuccess && (postList.length ? <VirtualPostGrid postList={postList} /> : <MyPostEmpty />)}
         <div ref={pageEndRef}></div>
         {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}

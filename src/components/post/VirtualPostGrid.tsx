@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import PostItem from './PostItem';
 import { PostMeta } from '@/config/types';
@@ -8,11 +8,32 @@ export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) 
   const parentRef = useRef<HTMLDivElement>(null);
   const rowCount = Math.ceil(postList.length / columns);
 
+  // 캐싱된 높이 상태 저장
+  const [cachedRowHeight, setCachedRowHeight] = useState<number | null>(null);
+
+  // 화면 크기 변경 감지 및 캐싱된 높이 초기화
+  useEffect(() => {
+    const handleResize = () => {
+      setCachedRowHeight(null); // 화면 크기가 바뀌면 캐싱된 높이 무효화
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const gridVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 320, // 초기 추정 높이
-    measureElement: (el) => el.getBoundingClientRect().height, // 실제 높이를 측정
+    estimateSize: () => cachedRowHeight ?? 320, // 캐싱된 높이를 사용하거나 기본값 사용
+    measureElement: (el) => {
+      if (cachedRowHeight === null) {
+        // 초기 측정 시 높이를 상태에 저장
+        const height = el.getBoundingClientRect().height;
+        setCachedRowHeight(height);
+        return height;
+      }
+      return cachedRowHeight;
+    },
     overscan: 1,
   });
 
@@ -25,10 +46,7 @@ export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) 
         className="w-full relative"
       >
         {gridVirtualizer.getVirtualItems().map((virtualRow) => {
-          // 현재 렌더링 중인 줄(row) 번호
           const rowIndex = virtualRow.index;
-
-          // 현재 줄에 포함된 요소들 계산
           const itemsInRow = postList.slice(rowIndex * columns, rowIndex * columns + columns);
 
           return (
@@ -37,7 +55,10 @@ export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) 
               ref={(el) => {
                 if (el) {
                   el.setAttribute('data-index', virtualRow.index.toString());
-                  gridVirtualizer.measureElement(el); // 요소의 실제 높이를 측정
+                  if (cachedRowHeight === null) {
+                    // 높이가 캐싱되지 않았을 때만 측정
+                    gridVirtualizer.measureElement(el);
+                  }
                 }
               }}
               style={{

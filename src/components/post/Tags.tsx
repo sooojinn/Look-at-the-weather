@@ -6,7 +6,7 @@ interface TagsProps {
 
 export default function Tags({ tags }: TagsProps) {
   return (
-    <div className="flex flex-wrap gap-x-2 mt-1">
+    <div className="min-h-[39px] flex flex-wrap gap-x-2 mt-1">
       {tags.map(
         (tag, index) =>
           tag && (
