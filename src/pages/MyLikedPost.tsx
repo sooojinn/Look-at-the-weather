@@ -1,4 +1,3 @@
-import { PostList } from '@components/post/PostList';
 import Header from '@components/common/Header';
 import { getMyLikedPosts } from '@/api/apis';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
@@ -8,6 +7,7 @@ import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+import VirtualPostGrid from '@components/post/VirtualPostGrid';
 
 export default function MyLikedPost() {
   const { isFetchingNextPage, isLoading, isError, error, isSuccess, pageEndRef, postList } = useInfiniteScroll(
@@ -24,8 +24,9 @@ export default function MyLikedPost() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header>내가 좋아요한 게시물</Header>
-      <div className="flex-grow flex items-center">
-        {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyLikedPostEmpty />)}
+      <div className="flex-grow flex flex-col items-center">
+        {isSuccess && (postList.length ? <VirtualPostGrid postList={postList} /> : <MyLikedPostEmpty />)}
+
         <div ref={pageEndRef}></div>
         {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
       </div>

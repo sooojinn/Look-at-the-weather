@@ -47,3 +47,14 @@ export const fetchCurrentLocation = async () => {
 
   return getLocationFromGeoPoint(currentGeoPoint);
 };
+
+export function throttle(callback: () => void, delay: number) {
+  let timeoutId: NodeJS.Timeout | null = null;
+  return () => {
+    if (timeoutId) return; // 이미 실행 중인 경우 무시
+    timeoutId = setTimeout(() => {
+      callback();
+      timeoutId = null; // 실행 후 초기화
+    }, delay);
+  };
+}
