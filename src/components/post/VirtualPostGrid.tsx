@@ -2,14 +2,45 @@ import { useState, useRef, useEffect } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import PostItem from './PostItem';
 import { PostMeta } from '@/config/types';
+import { throttle } from '@/lib/utils';
 
 export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) {
   const columns = 2;
   const parentRef = useRef<HTMLDivElement>(null);
   const rowCount = Math.ceil(postList.length / columns);
-
-  // 캐싱된 높이 상태 저장
   const [cachedRowHeight, setCachedRowHeight] = useState<number | null>(null);
+
+  // 스크롤 위치 상태 저장
+  useEffect(() => {
+    const saveScrollPosition = () => {
+      if (parentRef.current) {
+        const scrollPosition = parentRef.current.scrollTop;
+        history.replaceState({ ...history.state, scrollY: scrollPosition }, '');
+      }
+    };
+
+    // 쓰로틀링을 적용한 스크롤 이벤트 핸들러
+    const throttledSaveScrollPosition = throttle(saveScrollPosition, 500); // 500ms 간격으로 실행
+
+    // 스크롤 이벤트로 저장
+    const scrollElement = parentRef.current;
+    scrollElement?.addEventListener('scroll', throttledSaveScrollPosition);
+
+    return () => {
+      scrollElement?.removeEventListener('scroll', throttledSaveScrollPosition);
+    };
+  }, []);
+
+  // 페이지 재방문 시 스크롤 위치 복원
+  useEffect(() => {
+    if (parentRef.current) {
+      const savedPosition = history.state.scrollY;
+
+      if (savedPosition) {
+        parentRef.current.scrollTo({ top: parseInt(savedPosition, 10), behavior: 'auto' });
+      }
+    }
+  }, []);
 
   // 화면 크기 변경 감지 및 캐싱된 높이 초기화
   useEffect(() => {
@@ -38,7 +69,7 @@ export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) 
   });
 
   return (
-    <div ref={parentRef} className="w-full h-screen overflow-auto scrollbar-hide relative">
+    <div ref={parentRef} className="w-full h-screen scrollbar-hide overflow-auto relative">
       <div
         style={{
           height: `${gridVirtualizer.getTotalSize()}px`, // 가상화된 전체 높이
@@ -52,15 +83,8 @@ export default function VirtualPostGrid({ postList }: { postList: PostMeta[] }) 
           return (
             <div
               key={virtualRow.key}
-              ref={(el) => {
-                if (el) {
-                  el.setAttribute('data-index', virtualRow.index.toString());
-                  if (cachedRowHeight === null) {
-                    // 높이가 캐싱되지 않았을 때만 측정
-                    gridVirtualizer.measureElement(el);
-                  }
-                }
-              }}
+              data-index={virtualRow.index}
+              ref={gridVirtualizer.measureElement}
               style={{
                 position: 'absolute',
                 top: `${virtualRow.start}px`, // 줄의 시작 위치
