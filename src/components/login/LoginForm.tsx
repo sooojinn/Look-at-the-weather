@@ -21,17 +21,16 @@ interface LoginForm {
 export default function LoginForm() {
   const formMethods = useForm<LoginForm>();
   const { handleSubmit, setError } = formMethods;
-  const { setIsLogin, setNickName, setIsSocial } = useAuthStore();
+  const { setIsLogin, setNickName } = useAuthStore();
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
     onSuccess: (data) => {
-      const { accessToken, nickName, social } = data;
+      const { accessToken, nickName } = data;
       setAccessToken(accessToken);
       setNickName(nickName);
       setIsLogin(true);
-      setIsSocial(social);
       navigate(-1);
     },
     onError: (error: AxiosError<ErrorResponse>) => {

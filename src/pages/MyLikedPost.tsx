@@ -26,6 +26,7 @@ export default function MyLikedPost() {
       <Header>내가 좋아요한 게시물</Header>
       <div className="flex-grow flex flex-col items-center">
         {isSuccess && (postList.length ? <VirtualPostGrid postList={postList} /> : <MyLikedPostEmpty />)}
+
         <div ref={pageEndRef}></div>
         {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
       </div>

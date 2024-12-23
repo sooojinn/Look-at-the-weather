@@ -11,7 +11,7 @@ import { getKakaoUserInfos } from '@/api/apis';
 export default function KakaoRedirect() {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get('code');
-  const { setIsLogin, setNickName, setIsSocial } = useAuthStore();
+  const { setIsLogin, setNickName } = useAuthStore();
 
   const { data, isSuccess, error, isLoading } = useQuery({
     queryKey: ['kakaoUserInfo', code],
@@ -21,11 +21,10 @@ export default function KakaoRedirect() {
 
   useEffect(() => {
     if (isSuccess) {
-      const { accessToken, nickName, social } = data;
+      const { accessToken, nickName } = data;
       setAccessToken(accessToken);
       setIsLogin(true);
       setNickName(nickName);
-      setIsSocial(social);
       navigate('/');
     }
 

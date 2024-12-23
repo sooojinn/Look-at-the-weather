@@ -28,7 +28,6 @@ export default function ProfileEdit() {
 
   const { handleSubmit } = formMethods;
   const setNickName = useAuthStore((state) => state.setNickName);
-  const isSocial = useAuthStore((state) => state.isSocial);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -72,8 +71,8 @@ export default function ProfileEdit() {
       <Header>개인정보 수정</Header>
       <form className="flex flex-col flex-grow gap-4 overflow-y-auto scrollbar-hide p-5">
         <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.email} />
-        <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={isSocial} />
-        <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={isSocial} />
+        <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={userInfo?.social} />
+        <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={userInfo?.social} />
         <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.name} />
         <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo?.nickname} />
         <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
