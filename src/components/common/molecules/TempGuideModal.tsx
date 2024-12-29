@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getOutfitGuide } from '@/api/apis';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
-import { useEffect } from 'react';
 
 export default function TempGuideModal() {
   const { isLookGuideModalOpen, setIsLookGuideModal } = useGuideManageStore();

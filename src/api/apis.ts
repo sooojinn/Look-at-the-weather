@@ -1,6 +1,7 @@
 import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
+import { AxiosResponse } from 'axios';
 
 interface ConfigOptions {
   contentType?: string;
@@ -175,9 +176,18 @@ export const deleteAccount = async (reason: string) => {
   return response.data;
 };
 
+<<<<<<< HEAD
 export const getRegion = async () => {
   const response = await instance.get(`/regions`, getConfig());
   return response.data;
+=======
+export const deleteAccount = (reason: string) => {
+  return instance.delete(`/users?deleteReason=${reason}`, getConfig());
+};
+
+export const getRegion = (): Promise<AxiosResponse<any>> => {
+  return instance.get(`/regions`, getConfig());
+>>>>>>> 2be4d72 (fix: axios 타입 에러 임시 해결 #105)
 };
 
 export const getLocationFromGeoPoint = async ({ latitude, longitude }: GeoPoint) => {
