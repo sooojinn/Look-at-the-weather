@@ -13,7 +13,6 @@ import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 
 export default function TodayBestWearList() {
-
   const { geoPoint } = useLocationData();
   const { weatherData } = useWeatherData(geoPoint);
   const { currentTemp } = weatherData;
@@ -21,14 +20,13 @@ export default function TodayBestWearList() {
   const {
     data: response,
     isLoading,
-    isSuccess,
+    isSuccess: isTopLikedPostsSuccess,
   } = useQuery({
-
     queryKey: ['topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
 
-  const { data: outfitRes } = useQuery({
+  const { data: outfitRes, isSuccess: isOutfitSuccess } = useQuery({
     queryKey: ['getOutfitByTemperature'],
     queryFn: () => getOutfitByTemperature(currentTemp),
     enabled: !!currentTemp,
@@ -36,9 +34,8 @@ export default function TodayBestWearList() {
 
   const [showDescModal, setShowDescModal] = useState(false);
 
-  const topLikedPosts = response?.data.topLikedPosts;
-  const outfitPosts = outfitRes?.posts;
-
+  const topLikedPosts = isTopLikedPostsSuccess && response?.data?.topLikedPosts ? response.data.topLikedPosts : [];
+  const outfitPosts = isOutfitSuccess && outfitRes?.posts ? outfitRes?.posts : [];
 
   return (
     <div className="w-full h-full max-w-md flex flex-col flex-grow ps-5">
@@ -94,7 +91,8 @@ export default function TodayBestWearList() {
         </div>
       </div>
 
-      {isSuccess && (topLikedPosts.length ? <HorizonScrollPostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
+      {isTopLikedPostsSuccess &&
+        (topLikedPosts.length ? <HorizonScrollPostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
       {isLoading && (
         <div className="flex flex-grow justify-center items-center">
           <Spinner />
