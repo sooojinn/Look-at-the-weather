@@ -1,4 +1,3 @@
-import { PostList } from '@components/post/PostList';
 import Header from '@components/common/Header';
 import FooterNavi from '@components/common/FooterNavi';
 import { getMyPosts } from '@/api/apis';
@@ -8,6 +7,7 @@ import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+import VirtualPostGrid from '@components/post/VirtualPostGrid';
 
 export default function MyPost() {
   const { isFetchingNextPage, isLoading, isError, error, isSuccess, pageEndRef, postList } = useInfiniteScroll(
@@ -22,11 +22,13 @@ export default function MyPost() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pb-[61px]">
+    <div className="min-h-screen flex flex-col">
       <Header>내 게시물</Header>
-      {isSuccess && (postList.length ? <PostList postList={postList} /> : <MyPostEmpty />)}
-      <div ref={pageEndRef}></div>
-      {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      <div className="flex-grow flex flex-col items-center">
+        {isSuccess && (postList.length ? <VirtualPostGrid postList={postList} /> : <MyPostEmpty />)}
+        <div ref={pageEndRef}></div>
+        {(isLoading || isFetchingNextPage) && <InfiniteScrollLoading />}
+      </div>
       <FooterNavi />
     </div>
   );

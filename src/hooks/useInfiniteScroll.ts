@@ -37,7 +37,7 @@ function useInfiniteScroll(
           fetchNextPage();
         }
       },
-      { rootMargin: '0px 0px -61px 0px', threshold: 1 },
+      { threshold: 1 },
     );
 
     if (pageEndRef.current) {

@@ -11,7 +11,7 @@ import { useGuideManageStore } from '@/store/guideManageStore';
 export default function Home() {
   const { isLookGuideModalOpen, isManualGuideModalOpen } = useGuideManageStore();
   return (
-    <div className="max-w-md min-h-screen pb-[61px] flex flex-col items-center justify-start relative">
+    <div className="max-w-md min-h-screen flex flex-col items-center justify-start relative">
       <Header>
         <Logo />
       </Header>

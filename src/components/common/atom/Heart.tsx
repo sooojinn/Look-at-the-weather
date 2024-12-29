@@ -44,9 +44,9 @@ export default function Heart({
     mutationFn: async () => {
       return isLiked ? await deleteLike(postId) : await postLike(postId);
     },
-    onSuccess: (res) => {
+    onSuccess: ({ likedCount }) => {
       setIsLiked((prev) => !prev);
-      setLikedCount(res.data.likedCount);
+      setLikedCount(likedCount);
       queryClient.removeQueries({ queryKey: ['myLikedPosts'] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {

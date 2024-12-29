@@ -13,6 +13,7 @@ import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 
 export default function TodayBestWearList() {
+
   const { geoPoint } = useLocationData();
   const { weatherData } = useWeatherData(geoPoint);
   const { currentTemp } = weatherData;
@@ -22,6 +23,7 @@ export default function TodayBestWearList() {
     isLoading,
     isSuccess,
   } = useQuery({
+
     queryKey: ['topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
@@ -36,6 +38,7 @@ export default function TodayBestWearList() {
 
   const topLikedPosts = response?.data.topLikedPosts;
   const outfitPosts = outfitRes?.posts;
+
 
   return (
     <div className="w-full h-full max-w-md flex flex-col flex-grow ps-5">

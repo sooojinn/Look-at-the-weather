@@ -25,8 +25,7 @@ export default function FindEmail() {
 
   const findEmailMutation = useMutation({
     mutationFn: postFindEmail,
-    onSuccess: (res) => {
-      const { email } = res.data;
+    onSuccess: ({ email }) => {
       navigate('/find-email/result', {
         state: {
           name: getValues('name'),

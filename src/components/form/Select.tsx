@@ -29,7 +29,7 @@ export default function Select({ name, options, maxSelection = 1, rules }: Selec
   );
 }
 
-function isSelected(value: any, id: number): boolean {
+function isSelected(value: any, id: number | string): boolean {
   // value가 배열(다중선택)일 때
   if (Array.isArray(value)) {
     return value.includes(id);
@@ -37,7 +37,7 @@ function isSelected(value: any, id: number): boolean {
   return value === id;
 }
 
-function handleOptionClick(value: any, id: number, maxSelection: number, onChange: (value: any) => void) {
+function handleOptionClick(value: any, id: number | string, maxSelection: number, onChange: (value: any) => void) {
   // 다중선택이 아닐 때
   if (maxSelection === 1) {
     onChange(value === id ? null : id);

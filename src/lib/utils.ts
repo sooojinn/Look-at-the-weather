@@ -2,12 +2,6 @@ import { GeoPoint } from '@/config/types';
 import { DEFAULT_GEO_POINT } from '@/config/constants';
 import { getLocationFromGeoPoint } from '@/api/apis';
 
-export interface AddressItem extends GeoPoint {
-  address_name: string;
-  city: string;
-  district: string;
-}
-
 // 소수점 넷째 자리까지 내림 처리하는 함수
 function floorToFixed(num: number) {
   const factor = Math.pow(10, 4);
@@ -53,3 +47,14 @@ export const fetchCurrentLocation = async () => {
 
   return getLocationFromGeoPoint(currentGeoPoint);
 };
+
+export function throttle(callback: () => void, delay: number) {
+  let timeoutId: NodeJS.Timeout | null = null;
+  return () => {
+    if (timeoutId) return; // 이미 실행 중인 경우 무시
+    timeoutId = setTimeout(() => {
+      callback();
+      timeoutId = null; // 실행 후 초기화
+    }, delay);
+  };
+}

@@ -27,8 +27,8 @@ export default function FindPassword() {
 
   const findPasswordMutation = useMutation({
     mutationFn: postFindPassword,
-    onSuccess: ({ data }) => {
-      navigate('/password-reset', { state: { userId: data.userId } });
+    onSuccess: ({ userId }) => {
+      navigate('/password-reset', { state: { userId } });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_USER') {

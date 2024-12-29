@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
 import { POSTFILTERTAPLIST, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
-import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType } from '@/config/types';
+import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType, FilterItemId } from '@/config/types';
 import Text from '../atom/Text';
 import HrLine from '../atom/HrLine';
 import { getRegion } from '@/api/apis';
@@ -30,7 +30,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     seasonTagIds,
   } = usePostStore();
 
-  const { data: response, isSuccess } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['getRegion'],
     queryFn: getRegion,
     staleTime: Infinity,
@@ -58,11 +58,9 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   });
 
   const onClickFilterItemBtn = (
-    id: number | { city: number; district: number },
+    id: FilterItemId,
     tagName: string,
-    setFilterState: React.Dispatch<
-      React.SetStateAction<Array<{ id: number | { city: number; district: number }; tagName: string }>>
-    >,
+    setFilterState: React.Dispatch<React.SetStateAction<Array<{ id: FilterItemId; tagName: string }>>>,
     optionName: string,
   ) => {
     setFilterState((prev) => {
@@ -140,7 +138,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
     });
   };
 
-  const onClickSelectedItemBtn = (id: number | { city: number; district: number }, category: string) => {
+  const onClickSelectedItemBtn = (id: FilterItemId, category: string) => {
     switch (category) {
       case 'location':
         setSelectedDistrict((prev) => prev.filter((item) => item.districtId !== id));
@@ -165,7 +163,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [btnValue]);
 
   useEffect(() => {
-    const city = response?.data.region;
+    const city = data?.region;
     if (isSuccess) setCity(city);
   }, [isSuccess]);
 

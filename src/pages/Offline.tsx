@@ -4,7 +4,7 @@ import OfflineImg from '@components/icons/placeholders/OfflineImg';
 
 export default function Offline() {
   return (
-    <div className="w-full min-h-screen flex">
+    <div className="w-full min-h-screen flex flex-col">
       <StatusPlaceholder
         ImgComp={OfflineImg}
         boldMessage="잠시 연결이 불안정해요"

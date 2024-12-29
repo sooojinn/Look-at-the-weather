@@ -69,8 +69,8 @@ export default function Post() {
 
       try {
         const slicedCity = location.city.substring(0, 2);
-        const response = await allPosts(pageNum, slicedCity, location.district, sortOrder);
-        const updatePostList = response.data.posts.map((item: PostMeta) => ({ ...item, location }));
+        const data = await allPosts(pageNum, slicedCity, location.district, sortOrder);
+        const updatePostList = data.posts.map((item: PostMeta) => ({ ...item, location }));
 
         setPostList((prev) => [...prev, ...updatePostList]);
         setPage(pageNum + 1);
@@ -100,16 +100,17 @@ export default function Post() {
 
       setLoading(true);
       try {
-        const response = await postFilteredPosts({
+        const data = await postFilteredPosts({
           page: pageNum,
           sort: sortOrder,
           location,
           seasonTagIds: seasonIds,
           weatherTagIds: weatherIds,
           temperatureTagIds: temperatureIds,
+          gender: 'ALL',
         });
 
-        const newPosts = response.data.posts;
+        const newPosts = data.posts;
         setPostList((prev) => [...prev, ...newPosts]);
         setPage(pageNum + 1);
         setHasMore(newPosts.length > 0);
@@ -173,7 +174,7 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="h-screen flex flex-col pb-[61px]">
+    <div className="h-screen flex flex-col">
       <Header>LOOK</Header>
       <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
         <div className="px-5">
