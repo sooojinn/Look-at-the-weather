@@ -5,5 +5,5 @@ interface CurrentTempProps {
 }
 
 export default function CurrentTemp({ children }: CurrentTempProps) {
-  return <div className="mt-2 text-white font-bold text-[100px] leading-none">{children}°</div>;
+  return <span className="mt-2 text-white font-bold text-[24px] leading-none">{children}°</span>;
 }

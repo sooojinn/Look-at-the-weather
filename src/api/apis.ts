@@ -1,6 +1,7 @@
 import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance } from './instance';
 import { AxiosRequestConfig } from 'axios';
+import { AxiosResponse } from 'axios';
 
 interface ConfigOptions {
   contentType?: string;
@@ -170,14 +171,12 @@ export const reissue = async () => {
   return response.data;
 };
 
-export const deleteAccount = async (reason: string) => {
-  const response = await instance.delete(`/users?deleteReason=${reason}`, getConfig());
-  return response.data;
+export const deleteAccount = (reason: string) => {
+  return instance.delete(`/users?deleteReason=${reason}`, getConfig());
 };
 
-export const getRegion = async () => {
-  const response = await instance.get(`/regions`, getConfig());
-  return response.data;
+export const getRegion = (): Promise<AxiosResponse<any>> => {
+  return instance.get(`/regions`, getConfig());
 };
 
 export const getLocationFromGeoPoint = async ({ latitude, longitude }: GeoPoint) => {
@@ -197,5 +196,15 @@ export const getHourlyWeatherInfo = async ({ latitude, longitude }: GeoPoint) =>
 
 export const getDailyWeatherInfo = async ({ latitude, longitude }: GeoPoint) => {
   const response = await instance.get(`/weather/tmp?latitude=${latitude}&longitude=${longitude}`, getConfig());
+  return response.data;
+};
+
+export const getOutfitGuide = async (tmp: number) => {
+  const response = await instance.get(`/weather/guide/outfit?tmp=${tmp}`);
+  return response.data;
+};
+
+export const getOutfitByTemperature = async (tmp: number) => {
+  const response = await instance.get(`/posts/tmp?tmp=${tmp}&page=${1}&size=${10}`);
   return response.data;
 };

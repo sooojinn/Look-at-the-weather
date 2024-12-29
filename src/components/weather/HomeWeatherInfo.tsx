@@ -5,12 +5,12 @@ import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
-import WeatherMessage from '@components/weather/WeatherMessage';
+import Text from '@components/common/atom/Text';
 
 export default function HomeWeatherInfo() {
   const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
   const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
-  const { currentTemp, weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
+  const { currentTemp, weatherType, minTemp, maxTemp } = weatherData;
 
   const isLoading = isLocationLoading || isWeatherLoading;
   const isSuccess = isLocationSuccess && isWeatherSuccess;
@@ -34,23 +34,22 @@ export default function HomeWeatherInfo() {
   };
 
   return (
-    <div
-      className={`w-full h-[292px] relative ${
-        backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
-      }`}
-    >
+    <>
       <div className="w-full h-full flex flex-col justify-center px-5">
-        {!isLoading && (
-          <>
-            <Location {...location} size="l" color="white" />
-            <div className="flex justify-between">
-              <div>
+        <Location {...location} size="l" color="black" />
+        <div
+          className={`w-full h-[100px] relative rounded-[10px] flex flex-row items-center justify-between px-5 ${
+            backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
+          }`}
+        >
+          {!isLoading && (
+            <>
+              <div className="flex flex-col">
                 {isSuccess && (
-                  <div className="flex flex-col gap-1">
-                    <CurrentTemp>{currentTemp}</CurrentTemp>
-                    <WeatherMessage size="l" color="white">
-                      {weatherMessage}
-                    </WeatherMessage>
+                  <div>
+                    <Text color="white">
+                      현재 기온은 <CurrentTemp>{currentTemp}</CurrentTemp> 입니다.
+                    </Text>
                     <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
                   </div>
                 )}
@@ -63,16 +62,18 @@ export default function HomeWeatherInfo() {
                   </>
                 )}
               </div>
-              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={135} />
+              <div>
+                <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={90} />
+              </div>
+            </>
+          )}
+          {isLoading && (
+            <div className="absolute inset-0 bg-opacity-black20 flex justify-center items-center">
+              <Spinner width={30} />
             </div>
-          </>
-        )}
-        {isLoading && (
-          <div className="absolute inset-0 bg-opacity-black20 flex justify-center items-center">
-            <Spinner width={30} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

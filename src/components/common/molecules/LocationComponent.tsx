@@ -1,6 +1,5 @@
 import { TextColor, TextSize } from '@/config/types';
 import Text from '@components/common/atom/Text';
-import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,7 +18,7 @@ export default function LocationComponent({ isPostFormLocation, city, district, 
   const showTooltipPage = ['/'];
   const isShowTooltipPage = showTooltipPage.includes(location.pathname);
 
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(true);
 
   const handleLocationClick = () => {
     navigate('/search-address', { state: { isPostFormLocation } });
@@ -36,33 +35,38 @@ export default function LocationComponent({ isPostFormLocation, city, district, 
     }
   }, []);
 
-  const handleTooltipClose = () => {
-    setShowTooltip(false);
-    const currentDate = new Date().toISOString().split('T')[0];
-    localStorage.setItem('lastTooltipClosedDate', currentDate);
-  };
+  // const handleTooltipClose = () => {
+  //   setShowTooltip(false);
+  //   const currentDate = new Date().toISOString().split('T')[0];
+  //   localStorage.setItem('lastTooltipClosedDate', currentDate);
+  // };
 
   return (
-    <div className="relative">
-      <div className="flex items-center gap-[6px] cursor-pointer" onClick={handleLocationClick}>
-        <LocationIcon fill={color} />
-        <Text size={size} color={color}>
-          {city || district ? `${city} ${district}` : '위치 정보 없음'}
-        </Text>
+    <div className="flex pt-[24px] w-full h-[60px] items-center">
+      <div className="flex flex-row items-center gap-[6px] cursor-pointer" onClick={handleLocationClick}>
+        <div>
+          <LocationIcon fill={color} />
+        </div>
+        <div>
+          <Text size={size} color={color}>
+            {city || district ? `${city} ${district}` : '위치 정보 없음'}
+          </Text>
+        </div>
       </div>
-      {showTooltip && <LocationTooltip onClose={handleTooltipClose} />}
+      <div>{showTooltip && <LocationTooltip />}</div>
     </div>
   );
 }
 
-function LocationTooltip({ onClose }: { onClose: () => void }) {
+function LocationTooltip() {
   return (
-    <div className="absolute -top-10 -left-2 flex gap-2 px-3 py-2 bg-primary-main rounded-md z-10">
-      <Text size="xs" color="white">
-        위치를 변경하려면 클릭해 주세요
-      </Text>
-      <CloseBtn width={16} fill="rgb(var(--color-label-100))" onClick={onClose} />
-      <div className="absolute bottom-[-5px] left-[10px] w-0 h-0 border-primary-main border-t-[5px] border-r-[5px] border-r-transparent border-l-[5px] border-l-transparent"></div>
+    <div className="flex items-center">
+      <div className="w-[8px] h-0 border-primary-main border-t-[5px] border-r-[5px] border-b-[5px] border-t-transparent border-l-transparent border-b-transparent"></div>
+      <div className="flex px-3 py-[5px] bg-primary-main rounded-md z-10">
+        <Text size="xs" color="white">
+          클릭해서 위치를 변경할 수 있어요!
+        </Text>
+      </div>
     </div>
   );
 }

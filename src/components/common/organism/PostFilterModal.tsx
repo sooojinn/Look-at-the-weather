@@ -163,7 +163,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   }, [btnValue]);
 
   useEffect(() => {
-    const city = data?.region;
+    const city = data?.data.region;
     if (isSuccess) setCity(city);
   }, [isSuccess]);
 

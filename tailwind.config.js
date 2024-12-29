@@ -19,6 +19,7 @@ export default {
 
         opacity: {
           black90: 'rgba(var(--color-label-700), 0.9)',
+          black70: 'rgba(var(--color-label-700), 0.7)',
           black50: 'rgba(var(--color-label-700), 0.5)',
           black20: 'rgba(var(--color-label-700), 0.2)',
           lightBlack52: 'rgb(var(--color-label-600), 0.52)',
@@ -29,6 +30,8 @@ export default {
           white: 'rgb(var(--color-label-100))',
           light: 'rgb(var(--bg-gray-100))',
           disabled: 'rgb(var(--bg-gray-200))',
+          lightGray: 'rgb(var(--bg-gray-300))',
+          primary: 'rgb(var(--color-primary))',
         },
         status: {
           success: 'rgb(var(--color-success))',
@@ -83,6 +86,12 @@ export default {
       },
       aspectRatio: {
         custom: '4/5',
+      },
+      screens: {
+        xs: { max: '375px' },
+        sm: { max: '480px' },
+        md: { max: '768px' },
+        lg: { max: '1024px' },
       },
     },
   },

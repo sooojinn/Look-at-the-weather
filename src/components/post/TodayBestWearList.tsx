@@ -1,25 +1,98 @@
-import { PostList } from '@/components/post/PostList';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import Text from '@components/common/atom/Text';
-import { fetchTopLikedPosts } from '@/api/apis';
+import { fetchTopLikedPosts, getOutfitByTemperature } from '@/api/apis';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import HorizonScrollPostList from '@components/common/molecules/HorizonScrollPostList';
+import QuestionMark from '@components/icons/QuestionMark';
+import AlertModal from '@components/common/organism/AlertModal';
+import Button from '@components/common/molecules/Button';
+import useLocationData from '@/hooks/useLocationData';
+import useWeatherData from '@/hooks/useWeatherData';
 
 export default function TodayBestWearList() {
-  const { data, isLoading, isSuccess } = useQuery({
+  const { geoPoint } = useLocationData();
+  const { weatherData } = useWeatherData(geoPoint);
+  const { currentTemp } = weatherData;
+
+  const {
+    data: response,
+    isLoading,
+    isSuccess: isTopLikedPostsSuccess,
+  } = useQuery({
     queryKey: ['topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
 
-  const topLikedPosts = data?.topLikedPosts;
+  const { data: outfitRes, isSuccess: isOutfitSuccess } = useQuery({
+    queryKey: ['getOutfitByTemperature'],
+    queryFn: () => getOutfitByTemperature(currentTemp),
+    enabled: !!currentTemp,
+  });
+
+  const [showDescModal, setShowDescModal] = useState(false);
+
+  const topLikedPosts = isTopLikedPostsSuccess && response?.data?.topLikedPosts ? response.data.topLikedPosts : [];
+  const outfitPosts = isOutfitSuccess && outfitRes?.posts ? outfitRes?.posts : [];
 
   return (
-    <div className="w-full h-full max-w-md flex flex-col flex-grow">
-      <Text size="l" color="black" weight="bold" className="px-5 flex justify-start items-center h-[60px]">
-        Today Best Wear 👕
-      </Text>
-      {isSuccess && (topLikedPosts.length ? <PostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
+    <div className="w-full h-full max-w-md flex flex-col flex-grow ps-5">
+      <div className="mb-[24px]">
+        <Text size="l" color="black" weight="bold" className="flex justify-start items-center h-[60px]">
+          현재 기온에 어울리는 룩
+        </Text>
+        {outfitPosts && outfitPosts.length ? <HorizonScrollPostList postList={outfitPosts} /> : <TempOutfitPostEmpty />}
+      </div>
+
+      <div className="flex items-center gap-[4px]">
+        <Text size="l" color="black" weight="bold" className="flex justify-start items-center h-[60px]">
+          오늘의 베스트 룩
+        </Text>
+        <div
+          onClick={() => {
+            setShowDescModal(true);
+          }}
+        >
+          <QuestionMark />
+          {showDescModal && (
+            <AlertModal
+              boldMessage={
+                <>
+                  Today Best Wear
+                  <br />
+                  선정 기준
+                </>
+              }
+              regularMessage={
+                <>
+                  당일 게시물 중 좋아요를
+                  <br />
+                  많이 받은 게시물 기준으로 선정됩니다.
+                </>
+              }
+              buttons={
+                <>
+                  <Button
+                    size="m"
+                    type="main"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowDescModal(false);
+                    }}
+                  >
+                    확인
+                  </Button>
+                </>
+              }
+            />
+          )}
+        </div>
+      </div>
+
+      {isTopLikedPostsSuccess &&
+        (topLikedPosts.length ? <HorizonScrollPostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
       {isLoading && (
         <div className="flex flex-grow justify-center items-center">
           <Spinner />
@@ -45,6 +118,16 @@ function TopLikedPostEmpty() {
           <br /> 베스트 룩을 뽑아보세요!
         </>
       }
+    />
+  );
+}
+
+function TempOutfitPostEmpty() {
+  return (
+    <StatusPlaceholder
+      ImgComp={NoPostImg}
+      boldMessage={'이 기온에 적합한 게시글이 없어요.'}
+      lightMessage={'스타일을 공유하여 다른 사람들에게 도움이 되어 주세요!'}
     />
   );
 }
