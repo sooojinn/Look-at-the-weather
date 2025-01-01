@@ -20,7 +20,7 @@ const navList: NavItem[] = [
 
 export default function FooterNavi() {
   return (
-    <nav className="max-w-md bottom-0 fixed w-full h-14 bg-background-white border-t border-line-lightest flex justify-around z-50">
+    <nav className="max-w-md bottom-0 sticky w-full h-14 bg-background-white border-t border-line-lightest flex justify-around flex-shrink-0">
       {navList.map((navItem) => (
         <NavLink key={navItem.path} to={navItem.path} className="w-14 flex flex-col justify-center items-center gap-1">
           {({ isActive }) => {
