@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { FilterItem } from '@/config/types';
 import { DistrictType } from '@/config/types';

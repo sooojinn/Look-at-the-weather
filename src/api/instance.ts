@@ -26,21 +26,21 @@ export const instance: AxiosInstance = axios.create({
   timeout: 10000,
 });
 
-// 요청 인터셉터 추가
-instance.interceptors.request.use(
-  (config) => {
-    if (config.headers && config.headers['Authorization']) {
-      // console.log('Authorization Header:', config.headers['Authorization']);
-    } else {
-      console.log('Authorization Header: Not Set');
-    }
-    return config;
-  },
-  (error) => {
-    console.error('Request error:', error);
-    return Promise.reject(error);
-  },
-);
+// // 요청 인터셉터 추가
+// instance.interceptors.request.use(
+//   (config) => {
+//     if (config.headers && config.headers['Authorization']) {
+//       // console.log('Authorization Header:', config.headers['Authorization']);
+//     } else {
+//       console.log('Authorization Header: Not Set');
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     console.error('Request error:', error);
+//     return Promise.reject(error);
+//   },
+// );
 
 instance.interceptors.response.use(
   (response) => {

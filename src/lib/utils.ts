@@ -25,7 +25,6 @@ export async function fetchCurrentGeoPoint(): Promise<GeoPoint | undefined> {
           if (error.code === error.PERMISSION_DENIED) {
             // 접근 거부 시 기본 좌표 반환
             resolve(DEFAULT_GEO_POINT);
-            console.warn('사용자가 위치 정보 접근을 거부했습니다.');
           } else {
             // 다른 에러의 경우 undefined 반환
             reject(undefined);
