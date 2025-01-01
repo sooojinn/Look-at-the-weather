@@ -39,7 +39,7 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
           <Heart liked={likeByUser} postId={postId} />
         </div>
       </div>
-      <div className={`my-2.5 ${isHorizontal ? '' : 'px-5'}`}>
+      <div className={`my-2.5 ${isHorizontal ? 'px-1.5' : 'px-5'}`}>
         <Text>
           {city} {district}
         </Text>

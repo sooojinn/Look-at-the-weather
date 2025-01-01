@@ -40,14 +40,14 @@ export default function TodayBestWearList() {
   return (
     <div className="w-full h-full max-w-md flex flex-col flex-grow ps-5">
       <div className="mb-[24px]">
-        <Text size="l" color="black" weight="bold" className="flex justify-start items-center h-[60px]">
+        <Text size="l" weight="bold" className="flex justify-start items-center h-[60px]">
           현재 기온에 어울리는 룩
         </Text>
         {outfitPosts && outfitPosts.length ? <HorizonScrollPostList postList={outfitPosts} /> : <TempOutfitPostEmpty />}
       </div>
 
       <div className="flex items-center gap-[4px]">
-        <Text size="l" color="black" weight="bold" className="flex justify-start items-center h-[60px]">
+        <Text size="l" weight="bold" className="flex justify-start items-center h-[60px]">
           오늘의 베스트 룩
         </Text>
         <div
@@ -55,7 +55,7 @@ export default function TodayBestWearList() {
             setShowDescModal(true);
           }}
         >
-          <QuestionMark />
+          <QuestionMark className="cursor-pointer" />
           {showDescModal && (
             <AlertModal
               boldMessage={

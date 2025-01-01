@@ -66,11 +66,11 @@ export const guideContent: GuideContent[] = [
     ),
     desc: (
       <>
-        마음에 드는 룩이 있다면
+        마음에 드는 룩이 있다면{' '}
         <strong>
           하트를 눌러
           <br />
-          간편하게 저장하세요!
+          간편하게 저장하세요!{' '}
         </strong>
         저장한 룩은
         <br />

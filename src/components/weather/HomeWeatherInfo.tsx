@@ -35,36 +35,34 @@ export default function HomeWeatherInfo() {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col justify-center px-5">
-        <Location {...location} size="l" color="black" />
+      <div className="w-full h-full flex flex-col justify-center px-5 pt-5">
+        <Location {...location} size="l" />
         <div
-          className={`w-full h-[100px] relative rounded-[10px] flex flex-row items-center justify-between px-5 ${
+          className={`w-full h-[100px] mt-2 relative rounded-[10px] flex flex-row items-center justify-between px-5 ${
             backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
           }`}
         >
           {!isLoading && (
             <>
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1.5">
                 {isSuccess && (
-                  <div>
+                  <>
                     <Text color="white">
                       현재 기온은 <CurrentTemp>{currentTemp}</CurrentTemp> 입니다.
                     </Text>
                     <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
-                  </div>
+                  </>
                 )}
                 {isError && (
                   <>
-                    <p className="text-6xl text-white font-bold mt-5 mb-3">Error</p>
-                    <button onClick={handleRefetch} className="underline text-s text-white ml-1">
+                    <p className="text-[24px] text-white font-bold">Error</p>
+                    <button onClick={handleRefetch} className="underline text-s text-white">
                       재시도
                     </button>
                   </>
                 )}
               </div>
-              <div>
-                <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={90} />
-              </div>
+              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={90} />
             </>
           )}
           {isLoading && (

@@ -16,7 +16,7 @@ export default function LookWeatherInfo() {
   const isSuccess = isLocationSuccess && isWeatherSuccess;
   const isError = isLocationError || isWeatherError;
   return (
-    <div className="min-h-[129px] flex justify-between py-5 relative">
+    <div className="min-h-[129px] flex justify-between items-center py-5 relative">
       {!isLoading && (
         <>
           <div className="flex flex-col gap-2.5">

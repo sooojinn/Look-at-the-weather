@@ -47,7 +47,7 @@ export default function ManualGuide() {
           className="absolute top-[600px] left-1/2 -translate-x-1/2 -translate-y-1/2"
           onClick={() => setIsManualGuideModal(!isManualGuideModalOpen)}
         >
-          <Text color="white" weight="bold" className="underline">
+          <Text color="white" weight="bold" className="underline cursor-pointer">
             가이드 닫기
           </Text>
         </div>

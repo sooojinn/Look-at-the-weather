@@ -13,7 +13,7 @@ export default function GuidePanel() {
         onClick={() => {
           setIsLookGuideModal(!isLookGuideModalOpen);
         }}
-        className="flex-[5] w-full"
+        className="flex-[5] w-full cursor-pointer"
       >
         <GuideBtn
           Icon={LookGuideIcon}
@@ -26,7 +26,7 @@ export default function GuidePanel() {
         onClick={() => {
           setIsManualGuideModal(!isManualGuideModalOpen);
         }}
-        className="flex-[3] w-full"
+        className="flex-[3] w-full cursor-pointer"
       >
         <GuideBtn Icon={GuideManualIcon} title={'사용설명서'} upperDesc="룩엣더웨더가" lowerDesc="처음이신가요?" />
       </div>
