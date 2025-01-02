@@ -195,3 +195,9 @@ export interface AddressItem extends GeoPoint {
   cityName: string;
   districtName: string;
 }
+
+export interface PreloadImageProps {
+  url: string;
+  onLoad?: () => void;
+  onError?: () => void;
+}
