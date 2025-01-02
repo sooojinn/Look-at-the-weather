@@ -56,9 +56,9 @@ export default function HomeWeatherInfo() {
                 {isError && (
                   <>
                     <p className="text-[24px] text-white font-bold">Error</p>
-                    <button onClick={handleRefetch} className="underline text-s text-white">
+                    <div onClick={handleRefetch} className="underline text-s text-white">
                       재시도
-                    </button>
+                    </div>
                   </>
                 )}
               </div>
