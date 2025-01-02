@@ -35,6 +35,8 @@ export default function Heart({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  if (!isLogin) return null;
+
   useEffect(() => {
     setIsLiked(liked);
     setLikedCount(initialLikedCount);
@@ -66,8 +68,9 @@ export default function Heart({
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    if (isLogin) toggleLikeMutation.mutate();
-    else setShowLoginPromptModal(true);
+    // if (isLogin) toggleLikeMutation.mutate();
+    // else setShowLoginPromptModal(true);
+    toggleLikeMutation.mutate();
   };
 
   return (
