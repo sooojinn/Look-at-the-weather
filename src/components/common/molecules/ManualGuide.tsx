@@ -25,7 +25,7 @@ export default function ManualGuide() {
         >
           {guideContent.map((content) => (
             <SwiperSlide className="relative bg-background-primary rounded-3xl" key={content.page}>
-              <div className="absolute xs:top-[-5%] top-[-35px] w-full h-full flex justify-center items-center pointer-events-none">
+              <div className="absolute xs:top-[-5%] top-[35px] w-full h-full flex justify-center items-center pointer-events-none">
                 <img src={content.src} alt="" className="object-cover max-w-full max-h-full" />
               </div>
               <div className="absolute bottom-0 w-full bg-white rounded-b-3xl px-[22px] pt-[35px] pb-[31px]">
