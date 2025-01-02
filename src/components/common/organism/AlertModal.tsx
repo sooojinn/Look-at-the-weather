@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import { ReactNode } from 'react';
 import Text from '../atom/Text';
 import BackgroundShadow from './BackgroundShadow';
@@ -9,7 +10,7 @@ interface AlertModalProps {
 }
 
 export default function AlertModal({ boldMessage, regularMessage, buttons }: AlertModalProps) {
-  return (
+  return ReactDOM.createPortal(
     <BackgroundShadow>
       <div className="min-w-[300px] bg-white p-6 flex flex-col text-center gap-6 rounded-2xl">
         <div className="flex flex-col items-center text-center gap-4">
@@ -23,6 +24,7 @@ export default function AlertModal({ boldMessage, regularMessage, buttons }: Ale
 
         <div className="flex justify-center gap-2">{buttons}</div>
       </div>
-    </BackgroundShadow>
+    </BackgroundShadow>,
+    document.body,
   );
 }
