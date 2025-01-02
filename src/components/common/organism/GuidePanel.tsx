@@ -2,6 +2,8 @@ import GuideBtn from '../molecules/GuideBtn';
 import LookGuideIcon from '@components/icons/guide/LookGuideIcon';
 import GuideManualIcon from '@components/icons/guide/GuideManualIcon';
 import { useGuideManageStore } from '@/store/guideManageStore';
+import PreloadImage from '../atom/PreloadImage';
+import { guideContent } from '@/config/guideContent';
 
 export default function GuidePanel() {
   const { isLookGuideModalOpen, isManualGuideModalOpen, setIsLookGuideModal, setIsManualGuideModal } =
@@ -29,6 +31,9 @@ export default function GuidePanel() {
         className="flex-[3] w-full cursor-pointer"
       >
         <GuideBtn Icon={GuideManualIcon} title={'사용설명서'} upperDesc="룩엣더웨더가" lowerDesc="처음이신가요?" />
+        {guideContent.map((content) => (
+          <PreloadImage url={content.src} />
+        ))}
       </div>
     </div>
   );
