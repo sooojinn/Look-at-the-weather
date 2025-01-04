@@ -8,7 +8,7 @@ import TextWithArrow from '@components/common/atom/TextWithArrow';
 import HrLine from '@components/common/atom/HrLine';
 
 export default function Mypage() {
-  const settingList = [{ menu: '내 정보 수정', href: '/profileedit' }];
+  const settingList = [{ menu: '내 정보 수정', href: '/profile-edit' }];
   const activeList = [
     { menu: '내 게시물', href: '/mypage/mypost' },
     { menu: '내가 좋아요한 게시물', href: '/mypage/like' },

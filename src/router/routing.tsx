@@ -1,26 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../App.tsx';
-import NotFound from '../pages/NotFound.tsx';
-import Home from '../pages/Home.tsx';
-import FindEmail from '../pages/FindEmail.tsx';
-import FindPassword from '../pages/FindPassword.tsx';
-import Mypage from '../pages/Mypage.tsx';
-import PasswordReset from '../pages/PasswordReset.tsx';
-import Signup from '../pages/Signup.tsx';
-import PostDetail from '../pages/PostDetail.tsx';
-import PostWrite from '../pages/PostWrite.tsx';
-import Post from '../pages/Post.tsx';
-import ProfileEdit from '../pages/ProfileEdit.tsx';
-import PostEdit from '@pages/PostEdit.tsx';
-import FindEmailResult from '@pages/FindEmailResult.tsx';
-import KakaoRedirect from '@components/login/KakaoRedirect.tsx';
-import SearchAddress from '@pages/SearchAddress.tsx';
-import MyPost from '@pages/MyPost.tsx';
-import MyLikedPost from '@pages/MyLikedPost.tsx';
-import PostReport from '@pages/PostReport.tsx';
-import DeleteAccount from '@pages/DeleteAccount.tsx';
-import ProtectedRoute from './ProtectedRoute.tsx';
-import Login from '@pages/Login.tsx';
+import App from '../App';
+import NotFound from '../pages/NotFound';
+import Home from '../pages/Home';
+import FindEmail from '../pages/FindEmail';
+import FindPassword from '../pages/FindPassword';
+import Mypage from '../pages/Mypage';
+import PasswordReset from '../pages/PasswordReset';
+import Signup from '../pages/Signup';
+import PostDetail from '../pages/PostDetail';
+import PostWrite from '../pages/PostWrite';
+import Post from '../pages/Post';
+import ProfileEdit from '../pages/ProfileEdit';
+import PostEdit from '@pages/PostEdit';
+import FindEmailResult from '@pages/FindEmailResult';
+import KakaoRedirect from '@components/login/KakaoRedirect';
+import SearchAddress from '@pages/SearchAddress';
+import MyPost from '@pages/MyPost';
+import MyLikedPost from '@pages/MyLikedPost';
+import PostReport from '@pages/PostReport';
+import DeleteAccount from '@pages/DeleteAccount';
+import ProtectedRoute from './ProtectedRoute';
+import Login from '@pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/profileedit',
+        path: '/profile-edit',
         element: (
           <ProtectedRoute>
             <ProfileEdit />

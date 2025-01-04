@@ -1,8 +1,8 @@
 import { GeoPoint } from './types';
 
-export const BASEURL = import.meta.env.VITE_BASE_URL;
+export const BASEURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const KAKAO_REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+export const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 
 export const REDIRECT_URI = 'https://www.lookattheweather.store/oauth';
 

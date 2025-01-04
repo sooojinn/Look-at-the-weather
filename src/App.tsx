@@ -15,7 +15,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="bg-background-light">
         <div className="max-w-md m-auto min-h-screen bg-background-white">
-          <ScrollToTop />
+          {/* <ScrollToTop /> */}
           {isOnline ? <Outlet /> : <Offline />}
           <ToastProvider />
         </div>

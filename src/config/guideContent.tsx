@@ -1,7 +1,3 @@
-import guide1 from '/assets/guide1.png';
-import guide2 from '/assets/guide2.png';
-import guide3 from '/assets/guide3.png';
-import guide4 from '/assets/guide4.png';
 import { GuideContent } from './types';
 
 export const guideContent: GuideContent[] = [
@@ -23,7 +19,7 @@ export const guideContent: GuideContent[] = [
         <strong>지역 날씨 기반 패션 플랫폼</strong>입니다.
       </>
     ),
-    src: guide1,
+    src: '/assets/guide1.png', // public 디렉토리 기준 경로
   },
   {
     page: 2,
@@ -39,7 +35,7 @@ export const guideContent: GuideContent[] = [
         참고해 보세요!
       </>
     ),
-    src: guide2,
+    src: '/assets/guide2.png',
   },
   {
     page: 3,
@@ -53,7 +49,7 @@ export const guideContent: GuideContent[] = [
         지역과 조건의 룩만 볼 수 있어요
       </>
     ),
-    src: guide3,
+    src: '/assets/guide3.png',
   },
   {
     page: 4,
@@ -77,6 +73,6 @@ export const guideContent: GuideContent[] = [
         언제든 마이페이지에서 확인할 수 있어요
       </>
     ),
-    src: guide4,
+    src: '/assets/guide4.png',
   },
 ];

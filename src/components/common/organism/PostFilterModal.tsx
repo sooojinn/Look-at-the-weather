@@ -257,7 +257,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           id="viewport"
           className="w-full px-5 flex flex-col flex-grow overflow-x-hidden overflow-y-auto scrollbar-hide"
         >
-          <div id="location" className="py-5 w-full" ref={(el) => (sectionRefs.current.location = el)}>
+          <div
+            id="location"
+            className="py-5 w-full"
+            ref={(el) => {
+              sectionRefs.current.location = el;
+            }}
+          >
             <a>
               <Text size="l" weight="bold" className="mb-2.5">
                 지역
@@ -297,7 +303,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
 
           <HrLine height={8} />
 
-          <div id="weather" className="py-5 w-full" ref={(el) => (sectionRefs.current.weather = el)}>
+          <div
+            id="weather"
+            className="py-5 w-full"
+            ref={(el) => {
+              sectionRefs.current.weather = el;
+            }}
+          >
             <a className="mb-4">
               <Text size="l" weight="bold" className="mb-2.5">
                 날씨
@@ -318,7 +330,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           </div>
           <HrLine height={8} />
 
-          <div id="temperature" className="py-5 w-full" ref={(el) => (sectionRefs.current.temperature = el)}>
+          <div
+            id="temperature"
+            className="py-5 w-full"
+            ref={(el) => {
+              sectionRefs.current.temperature = el;
+            }}
+          >
             <a className="mb-4">
               <Text size="l" weight="bold" className="mb-2.5">
                 온도
@@ -339,7 +357,13 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
           </div>
           <HrLine height={8} />
 
-          <div id="season" className="py-5 w-full" ref={(el) => (sectionRefs.current.season = el)}>
+          <div
+            id="season"
+            className="py-5 w-full"
+            ref={(el) => {
+              sectionRefs.current.season = el;
+            }}
+          >
             <a className="mb-4">
               <Text size="l" weight="bold" className="mb-2.5">
                 계절
