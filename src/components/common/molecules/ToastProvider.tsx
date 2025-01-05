@@ -1,3 +1,5 @@
+'use client';
+
 import { toast, ToastContainer, cssTransition } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Text from '../atom/Text';
