@@ -7,8 +7,9 @@ import { patchPasswordReset } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AlertModal from '@components/common/organism/AlertModal';
+import { useRouter } from 'next/navigation';
 
 interface PasswordResetForm {
   userId: number;
@@ -21,7 +22,7 @@ export default function PasswordReset() {
   const { handleSubmit, setValue, reset } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const location = useLocation();
   const { userId } = location.state;
 
@@ -59,7 +60,7 @@ export default function PasswordReset() {
             <Button
               onClick={() => {
                 setShowModal(false);
-                navigate('/');
+                router.push('/');
               }}
             >
               확인

@@ -8,12 +8,12 @@ import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useEffect, useState } from 'react';
 import Header from '@components/common/Header';
-import { useNavigate } from 'react-router-dom';
 import { GENDER_TAGS, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 import { useGeoLocationStore } from '@/store/locationStore';
 import AlertModal from '@components/common/organism/AlertModal';
+import { useRouter } from 'next/navigation';
 
 interface PostWriteFormProps {
   type: '작성' | '수정';
@@ -41,11 +41,11 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
   setValue('district', district, { shouldDirty: true });
 
   const [shoWModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleFormCloseBtn = () => {
     if (isDirty) setShowModal(true);
-    else navigate(-1);
+    else router.back();
   };
 
   // 주소 검색 페이지로 이동하면 작성 중인 내용 세션 스토리지에 저장
@@ -90,7 +90,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
                 type="main"
                 size="m"
                 onClick={() => {
-                  navigate(-1);
+                  router.back();
                   setPostFormLocation(null);
                   sessionStorage.removeItem('formData');
                 }}

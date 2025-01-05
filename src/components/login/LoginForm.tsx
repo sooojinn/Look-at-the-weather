@@ -10,8 +10,8 @@ import PasswordInput from '@components/form/inputs/PasswordInput';
 import KakaoLogin from '@components/login/KakaoLogin';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import LoginTooltip from './LoginTooltip';
+import { useRouter } from 'next/navigation';
 
 interface LoginForm {
   email: string;
@@ -22,7 +22,7 @@ export default function LoginForm() {
   const formMethods = useForm<LoginForm>();
   const { handleSubmit, setError } = formMethods;
   const { setIsLogin, setNickName } = useAuthStore();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
@@ -31,7 +31,7 @@ export default function LoginForm() {
       setAccessToken(accessToken);
       setNickName(nickName);
       setIsLogin(true);
-      navigate(-1);
+      router.back();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_EXIST_EMAIL') {

@@ -10,7 +10,7 @@ import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
 import { useAuthStore } from '@/store/authStore';
 import AlertModal from '../organism/AlertModal';
 import Button from '../molecules/Button';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 interface HeartProps {
   fill?: string;
@@ -33,7 +33,7 @@ export default function Heart({
 
   const isLogin = useAuthStore((state) => state.isLogin);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     setIsLiked(liked);
@@ -96,7 +96,7 @@ export default function Heart({
               >
                 취소
               </Button>
-              <Button size="m" onClick={() => navigate('/login')}>
+              <Button size="m" onClick={() => router.push('/login')}>
                 로그인
               </Button>
             </>

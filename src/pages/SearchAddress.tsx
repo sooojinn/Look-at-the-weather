@@ -7,11 +7,12 @@ import InputWithLabel from '@components/form/InputWithLabel';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
 import useLocationPermission from '@/hooks/useLocationPermission';
 import { searchAddresses } from '@/api/apis';
 import { AddressItem } from '@/config/types';
+import { useRouter } from 'next/navigation';
 
 interface AddressForm {
   address: string;
@@ -20,7 +21,7 @@ interface AddressForm {
 export default function SearchAddress() {
   const formMethods = useForm<AddressForm>();
   const { handleSubmit, watch } = formMethods;
-  const navigate = useNavigate();
+  const router = useRouter();
   const location = useLocation();
 
   const { isPostFormLocation } = location.state;
@@ -55,7 +56,7 @@ export default function SearchAddress() {
     } else {
       setCustomGeoPoint(null);
     }
-    navigate(-1);
+    router.back();
   };
 
   const onSubmit = async ({ address }: AddressForm) => {
@@ -111,7 +112,7 @@ export default function SearchAddress() {
               } else {
                 setCustomGeoPoint({ latitude, longitude });
               }
-              navigate(-1);
+              router.back();
             }}
             className="px-5 py-[18px] border-b border-line-light hover:bg-background-light cursor-pointer"
           >

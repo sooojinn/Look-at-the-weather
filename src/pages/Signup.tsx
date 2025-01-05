@@ -10,9 +10,9 @@ import PasswordInput from '@components/form/inputs/PasswordInput';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AlertModal from '@components/common/organism/AlertModal';
+import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const formMethods = useForm<SignupForm>({
@@ -34,13 +34,13 @@ export default function Signup() {
     formState: { isSubmitting, errors, isDirty },
   } = formMethods;
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const { mutate: registerMutation } = useRegisterMutation();
 
   const handleFormCloseBtn = () => {
     if (isDirty) setShowModal(true);
-    else navigate(-1);
+    else router.back();
   };
 
   const onSubmit = async (data: SignupForm) => {
@@ -84,7 +84,7 @@ export default function Signup() {
               <Button size="m" type="sub" onClick={() => setShowModal(false)}>
                 가입 계속하기
               </Button>
-              <Button size="m" onClick={() => navigate(-1)}>
+              <Button size="m" onClick={() => router.back()}>
                 취소하기
               </Button>
             </>

@@ -3,8 +3,8 @@ import FooterNavi from '@components/common/FooterNavi';
 import { getMyPosts } from '@/api/apis';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
-import { useNavigate } from 'react-router-dom';
 import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
+import { useRouter } from 'next/navigation';
 
 export default function MyPost() {
   return (
@@ -22,7 +22,7 @@ export default function MyPost() {
 }
 
 function MyPostEmpty() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <StatusPlaceholder
@@ -36,7 +36,7 @@ function MyPostEmpty() {
         </>
       }
       btnText="게시물 작성하기"
-      btnFunc={() => navigate('/post-write')}
+      btnFunc={() => router.push('/post-write')}
     />
   );
 }

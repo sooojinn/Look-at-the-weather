@@ -1,10 +1,10 @@
 import { getMyLikedPosts } from '@/api/apis';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
-import { useNavigate } from 'react-router-dom';
 import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
 import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
+import { useRouter } from 'next/navigation';
 
 export default function MyLikedPost() {
   return (
@@ -22,7 +22,7 @@ export default function MyLikedPost() {
 }
 
 function MyLikedPostEmpty() {
-  const navigate = useNavigate();
+  const router = useRouter();
   return (
     <StatusPlaceholder
       ImgComp={NoPostImg}
@@ -35,7 +35,7 @@ function MyLikedPostEmpty() {
         </>
       }
       btnText="둘러보기"
-      btnFunc={() => navigate('/post')}
+      btnFunc={() => router.push('/post')}
     />
   );
 }

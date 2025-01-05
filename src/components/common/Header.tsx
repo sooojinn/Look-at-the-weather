@@ -1,8 +1,8 @@
 import BackBtn from '@components/icons/BackBtn';
 import CloseBtn from '@components/icons/CloseBtn';
 import { ReactNode } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import Text from './atom/Text';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface HeaderProps {
   children?: ReactNode;
@@ -12,12 +12,12 @@ interface HeaderProps {
 }
 
 export default function Header({ children, hideBackBtn, noBorder, onClose }: HeaderProps) {
-  const location = useLocation();
+  const pathname = usePathname();
   const mainPageList = ['/', '/post', '/post-write', '/mypage'];
-  const isMainPage = mainPageList.includes(location.pathname);
+  const isMainPage = mainPageList.includes(pathname || '/');
 
-  const navigate = useNavigate();
-  const handleBackBtn = () => navigate(-1);
+  const router = useRouter();
+  const handleBackBtn = () => router.back();
 
   return (
     <header

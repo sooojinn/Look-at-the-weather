@@ -8,11 +8,11 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
 import AlertModal from '@components/common/organism/AlertModal';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function DeleteAccount() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { setIsLogin } = useAuthStore();
   const [selectedReason, setSelectedReason] = useState('');
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -105,7 +105,7 @@ export default function DeleteAccount() {
             <Button
               size="m"
               onClick={() => {
-                navigate('/');
+                router.push('/');
                 setAccessToken(null);
                 setIsLogin(false);
               }}

@@ -6,7 +6,7 @@ import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
-import { useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
@@ -14,6 +14,7 @@ import ImageSlider from '@components/post/ImageSlider';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
+import { useRouter } from 'next/navigation';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -31,7 +32,7 @@ export interface PostDetail extends PostMeta {
 
 export default function PostDetail() {
   const location = useLocation();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   if (!location.state || typeof location.state.id !== 'number') {
     return <Navigate to="/not-found" />;
@@ -82,7 +83,7 @@ export default function PostDetail() {
       if (error instanceof AxiosError) {
         showToast(`${error.response?.data.errorMessage}`);
       }
-      navigate(-1);
+      router.back();
     }
   }, [isError, error]);
 

@@ -5,16 +5,16 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { showToast } from '../common/molecules/ToastProvider';
 import Text from '../common/atom/Text';
-import { useNavigate } from 'react-router-dom';
 import AlertModal from '@components/common/organism/AlertModal';
 import Button from '@components/common/molecules/Button';
 import { usePostStore } from '@/store/postStore';
+import { useRouter } from 'next/navigation';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { setIsLogin, authStoreClear } = useAuthStore();
   const { postStoreClear } = usePostStore();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
@@ -24,7 +24,7 @@ export default function LogoutBtn() {
       localStorage.removeItem('nickname');
       authStoreClear();
       postStoreClear();
-      navigate('/');
+      router.push('/');
       showToast('로그아웃되었습니다.');
     },
     onError: (error) => {

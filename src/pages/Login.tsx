@@ -2,7 +2,8 @@ import Header from '@components/common/Header';
 import Logo from '@components/common/atom/Logo';
 import Text from '@components/common/atom/Text';
 import LoginForm from '@components/login/LoginForm';
-import { Link, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import { Link } from 'react-router-dom';
 
 const linkList = [
   { path: '/signup', label: '회원가입', index: 1 },
@@ -11,11 +12,11 @@ const linkList = [
 ];
 
 export default function Login() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <div className="h-screen flex flex-col">
-      <Header hideBackBtn noBorder onClose={() => navigate(-1)}></Header>
+      <Header hideBackBtn noBorder onClose={() => router.back()}></Header>
       <div className="min-h-[140px] max-h-[200px] flex flex-col gap-3 flex-grow justify-center items-center">
         <Logo width={120} height={54} />
         <Text size="l" color="gray">

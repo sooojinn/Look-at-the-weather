@@ -10,9 +10,9 @@ import Button from '@components/common/molecules/Button';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import { useNavigate } from 'react-router-dom';
 import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
+import { useRouter } from 'next/navigation';
 
 interface ProfileEditType {
   nickname: string;
@@ -28,7 +28,7 @@ export default function ProfileEdit() {
 
   const { handleSubmit } = formMethods;
   const setNickName = useAuthStore((state) => state.setNickName);
-  const navigate = useNavigate();
+  const router = useRouter();
   const queryClient = useQueryClient();
 
   const {
@@ -54,7 +54,7 @@ export default function ProfileEdit() {
       showToast('개인 정보가 수정되었습니다.');
       setNickName(variables.nickname);
       queryClient.invalidateQueries({ queryKey: ['userInfo'] });
-      navigate(-1);
+      router.back();
     },
     onError: () => {
       showToast('개인 정보 수정 실패. 다시 시도해주세요.');

@@ -3,9 +3,9 @@ import { AxiosError } from 'axios';
 import { ErrorResponse, RegisterForm, VerifyCodeProps } from '@/config/types';
 import useSignupStore from '@/store/signupStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
-import { useNavigate } from 'react-router-dom';
 import { FieldValues, Path, UseFormClearErrors, UseFormSetError } from 'react-hook-form';
 import { checkNickname, registerUser, sendVerificationCode, verifyCode } from '@/api/apis';
+import { useRouter } from 'next/navigation';
 
 // 이메일 인증번호 전송
 export const useSendVerificationMutation = <T extends FieldValues>(
@@ -79,12 +79,12 @@ export const useCheckNicknameMutation = <T extends FieldValues>(
 // 회원가입
 export const useRegisterMutation = (): UseMutationResult<void, AxiosError<ErrorResponse>, RegisterForm> => {
   const { resetSignupState } = useSignupStore();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
-      navigate('/login');
+      router.push('/login');
       showToast('회원가입에 성공했습니다.');
       resetSignupState();
     },
