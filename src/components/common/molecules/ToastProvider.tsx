@@ -1,7 +1,6 @@
 'use client';
 
 import { toast, ToastContainer, cssTransition } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Text from '../atom/Text';
 
 const CustomTransition = cssTransition({
@@ -20,8 +19,9 @@ export function ToastProvider() {
       transition={CustomTransition}
       position="bottom-center"
       theme="dark"
-      toastClassName={() => 'fixed bottom-24 w-full flex justify-center items-center'}
-      bodyClassName={() => 'max-w-[335px] w-[90%] px-5 py-3 bg-opacity-lightBlack90 rounded-lg'}
+      toastClassName={() =>
+        'min-w-[300px] w-[90%] relative bottom-14 flex justify-between items-center px-5 py-3 bg-opacity-lightBlack90 rounded-lg'
+      }
     />
   );
 }
