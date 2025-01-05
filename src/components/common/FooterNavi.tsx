@@ -2,8 +2,9 @@ import HangerIcon from '@components/icons/nav/HangerIcon';
 import HomeIcon from '@components/icons/nav/HomeIcon';
 import MyPageIcon from '@components/icons/nav/MyPageIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
-import { NavLink } from 'react-router-dom';
 import Text from './atom/Text';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface NavItem {
   path: string;
@@ -19,23 +20,23 @@ const navList: NavItem[] = [
 ];
 
 export default function FooterNavi() {
+  const pathname = usePathname();
+
   return (
     <nav className="max-w-md bottom-0 sticky w-full h-14 bg-background-white border-t border-line-lightest flex justify-around flex-shrink-0 z-30">
-      {navList.map((navItem) => (
-        <NavLink key={navItem.path} to={navItem.path} className="w-14 flex flex-col justify-center items-center gap-1">
-          {({ isActive }) => {
-            const { Icon } = navItem;
-            return (
-              <>
-                <Icon fill={isActive ? 'rgb(var(--color-primary))' : 'rgb(var(--color-label-400))'} />
-                <Text size="xs" color={isActive ? 'main' : 'gray'} weight={isActive ? 'bold' : 'regular'}>
-                  {navItem.label}
-                </Text>
-              </>
-            );
-          }}
-        </NavLink>
-      ))}
+      {navList.map((navItem) => {
+        const { path, label, Icon } = navItem;
+        const isActive = pathname === path;
+
+        return (
+          <Link key={path} href={path} className="w-14 flex flex-col justify-center items-center gap-1">
+            <Icon fill={isActive ? 'rgb(var(--color-primary))' : 'rgb(var(--color-label-400))'} />
+            <Text size="xs" color={isActive ? 'main' : 'gray'} weight={isActive ? 'bold' : 'regular'}>
+              {label}
+            </Text>
+          </Link>
+        );
+      })}
     </nav>
   );
 }

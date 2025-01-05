@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import ArrowIcon from '@components/icons/ArrowIcon';
-import { NavLink } from 'react-router-dom';
+import Link from 'next/link';
 
 type TextType = {
   href: string;
@@ -9,11 +9,11 @@ type TextType = {
 
 export default function TextWithArrow({ children, href }: TextType) {
   return (
-    <NavLink to={href}>
+    <Link href={href}>
       <div className="flex justify-between items-center py-4 cursor-pointer">
         {children}
         <ArrowIcon />
       </div>
-    </NavLink>
+    </Link>
   );
 }

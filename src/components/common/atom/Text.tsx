@@ -1,6 +1,6 @@
 import { TextColor, TextSize, TextWeight } from '@/config/types';
+import Link from 'next/link';
 import { ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
 
 type TextType = {
   size?: TextSize;
@@ -53,9 +53,9 @@ export default function Text({
   return (
     <>
       {href ? (
-        <NavLink to={href} className={classNames}>
+        <Link href={href} className={classNames}>
           {children}
-        </NavLink>
+        </Link>
       ) : (
         <div className={classNames}>{children}</div>
       )}
