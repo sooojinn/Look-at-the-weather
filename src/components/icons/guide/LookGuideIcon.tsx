@@ -29,7 +29,7 @@ export default function LookGuideIcon() {
         d="M57.3145 30.4014L42.0491 87.3724"
         stroke="#2766B0"
         strokeOpacity="0.7"
-        stroke-width="1.06592"
+        strokeWidth="1.06592"
         strokeDasharray="3.55 3.55"
       />
       <line
@@ -39,7 +39,7 @@ export default function LookGuideIcon() {
         y2="31.6434"
         stroke="#2766B0"
         strokeOpacity="0.7"
-        stroke-width="1.06592"
+        strokeWidth="1.06592"
       />
       <circle cx="60.0418" cy="27.0862" r="1.06592" transform="rotate(15 60.0418 27.0862)" fill="#2766B0" />
       <g filter="url(#filter0_i_7767_17068)">
@@ -76,9 +76,9 @@ export default function LookGuideIcon() {
           width="17.4692"
           height="22.9224"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
           <feColorMatrix
             in="SourceAlpha"
@@ -99,9 +99,9 @@ export default function LookGuideIcon() {
           width="23.4319"
           height="23.1653"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="0.754948" />
           <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_7767_17068" />
           <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_7767_17068" result="shape" />
@@ -124,9 +124,9 @@ export default function LookGuideIcon() {
           width="19.3706"
           height="20.1426"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
           <feColorMatrix
             in="SourceAlpha"
@@ -148,8 +148,8 @@ export default function LookGuideIcon() {
           y2="13.4979"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#266FC5" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#0F3057" />
+          <stop stopColor="#266FC5" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#0F3057" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_7767_17068"
@@ -159,8 +159,8 @@ export default function LookGuideIcon() {
           y2="101.446"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#266FC5" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#0F3057" />
+          <stop stopColor="#266FC5" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#0F3057" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_7767_17068"
@@ -170,9 +170,9 @@ export default function LookGuideIcon() {
           y2="102.731"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4A9B72" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#157FB1" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#1C61C6" />
+          <stop stopColor="#4A9B72" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#157FB1" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#1C61C6" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_7767_17068"
@@ -182,9 +182,9 @@ export default function LookGuideIcon() {
           y2="52.2689"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4A9B72" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#157FB1" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#1C61C6" />
+          <stop stopColor="#4A9B72" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#157FB1" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#1C61C6" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_7767_17068"
@@ -194,9 +194,9 @@ export default function LookGuideIcon() {
           y2="25.7417"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4A9B72" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#157FB1" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#1C61C6" />
+          <stop stopColor="#4A9B72" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#157FB1" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#1C61C6" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_7767_17068"
@@ -206,8 +206,8 @@ export default function LookGuideIcon() {
           y2="46.5601"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#266FC5" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#0F3057" />
+          <stop stopColor="#266FC5" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#0F3057" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_7767_17068"
@@ -217,9 +217,9 @@ export default function LookGuideIcon() {
           y2="39.0781"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#4A9B72" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#157FB1" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#1C61C6" />
+          <stop stopColor="#4A9B72" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#157FB1" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#1C61C6" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_7767_17068"
@@ -229,8 +229,8 @@ export default function LookGuideIcon() {
           y2="81.8785"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#266FC5" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#0F3057" />
+          <stop stopColor="#266FC5" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#0F3057" />
         </linearGradient>
       </defs>
     </svg>

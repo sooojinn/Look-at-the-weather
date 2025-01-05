@@ -31,7 +31,7 @@ export default function YellowJacket() {
           clip-rule="evenodd"
           d="M55.2619 46.3281L64.6242 76.2137L73.2341 46.616L82.5 54.6297L70.2448 69.2403L76.886 71.5648L59.9509 88.4999L62.2753 82.5228L51.3173 71.5648L57.9585 69.2403L46.5 53L54.97 46.3281H55.2619Z"
           fill="url(#paint5_linear_7768_18819)"
-          shape-rendering="crispEdges"
+          shapeRendering="crispEdges"
         />
       </g>
       <path
@@ -46,9 +46,9 @@ export default function YellowJacket() {
           width="52"
           height="58.1719"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="4" />
           <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_7768_18819" />
           <feColorMatrix
@@ -72,9 +72,9 @@ export default function YellowJacket() {
           y2="156.598"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_7768_18819"
@@ -84,9 +84,9 @@ export default function YellowJacket() {
           y2="122.97"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_7768_18819"
@@ -96,9 +96,9 @@ export default function YellowJacket() {
           y2="122.97"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_7768_18819"
@@ -108,8 +108,8 @@ export default function YellowJacket() {
           y2="121.353"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#C8CF41" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#BCC032" />
+          <stop stopColor="#C8CF41" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#BCC032" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_7768_18819"
@@ -119,8 +119,8 @@ export default function YellowJacket() {
           y2="121.353"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#C8CF41" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#BCC032" />
+          <stop stopColor="#C8CF41" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#BCC032" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_7768_18819"
@@ -130,9 +130,9 @@ export default function YellowJacket() {
           y2="115.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#EDEB9A" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D856" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C9D043" />
+          <stop stopColor="#EDEB9A" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D856" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C9D043" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_7768_18819"
@@ -142,8 +142,8 @@ export default function YellowJacket() {
           y2="53.8328"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#D0D441" stop-opacity="0.3" />
-          <stop offset="1" stop-color="#B2B633" />
+          <stop stopColor="#D0D441" stopOpacity="0.3" />
+          <stop offset="1" stopColor="#B2B633" />
         </linearGradient>
       </defs>
     </svg>

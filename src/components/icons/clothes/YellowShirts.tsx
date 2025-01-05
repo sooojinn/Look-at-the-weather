@@ -28,9 +28,9 @@ export default function YellowShirts() {
           y2="115.743"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_7768_18818"
@@ -40,9 +40,9 @@ export default function YellowShirts() {
           y2="115.743"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_7768_18818"
@@ -52,9 +52,9 @@ export default function YellowShirts() {
           y2="156.301"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_7768_18818"
@@ -64,9 +64,9 @@ export default function YellowShirts() {
           y2="64.3607"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_7768_18818"
@@ -76,9 +76,9 @@ export default function YellowShirts() {
           y2="64.3607"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F2E131" stop-opacity="0" />
-          <stop offset="0.36331" stop-color="#D5D535" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#C5CF3A" />
+          <stop stopColor="#F2E131" stopOpacity="0" />
+          <stop offset="0.36331" stopColor="#D5D535" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#C5CF3A" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_7768_18818"
@@ -88,8 +88,8 @@ export default function YellowShirts() {
           y2="53.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#D0D441" stop-opacity="0.3" />
-          <stop offset="1" stop-color="#B2B633" />
+          <stop stopColor="#D0D441" stopOpacity="0.3" />
+          <stop offset="1" stopColor="#B2B633" />
         </linearGradient>
       </defs>
     </svg>

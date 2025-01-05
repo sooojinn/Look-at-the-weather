@@ -13,7 +13,7 @@ export default function GuideManualIcon() {
         <path
           d="M62.9663 0L100.944 22.6405L43.9775 56.236L6 33.5955L62.9663 0Z"
           fill="url(#paint2_linear_7767_17058)"
-          shape-rendering="crispEdges"
+          shapeRendering="crispEdges"
         />
       </g>
       <g filter="url(#filter1_b_7767_17058)">
@@ -27,9 +27,9 @@ export default function GuideManualIcon() {
           width="105.765"
           height="69.4539"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="1.19842" />
           <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_7767_17058" />
           <feColorMatrix
@@ -52,9 +52,9 @@ export default function GuideManualIcon() {
           width="8.44555"
           height="15.7488"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="1.19842" />
           <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_7767_17058" />
           <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_7767_17058" result="shape" />
@@ -67,8 +67,8 @@ export default function GuideManualIcon() {
           y2="42.5"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F4D93D" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#F1D221" />
+          <stop stopColor="#F4D93D" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#F1D221" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_7767_17058"
@@ -78,9 +78,9 @@ export default function GuideManualIcon() {
           y2="29.9439"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FFFBF3" stop-opacity="0.9" />
-          <stop offset="0.486" stop-color="white" stop-opacity="0.7" />
-          <stop offset="1" stop-color="#FFFBF3" stop-opacity="0.8" />
+          <stop stopColor="#FFFBF3" stopOpacity="0.9" />
+          <stop offset="0.486" stopColor="white" stopOpacity="0.7" />
+          <stop offset="1" stopColor="#FFFBF3" stopOpacity="0.8" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_7767_17058"
@@ -90,9 +90,9 @@ export default function GuideManualIcon() {
           y2="64.6312"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F4D93D" />
-          <stop offset="0.36331" stop-color="#FAE678" stop-opacity="0.75" />
-          <stop offset="1" stop-color="#F4D93D" />
+          <stop stopColor="#F4D93D" />
+          <stop offset="0.36331" stopColor="#FAE678" stopOpacity="0.75" />
+          <stop offset="1" stopColor="#F4D93D" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_7767_17058"
@@ -102,8 +102,8 @@ export default function GuideManualIcon() {
           y2="44.5508"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F4D93D" />
-          <stop offset="1" stop-color="#F1D221" />
+          <stop stopColor="#F4D93D" />
+          <stop offset="1" stopColor="#F1D221" />
         </linearGradient>
       </defs>
     </svg>
