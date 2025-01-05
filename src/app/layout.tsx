@@ -1,10 +1,10 @@
+import '@/globals.css';
 import type { Metadata } from 'next';
 import { ToastProvider } from '@/components/common/molecules/ToastProvider';
 import ReactQueryProvider from '@/lib/ReactQueryProvider';
-// import ScrollToTop from '@/components/common/ScrollToTop';
+import ScrollToTop from '@/components/common/ScrollToTop';
 // import useNetworkStatus from '@/hooks/useNetworkStatus';
 // import Offline from '@/pages/Offline';
-// import { BrowserRouter } from 'react-router-dom';
 
 export const metadata: Metadata = {
   title: 'Look At The Weather',
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReactQueryProvider>
             <div className="bg-background-light">
               <div className="max-w-md m-auto min-h-screen bg-background-white">
-                {/* <ScrollToTop /> */}
+                <ScrollToTop />
                 {/* {isOnline ? <>{children}</> : <Offline />} */}
                 {children}
                 <ToastProvider />
