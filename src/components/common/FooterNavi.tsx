@@ -1,3 +1,5 @@
+'use client';
+
 import HangerIcon from '@components/icons/nav/HangerIcon';
 import HomeIcon from '@components/icons/nav/HomeIcon';
 import MyPageIcon from '@components/icons/nav/MyPageIcon';

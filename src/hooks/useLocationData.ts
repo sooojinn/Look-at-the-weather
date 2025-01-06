@@ -1,3 +1,5 @@
+'use client';
+
 import { GeoPoint, Location } from '@/config/types';
 import { fetchCurrentGeoPoint } from '@/lib/utils';
 import { useGeoLocationStore } from '@/store/locationStore';

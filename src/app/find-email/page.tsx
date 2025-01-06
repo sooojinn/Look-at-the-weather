@@ -1,10 +1,13 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import Header from '@/components/common/Header';
 import Button from '@components/common/molecules/Button';
 import { useMutation } from '@tanstack/react-query';
+import useProfileManageStore from '@/store/profileManageStore';
 import { ErrorResponse } from '@/config/types';
 import { postFindEmail } from '@/api/apis';
 import NicknameInput from '@components/form/inputs/NicknameInput';
@@ -12,22 +15,27 @@ import NameInput from '@components/form/inputs/NameInput';
 import AlertModal from '@components/common/organism/AlertModal';
 import { FindEmailForm } from '@/config/types';
 
+interface PostFindEmailResponse {
+  email: string;
+}
+
 export default function FindEmail() {
   const formMethods = useForm<FindEmailForm>();
   const { handleSubmit, getValues } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
-  const findEmailMutation = useMutation({
+  const findEmailMutation = useMutation<PostFindEmailResponse, AxiosError<ErrorResponse>, FindEmailForm>({
     mutationFn: postFindEmail,
     onSuccess: ({ email }) => {
-      navigate('/find-email/result', {
-        state: {
-          name: getValues('name'),
-          email: email,
-        },
+      const setUserInfo = useProfileManageStore.getState().setUserInfo;
+      setUserInfo({
+        name: getValues('name'),
+        email: email,
       });
+
+      router.push(`/find-email/result`);
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response?.data.errorCode === 'NOT_MATCH_EMAIL') {

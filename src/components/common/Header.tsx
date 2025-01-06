@@ -1,3 +1,5 @@
+'use client';
+
 import BackBtn from '@components/icons/BackBtn';
 import CloseBtn from '@components/icons/CloseBtn';
 import { ReactNode } from 'react';

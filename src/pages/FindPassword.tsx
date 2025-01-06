@@ -11,12 +11,7 @@ import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import AlertModal from '@components/common/organism/AlertModal';
-
-interface FindPasswordForm {
-  email: string;
-  name: string;
-  nickname: string;
-}
+import { FindPasswordForm } from '@/config/types';
 
 export default function FindPassword() {
   const formMethods = useForm<FindPasswordForm>();

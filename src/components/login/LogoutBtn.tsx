@@ -1,3 +1,5 @@
+'use client';
+
 import { postLogout } from '@/api/apis';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';

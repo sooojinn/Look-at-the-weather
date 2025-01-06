@@ -201,3 +201,12 @@ export interface PreloadImageProps {
   onLoad?: () => void;
   onError?: () => void;
 }
+
+export interface FindEmailForm {
+  name: string;
+  nickname: string;
+}
+
+export interface FindPasswordForm extends FindEmailForm {
+  email: string;
+}

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 export default function BackgroundShadow({
   children,
@@ -7,12 +7,24 @@ export default function BackgroundShadow({
   children: ReactNode;
   isBackdropVisible?: boolean;
 }) {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    setIsClient(true); // 클라이언트에서만 실행되도록 설정
   }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [isClient]);
+
+  if (!isClient) {
+    return null; // 서버 사이드에서는 렌더링하지 않음
+  }
 
   return (
     <div

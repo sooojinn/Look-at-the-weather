@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery } from '@tanstack/react-query';
 import { GeoPoint } from '@/config/types';
 import { showToast } from '@components/common/molecules/ToastProvider';
