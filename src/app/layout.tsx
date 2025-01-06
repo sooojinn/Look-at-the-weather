@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     title: 'Look At The Weather',
     description: '계절별 옷차림, 나만의 스타일북',
   },
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
