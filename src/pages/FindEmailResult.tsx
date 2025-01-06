@@ -1,16 +1,17 @@
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 
 export default function FindEmailResult() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const location = useLocation();
   const { name, email } = location.state;
 
   return (
     <div className="flex flex-col h-screen">
-      <Header onClose={() => navigate('/')}>이메일 찾기</Header>
+      <Header onClose={() => router.push('/')}>이메일 찾기</Header>
       <div className="flex flex-col justify-between h-screen flex-grow p-5 pb-10">
         <div>
           <div className="px-20 mb-4">
@@ -25,10 +26,10 @@ export default function FindEmailResult() {
           </div>
         </div>
         <div className="flex flex-col gap-3">
-          <Button type="white" onClick={() => navigate('/find-password')}>
+          <Button type="white" onClick={() => router.push('/find-password')}>
             비밀번호 찾기
           </Button>
-          <Button onClick={() => navigate('/')}>로그인하기</Button>
+          <Button onClick={() => router.push('/')}>로그인하기</Button>
         </div>
       </div>
     </div>

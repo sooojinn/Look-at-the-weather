@@ -10,7 +10,7 @@ import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
 import { useAuthStore } from '@/store/authStore';
 import AlertModal from '../organism/AlertModal';
 import Button from '../molecules/Button';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface HeartProps {
   fill?: string;
