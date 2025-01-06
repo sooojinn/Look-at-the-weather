@@ -4,7 +4,7 @@ interface WeatherImgProps {
 }
 
 export default function WeatherImg({ weatherType, height }: WeatherImgProps) {
-  const weatherImgSrc = `/weatherImages/${weatherType}.svg`;
+  const weatherImgSrc = `/weatherImages/${weatherType}.png`;
 
   return (
     <div className="flex" style={{ height: `${height}px` }}>
