@@ -44,7 +44,7 @@ export default function HomeWeatherInfo() {
         >
           {!isLoading && (
             <>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col flex-shrink-0 gap-1.5">
                 {isSuccess && (
                   <>
                     <Text color="white">
