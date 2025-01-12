@@ -6,7 +6,7 @@ import FindPassword from '../pages/FindPassword';
 import Mypage from '../pages/Mypage';
 import PasswordReset from '../pages/PasswordReset';
 import Signup from '../pages/Signup';
-import PostDetail from '../pages/PostDetail';
+// import PostDetail from '../pages/PostDetail';
 import PostWrite from '../pages/PostWrite';
 import Post from '../pages/Post';
 import ProfileEdit from '../pages/ProfileEdit';
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       { path: '/find-password', element: <FindPassword /> },
       { path: '/password-reset', element: <PasswordReset /> },
       { path: '/post', element: <Post /> },
-      { path: '/post/:id', element: <PostDetail /> },
+      // { path: '/post/:id', element: <PostDetail /> },
       { path: '/mypage', element: <Mypage /> },
       {
         path: '/post/:id/edit',

@@ -1,10 +1,14 @@
+'use client';
+
 import { PostMeta } from '@/config/types';
 import PostImg from './PostImg';
 import Text from '@components/common/atom/Text';
+import { useRouter } from 'next/navigation';
 import Tags from './Tags';
-import { useNavigate } from 'react-router';
+import { usePostManageStore } from '@/store/postManageStore';
 import Heart from '@components/common/atom/Heart';
 import PostImgBlind from './PostImgBlind';
+import Link from 'next/link';
 
 interface NewPostMeta extends PostMeta {
   isHorizontal?: boolean;
@@ -22,16 +26,17 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
     reportPost: isReported,
   } = post;
 
-  const navigate = useNavigate();
-
+  const setPostData = usePostManageStore.getState().setPostData;
   const onClickPostHandler = (id: number) => {
-    navigate(`/post/${id}`, { state: { id: id } });
+    setPostData({ postId: id });
+
+    // navigate(`/post/${id}`, { state: { id: id } });
   };
 
   const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
 
   return (
-    <div className="cursor-pointer" onClick={() => onClickPostHandler(postId)}>
+    <Link href={`/post/${postId}`} className="cursor-pointer" onClick={() => onClickPostHandler(postId)}>
       <div className="relative">
         {isReported && <PostImgBlind />}
         <PostImg imgUrl={thumbnail} />
@@ -45,6 +50,6 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
         </Text>
         <Tags tags={tags} />
       </div>
-    </div>
+    </Link>
   );
 }

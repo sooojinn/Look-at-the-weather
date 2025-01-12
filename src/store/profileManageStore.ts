@@ -5,6 +5,7 @@ interface ProfileManageState {
   email?: string;
   password?: string;
   nickname?: string;
+  userId?: number;
   setUserInfo: (userInfo: Partial<ProfileManageState>) => void;
 }
 
@@ -13,6 +14,7 @@ const useProfileManageStore = create<ProfileManageState>((set) => ({
   email: undefined,
   password: undefined,
   nickname: undefined,
+  userId: undefined,
   setUserInfo: (userInfo) => set(userInfo),
 }));
 

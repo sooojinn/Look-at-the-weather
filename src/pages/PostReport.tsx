@@ -1,3 +1,5 @@
+'use client';
+
 import { reportPost } from '@/api/apis';
 import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
@@ -8,12 +10,12 @@ import UnderlineOptionList from '@components/common/molecules/UnderlineOptionLis
 import AlertModal from '@components/common/organism/AlertModal';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 export default function PostReport() {
-  const location = useLocation();
   const { postId } = location.state;
-  const navigate = useNavigate();
+  const router = useRouter();
   const [reason, setReason] = useState('');
   const [showReportWarningModal, setShowReportWarningModal] = useState(false);
 
@@ -29,11 +31,11 @@ export default function PostReport() {
     mutationFn: reportPost,
     onSuccess: () => {
       showToast('해당 게시물 신고가 완료되었습니다.');
-      navigate(-2);
+      window.history.go(-2);
     },
     onError: (error) => {
       showToast('게시물을 신고하는 데 실패했습니다.');
-      navigate(-1);
+      router.back();
       console.error(error);
     },
   });

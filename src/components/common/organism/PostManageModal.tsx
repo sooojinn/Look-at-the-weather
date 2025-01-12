@@ -1,8 +1,10 @@
+'use client';
+
 import { useState } from 'react';
 import ReportIcon from '@components/icons/post-menu/ReportIcon';
 import DeleteIcon from '@components/icons/post-menu/DeleteIcon';
 import { deletePost, hidePost } from '@/api/apis';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
@@ -13,6 +15,7 @@ import AlertModal from './AlertModal';
 import ModalHeader from '../molecules/ModalHeader';
 import HideIcon from '@components/icons/input/HideIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
+import { usePostManageStore } from '@/store/postManageStore';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,7 +32,9 @@ export default function PostManageModal({
   postData,
   isReported,
 }: PostManageModalProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
+  const setPostData = usePostManageStore.getState().setPostData;
+
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
   const [showHideWarningModal, setShowHideWarningModal] = useState(false);
 
@@ -37,7 +42,7 @@ export default function PostManageModal({
     mutationFn: hidePost,
     onSuccess: () => {
       showToast('해당 게시물이 숨김 처리되었습니다.');
-      navigate(-1);
+      router.back();
     },
     onError: (error) => {
       showToast('게시물을 숨김 처리하는 데 실패했습니다.');
@@ -50,7 +55,7 @@ export default function PostManageModal({
     mutationFn: deletePost,
     onSuccess: () => {
       showToast('해당 게시물이 삭제되었습니다.');
-      navigate(-1);
+      router.back();
     },
     onError: (error) => {
       console.error(error);
@@ -61,7 +66,11 @@ export default function PostManageModal({
 
   // 수정하기
   const onClickUpdateBtn = async () => {
-    navigate(`/post/${postId}/edit`, { state: { postData, postId } });
+    setPostData({
+      postId: postId,
+      postData: postData,
+    });
+    router.push(`/post/${postId}/edit`);
   };
 
   // 삭제하기
@@ -76,7 +85,10 @@ export default function PostManageModal({
 
   // 신고하기
   const onClickReportBtn = () => {
-    navigate(`/post/${postId}/report`, { state: { postId } });
+    setPostData({
+      postId: postId,
+    });
+    router.push(`/post/${postId}/report`);
   };
 
   return (

@@ -6,7 +6,7 @@ import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
 import { PostMeta } from '@/config/types';
-import { useLocation, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
@@ -15,6 +15,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
+import { usePostManageStore } from '@/store/postManageStore';
 
 export interface PostDetail extends PostMeta {
   nickname: string;
@@ -31,14 +32,13 @@ export interface PostDetail extends PostMeta {
 }
 
 export default function PostDetail() {
-  const location = useLocation();
   const router = useRouter();
+  const { postId } = usePostManageStore((state) => ({ postId: state.postId }));
 
-  if (!location.state || typeof location.state.id !== 'number') {
+  if (typeof postId !== 'number') {
     return <Navigate to="/not-found" />;
   }
 
-  const { id: postId } = location.state;
   const isLogin = useAuthStore((state) => state.isLogin);
   const [modalOpen, setModalOpen] = useState(false);
 
