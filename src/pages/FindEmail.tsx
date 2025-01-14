@@ -1,7 +1,8 @@
+'use client';
+
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Header from '@/components/common/Header';
 import Button from '@components/common/molecules/Button';
 import { useMutation } from '@tanstack/react-query';
@@ -11,22 +12,26 @@ import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
 import AlertModal from '@components/common/organism/AlertModal';
 import { FindEmailForm } from '@/config/types';
+import { useRouter } from 'next/navigation';
+import useProfileManageStore from '@/store/profileManageStore';
 
 export default function FindEmail() {
   const formMethods = useForm<FindEmailForm>();
   const { handleSubmit, getValues } = formMethods;
 
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
+
+  const setUserInfo = useProfileManageStore.getState().setUserInfo;
+
+  const router = useRouter();
 
   const findEmailMutation = useMutation({
     mutationFn: postFindEmail,
     onSuccess: ({ email }) => {
-      navigate('/find-email/result', {
-        state: {
-          name: getValues('name'),
-          email: email,
-        },
+      router.push('/find-email/result');
+      setUserInfo({
+        name: getValues('name'),
+        email: email,
       });
     },
     onError: (error: AxiosError<ErrorResponse>) => {

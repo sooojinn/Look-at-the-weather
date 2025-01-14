@@ -29,8 +29,6 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
   const setPostData = usePostManageStore.getState().setPostData;
   const onClickPostHandler = (id: number) => {
     setPostData({ postId: id });
-
-    // navigate(`/post/${id}`, { state: { id: id } });
   };
 
   const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];

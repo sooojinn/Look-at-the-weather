@@ -70,7 +70,7 @@ export default function PostManageModal({
       postId: postId,
       postData: postData,
     });
-    router.push(`/post/${postId}/edit`);
+    router.push(`${postId}/edit`);
   };
 
   // 삭제하기

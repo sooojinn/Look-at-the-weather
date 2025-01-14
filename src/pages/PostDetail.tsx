@@ -22,6 +22,7 @@ export interface PostDetail extends PostMeta {
   date: string;
   title: string;
   content: string;
+  temperature?: number;
   images: {
     image: {
       imageId: number;

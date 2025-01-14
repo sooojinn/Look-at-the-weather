@@ -63,13 +63,13 @@ export interface PostFormData {
   content: string;
   city: string;
   district: string;
+  temperature: string | number; // 수정: 문자열 허용
   gender: string | null;
-  temperature: number;
-  weatherTagIds: number[];
-  temperatureTagIds: number[];
-  seasonTagId: number | null;
+  weatherTagIds: (string | number | null)[];
+  temperatureTagIds: (string | number | null)[];
+  seasonTagId: string | number | null;
   imageIds: number[];
-  images: ImageItem[];
+  images: { imageId: number; url: string }[];
 }
 
 export interface Tag {

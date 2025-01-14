@@ -1,9 +1,12 @@
+'use client';
+
 import { TextColor, TextSize } from '@/config/types';
 import Text from '@components/common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 
 interface LocationComponentProps {
   isPostFormLocation?: boolean;
@@ -15,11 +18,14 @@ interface LocationComponentProps {
 
 export default function LocationComponent({ isPostFormLocation, city, district, size, color }: LocationComponentProps) {
   const navigate = useNavigate();
+  const router = useRouter();
 
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
-    navigate('/search-address', { state: { isPostFormLocation } });
+    // router.push('/search-address');
+    // navigate('/search-address', { state: { isPostFormLocation } });
+    console.log(isPostFormLocation);
   };
 
   useEffect(() => {
