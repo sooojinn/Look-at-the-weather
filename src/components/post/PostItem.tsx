@@ -3,7 +3,6 @@
 import { PostMeta } from '@/config/types';
 import PostImg from './PostImg';
 import Text from '@components/common/atom/Text';
-import { useRouter } from 'next/navigation';
 import Tags from './Tags';
 import { usePostManageStore } from '@/store/postManageStore';
 import Heart from '@components/common/atom/Heart';

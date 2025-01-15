@@ -5,7 +5,7 @@ import Text from '@components/common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouteManageStore } from '@/store/routerManageStore';
 import { useRouter } from 'next/navigation';
 
 interface LocationComponentProps {
@@ -17,15 +17,14 @@ interface LocationComponentProps {
 }
 
 export default function LocationComponent({ isPostFormLocation, city, district, size, color }: LocationComponentProps) {
-  const navigate = useNavigate();
   const router = useRouter();
+  const setIsPostForm = useRouteManageStore.getState().setIsPostForm;
 
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
-    // router.push('/search-address');
-    // navigate('/search-address', { state: { isPostFormLocation } });
-    console.log(isPostFormLocation);
+    router.push('/search-address');
+    setIsPostForm(isPostFormLocation);
   };
 
   useEffect(() => {

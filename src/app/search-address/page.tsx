@@ -9,12 +9,12 @@ import InputWithLabel from '@components/form/InputWithLabel';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
 import useDebounce from '@/hooks/useDebounce';
 import useLocationPermission from '@/hooks/useLocationPermission';
 import { searchAddresses } from '@/api/apis';
 import { AddressItem } from '@/config/types';
 import { useRouter } from 'next/navigation';
+import { useRouteManageStore } from '@/store/routerManageStore';
 
 interface AddressForm {
   address: string;
@@ -24,9 +24,12 @@ export default function SearchAddress() {
   const formMethods = useForm<AddressForm>();
   const { handleSubmit, watch } = formMethods;
   const router = useRouter();
-  const location = useLocation();
 
-  const { isPostFormLocation } = location.state;
+  const { isPostForm, resetIsPostForm } = useRouteManageStore((state) => ({
+    isPostForm: state.isPostForm,
+    resetIsPostForm: state.resetIsPostForm,
+  }));
+
   const { isLocationAllowed } = useLocationPermission();
 
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);
@@ -46,13 +49,17 @@ export default function SearchAddress() {
     }
   }, [debouncedAddress]); // 디바운스된 값이 변경될 때만 작동
 
+  useEffect(() => {
+    resetIsPostForm();
+  }, []);
+
   // 현재 위치로 설정 버튼
   const handleCurrentLocationClick = async () => {
     if (!isLocationAllowed) {
       setShowLocationPermissionModal(true);
       return;
     }
-    if (isPostFormLocation) {
+    if (isPostForm) {
       const currentLocation = await fetchCurrentLocation();
       setPostFormLocation(currentLocation);
     } else {
@@ -109,7 +116,7 @@ export default function SearchAddress() {
           <div
             key={address_name}
             onClick={() => {
-              if (isPostFormLocation) {
+              if (isPostForm) {
                 setPostFormLocation({ city: cityName, district: districtName });
               } else {
                 setCustomGeoPoint({ latitude, longitude });

@@ -5,8 +5,11 @@ import { devtools } from 'zustand/middleware';
 interface GeoLocationState {
   customGeoPoint: GeoPoint | null;
   postFormLocation: Location | null;
+  isPostForm: boolean | undefined;
+  setIsPostForm: (isPostForm: boolean | undefined) => void;
   setCustomGeoPoint: (customGeoPoint: GeoPoint | null) => void;
   setPostFormLocation: (postFormLocation: Location | null) => void;
+  resetIsPostForm: () => void;
 }
 
 export const useGeoLocationStore = create<GeoLocationState>()(
@@ -14,8 +17,11 @@ export const useGeoLocationStore = create<GeoLocationState>()(
     (set) => ({
       customGeoPoint: null,
       postFormLocation: null,
-      setCustomGeoPoint: (customGeoPoint: GeoPoint | null) => set({ customGeoPoint }),
-      setPostFormLocation: (postFormLocation: Location | null) => set({ postFormLocation }),
+      isPostForm: undefined,
+      setIsPostForm: (isPostForm) => set({ isPostForm }),
+      setCustomGeoPoint: (customGeoPoint) => set({ customGeoPoint }),
+      setPostFormLocation: (postFormLocation) => set({ postFormLocation }),
+      resetIsPostForm: () => set({ isPostForm: undefined }),
     }),
     { name: 'Location Store' },
   ),
