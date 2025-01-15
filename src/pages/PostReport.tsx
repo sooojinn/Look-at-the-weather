@@ -14,6 +14,7 @@ import { useLocation } from 'react-router-dom';
 import { useRouter } from 'next/navigation';
 
 export default function PostReport() {
+  const location = useLocation();
   const { postId } = location.state;
   const router = useRouter();
   const [reason, setReason] = useState('');
@@ -48,15 +49,17 @@ export default function PostReport() {
   return (
     <>
       <Header>신고하기</Header>
-      <div className="p-5 pt-10 flex flex-col gap-3">
-        <Text size="xl" weight="bold">
-          해당 게시물을 신고하는
-          <br />
-          이유를 알려주세요.
-        </Text>
-        <Text color="darkGray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
+      <div className="h-screen">
+        <div className="p-5 pt-10 flex flex-col gap-3">
+          <Text size="xl" weight="bold">
+            해당 게시물을 신고하는
+            <br />
+            이유를 알려주세요.
+          </Text>
+          <Text color="darkGray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
+        </div>
+        <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       </div>
-      <UnderlineOptionList optionList={reportReasons} handleOptionClick={handleReasonClick} />
       <FooterNavi />
       {showReportWarningModal && (
         <AlertModal
