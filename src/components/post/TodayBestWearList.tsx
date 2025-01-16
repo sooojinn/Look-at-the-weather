@@ -40,15 +40,19 @@ export default function TodayBestWearList() {
   const outfitPosts = isOutfitSuccess && outfitRes?.posts ? outfitRes?.posts : [];
 
   return (
-    <div className="w-full h-full max-w-md flex flex-col flex-grow ps-5 pb-[56px]">
+    <div className="w-full h-full max-w-md flex flex-col flex-grow pb-[56px]">
       <div className="mb-[24px]">
-        <Text size="l" weight="bold" className="flex justify-start items-center h-[60px]">
+        <Text size="l" weight="bold" className="flex justify-start items-center h-[60px] px-5">
           현재 기온에 어울리는 룩
         </Text>
-        {outfitPosts && outfitPosts.length ? <HorizonScrollPostList postList={outfitPosts} /> : <TempOutfitPostEmpty />}
+        {outfitPosts && outfitPosts.length ? (
+          <HorizonScrollPostList postList={outfitPosts} padding="0 20px" />
+        ) : (
+          <TempOutfitPostEmpty />
+        )}
       </div>
 
-      <div className="flex items-center gap-[4px]">
+      <div className="flex items-center gap-[4px] px-5">
         <Text size="l" weight="bold" className="flex justify-start items-center h-[60px]">
           오늘의 베스트 룩
         </Text>
@@ -94,7 +98,11 @@ export default function TodayBestWearList() {
       </div>
 
       {isTopLikedPostsSuccess &&
-        (topLikedPosts.length ? <HorizonScrollPostList postList={topLikedPosts} /> : <TopLikedPostEmpty />)}
+        (topLikedPosts.length ? (
+          <HorizonScrollPostList postList={topLikedPosts} padding="0 20px" />
+        ) : (
+          <TopLikedPostEmpty />
+        ))}
       {isLoading && (
         <div className="flex flex-grow justify-center items-center">
           <Spinner />

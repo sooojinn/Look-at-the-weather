@@ -10,7 +10,7 @@ interface WeatherMessageProps {
 
 export default function WeatherMessage({ children, size, color }: WeatherMessageProps) {
   return (
-    <Text size={size} color={color} weight="bold">
+    <Text size={size} color={color} weight="bold" className="break-keep">
       {children}
     </Text>
   );

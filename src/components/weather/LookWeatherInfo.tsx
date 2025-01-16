@@ -40,7 +40,7 @@ export default function LookWeatherInfo() {
               </>
             )}
           </div>
-          <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={88} />
+          <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={110} />
         </>
       )}
       {isLoading && (

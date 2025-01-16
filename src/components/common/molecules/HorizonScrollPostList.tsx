@@ -7,17 +7,27 @@ import 'swiper/css/pagination';
 
 interface PostListProps {
   postList: PostMeta[];
+  padding?: string;
 }
 
-export default function HorizonScrollPostList({ postList }: PostListProps) {
+export default function HorizonScrollPostList({ postList, padding }: PostListProps) {
   return (
     <div className="outer-container">
-      <Swiper className="inner-container" spaceBetween={4} slidesPerView={3}>
-        {postList.map((post) => (
-          <SwiperSlide key={uuidv4()}>
-            <PostItem isHorizontal={true} {...post} />
-          </SwiperSlide>
-        ))}
+      <Swiper
+        onSwiper={(swiper) => {
+          swiper.el.style.padding = `${padding}`;
+        }}
+        className="inner-container"
+        spaceBetween={4}
+        slidesPerView={3}
+      >
+        <div className="px-5">
+          {postList.map((post) => (
+            <SwiperSlide key={uuidv4()}>
+              <PostItem isHorizontal={true} {...post} />
+            </SwiperSlide>
+          ))}
+        </div>
       </Swiper>
     </div>
   );
