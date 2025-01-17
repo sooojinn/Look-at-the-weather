@@ -12,7 +12,7 @@ import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
-import LookWeatherInfo from '@components/weather/LookWeatherInfo';
+import LookWeatherInfo from '@/components/weather/LookWeatherWidget';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 // import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';

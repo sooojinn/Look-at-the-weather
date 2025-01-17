@@ -2,7 +2,7 @@
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@/components/common/Header';
 import Logo from '@components/common/atom/Logo';
-import HomeWeatherInfo from '@components/weather/HomeWeatherInfo';
+import HomeWeatherWidget from '@/components/weather/HomeWeatherWidget';
 import TodayBestWearList from '@/components/post/TodayBestWearList';
 import GuidePanel from '@components/common/organism/GuidePanel';
 import TempGuideModal from '@components/common/molecules/TempGuideModal';
@@ -16,7 +16,7 @@ export default function Home() {
       <Header>
         <Logo />
       </Header>
-      <HomeWeatherInfo />
+      <HomeWeatherWidget />
       <GuidePanel />
       <TodayBestWearList />
       <FooterNavi />

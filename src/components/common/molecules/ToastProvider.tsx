@@ -20,7 +20,7 @@ export function ToastProvider() {
       position="bottom-center"
       theme="dark"
       toastClassName={() =>
-        'min-w-[300px] w-[90%] relative bottom-14 flex justify-between items-center px-5 py-3 bg-opacity-lightBlack90 rounded-lg'
+        'min-w-[300px] w-[90%] relative bottom-14 flex items-center px-5 py-3 bg-opacity-lightBlack90 rounded-lg'
       }
     />
   );
@@ -28,7 +28,7 @@ export function ToastProvider() {
 
 export function showToast(message: string, cancelBtnText: string = '', onCancel: () => void = () => {}) {
   const toastId = toast(
-    <div className="flex justify-between items-center">
+    <div className="w-full flex justify-between items-center">
       <Text size="s" color="white">
         {message}
       </Text>

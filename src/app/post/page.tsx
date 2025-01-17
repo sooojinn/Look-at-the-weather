@@ -14,7 +14,7 @@ import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
-import LookWeatherInfo from '@components/weather/LookWeatherInfo';
+import LookWeatherWidget from '@/components/weather/LookWeatherWidget';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 // import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
@@ -180,7 +180,7 @@ export default function Post() {
       <Header>LOOK</Header>
       <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
         <div className="px-5">
-          <LookWeatherInfo />
+          <LookWeatherWidget />
           <HrLine height={1} />
           <div className="relative flex gap-4 items-center py-4">
             <ResetIcon onClick={onClickResetBtn} className="flex-shrink-0 cursor-pointer" />
@@ -193,8 +193,8 @@ export default function Post() {
                   locationIds.length > 1
                     ? `${locationIds[0].districtName} 외 ${locationIds.length - 1}`
                     : locationIds.length === 1
-                    ? `${locationIds[0].districtName}`
-                    : '지역'
+                      ? `${locationIds[0].districtName}`
+                      : '지역'
                 }
               />
 
@@ -205,8 +205,8 @@ export default function Post() {
                   weatherTagIds.length > 1
                     ? `${weatherTagIds[0].tagName} 외 ${weatherTagIds.length - 1}`
                     : weatherTagIds.length === 1
-                    ? `${weatherTagIds[0].tagName}`
-                    : '날씨'
+                      ? `${weatherTagIds[0].tagName}`
+                      : '날씨'
                 }
               />
               <OptionBtn
@@ -216,8 +216,8 @@ export default function Post() {
                   temperatureTagIds.length > 1
                     ? `${temperatureTagIds[0].tagName} 외 ${temperatureTagIds.length - 1}`
                     : temperatureTagIds.length === 1
-                    ? `${temperatureTagIds[0].tagName}`
-                    : '온도'
+                      ? `${temperatureTagIds[0].tagName}`
+                      : '온도'
                 }
               />
               <OptionBtn
@@ -227,8 +227,8 @@ export default function Post() {
                   seasonTagIds.length > 1
                     ? `${seasonTagIds[0].tagName} 외 ${seasonTagIds.length - 1}`
                     : seasonTagIds.length === 1
-                    ? `${seasonTagIds[0].tagName}`
-                    : '계절'
+                      ? `${seasonTagIds[0].tagName}`
+                      : '계절'
                 }
               />
             </div>
