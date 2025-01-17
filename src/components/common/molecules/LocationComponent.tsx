@@ -7,6 +7,7 @@ import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { useRouteManageStore } from '@/store/routerManageStore';
 import { useRouter } from 'next/navigation';
+import Skeleton from '../atom/Skeleton';
 
 interface LocationComponentProps {
   isPostFormLocation?: boolean;
@@ -14,9 +15,17 @@ interface LocationComponentProps {
   district?: string;
   size?: TextSize;
   color?: TextColor;
+  isLoading?: boolean;
 }
 
-export default function LocationComponent({ isPostFormLocation, city, district, size, color }: LocationComponentProps) {
+export default function LocationComponent({
+  isPostFormLocation,
+  city,
+  district,
+  size,
+  color,
+  isLoading,
+}: LocationComponentProps) {
   const router = useRouter();
   const setIsPostForm = useRouteManageStore.getState().setIsPostForm;
 
@@ -46,11 +55,15 @@ export default function LocationComponent({ isPostFormLocation, city, district, 
     <div className="w-fit flex items-center gap-1 relative">
       <div className="w-fit flex items-center gap-1.5 cursor-pointer" onClick={handleLocationClick}>
         <LocationIcon fill={color} />
-        <Text size={size} color={color} className="whitespace-nowrap">
-          {city || district ? `${city} ${district}` : '위치 정보 없음'}
-        </Text>
+        {isLoading ? (
+          <Skeleton className={`w-[80px] ${size === 'm' ? 'h-[21px]' : 'h-6'} `} />
+        ) : (
+          <Text size={size} color={color} className="whitespace-nowrap">
+            {city || district ? `${city} ${district}` : '위치 정보 없음'}
+          </Text>
+        )}
       </div>
-      {showTooltip && (
+      {showTooltip && !isLoading && (
         <div className="absolute left-full ml-1">
           <LocationTooltip onClose={handleTooltipClose} />
         </div>

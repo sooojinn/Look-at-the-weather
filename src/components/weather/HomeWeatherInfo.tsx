@@ -3,11 +3,11 @@
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/common/molecules/LocationComponent';
-import Spinner from '@components/icons/Spinner';
 import CurrentTemp from '@components/weather/CurrentTemp';
 import MinMaxTemps from '@components/weather/MinMaxTemps';
 import WeatherImg from '@components/weather/WeatherImg';
 import Text from '@components/common/atom/Text';
+import Skeleton from '../common/atom/Skeleton';
 
 export default function HomeWeatherInfo() {
   const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
@@ -38,7 +38,7 @@ export default function HomeWeatherInfo() {
   return (
     <>
       <div className="w-full h-full flex flex-col justify-center px-5 pt-5">
-        <Location {...location} size="l" />
+        <Location {...location} size="l" isLoading={isLocationLoading} />
         <div
           className={`w-full h-[100px] mt-2 relative rounded-[10px] flex flex-row items-center justify-between px-5 ${
             backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
@@ -68,9 +68,14 @@ export default function HomeWeatherInfo() {
             </>
           )}
           {isLoading && (
-            <div className="absolute inset-0 bg-opacity-black20 flex justify-center items-center">
-              <Spinner width={30} />
-            </div>
+            <>
+              <div className="absolute inset-0 bg-opacity-black20 rounded-[10px] flex justify-center items-center"></div>
+              <div className="flex flex-col gap-2.5">
+                <Skeleton className="w-[150px] h-5" />
+                <Skeleton className="w-[100px] h-4" />
+              </div>
+              <Skeleton className="w-[80px] h-14 m-5" />
+            </>
           )}
         </div>
       </div>
