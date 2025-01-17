@@ -8,10 +8,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export default function PostWrite() {
-  const { location: currentLocation, geoPoint } = useLocationData();
+  const { location: currentLocation } = useLocationData();
   const {
     weatherData: { currentTemp },
-  } = useWeatherData(geoPoint);
+  } = useWeatherData();
 
   const navigate = useNavigate();
 

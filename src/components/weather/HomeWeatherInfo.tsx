@@ -10,13 +10,15 @@ import Text from '@components/common/atom/Text';
 import Skeleton from '../common/atom/Skeleton';
 
 export default function HomeWeatherInfo() {
-  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
-  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
+  const { location, isLoading: isLocationLoading } = useLocationData();
+  const {
+    weatherData,
+    isLoading: isWeatherLoading,
+    isSuccess: isWeatherSuccess,
+    isError: isWeatherError,
+    handleRefetch,
+  } = useWeatherData();
   const { currentTemp, weatherType, minTemp, maxTemp } = weatherData;
-
-  const isLoading = isLocationLoading || isWeatherLoading;
-  const isSuccess = isLocationSuccess && isWeatherSuccess;
-  const isError = isLocationError || isWeatherError;
 
   const backgroundType: 'light' | 'normal' | 'dark' = (() => {
     if (currentTemp >= 33 && weatherType === 'clear') {
@@ -41,13 +43,13 @@ export default function HomeWeatherInfo() {
         <Location {...location} size="l" isLoading={isLocationLoading} />
         <div
           className={`w-full h-[100px] mt-2 relative rounded-[10px] flex flex-row items-center justify-between px-5 ${
-            backgroundStyle[isLoading ? 'normal' : isSuccess ? backgroundType : 'error']
+            backgroundStyle[isWeatherLoading ? 'normal' : isWeatherSuccess ? backgroundType : 'error']
           }`}
         >
-          {!isLoading && (
+          {!isWeatherLoading && (
             <>
               <div className="flex flex-col gap-1.5">
-                {isSuccess && (
+                {isWeatherSuccess && (
                   <>
                     <Text color="white">
                       현재 기온은 <CurrentTemp>{currentTemp}</CurrentTemp> 입니다.
@@ -55,7 +57,7 @@ export default function HomeWeatherInfo() {
                     <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="white" />
                   </>
                 )}
-                {isError && (
+                {isWeatherError && (
                   <>
                     <p className="text-[24px] text-white font-bold">Error</p>
                     <div onClick={handleRefetch} className="underline text-s text-white">
@@ -64,10 +66,10 @@ export default function HomeWeatherInfo() {
                   </>
                 )}
               </div>
-              <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={90} />
+              <WeatherImg weatherType={isWeatherSuccess ? (weatherType as string) : 'error'} height={90} />
             </>
           )}
-          {isLoading && (
+          {isWeatherLoading && (
             <>
               <div className="absolute inset-0 bg-opacity-black20 rounded-[10px] flex justify-center items-center"></div>
               <div className="flex flex-col gap-2.5">

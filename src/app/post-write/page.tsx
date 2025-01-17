@@ -11,10 +11,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export default function PostWrite() {
-  const { location: currentLocation, geoPoint } = useLocationData();
+  const { location: currentLocation } = useLocationData();
   const {
     weatherData: { currentTemp },
-  } = useWeatherData(geoPoint);
+  } = useWeatherData();
 
   const router = useRouter();
   const setReplace = usePostManageStore.getState().setReplace;

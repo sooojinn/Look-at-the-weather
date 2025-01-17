@@ -11,12 +11,10 @@ import HorizonScrollPostList from '@components/common/molecules/HorizonScrollPos
 import QuestionMark from '@components/icons/QuestionMark';
 import AlertModal from '@components/common/organism/AlertModal';
 import Button from '@components/common/molecules/Button';
-import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 
 export default function TodayBestWearList() {
-  const { geoPoint } = useLocationData();
-  const { weatherData } = useWeatherData(geoPoint);
+  const { weatherData } = useWeatherData();
   const { currentTemp } = weatherData;
 
   const {

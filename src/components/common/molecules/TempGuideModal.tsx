@@ -3,14 +3,12 @@ import Text from '../atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import { useQuery } from '@tanstack/react-query';
 import { getOutfitGuide } from '@/api/apis';
-import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 
 export default function TempGuideModal() {
   const { isLookGuideModalOpen, setIsLookGuideModal } = useGuideManageStore();
 
-  const { geoPoint } = useLocationData();
-  const { weatherData } = useWeatherData(geoPoint);
+  const { weatherData } = useWeatherData();
   const { currentTemp } = weatherData;
 
   const {

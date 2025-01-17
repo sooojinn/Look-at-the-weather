@@ -8,6 +8,7 @@ import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import useLocationPermission from './useLocationPermission';
 import { getLocationFromGeoPoint } from '@/api/apis';
+import useQueryStatus from './useQueryStatus';
 
 export const useGeoPointQuery = () => {
   const customGeoPoint = useGeoLocationStore((state) => state.customGeoPoint);
@@ -50,21 +51,15 @@ export default function useLocationData() {
   const locationQuery = useLocationQuery(geoPoint);
   const location = locationQuery.data;
 
-  const isLocationLoading = geoPointQuery.isLoading || locationQuery.isLoading;
-  const isLocationSuccess = geoPointQuery.isSuccess && locationQuery.isSuccess;
-  const isLocationError = geoPointQuery.isError || locationQuery.isError;
-
-  const handleRefetch = () => {
-    if (geoPointQuery.isError) geoPointQuery.refetch();
-    else if (locationQuery.isError) locationQuery.refetch();
-    return;
-  };
+  const queries = [geoPointQuery, locationQuery];
+  const queryStatus = useQueryStatus(queries);
+  const { isError, handleRefetch } = queryStatus;
 
   useEffect(() => {
-    if (isLocationError) {
+    if (isError) {
       showToast('현재 위치 정보를 불러올 수 없어요.', '재시도', handleRefetch);
     }
-  }, [isLocationError]);
+  }, [isError]);
 
-  return { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError };
+  return { location, ...queryStatus };
 }

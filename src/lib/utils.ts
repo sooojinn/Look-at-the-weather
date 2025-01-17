@@ -57,3 +57,37 @@ export function throttle(callback: () => void, delay: number) {
     }, delay);
   };
 }
+
+export function calHourlyWeatherStaleTime() {
+  const now = new Date();
+  const currentMinutes = now.getMinutes();
+
+  // 현재 시간을 기준으로 다음 정각을 계산
+  let nextRefetchTime = new Date(now);
+  if (currentMinutes > 0) {
+    // 다음 정각으로 설정 (현재 시간이 정각이 아니면 시간 +1)
+    nextRefetchTime.setHours(nextRefetchTime.getHours() + 1);
+  }
+  nextRefetchTime.setMinutes(0, 0, 0); // 분, 초, 밀리초를 0으로 설정
+
+  // 밀리초 단위로 차이 계산
+  return nextRefetchTime.getTime() - now.getTime();
+}
+
+export function calDailyWeatherStaleTime() {
+  const now = new Date();
+
+  // 다음 2시 11분을 계산하기 위해 날짜 설정
+  const nextTargetTime = new Date();
+  nextTargetTime.setHours(2, 11, 0, 0); // 2시 11분 00초로 설정
+
+  // 현재 시간이 2시 11분 이후인 경우 다음 날 2시 11분으로 설정
+  if (now > nextTargetTime) {
+    nextTargetTime.setDate(nextTargetTime.getDate() + 1);
+  }
+
+  // staleTime을 밀리초 단위로 계산
+  const staleTime = nextTargetTime.getTime() - now.getTime();
+
+  return staleTime;
+}

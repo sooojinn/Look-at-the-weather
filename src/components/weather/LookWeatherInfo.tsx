@@ -8,32 +8,35 @@ import useWeatherData from '@/hooks/useWeatherData';
 import Skeleton from '../common/atom/Skeleton';
 
 export default function LookWeatherInfo() {
-  const { geoPoint, location, isLocationLoading, isLocationSuccess, isLocationError } = useLocationData();
-  const { weatherData, isWeatherLoading, isWeatherSuccess, isWeatherError, handleRefetch } = useWeatherData(geoPoint);
+  const { location, isLoading: isLocationLoading } = useLocationData();
+  const {
+    weatherData,
+    isLoading: isWeatherLoading,
+    isSuccess: isWeatherSuccess,
+    isError: isWeatherError,
+    handleRefetch,
+  } = useWeatherData();
   const { weatherMessage, weatherType, minTemp, maxTemp } = weatherData;
 
-  const isLoading = isLocationLoading || isWeatherLoading;
-  const isSuccess = isLocationSuccess && isWeatherSuccess;
-  const isError = isLocationError || isWeatherError;
   return (
     <div className="min-h-[129px] flex justify-between items-center py-2.5 relative">
       <>
         <div className="flex flex-col gap-2.5">
           <LocationComponent {...location} size="m" isLoading={isLocationLoading} />
-          {isLoading ? (
+          {isWeatherLoading ? (
             <>
               <Skeleton className="w-[150px] h-[27px]" />
               <Skeleton className="w-[100px] h-[21px]" />
             </>
           ) : (
             <>
-              {isSuccess && (
+              {isWeatherSuccess && (
                 <>
                   <WeatherMessage size="xl">{weatherMessage}</WeatherMessage>
                   <MinMaxTemps minTemp={minTemp} maxTemp={maxTemp} color="gray" />
                 </>
               )}
-              {isError && (
+              {isWeatherError && (
                 <>
                   <Text size="2xl" weight="bold">
                     Error
@@ -48,12 +51,12 @@ export default function LookWeatherInfo() {
             </>
           )}
         </div>
-        {isLoading ? (
+        {isWeatherLoading ? (
           <div className="h-[110px] flex justify-center items-center p-5">
             <Skeleton className="w-[100px] h-[70px]" />
           </div>
         ) : (
-          <WeatherImg weatherType={isSuccess ? (weatherType as string) : 'error'} height={110} />
+          <WeatherImg weatherType={isWeatherSuccess ? (weatherType as string) : 'error'} height={110} />
         )}
       </>
     </div>
