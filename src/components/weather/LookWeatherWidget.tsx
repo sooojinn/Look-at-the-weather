@@ -4,6 +4,8 @@ import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import WeatherInfoError from './WeatherInfoError';
 import LookWeatherInfo from './LookWeatherInfo';
+import { useEffect } from 'react';
+import { showToast } from '../common/molecules/ToastProvider';
 
 export default function LookWeatherWidget() {
   const { location, isLoading: isLocationLoading } = useLocationData();
@@ -15,6 +17,12 @@ export default function LookWeatherWidget() {
     handleRefetch,
   } = useWeatherData();
   const { weatherType } = weatherData;
+
+  useEffect(() => {
+    if (isWeatherError) {
+      showToast('현재 위치 정보를 불러올 수 없어요.', '재시도', handleRefetch);
+    }
+  }, [isWeatherError]);
 
   return (
     <div className="min-h-[129px] flex justify-between items-center py-2.5 relative">

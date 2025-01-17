@@ -3,9 +3,7 @@
 import { GeoPoint, Location } from '@/config/types';
 import { fetchCurrentGeoPoint } from '@/lib/utils';
 import { useGeoLocationStore } from '@/store/locationStore';
-import { showToast } from '@components/common/molecules/ToastProvider';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import useLocationPermission from './useLocationPermission';
 import { getLocationFromGeoPoint } from '@/api/apis';
 import useQueryStatus from './useQueryStatus';
@@ -53,13 +51,6 @@ export default function useLocationData() {
 
   const queries = [geoPointQuery, locationQuery];
   const queryStatus = useQueryStatus(queries);
-  const { isError, handleRefetch } = queryStatus;
-
-  useEffect(() => {
-    if (isError) {
-      showToast('현재 위치 정보를 불러올 수 없어요.', '재시도', handleRefetch);
-    }
-  }, [isError]);
 
   return { location, ...queryStatus };
 }

@@ -2,8 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { GeoPoint } from '@/config/types';
-import { showToast } from '@components/common/molecules/ToastProvider';
-import { useEffect } from 'react';
 import { getDailyWeatherInfo, getHourlyWeatherInfo } from '@/api/apis';
 import { useGeoPointQuery } from './useLocationData';
 import useQueryStatus from './useQueryStatus';
@@ -36,13 +34,6 @@ export default function useWeatherData() {
 
   const queries = [geoPointQuery, hourlyWeatherQuery, dailyWeatherQuery];
   const queryStatus = useQueryStatus(queries);
-  const { isError, handleRefetch } = queryStatus;
-
-  useEffect(() => {
-    if (isError) {
-      showToast('현재 날씨 정보를 불러올 수 없어요.', '재시도', handleRefetch);
-    }
-  }, [isError]);
 
   return {
     weatherData: { ...hourlyWeatherQuery.data, ...dailyWeatherQuery.data },
