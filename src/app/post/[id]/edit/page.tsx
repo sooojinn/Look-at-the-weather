@@ -9,6 +9,7 @@ import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
+import ProtectedRoute from '@/router/ProtectedRoute';
 
 function tagNameToId(tagName: string) {
   const tag = TAGS.find((tag) => tagName === tag.name);
@@ -94,5 +95,9 @@ export default function PostEdit() {
     editMutation.mutate({ postId, data });
   };
 
-  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return (
+    <ProtectedRoute>
+      <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />
+    </ProtectedRoute>
+  );
 }

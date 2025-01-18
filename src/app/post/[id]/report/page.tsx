@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
+import ProtectedRoute from '@/router/ProtectedRoute';
 
 export default function PostReport() {
   const { postId } = usePostManageStore((state) => ({
@@ -48,7 +49,7 @@ export default function PostReport() {
   };
 
   return (
-    <>
+    <ProtectedRoute>
       <Header>신고하기</Header>
       <div className="h-screen">
         <div className="p-5 pt-10 flex flex-col gap-3">
@@ -78,6 +79,6 @@ export default function PostReport() {
           }
         />
       )}
-    </>
+    </ProtectedRoute>
   );
 }

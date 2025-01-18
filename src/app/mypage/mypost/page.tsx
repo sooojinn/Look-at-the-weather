@@ -7,19 +7,22 @@ import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
 import { useRouter } from 'next/navigation';
+import ProtectedRoute from '@/router/ProtectedRoute';
 
 export default function MyPost() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header>내 게시물</Header>
-      <VirtualInfiniteScroll
-        queryKey="myPosts"
-        queryFn={getMyPosts}
-        headerText="내 게시물"
-        placeholderComp={MyPostEmpty}
-      />
-      <FooterNavi />
-    </div>
+    <ProtectedRoute>
+      <div className="min-h-screen flex flex-col">
+        <Header>내 게시물</Header>
+        <VirtualInfiniteScroll
+          queryKey="myPosts"
+          queryFn={getMyPosts}
+          headerText="내 게시물"
+          placeholderComp={MyPostEmpty}
+        />
+        <FooterNavi />
+      </div>
+    </ProtectedRoute>
   );
 }
 

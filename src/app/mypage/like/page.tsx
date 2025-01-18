@@ -7,19 +7,22 @@ import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteSc
 import FooterNavi from '@components/common/FooterNavi';
 import Header from '@components/common/Header';
 import { useRouter } from 'next/navigation';
+import ProtectedRoute from '@/router/ProtectedRoute';
 
 export default function MyLikedPost() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header>내가 좋아요한 게시물</Header>
-      <VirtualInfiniteScroll
-        queryKey="myLikedPosts"
-        queryFn={getMyLikedPosts}
-        headerText="내가 좋아요한 게시물"
-        placeholderComp={MyLikedPostEmpty}
-      />
-      <FooterNavi />
-    </div>
+    <ProtectedRoute>
+      <div className="min-h-screen flex flex-col">
+        <Header>내가 좋아요한 게시물</Header>
+        <VirtualInfiniteScroll
+          queryKey="myLikedPosts"
+          queryFn={getMyLikedPosts}
+          headerText="내가 좋아요한 게시물"
+          placeholderComp={MyLikedPostEmpty}
+        />
+        <FooterNavi />
+      </div>
+    </ProtectedRoute>
   );
 }
 

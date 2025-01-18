@@ -2,6 +2,7 @@
 
 import { deleteAccount, getDeleteReasons } from '@/api/apis';
 import { setAccessToken } from '@/api/instance';
+import ProtectedRoute from '@/router/ProtectedRoute';
 import { useAuthStore } from '@/store/authStore';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
@@ -51,7 +52,7 @@ export default function DeleteAccount() {
   };
 
   return (
-    <div>
+    <ProtectedRoute>
       <Header>회원 탈퇴</Header>
       <div className="p-5 pt-10 flex flex-col gap-3">
         <Text size="xl" weight="bold">
@@ -117,6 +118,6 @@ export default function DeleteAccount() {
           }
         />
       )}
-    </div>
+    </ProtectedRoute>
   );
 }

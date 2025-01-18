@@ -4,6 +4,7 @@ import { uploadPost } from '@/api/apis';
 import { PostFormData } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
+import ProtectedRoute from '@/router/ProtectedRoute';
 import { usePostManageStore } from '@/store/postManageStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
@@ -53,5 +54,9 @@ export default function PostWrite() {
     uploadMutation.mutate(data);
   };
 
-  return <PostForm type="작성" defaultValues={defaultValues} onSubmit={onSubmit} />;
+  return (
+    <ProtectedRoute>
+      <PostForm type="작성" defaultValues={defaultValues} onSubmit={onSubmit} />
+    </ProtectedRoute>
+  );
 }

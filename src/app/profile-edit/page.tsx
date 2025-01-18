@@ -15,6 +15,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
 import { useRouter } from 'next/navigation';
+import ProtectedRoute from '@/router/ProtectedRoute';
 
 interface ProfileEditType {
   nickname: string;
@@ -69,23 +70,25 @@ export default function ProfileEdit() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <Header>개인정보 수정</Header>
-      <form className="flex flex-col flex-grow gap-4 overflow-y-auto scrollbar-hide p-5">
-        <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.email} />
-        <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={userInfo?.social} />
-        <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={userInfo?.social} />
-        <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.name} />
-        <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo?.nickname} />
-        <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
-          회원탈퇴
-        </Text>
-      </form>
-      <div className="px-5 pb-10">
-        <Button onClick={handleSubmit(onSubmit)} isSubmitting={editProfileMutation.isPending}>
-          수정하기
-        </Button>
+    <ProtectedRoute>
+      <div className="flex flex-col h-screen">
+        <Header>개인정보 수정</Header>
+        <form className="flex flex-col flex-grow gap-4 overflow-y-auto scrollbar-hide p-5">
+          <EmailInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.email} />
+          <PasswordInput<ProfileEditType> {...formMethods} shouldValidate disabled={userInfo?.social} />
+          <PasswordCheckInput<ProfileEditType> {...formMethods} disabled={userInfo?.social} />
+          <NameInput<ProfileEditType> {...formMethods} disabled defaultValue={userInfo?.name} />
+          <NicknameInput<ProfileEditType> {...formMethods} shouldValidate defaultValue={userInfo?.nickname} />
+          <Text href="/delete-account" color="gray" size="s" weight="bold" className="mt-3 underline">
+            회원탈퇴
+          </Text>
+        </form>
+        <div className="px-5 pb-10">
+          <Button onClick={handleSubmit(onSubmit)} isSubmitting={editProfileMutation.isPending}>
+            수정하기
+          </Button>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 }
