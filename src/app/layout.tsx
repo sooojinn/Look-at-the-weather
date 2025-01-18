@@ -34,7 +34,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="max-w-md m-auto min-h-screen bg-background-white">
                 <ScrollToTop />
                 <NetworkBoundary>{children}</NetworkBoundary>
-                {children}
                 <ToastProvider />
               </div>
             </div>

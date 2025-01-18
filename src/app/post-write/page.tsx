@@ -51,6 +51,7 @@ export default function PostWrite() {
   });
 
   const onSubmit = (data: PostFormData) => {
+    data.gender = 'FEMALE';
     uploadMutation.mutate(data);
   };
 
