@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 import { ToastProvider } from '@/components/common/molecules/ToastProvider';
 import ReactQueryProvider from '@/lib/ReactQueryProvider';
 import ScrollToTop from '@/components/common/ScrollToTop';
-// import useNetworkStatus from '@/hooks/useNetworkStatus';
-// import Offline from '@/pages/Offline';
+import NetworkBoundary from '@/components/common/NetworkBoundary';
 
 export const metadata: Metadata = {
-  title: 'Look At The Weather',
+  title: '룩엣더웨더 | Look At The Weather',
   description: '계절별 옷차림, 나만의 스타일북',
+  keywords: ['날씨', '패션', '옷차림', '온도별 옷차림', '기온별 옷차림', '계절별 옷차림', '패션 커뮤니티', '패션 공유'],
   openGraph: {
-    title: 'Look At The Weather',
+    title: '룩엣더웨더 | Look At The Weather',
     description: '계절별 옷차림, 나만의 스타일북',
   },
   icons: {
@@ -21,8 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // const isOnline = useNetworkStatus();
-
   return (
     <html lang="en">
       <head>
@@ -35,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="bg-background-light">
               <div className="max-w-md m-auto min-h-screen bg-background-white">
                 <ScrollToTop />
-                {/* {isOnline ? <>{children}</> : <Offline />} */}
+                <NetworkBoundary>{children}</NetworkBoundary>
                 {children}
                 <ToastProvider />
               </div>
