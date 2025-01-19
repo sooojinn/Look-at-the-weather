@@ -5,6 +5,7 @@ import Text from '../atom/Text';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { guideContent } from '@/config/guideContent';
+import Image from 'next/image';
 
 export default function ManualGuide() {
   const { isManualGuideModalOpen, setIsManualGuideModal } = useGuideManageStore();
@@ -26,7 +27,14 @@ export default function ManualGuide() {
           {guideContent.map((content) => (
             <SwiperSlide className="relative bg-background-primary rounded-3xl" key={content.page}>
               <div className="absolute xs:top-[-5%] top-[35px] w-full h-full flex justify-center items-center pointer-events-none">
-                <img src={content.src} alt="" className="object-cover max-w-full max-h-full" />
+                <Image
+                  src={content.src}
+                  alt=""
+                  layout="responsive"
+                  width={500}
+                  height={500}
+                  className="max-w-full max-h-full object-contain"
+                />
               </div>
               <div className="absolute bottom-0 w-full bg-white rounded-b-3xl px-[22px] pt-[35px] pb-[31px]">
                 <div className="mb-3">

@@ -4,6 +4,7 @@ import CloseBtn from '@components/icons/CloseBtn';
 import { useQuery } from '@tanstack/react-query';
 import { getOutfitGuide } from '@/api/apis';
 import useWeatherData from '@/hooks/useWeatherData';
+import Image from 'next/image';
 
 export default function TempGuideModal() {
   const { isLookGuideModalOpen, setIsLookGuideModal } = useGuideManageStore();
@@ -15,6 +16,7 @@ export default function TempGuideModal() {
     data: response,
     isLoading,
     isError,
+    isSuccess,
   } = useQuery({
     queryKey: ['getOutfitGuide', currentTemp],
     queryFn: () => getOutfitGuide(currentTemp),
@@ -41,8 +43,12 @@ export default function TempGuideModal() {
             </Text>
           </div>
           <div className="flex justify-center w-full h-[180px] bg-background-lightGray mb-4 gap-[45px]">
-            <img src={response.outfitImages[0]} alt="outfit 1" width={109} />
-            <img src={response.outfitImages[1]} alt="outfit 2" width={109} />
+            {isSuccess && (
+              <>
+                <Image src={response.outfitImages[0]} alt="outfit 1" width={109} height={100} />
+                <Image src={response.outfitImages[1]} alt="outfit 2" width={109} height={100} />
+              </>
+            )}
           </div>
           <div>
             <Text color="gray" size="s">
