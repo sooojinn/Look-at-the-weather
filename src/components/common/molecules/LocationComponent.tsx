@@ -5,12 +5,10 @@ import Text from '@components/common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
-import { useRouteManageStore } from '@/store/routerManageStore';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Skeleton from '../atom/Skeleton';
 
 interface LocationComponentProps {
-  isPostFormLocation?: boolean;
   city?: string;
   district?: string;
   size?: TextSize;
@@ -18,22 +16,15 @@ interface LocationComponentProps {
   isLoading?: boolean;
 }
 
-export default function LocationComponent({
-  isPostFormLocation,
-  city,
-  district,
-  size,
-  color,
-  isLoading,
-}: LocationComponentProps) {
+export default function LocationComponent({ city, district, size, color, isLoading }: LocationComponentProps) {
   const router = useRouter();
-  const setIsPostForm = useRouteManageStore.getState().setIsPostForm;
+  const pathname = usePathname() || '';
+  const currentPage = pathname.replace('/', '');
 
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleLocationClick = () => {
-    router.push('/search-address');
-    setIsPostForm(isPostFormLocation);
+    router.push(`/search-address?from=${currentPage}`);
   };
 
   useEffect(() => {

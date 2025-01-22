@@ -134,7 +134,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
             <div className="flex flex-col gap-3">
               <Label size="l">위치</Label>
               <div onClick={handleSaveToSessionStorage}>
-                <Location isPostFormLocation city={city} district={district} />
+                <Location city={city} district={district} />
               </div>
             </div>
             <SelectWithLabel

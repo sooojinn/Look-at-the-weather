@@ -27,7 +27,6 @@ export const useGeoPointQuery = () => {
     queryKey: ['geoPoint', customGeoPoint, isLocationAllowed],
     queryFn: getGeoPoint,
     staleTime: 1000 * 60 * 5,
-    enabled: !!getGeoPoint(),
   });
 };
 
