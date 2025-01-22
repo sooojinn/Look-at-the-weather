@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const isLogin = useAuthStore((state) => state.isLogin);
   const { setIsLogin, authStoreClear } = useAuthStore();
   const { postStoreClear } = usePostStore();
   const router = useRouter();
@@ -38,9 +39,12 @@ export default function LogoutBtn() {
   const handleLogoutClick = () => {
     LogoutMutation.mutate();
   };
+
+  if (!isLogin) return null;
+
   return (
     <>
-      <div onClick={() => setShowLogoutModal(true)}>
+      <div onClick={() => setShowLogoutModal(true)} className="h-[57px] flex items-center">
         <Text color="darkGray" className="cursor-pointer underline">
           로그아웃
         </Text>

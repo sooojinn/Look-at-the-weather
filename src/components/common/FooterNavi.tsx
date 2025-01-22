@@ -1,4 +1,4 @@
-'use client ';
+'use client';
 
 import HangerIcon from '@components/icons/nav/HangerIcon';
 import HomeIcon from '@components/icons/nav/HomeIcon';

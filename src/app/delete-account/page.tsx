@@ -21,9 +21,7 @@ export default function DeleteAccount() {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
 
-  const {
-    data: { deleteReasons },
-  } = useQuery({
+  const { data: deleteReasons } = useQuery({
     queryKey: ['deleteReasons'],
     queryFn: getDeleteReasons,
     staleTime: Infinity,
