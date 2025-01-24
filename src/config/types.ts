@@ -225,3 +225,8 @@ export interface FindEmailForm {
 export interface FindPasswordForm extends FindEmailForm {
   email: string;
 }
+
+export interface AlertModalFunc {
+  onCancel?: () => void;
+  onContinue: () => void;
+}

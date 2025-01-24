@@ -148,11 +148,6 @@ export const reportPost = async ({ postId, reason }: { postId: number; reason: s
   return response.data;
 };
 
-export const getDeleteReasons = async () => {
-  const response = await instance.get('/users/delete-reasons', getConfig());
-  return response.data;
-};
-
 export const postFilteredPosts = async (request: RequestBody) => {
   const response = await instance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
   return response.data;
