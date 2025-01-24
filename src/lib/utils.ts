@@ -63,7 +63,7 @@ export function calHourlyWeatherStaleTime() {
   const currentMinutes = now.getMinutes();
 
   // 현재 시간을 기준으로 다음 정각을 계산
-  let nextRefetchTime = new Date(now);
+  const nextRefetchTime = new Date(now);
   if (currentMinutes > 0) {
     // 다음 정각으로 설정 (현재 시간이 정각이 아니면 시간 +1)
     nextRefetchTime.setHours(nextRefetchTime.getHours() + 1);

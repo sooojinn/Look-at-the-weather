@@ -23,10 +23,6 @@ export default function PostDetailPage() {
   const router = useRouter();
   const { postId } = usePostManageStore((state) => ({ postId: state.postId }));
 
-  if (typeof postId !== 'number') {
-    return <Navigate to="/not-found" />;
-  }
-
   const isLogin = useAuthStore((state) => state.isLogin);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -74,6 +70,10 @@ export default function PostDetailPage() {
       router.back();
     }
   }, [isError, error]);
+
+  if (typeof postId !== 'number') {
+    return <Navigate to="/not-found" />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

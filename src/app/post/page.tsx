@@ -78,7 +78,7 @@ export default function Post() {
         setPage(pageNum + 1);
         setHasMore(updatePostList.length > 0);
         setIsAllPostEmpty(updatePostList.length === 0 && pageNum === 0);
-      } catch (error) {
+      } catch {
         setLoading(false);
         setHasMore(false);
       } finally {
@@ -156,7 +156,11 @@ export default function Post() {
         (entries) => {
           if (isEmptyFilter !== null) {
             if (entries[0].isIntersecting && isScrollLoadable) {
-              isEmptyFilter ? getAllPosts(page) : getFilteredPosts(page);
+              if (isEmptyFilter) {
+                getAllPosts(page);
+              } else {
+                getFilteredPosts(page);
+              }
             }
           }
         },

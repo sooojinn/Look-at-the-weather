@@ -1,5 +1,5 @@
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       backgroundImage: {
@@ -96,6 +96,5 @@ export default {
     },
   },
   plugins: [require('tailwind-scrollbar-hide')],
-  purge: ['./public/**/*.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
   mode: 'jit',
 };
