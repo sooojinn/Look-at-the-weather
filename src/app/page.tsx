@@ -8,14 +8,16 @@ import GuidePanel from '@components/common/organism/GuidePanel';
 
 export default function Home() {
   return (
-    <div className="max-w-md min-h-screen flex flex-col items-center justify-start relative">
+    <>
       <Header>
         <Logo />
       </Header>
-      <HomeWeatherWidget />
-      <GuidePanel />
-      <TodayBestWearList />
+      <div className="flex-grow pb-5">
+        <HomeWeatherWidget />
+        <GuidePanel />
+        <TodayBestWearList />
+      </div>
       <FooterNavi />
-    </div>
+    </>
   );
 }

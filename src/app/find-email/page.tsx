@@ -51,7 +51,7 @@ export default function FindEmail() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <Header>이메일 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
@@ -67,6 +67,6 @@ export default function FindEmail() {
           buttons={<Button onClick={() => setShowModal(false)}>확인</Button>}
         />
       )}
-    </div>
+    </>
   );
 }

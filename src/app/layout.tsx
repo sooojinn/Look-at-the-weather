@@ -30,12 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div id="root">
           <ReactQueryProvider>
-            <div className="bg-background-light">
-              <div className="max-w-md m-auto min-h-screen bg-background-white">
-                <ScrollToTop />
-                <NetworkBoundary>{children}</NetworkBoundary>
-                <ToastProvider />
-              </div>
+            <div className="max-w-md m-auto h-screen bg-background-white flex flex-col overflow-y-auto scrollbar-hide">
+              <ScrollToTop />
+              <NetworkBoundary>{children}</NetworkBoundary>
+              <ToastProvider />
             </div>
           </ReactQueryProvider>
         </div>

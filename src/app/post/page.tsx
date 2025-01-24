@@ -180,7 +180,7 @@ export default function Post() {
   }, [loading]);
 
   return (
-    <div className="h-screen flex flex-col">
+    <>
       <Header>LOOK</Header>
       <div className="flex flex-col flex-grow overflow-y-auto scrollbar-hide">
         <div className="px-5">
@@ -275,7 +275,7 @@ export default function Post() {
       </div>
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
-    </div>
+    </>
   );
 }
 

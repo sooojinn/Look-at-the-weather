@@ -38,7 +38,7 @@ export default function TodayBestWearList() {
   const outfitPosts = isOutfitSuccess && outfitRes?.posts ? outfitRes?.posts : [];
 
   return (
-    <div className="w-full h-full max-w-md flex flex-col flex-grow pb-[56px]">
+    <>
       <div className="mb-[24px]">
         <Text size="l" weight="bold" className="flex justify-start items-center h-[60px] px-5">
           현재 기온에 어울리는 룩
@@ -106,7 +106,7 @@ export default function TodayBestWearList() {
           <Spinner />
         </div>
       )}
-    </div>
+    </>
   );
 }
 

@@ -17,7 +17,7 @@ export default function Login() {
   const router = useRouter();
 
   return (
-    <div className="h-screen flex flex-col">
+    <>
       <Header hideBackBtn noBorder onClose={() => router.back()}></Header>
       <div className="min-h-[140px] max-h-[200px] flex flex-col gap-3 flex-grow justify-center items-center">
         <Logo width={120} height={54} />
@@ -35,6 +35,6 @@ export default function Login() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }

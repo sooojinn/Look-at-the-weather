@@ -47,7 +47,7 @@ export default function PasswordReset() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <Header>비밀번호 재설정</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
@@ -72,6 +72,6 @@ export default function PasswordReset() {
           }
         />
       )}
-    </div>
+    </>
   );
 }

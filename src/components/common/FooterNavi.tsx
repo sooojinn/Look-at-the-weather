@@ -22,13 +22,13 @@ const navList: NavItem[] = [
 ];
 
 export default function FooterNavi() {
-  const pathname = usePathname();
+  const currentPath = usePathname();
 
   return (
     <nav className="max-w-md bottom-0 sticky w-full h-14 bg-background-white border-t border-line-lightest flex justify-around flex-shrink-0 z-30">
       {navList.map((navItem) => {
         const { path, label, Icon } = navItem;
-        const isActive = pathname === path;
+        const isActive = currentPath.split('/')[1] === path.split('/')[1];
 
         return (
           <Link key={path} href={path} className="w-14 flex flex-col justify-center items-center gap-1">

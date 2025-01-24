@@ -51,7 +51,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <>
       <Header hideBackBtn onClose={handleFormCloseBtn}>
         회원가입
       </Header>
@@ -93,6 +93,6 @@ export default function Signup() {
           }
         />
       )}
-    </div>
+    </>
   );
 }

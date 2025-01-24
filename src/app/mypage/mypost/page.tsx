@@ -10,16 +10,16 @@ import { getMyPosts } from '@/api/apis';
 export default function MyPost() {
   return (
     <ProtectedRoute>
-      <div className="min-h-screen flex flex-col">
-        <Header>내 게시물</Header>
+      <Header>내 게시물</Header>
+      <div className="flex-grow">
         <VirtualInfiniteScroll
           queryKey="myPosts"
           queryFn={getMyPosts}
           headerText="내 게시물"
           placeholderComp={MyPostEmpty}
         />
-        <FooterNavi />
       </div>
+      <FooterNavi />
     </ProtectedRoute>
   );
 }

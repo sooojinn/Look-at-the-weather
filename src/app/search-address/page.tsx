@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 
 export default function SearchAddressPage() {
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <Header>주소 검색</Header>
       <div className="px-5 pt-10 flex flex-col gap-5">
         <Text size="xl" weight="bold">
@@ -17,6 +17,6 @@ export default function SearchAddressPage() {
           <SearchAddressForm />
         </Suspense>
       </div>
-    </div>
+    </>
   );
 }

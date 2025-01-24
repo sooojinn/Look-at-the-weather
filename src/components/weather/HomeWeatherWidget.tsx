@@ -44,7 +44,7 @@ export default function HomeWeatherWidget() {
   }, [isWeatherError]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-center px-5 pt-5">
+    <div className="flex flex-col justify-center px-5 pt-5">
       <Location {...location} size="l" isLoading={isLocationLoading} />
       <div
         className={`w-full h-[100px] mt-2 relative rounded-[10px] flex flex-row items-center justify-between px-5 ${

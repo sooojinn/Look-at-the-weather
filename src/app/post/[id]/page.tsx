@@ -76,7 +76,7 @@ export default function PostDetailPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <>
       <Header />
       {isLoading && (
         <div className="flex-grow flex justify-center items-center">
@@ -134,7 +134,7 @@ export default function PostDetailPage() {
           isReported={reportPost}
         />
       ) : null}
-    </div>
+    </>
   );
 }
 

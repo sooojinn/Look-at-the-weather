@@ -5,10 +5,8 @@ import ProtectedRoute from '@/router/ProtectedRoute';
 export default function ProfileEditPage() {
   return (
     <ProtectedRoute>
-      <div className="flex flex-col h-screen">
-        <Header>개인정보 수정</Header>
-        <ProfileEditForm />
-      </div>
+      <Header>개인정보 수정</Header>
+      <ProfileEditForm />
     </ProtectedRoute>
   );
 }

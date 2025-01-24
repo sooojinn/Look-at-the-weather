@@ -6,11 +6,12 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { guideContent } from '@/config/guideContent';
 import Image from 'next/image';
+import BackgroundShadow from '../organism/BackgroundShadow';
 
 export default function ManualGuide() {
   const { isManualGuideModalOpen, setIsManualGuideModal } = useGuideManageStore();
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 bg-opacity-black50 flex justify-center items-center z-50">
+    <BackgroundShadow>
       <div className="absolute top-10 flex flex-col text-center px-[36px] max-w-md w-full h-full mb-[10px]">
         <Swiper
           className="w-full swiper-container"
@@ -60,6 +61,6 @@ export default function ManualGuide() {
           </Text>
         </div>
       </div>
-    </div>
+    </BackgroundShadow>
   );
 }

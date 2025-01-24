@@ -13,7 +13,7 @@ export default function Mypage() {
   ];
 
   return (
-    <div className="max-w-md min-h-screen flex flex-col">
+    <>
       <Header>마이 페이지</Header>
       <div className="flex-col px-5 flex-grow">
         <UserProfile />
@@ -24,6 +24,6 @@ export default function Mypage() {
         <LogoutBtn />
       </div>
       <FooterNavi />
-    </div>
+    </>
   );
 }

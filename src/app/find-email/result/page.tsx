@@ -14,7 +14,7 @@ export default function FindEmailResult() {
   }));
 
   return (
-    <div className="flex flex-col h-screen">
+    <>
       <Header onClose={() => router.push('/')}>이메일 찾기</Header>
       <div className="flex flex-col justify-between h-screen flex-grow p-5 pb-10">
         <div>
@@ -36,6 +36,6 @@ export default function FindEmailResult() {
           <Button onClick={() => router.push('/')}>로그인하기</Button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
