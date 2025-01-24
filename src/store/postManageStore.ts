@@ -1,5 +1,5 @@
+import { PostDetail } from '@/config/types';
 import { create } from 'zustand';
-import { PostDetail } from '@/pages/PostDetail';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface PostManageState {

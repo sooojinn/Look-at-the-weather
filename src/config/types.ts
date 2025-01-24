@@ -38,6 +38,21 @@ export interface PostMeta {
   reportPost?: boolean;
 }
 
+export interface PostDetail extends PostMeta {
+  nickname: string;
+  date: string;
+  title: string;
+  content: string;
+  temperature: string;
+  images: {
+    image: {
+      imageId: number;
+      url: string;
+    }[];
+  };
+  likedCount: number;
+}
+
 export type TextSize = 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl';
 export type TextColor =
   | 'black'

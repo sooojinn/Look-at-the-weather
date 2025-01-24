@@ -1,6 +1,7 @@
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
 import SearchAddressForm from '@/components/search-address/SearchAddressForm';
+import { Suspense } from 'react';
 
 export default function SearchAddressPage() {
   return (
@@ -12,7 +13,9 @@ export default function SearchAddressPage() {
           <br />
           현재 계신 주소를 알려주세요
         </Text>
-        <SearchAddressForm />
+        <Suspense>
+          <SearchAddressForm />
+        </Suspense>
       </div>
     </div>
   );

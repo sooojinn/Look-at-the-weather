@@ -7,7 +7,6 @@ import Menu from '@components/icons/post-menu/Menu';
 import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
-import { PostMeta } from '@/config/types';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
@@ -18,22 +17,9 @@ import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
+import { PostDetail } from '@/config/types';
 
-export interface PostDetail extends PostMeta {
-  nickname: string;
-  date: string;
-  title: string;
-  content: string;
-  images: {
-    image: {
-      imageId: number;
-      url: string;
-    }[];
-  };
-  likedCount: number;
-}
-
-export default function PostDetail() {
+export default function PostDetailPage() {
   const router = useRouter();
   const { postId } = usePostManageStore((state) => ({ postId: state.postId }));
 

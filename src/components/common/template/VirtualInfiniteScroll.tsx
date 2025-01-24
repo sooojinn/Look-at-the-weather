@@ -1,3 +1,5 @@
+'use client';
+
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { showToast } from '../molecules/ToastProvider';
 import VirtualPostGrid from '@components/post/VirtualPostGrid';

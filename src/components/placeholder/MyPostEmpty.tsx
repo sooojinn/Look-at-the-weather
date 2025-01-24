@@ -1,27 +1,10 @@
-import Header from '@components/common/Header';
-import FooterNavi from '@components/common/FooterNavi';
-import { getMyPosts } from '@/api/apis';
+'use client';
+
 import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
-import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
 import { useRouter } from 'next/navigation';
 
-export default function MyPost() {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <Header>내 게시물</Header>
-      <VirtualInfiniteScroll
-        queryKey="myPosts"
-        queryFn={getMyPosts}
-        headerText="내 게시물"
-        placeholderComp={MyPostEmpty}
-      />
-      <FooterNavi />
-    </div>
-  );
-}
-
-function MyPostEmpty() {
+export default function MyPostEmpty() {
   const router = useRouter();
 
   return (

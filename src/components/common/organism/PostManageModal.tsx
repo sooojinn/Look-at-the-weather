@@ -5,7 +5,6 @@ import ReportIcon from '@components/icons/post-menu/ReportIcon';
 import DeleteIcon from '@components/icons/post-menu/DeleteIcon';
 import { deletePost, hidePost } from '@/api/apis';
 import { useRouter } from 'next/navigation';
-import { PostDetail } from '@pages/PostDetail';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
 import Button from '../molecules/Button';
@@ -16,6 +15,7 @@ import ModalHeader from '../molecules/ModalHeader';
 import HideIcon from '@components/icons/input/HideIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
 import { usePostManageStore } from '@/store/postManageStore';
+import { PostDetail } from '@/config/types';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
