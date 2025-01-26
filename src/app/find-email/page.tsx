@@ -14,6 +14,7 @@ import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
 import AlertModal from '@components/common/organism/AlertModal';
 import { FindEmailForm } from '@/config/types';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 interface PostFindEmailResponse {
   email: string;
@@ -51,7 +52,7 @@ export default function FindEmail() {
   };
 
   return (
-    <>
+    <LoginRestrictionRoute>
       <Header>이메일 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
@@ -67,6 +68,6 @@ export default function FindEmail() {
           buttons={<Button onClick={() => setShowModal(false)}>확인</Button>}
         />
       )}
-    </>
+    </LoginRestrictionRoute>
   );
 }

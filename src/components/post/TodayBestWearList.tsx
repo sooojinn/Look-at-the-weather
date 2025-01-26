@@ -28,7 +28,7 @@ export default function TodayBestWearList() {
 
   const { data: outfitRes, isSuccess: isOutfitSuccess } = useQuery({
     queryKey: ['getOutfitByTemperature'],
-    queryFn: () => getOutfitByTemperature(currentTemp),
+    queryFn: () => getOutfitByTemperature(18),
     enabled: !!currentTemp,
   });
 

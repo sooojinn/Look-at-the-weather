@@ -1,4 +1,5 @@
 'use client';
+
 import FooterNavi from '@/components/common/FooterNavi';
 import Header from '@/components/common/Header';
 import Logo from '@components/common/atom/Logo';

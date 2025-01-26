@@ -15,6 +15,7 @@ import NicknameInput from '@components/form/inputs/NicknameInput';
 import { useState } from 'react';
 import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 export default function Signup() {
   const formMethods = useForm<SignupForm>({
@@ -51,7 +52,7 @@ export default function Signup() {
   };
 
   return (
-    <>
+    <LoginRestrictionRoute>
       <Header hideBackBtn onClose={handleFormCloseBtn}>
         회원가입
       </Header>
@@ -93,6 +94,6 @@ export default function Signup() {
           }
         />
       )}
-    </>
+    </LoginRestrictionRoute>
   );
 }
