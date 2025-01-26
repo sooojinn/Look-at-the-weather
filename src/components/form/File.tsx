@@ -10,6 +10,7 @@ import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import HorizontalScroll from '@components/common/organism/HorizontalScroll';
+import Image from 'next/image';
 
 interface PreviewImageProps extends ImageItem {
   onDelete: (id: number) => void;
@@ -138,7 +139,7 @@ export default function File({ name, rules, defaultImageIds }: FileProps) {
 function PreviewImage({ imageId, url, onDelete, classNames }: PreviewImageProps) {
   return (
     <div className={`${classNames} relative`}>
-      <img src={url} alt={`사진 ${imageId}`} className="w-full h-full object-cover" />
+      <Image src={url} alt={`사진 ${imageId}`} width={250} height={250} className="w-full h-full object-cover" />
       <ImgDeleteBtn onClick={() => onDelete(imageId)} className="absolute top-2 right-2 cursor-pointer" />
     </div>
   );
