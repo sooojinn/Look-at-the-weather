@@ -7,6 +7,7 @@ interface ProfileManageState {
   nickname?: string;
   userId?: number;
   setUserInfo: (userInfo: Partial<ProfileManageState>) => void;
+  clearUserInfo: () => void; // clearUserInfo 함수 정의
 }
 
 const useProfileManageStore = create<ProfileManageState>((set) => ({
@@ -16,6 +17,15 @@ const useProfileManageStore = create<ProfileManageState>((set) => ({
   nickname: undefined,
   userId: undefined,
   setUserInfo: (userInfo) => set(userInfo),
+  clearUserInfo: () =>
+    set({
+      // clearUserInfo 함수 구현
+      name: undefined,
+      email: undefined,
+      password: undefined,
+      nickname: undefined,
+      userId: undefined,
+    }),
 }));
 
 export default useProfileManageStore;

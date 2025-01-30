@@ -3,6 +3,7 @@
 import { useAuthStore } from '@/store/authStore';
 import Text from '../atom/Text';
 import TextWithArrow from '../atom/TextWithArrow';
+import Image from 'next/image';
 
 export default function UserProfile() {
   const nickName = useAuthStore((state) => state.nickName);
@@ -10,7 +11,7 @@ export default function UserProfile() {
 
   return isLogin ? (
     <div className="flex gap-3 items-center py-5">
-      <img src="/assets/user_icon.png" alt="Preloaded" />
+      <Image src="/assets/user_icon.png" alt="Preloaded" width={40} height={40} />
       <Text size="xl" weight="bold">
         {nickName}
       </Text>
