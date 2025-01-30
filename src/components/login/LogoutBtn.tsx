@@ -7,10 +7,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { showToast } from '../common/molecules/ToastProvider';
 import Text from '../common/atom/Text';
-import AlertModal from '@components/common/organism/AlertModal';
-import Button from '@components/common/molecules/Button';
 import { usePostStore } from '@/store/postStore';
 import { useRouter } from 'next/navigation';
+import LogoutModal from '../modal/LogoutModal';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -49,22 +48,7 @@ export default function LogoutBtn() {
           로그아웃
         </Text>
       </div>
-      {showLogoutModal && (
-        <AlertModal
-          boldMessage="로그아웃 확인"
-          regularMessage="정말 로그아웃 하시겠습니까?"
-          buttons={
-            <>
-              <Button size="m" type="sub" onClick={() => setShowLogoutModal(false)}>
-                닫기
-              </Button>
-              <Button size="m" onClick={handleLogoutClick}>
-                확인
-              </Button>
-            </>
-          }
-        />
-      )}
+      {showLogoutModal && <LogoutModal onCancel={() => setShowLogoutModal(false)} onContinue={handleLogoutClick} />}
     </>
   );
 }

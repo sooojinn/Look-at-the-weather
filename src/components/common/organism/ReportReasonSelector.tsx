@@ -6,13 +6,9 @@ import UnderlineOptionList from '@components/common/molecules/UnderlineOptionLis
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePostManageStore } from '@/store/postManageStore';
 import ReportModal from '@/components/modal/ReportModal';
 
-export default function ReportReasonSelector() {
-  const { postId } = usePostManageStore((state) => ({
-    postId: state.postId,
-  }));
+export default function ReportReasonSelector({ postId }: { postId: number }) {
   const router = useRouter();
   const [reason, setReason] = useState('');
   const [showReportWarningModal, setShowReportWarningModal] = useState(false);

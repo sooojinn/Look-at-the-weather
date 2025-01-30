@@ -42,11 +42,23 @@ export default function TempGuideModal() {
               {response.outfit} 등
             </Text>
           </div>
-          <div className="flex justify-center w-full h-[180px] bg-background-lightGray mb-4 gap-[45px]">
+          <div className="flex justify-evenly w-full h-[180px] bg-background-lightGray mb-4">
             {isSuccess && (
               <>
-                <Image src={response.outfitImages[0]} alt="outfit 1" width={109} height={100} />
-                <Image src={response.outfitImages[1]} alt="outfit 2" width={109} height={100} />
+                <Image
+                  src={response.outfitImages[0]}
+                  alt="outfit 1"
+                  width={109}
+                  height={100}
+                  className="h-full w-auto"
+                />
+                <Image
+                  src={response.outfitImages[1]}
+                  alt="outfit 2"
+                  width={109}
+                  height={100}
+                  className="h-full w-auto"
+                />
               </>
             )}
           </div>

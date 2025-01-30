@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+'use client';
+
 import ReactDOM from 'react-dom';
 import { ReactNode } from 'react';
 import Text from '../atom/Text';
@@ -11,17 +12,6 @@ interface AlertModalProps {
 }
 
 export default function AlertModal({ boldMessage, regularMessage, buttons }: AlertModalProps) {
-  const [isClient, setIsClient] = useState(false);
-
-  // 클라이언트에서만 렌더링 되도록 설정
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
-  }
-
   return ReactDOM.createPortal(
     <BackgroundShadow>
       <div className="min-w-[300px] bg-white p-6 flex flex-col text-center gap-6 rounded-2xl">

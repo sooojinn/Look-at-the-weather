@@ -5,17 +5,29 @@ import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 export default function FindEmailResult() {
   const router = useRouter();
-  const { name, email } = useProfileManageStore((state) => ({
+  const { name, email, clearUserInfo } = useProfileManageStore((state) => ({
     name: state.name,
     email: state.email,
+    clearUserInfo: state.clearUserInfo,
   }));
 
+  const onClickCloseBtn = () => {
+    clearUserInfo();
+    router.push('/');
+  };
+
+  const onClickLoginBtn = () => {
+    clearUserInfo();
+    router.push('/login');
+  };
+
   return (
-    <>
-      <Header onClose={() => router.push('/')}>이메일 찾기</Header>
+    <LoginRestrictionRoute>
+      <Header onClose={() => onClickCloseBtn()}>이메일 찾기</Header>
       <div className="flex flex-col justify-between h-screen flex-grow p-5 pb-10">
         <div>
           <div className="px-20 mb-4">
@@ -33,9 +45,9 @@ export default function FindEmailResult() {
           <Button type="white" onClick={() => router.push('/find-password')}>
             비밀번호 찾기
           </Button>
-          <Button onClick={() => router.push('/')}>로그인하기</Button>
+          <Button onClick={onClickLoginBtn}>로그인하기</Button>
         </div>
       </div>
-    </>
+    </LoginRestrictionRoute>
   );
 }

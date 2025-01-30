@@ -15,7 +15,7 @@ interface HeaderProps {
 
 export default function Header({ children, hideBackBtn, noBorder, onClose }: HeaderProps) {
   const pathname = usePathname();
-  const mainPageList = ['/', '/post', '/post-write', '/mypage'];
+  const mainPageList = ['/', '/posts', '/post-write', '/mypage'];
   const isMainPage = mainPageList.includes(pathname || '/');
 
   const router = useRouter();

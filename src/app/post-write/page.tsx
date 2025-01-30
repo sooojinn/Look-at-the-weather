@@ -5,7 +5,6 @@ import { PostFormData } from '@/config/types';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import ProtectedRoute from '@/router/ProtectedRoute';
-import { usePostManageStore } from '@/store/postManageStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation } from '@tanstack/react-query';
@@ -18,8 +17,6 @@ export default function PostWrite() {
   } = useWeatherData();
 
   const router = useRouter();
-  const setReplace = usePostManageStore.getState().setReplace;
-  const setPostData = usePostManageStore.getState().setPostData;
 
   const defaultValues = {
     title: '',
@@ -38,9 +35,7 @@ export default function PostWrite() {
   const uploadMutation = useMutation({
     mutationFn: uploadPost,
     onSuccess: ({ postId }) => {
-      setPostData({ postId });
-      setReplace(true);
-      router.push(`/post/${postId}`);
+      router.replace(`/post?id=${postId}`);
 
       showToast('게시물이 등록되었습니다');
     },
@@ -51,7 +46,6 @@ export default function PostWrite() {
   });
 
   const onSubmit = (data: PostFormData) => {
-    data.gender = 'FEMALE';
     uploadMutation.mutate(data);
   };
 

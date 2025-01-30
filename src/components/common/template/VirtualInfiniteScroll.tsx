@@ -28,7 +28,14 @@ export default function VirtualInfiniteScroll({
 
   return (
     <>
-      {isSuccess && (postList.length ? <VirtualPostGrid postList={postList} /> : <PlaceholderComp />)}
+      {isSuccess &&
+        (postList.length ? (
+          <VirtualPostGrid postList={postList} />
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
+            <PlaceholderComp />
+          </div>
+        ))}
       <div ref={pageEndRef}></div>
     </>
   );

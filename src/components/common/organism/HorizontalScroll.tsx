@@ -35,7 +35,7 @@ export default function HorizontalScroll({ children, className }: HorizontalScro
       onMouseUp={handleMouseLeaveOrUp}
       onMouseMove={handleMouseMove}
       ref={scrollContainerRef}
-      className={`${className} overflow-auto scrollbar-hide cursor-grab`}
+      className={`${className} overflow-auto scrollbar-hide`}
     >
       {children}
     </div>

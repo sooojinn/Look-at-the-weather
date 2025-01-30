@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 interface PasswordResetForm {
   userId: number | undefined;
@@ -26,8 +27,9 @@ export default function PasswordReset() {
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
-  const { userId } = useProfileManageStore((state) => ({
+  const { userId, clearUserInfo } = useProfileManageStore((state) => ({
     userId: state.userId,
+    clearUserInfo: state.clearUserInfo,
   }));
 
   setValue('userId', userId);
@@ -47,7 +49,7 @@ export default function PasswordReset() {
   };
 
   return (
-    <>
+    <LoginRestrictionRoute>
       <Header>비밀번호 재설정</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
@@ -65,6 +67,7 @@ export default function PasswordReset() {
               onClick={() => {
                 setShowModal(false);
                 router.push('/');
+                clearUserInfo();
               }}
             >
               확인
@@ -72,6 +75,6 @@ export default function PasswordReset() {
           }
         />
       )}
-    </>
+    </LoginRestrictionRoute>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import placeholderImg from 'public/assets/placeholder_img.svg';
+import Image from 'next/image';
 
 interface PostListImgProps {
   imgUrl: string;
@@ -30,11 +31,14 @@ export default function PostImg({ imgUrl }: PostListImgProps) {
   }, []);
 
   return (
-    <img
+    <Image
+      width={250}
+      height={250}
       ref={imgRef}
       src={isLoaded ? imgUrl : placeholderImg}
-      className="w-full h-auto object-cover aspect-custom"
+      className="w-full h-auto object-cover aspect-custom flex-shrink-0"
       alt="thumbnail"
+      priority
     />
   );
 }

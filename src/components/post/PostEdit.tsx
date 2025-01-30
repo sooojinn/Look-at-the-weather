@@ -1,7 +1,6 @@
 'use client';
 
 import { deleteImage, editPost } from '@/api/apis';
-import { TAGS } from '@/config/constants';
 import { ImageItem, PostFormData } from '@/config/types';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import { showToast } from '@components/common/molecules/ToastProvider';
@@ -10,23 +9,11 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
 import ProtectedRoute from '@/router/ProtectedRoute';
+import { tagNameToId, tagNamesToIds } from '@/lib/utils';
 
-function tagNameToId(tagName: string) {
-  const tag = TAGS.find((tag) => tagName === tag.name);
-  if (!tag) return null;
-  return tag?.id;
-}
-
-function tagNamesToIds(tagNames: string[]) {
-  return tagNames.map((tagName) => tagNameToId(tagName));
-}
-
-export default function PostEdit() {
+export default function PostEdit({ postId }: { postId: number }) {
   const router = useRouter();
-  const setReplace = usePostManageStore.getState().setReplace;
-  const setPostData = usePostManageStore.getState().setPostData;
-  const { postId, postData } = usePostManageStore((state) => ({
-    postId: state.postId,
+  const { postData } = usePostManageStore((state) => ({
     postData: state.postData,
   }));
   const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
@@ -63,9 +50,7 @@ export default function PostEdit() {
   const editMutation = useMutation({
     mutationFn: editPost,
     onSuccess: () => {
-      setPostData({ postId });
-      setReplace(true);
-      router.push(`/post/${postId}`);
+      router.back();
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {

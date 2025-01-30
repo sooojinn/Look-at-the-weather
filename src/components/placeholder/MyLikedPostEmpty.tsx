@@ -18,7 +18,7 @@ export default function MyLikedPostEmpty() {
         </>
       }
       btnText="둘러보기"
-      btnFunc={() => router.push('/post')}
+      btnFunc={() => router.push('/posts')}
     />
   );
 }

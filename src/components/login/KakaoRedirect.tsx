@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Text from '@components/common/atom/Text';
@@ -8,9 +10,8 @@ import { useAuthStore } from '@/store/authStore';
 import { getKakaoUserInfos } from '@/api/apis';
 import { useRouter } from 'next/navigation';
 
-export default function KakaoRedirect() {
+export default function KakaoRedirect({ code }: { code: string }) {
   const router = useRouter();
-  const code = new URL(window.location.href).searchParams.get('code');
   const { setIsLogin, setNickName } = useAuthStore();
 
   const { data, isSuccess, error, isLoading } = useQuery({

@@ -15,6 +15,7 @@ import AlertModal from '@components/common/organism/AlertModal';
 import { FindPasswordForm } from '@/config/types';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 export default function FindPassword() {
   const formMethods = useForm<FindPasswordForm>();
@@ -47,7 +48,7 @@ export default function FindPassword() {
   };
 
   return (
-    <>
+    <LoginRestrictionRoute>
       <Header>비밀번호 찾기</Header>
       <form className="flex flex-col justify-between h-screen p-5 pb-10" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4">
@@ -64,6 +65,6 @@ export default function FindPassword() {
           buttons={<Button onClick={() => setShowModal(false)}>확인</Button>}
         />
       )}
-    </>
+    </LoginRestrictionRoute>
   );
 }

@@ -1,4 +1,5 @@
 import Skeleton from '../common/atom/Skeleton';
+import Image from 'next/image';
 
 interface WeatherImgProps {
   weatherType: string;
@@ -16,7 +17,14 @@ export default function WeatherImg({ weatherType, height, isLoading }: WeatherIm
           <Skeleton className="w-4/5 h-2/3" />
         </div>
       ) : (
-        <img src={weatherImgSrc} className="h-full object-contain" alt={`${weatherType}`} />
+        <Image
+          src={weatherImgSrc}
+          className="w-auto h-full object-contain"
+          width={133}
+          height={110}
+          alt={weatherType}
+          priority
+        />
       )}
     </div>
   );

@@ -12,8 +12,8 @@ import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants'
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 import { useGeoLocationStore } from '@/store/locationStore';
-import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
+import PostFormExitModal from '../modal/PostFormExitModal';
 
 interface PostWriteFormProps {
   type: '작성' | '수정';
@@ -39,6 +39,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
 
   setValue('city', city, { shouldDirty: true });
   setValue('district', district, { shouldDirty: true });
+  setValue('gender', 'FEMALE');
 
   const [shoWModal, setShowModal] = useState(false);
   const router = useRouter();
@@ -72,33 +73,14 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
         게시글 {type}하기
       </Header>
       {shoWModal && (
-        <AlertModal
-          boldMessage={`게시물 ${type} 취소`}
-          regularMessage={
-            <>
-              {`게시물을 ${type}하지 않고 나가시겠어요?`}
-              <br />
-              {`지금까지 ${type}한 내용은 삭제됩니다.`}
-            </>
-          }
-          buttons={
-            <>
-              <Button type="sub" size="m" onClick={() => setShowModal(false)}>
-                닫기
-              </Button>
-              <Button
-                type="main"
-                size="m"
-                onClick={() => {
-                  router.back();
-                  setPostFormLocation(null);
-                  sessionStorage.removeItem('formData');
-                }}
-              >
-                나가기
-              </Button>
-            </>
-          }
+        <PostFormExitModal
+          type={type}
+          onContinue={() => {
+            router.back();
+            setPostFormLocation(null);
+            sessionStorage.removeItem('formData');
+          }}
+          onCancel={() => setShowModal(false)}
         />
       )}
       <FormProvider {...formMethods}>

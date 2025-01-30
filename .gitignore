@@ -31,3 +31,8 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# etc
+server.js
+localhost+1-key.pem
+localhost+1.pem

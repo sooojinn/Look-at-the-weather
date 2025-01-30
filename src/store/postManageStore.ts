@@ -1,28 +1,16 @@
-import { PostDetail } from '@/config/types';
+import { PostDetailType } from '@/config/types';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface PostManageState {
-  postId: number;
-  postData: PostDetail | undefined;
-  replace: boolean;
-  setReplace: (replace: boolean | null) => void;
+  postData: PostDetailType | undefined;
   setPostData: (postData: Partial<PostManageState>) => void;
 }
 
 export const usePostManageStore = create(
   persist<PostManageState>(
     (set) => ({
-      postId: 0,
       postData: undefined,
-      replace: false,
-      setReplace: (replace) => {
-        if (replace === null) {
-          set({ replace: false });
-        } else {
-          set({ replace });
-        }
-      },
       setPostData: (postData) => set(postData),
     }),
     {

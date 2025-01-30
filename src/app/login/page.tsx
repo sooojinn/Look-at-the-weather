@@ -6,6 +6,7 @@ import Text from '@components/common/atom/Text';
 import LoginForm from '@components/login/LoginForm';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
 
 const linkList = [
   { path: '/signup', label: '회원가입', index: 1 },
@@ -17,7 +18,7 @@ export default function Login() {
   const router = useRouter();
 
   return (
-    <>
+    <LoginRestrictionRoute>
       <Header hideBackBtn noBorder onClose={() => router.back()}></Header>
       <div className="min-h-[140px] max-h-[200px] flex flex-col gap-3 flex-grow justify-center items-center">
         <Logo width={120} height={54} />
@@ -35,6 +36,6 @@ export default function Login() {
           ))}
         </div>
       </div>
-    </>
+    </LoginRestrictionRoute>
   );
 }
