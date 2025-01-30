@@ -78,11 +78,14 @@ export default function Heart({
       </div>
       {showLoginPromptModal && (
         <LoginPromptModal
-          onCancel={() => {
-            // e.stopPropagation();
+          onCancel={(e) => {
+            e.stopPropagation();
             setShowLoginPromptModal(false);
           }}
-          onContinue={() => router.push('/login')}
+          onContinue={(e) => {
+            e.stopPropagation();
+            router.push('/login');
+          }}
         />
       )}
     </>
