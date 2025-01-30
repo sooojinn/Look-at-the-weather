@@ -4,7 +4,6 @@ import { PostMeta } from '@/config/types';
 import PostImg from './PostImg';
 import Text from '@components/common/atom/Text';
 import Tags from './Tags';
-import { usePostManageStore } from '@/store/postManageStore';
 import Heart from '@components/common/atom/Heart';
 import PostImgBlind from './PostImgBlind';
 import Link from 'next/link';
@@ -25,15 +24,10 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
     reportPost: isReported,
   } = post;
 
-  const setPostData = usePostManageStore.getState().setPostData;
-  const onClickPostHandler = (id: number) => {
-    setPostData({ postId: id });
-  };
-
   const tags = [...(weatherTags || []), ...(temperatureTags || []), seasonTag || ''];
 
   return (
-    <Link href={`/post/${postId}`} className="cursor-pointer" onClick={() => onClickPostHandler(postId)}>
+    <Link href={`/post?id=${postId}`} className="cursor-pointer">
       <div className="relative">
         {isReported && <PostImgBlind />}
         <PostImg imgUrl={thumbnail} />

@@ -3,7 +3,8 @@ import Text from '@components/common/atom/Text';
 import ProtectedRoute from '@/router/ProtectedRoute';
 import ReportReasonSelector from '@/components/common/organism/ReportReasonSelector';
 
-export default function PostReport() {
+export default async function PostReport({ searchParams }: { searchParams: Promise<{ id: string }> }) {
+  const { id } = await searchParams;
   return (
     <ProtectedRoute>
       <Header>신고하기</Header>
@@ -15,7 +16,7 @@ export default function PostReport() {
         </Text>
         <Text color="darkGray">신고된 게시물은 자동 숨김처리 됩니다.</Text>
       </div>
-      <ReportReasonSelector />
+      <ReportReasonSelector postId={+id} />
     </ProtectedRoute>
   );
 }

@@ -1,9 +1,8 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@components/common/Header';
 import Text from '@components/common/atom/Text';
-import Menu from '@components/icons/post-menu/Menu';
 import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
 import Heart from '@components/common/atom/Heart';
@@ -16,14 +15,13 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
-import { usePostManageStore } from '@/store/postManageStore';
-import { PostDetail } from '@/config/types';
+import { PostDetailType } from '@/config/types';
+import TagsWithLabel from '@/components/post/TagsWithLabel';
+import PostDetailHeader from '@/components/post/PostDetailHeader';
 
-export default function PostDetailPage() {
+export default function PostDetail({ postId }: { postId: number }) {
   const router = useRouter();
-  const { postId } = usePostManageStore((state) => ({ postId: state.postId }));
 
-  const isLogin = useAuthStore((state) => state.isLogin);
   const [modalOpen, setModalOpen] = useState(false);
 
   const {
@@ -51,7 +49,7 @@ export default function PostDetailPage() {
     likeByUser,
     likedCount,
     reportPost,
-  }: PostDetail = postDetailData || {};
+  }: PostDetailType = postDetailData || {};
 
   const imgUrlList = images?.image.map((img) => img.url);
 
@@ -85,13 +83,7 @@ export default function PostDetailPage() {
       )}
       {isSuccess && (
         <>
-          <div className="px-5 py-2.5 flex justify-between items-center">
-            <div className="flex flex-col gap-0.5">
-              <Text weight="bold">{nickname}</Text>
-              <Text color="gray">{`${postLocation.city} ${postLocation.district}`}</Text>
-            </div>
-            {isLogin && <Menu className="cursor-pointer" onClick={modalHandler} />}
-          </div>
+          <PostDetailHeader nickname={nickname} {...postLocation} modalHandler={modalHandler} />
           <div className="w-full relative">
             {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
             <ImageSlider images={imgUrlList} />
@@ -135,24 +127,5 @@ export default function PostDetailPage() {
         />
       ) : null}
     </>
-  );
-}
-
-function TagsWithLabel({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="flex gap-2.5">
-      <Text>{label}</Text>
-      <div className="flex gap-1.5">
-        {Array.isArray(children) ? (
-          children.map((child) => (
-            <Text key={child} color="gray">
-              {child}
-            </Text>
-          ))
-        ) : (
-          <Text color="gray">{children}</Text>
-        )}
-      </div>
-    </div>
   );
 }

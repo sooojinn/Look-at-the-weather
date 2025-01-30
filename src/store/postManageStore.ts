@@ -1,10 +1,10 @@
-import { PostDetail } from '@/config/types';
+import { PostDetailType } from '@/config/types';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface PostManageState {
   postId: number;
-  postData: PostDetail | undefined;
+  postData: PostDetailType | undefined;
   replace: boolean;
   setReplace: (replace: boolean | null) => void;
   setPostData: (postData: Partial<PostManageState>) => void;

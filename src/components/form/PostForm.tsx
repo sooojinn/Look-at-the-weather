@@ -39,6 +39,7 @@ export default function PostForm({ type, defaultValues, onSubmit }: PostWriteFor
 
   setValue('city', city, { shouldDirty: true });
   setValue('district', district, { shouldDirty: true });
+  setValue('gender', 'FEMALE');
 
   const [shoWModal, setShowModal] = useState(false);
   const router = useRouter();

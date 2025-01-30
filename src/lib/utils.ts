@@ -1,5 +1,5 @@
 import { GeoPoint } from '@/config/types';
-import { DEFAULT_GEO_POINT } from '@/config/constants';
+import { DEFAULT_GEO_POINT, TAGS } from '@/config/constants';
 import { getLocationFromGeoPoint } from '@/api/apis';
 
 // 소수점 넷째 자리까지 내림 처리하는 함수
@@ -90,4 +90,14 @@ export function calDailyWeatherStaleTime() {
   const staleTime = nextTargetTime.getTime() - now.getTime();
 
   return staleTime;
+}
+
+export function tagNameToId(tagName: string) {
+  const tag = TAGS.find((tag) => tagName === tag.name);
+  if (!tag) return null;
+  return tag?.id;
+}
+
+export function tagNamesToIds(tagNames: string[]) {
+  return tagNames.map((tagName) => tagNameToId(tagName));
 }

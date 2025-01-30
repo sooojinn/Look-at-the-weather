@@ -65,7 +65,8 @@ export default function Heart({
   });
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
+    e.preventDefault();
+
     if (isLogin) toggleLikeMutation.mutate();
     else setShowLoginPromptModal(true);
   };

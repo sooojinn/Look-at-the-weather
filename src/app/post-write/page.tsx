@@ -19,7 +19,6 @@ export default function PostWrite() {
 
   const router = useRouter();
   const setReplace = usePostManageStore.getState().setReplace;
-  const setPostData = usePostManageStore.getState().setPostData;
 
   const defaultValues = {
     title: '',
@@ -38,9 +37,8 @@ export default function PostWrite() {
   const uploadMutation = useMutation({
     mutationFn: uploadPost,
     onSuccess: ({ postId }) => {
-      setPostData({ postId });
       setReplace(true);
-      router.push(`/post/${postId}`);
+      router.push(`/post?id=${postId}`);
 
       showToast('게시물이 등록되었습니다');
     },
@@ -51,7 +49,6 @@ export default function PostWrite() {
   });
 
   const onSubmit = (data: PostFormData) => {
-    data.gender = 'FEMALE';
     uploadMutation.mutate(data);
   };
 

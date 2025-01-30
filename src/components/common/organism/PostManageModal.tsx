@@ -15,13 +15,13 @@ import ModalHeader from '../molecules/ModalHeader';
 import HideIcon from '@components/icons/input/HideIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
 import { usePostManageStore } from '@/store/postManageStore';
-import { PostDetail } from '@/config/types';
+import { PostDetailType } from '@/config/types';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
   isMyPost?: boolean;
   postId: number;
-  postData: PostDetail | undefined;
+  postData: PostDetailType | undefined;
   isReported?: boolean;
 }
 
@@ -67,10 +67,9 @@ export default function PostManageModal({
   // 수정하기
   const onClickUpdateBtn = async () => {
     setPostData({
-      postId: postId,
       postData: postData,
     });
-    router.push(`${postId}/edit`);
+    router.push(`/post/edit?id=${postId}`);
   };
 
   // 삭제하기
@@ -85,10 +84,7 @@ export default function PostManageModal({
 
   // 신고하기
   const onClickReportBtn = () => {
-    setPostData({
-      postId: postId,
-    });
-    router.push(`/post/${postId}/report`);
+    router.push(`/post/report?id=${postId}`);
   };
 
   return (

@@ -38,7 +38,7 @@ export interface PostMeta {
   reportPost?: boolean;
 }
 
-export interface PostDetail extends PostMeta {
+export interface PostDetailType extends PostMeta {
   nickname: string;
   date: string;
   title: string;
