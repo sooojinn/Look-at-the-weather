@@ -18,7 +18,7 @@ export default function TodayBestWearList() {
   const { currentTemp } = weatherData;
 
   const {
-    data: response,
+    data: topLikedRes,
     isLoading,
     isSuccess: isTopLikedPostsSuccess,
   } = useQuery({
@@ -34,8 +34,8 @@ export default function TodayBestWearList() {
 
   const [showDescModal, setShowDescModal] = useState(false);
 
-  const topLikedPosts = isTopLikedPostsSuccess && response?.data?.topLikedPosts ? response.data.topLikedPosts : [];
-  const outfitPosts = isOutfitSuccess && outfitRes?.posts ? outfitRes?.posts : [];
+  const topLikedPosts = topLikedRes?.topLikedPosts ?? [];
+  const outfitPosts = outfitRes?.posts ?? [];
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function TodayBestWearList() {
         <Text size="l" weight="bold" className="flex justify-start items-center h-[60px] px-5">
           현재 기온에 어울리는 룩
         </Text>
-        {outfitPosts && outfitPosts.length ? (
+        {isOutfitSuccess && outfitPosts.length ? (
           <HorizonScrollPostList postList={outfitPosts} padding="0 20px" />
         ) : (
           <TempOutfitPostEmpty />
