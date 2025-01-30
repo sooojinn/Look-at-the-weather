@@ -31,7 +31,6 @@ export default function ManualGuide() {
                 <Image
                   src={content.src}
                   alt=""
-                  layout="responsive"
                   width={500}
                   height={500}
                   className="max-w-full max-h-full object-contain"

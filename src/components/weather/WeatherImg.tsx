@@ -23,6 +23,7 @@ export default function WeatherImg({ weatherType, height, isLoading }: WeatherIm
           width={133}
           height={110}
           alt={weatherType}
+          priority
         />
       )}
     </div>
