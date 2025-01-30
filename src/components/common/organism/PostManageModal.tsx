@@ -7,15 +7,15 @@ import { deletePost, hidePost } from '@/api/apis';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
-import Button from '../molecules/Button';
 import BackgroundShadow from './BackgroundShadow';
 import PostMenuItem from '../molecules/PostMenuItem';
-import AlertModal from './AlertModal';
 import ModalHeader from '../molecules/ModalHeader';
 import HideIcon from '@components/icons/input/HideIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
 import { usePostManageStore } from '@/store/postManageStore';
 import { PostDetailType } from '@/config/types';
+import DeleteWarningModal from '@/components/modal/DeleteWarningModal';
+import HideWarningModal from '@/components/modal/HideWarningModal';
 
 interface PostManageModalProps {
   modalController: React.Dispatch<React.SetStateAction<boolean>>;
@@ -120,55 +120,21 @@ export default function PostManageModal({
         </BackgroundShadow>
       )}
       {showDeleteWarningModal && (
-        <AlertModal
-          boldMessage="게시물 삭제"
-          regularMessage={
-            <>
-              게시물을 정말 삭제하시겠어요?
-              <br />
-              삭제된 게시물은 복구되지 않아요.
-            </>
-          }
-          buttons={
-            <div className="w-full flex gap-2">
-              <Button
-                type="sub"
-                size="m"
-                onClick={() => {
-                  setShowDeleteWarningModal(false);
-                  modalController(false);
-                }}
-              >
-                취소
-              </Button>
-              <Button type="main" size="m" onClick={() => deletePostMutation.mutate(postId)}>
-                삭제하기
-              </Button>
-            </div>
-          }
+        <DeleteWarningModal
+          onCancel={() => {
+            setShowDeleteWarningModal(false);
+            modalController(false);
+          }}
+          onContinue={() => deletePostMutation.mutate(postId)}
         />
       )}
       {showHideWarningModal && (
-        <AlertModal
-          boldMessage="게시물을 정말 숨기기 하시겠어요?"
-          regularMessage="숨겨진 게시물은 복구되지 않아요."
-          buttons={
-            <div className="w-full flex gap-2">
-              <Button
-                type="sub"
-                size="m"
-                onClick={() => {
-                  setShowHideWarningModal(false);
-                  modalController(false);
-                }}
-              >
-                닫기
-              </Button>
-              <Button type="main" size="m" onClick={() => hidePostMutation.mutate(postId)}>
-                숨기기
-              </Button>
-            </div>
-          }
+        <HideWarningModal
+          onCancel={() => {
+            setShowHideWarningModal(false);
+            modalController(false);
+          }}
+          onContinue={() => hidePostMutation.mutate(postId)}
         />
       )}
     </>

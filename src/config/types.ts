@@ -227,6 +227,6 @@ export interface FindPasswordForm extends FindEmailForm {
 }
 
 export interface AlertModalFunc {
-  onCancel?: () => void;
-  onContinue: () => void;
+  onCancel?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onContinue: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }

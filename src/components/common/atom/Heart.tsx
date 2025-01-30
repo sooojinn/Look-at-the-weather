@@ -8,9 +8,8 @@ import { ErrorResponse } from '@/config/types';
 import RedHeartIcon from '@components/icons/hearts/RedHeartIcon';
 import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';
 import { useAuthStore } from '@/store/authStore';
-import AlertModal from '../organism/AlertModal';
-import Button from '../molecules/Button';
 import { useRouter } from 'next/navigation';
+import LoginPromptModal from '@/components/modal/LoginPromptModal';
 
 interface HeartProps {
   fill?: string;
@@ -72,38 +71,20 @@ export default function Heart({
   };
 
   return (
-    <div onClick={handleClick} className="flex items-center gap-x-2">
-      {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}
-      {hasUserNumber && <Text>{likedCount || 0}</Text>}
+    <>
+      <div onClick={handleClick} className="flex items-center gap-x-2">
+        {isLiked ? <RedHeartIcon /> : <EmptyHeartIcon fill={fill} />}
+        {hasUserNumber && <Text>{likedCount || 0}</Text>}
+      </div>
       {showLoginPromptModal && (
-        <AlertModal
-          boldMessage="로그인 필요"
-          regularMessage={
-            <>
-              해당 기능은 로그인 후 사용 가능합니다.
-              <br />
-              로그인 하시겠습니까?
-            </>
-          }
-          buttons={
-            <>
-              <Button
-                size="m"
-                type="sub"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowLoginPromptModal(false);
-                }}
-              >
-                취소
-              </Button>
-              <Button size="m" onClick={() => router.push('/login')}>
-                로그인
-              </Button>
-            </>
-          }
+        <LoginPromptModal
+          onCancel={() => {
+            // e.stopPropagation();
+            setShowLoginPromptModal(false);
+          }}
+          onContinue={() => router.push('/login')}
         />
       )}
-    </div>
+    </>
   );
 }

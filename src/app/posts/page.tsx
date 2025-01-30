@@ -13,12 +13,12 @@ import { PostMeta } from '@/config/types';
 import FooterNavi from '@components/common/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
-import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import LookWeatherWidget from '@/components/weather/LookWeatherWidget';
 import OptionBtn from '@components/common/molecules/OptionBtn';
-import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
 // import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
+import AllPostEmpty from '@/components/placeholder/AllPostEmpty';
+import FilteredPostEmpty from '@/components/placeholder/FilteredPostEmpty';
 
 export default function Post() {
   const { location } = useLocationData();
@@ -276,38 +276,6 @@ export default function Post() {
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}
     </>
-  );
-}
-
-function FilteredPostEmpty() {
-  return (
-    <StatusPlaceholder
-      ImgComp={NoPostImg}
-      boldMessage="조건에 맞는 게시물이 없어요"
-      lightMessage={
-        <>
-          더 넓은 범위로
-          <br />
-          검색해 보시는 건 어떨까요?
-        </>
-      }
-    />
-  );
-}
-
-function AllPostEmpty() {
-  return (
-    <StatusPlaceholder
-      ImgComp={NoPostImg}
-      boldMessage="내 지역에 올라온 룩이 아직 없어요"
-      lightMessage={
-        <>
-          다른 지역의 룩을 먼저
-          <br />
-          둘러보시는 건 어떨까요?
-        </>
-      }
-    />
   );
 }
 

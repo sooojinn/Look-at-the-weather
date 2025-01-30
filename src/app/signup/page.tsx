@@ -13,9 +13,9 @@ import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import { useState } from 'react';
-import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
 import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import SignUpExitModal from '@/components/modal/SignUpExitModal';
 
 export default function Signup() {
   const formMethods = useForm<SignupForm>({
@@ -70,30 +70,7 @@ export default function Signup() {
           가입하기
         </Button>
       </div>
-      {showModal && (
-        <AlertModal
-          boldMessage="회원가입 취소"
-          regularMessage={
-            <>
-              회원가입을 취소하시겠어요?
-              <br />
-              다시 가입할 경우 처음부터
-              <br />
-              정보를 입력해야 합니다.
-            </>
-          }
-          buttons={
-            <>
-              <Button size="m" type="sub" onClick={() => setShowModal(false)}>
-                가입 계속하기
-              </Button>
-              <Button size="m" onClick={() => router.back()}>
-                취소하기
-              </Button>
-            </>
-          }
-        />
-      )}
+      {showModal && <SignUpExitModal onContinue={() => setShowModal(false)} onCancel={() => router.back()} />}
     </LoginRestrictionRoute>
   );
 }
