@@ -16,7 +16,7 @@ interface NavItem {
 
 const navList: NavItem[] = [
   { path: '/', label: '홈', Icon: HomeIcon },
-  { path: '/post', label: '룩', Icon: HangerIcon },
+  { path: '/posts', label: '룩', Icon: HangerIcon },
   { path: '/post-write', label: '글쓰기', Icon: WriteIcon },
   { path: '/mypage', label: '마이페이지', Icon: MyPageIcon },
 ];
