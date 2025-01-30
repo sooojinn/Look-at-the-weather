@@ -36,7 +36,7 @@ export default function PostImg({ imgUrl }: PostListImgProps) {
       height={250}
       ref={imgRef}
       src={isLoaded ? imgUrl : placeholderImg}
-      className="w-full h-auto object-cover aspect-custom"
+      className="w-full h-auto object-cover aspect-custom flex-shrink-0"
       alt="thumbnail"
       priority
     />

@@ -84,7 +84,7 @@ export default function PostDetail({ postId }: { postId: number }) {
       {isSuccess && (
         <>
           <PostDetailHeader nickname={nickname} {...postLocation} modalHandler={modalHandler} />
-          <div className="w-full relative">
+          <div className="w-full h-full relative">
             {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}
             <ImageSlider images={imgUrlList} />
           </div>
