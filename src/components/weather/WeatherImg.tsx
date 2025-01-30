@@ -17,7 +17,13 @@ export default function WeatherImg({ weatherType, height, isLoading }: WeatherIm
           <Skeleton className="w-4/5 h-2/3" />
         </div>
       ) : (
-        <Image src={weatherImgSrc} className="h-full object-contain" width={133} height={130} alt={`${weatherType}`} />
+        <Image
+          src={weatherImgSrc}
+          className="w-auto h-full object-contain"
+          width={133}
+          height={110}
+          alt={weatherType}
+        />
       )}
     </div>
   );
