@@ -13,7 +13,6 @@ import { tagNameToId, tagNamesToIds } from '@/lib/utils';
 
 export default function PostEdit({ postId }: { postId: number }) {
   const router = useRouter();
-  const setReplace = usePostManageStore.getState().setReplace;
   const { postData } = usePostManageStore((state) => ({
     postData: state.postData,
   }));
@@ -51,8 +50,7 @@ export default function PostEdit({ postId }: { postId: number }) {
   const editMutation = useMutation({
     mutationFn: editPost,
     onSuccess: () => {
-      setReplace(true);
-      router.push(`/post?id=${postId}`);
+      router.back();
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {
