@@ -2,7 +2,7 @@ import { WeatherInfo } from '@/config/types';
 import Text from '../common/atom/Text';
 import CurrentTemp from './CurrentTemp';
 import MinMaxTemps from './MinMaxTemps';
-import Skeleton from '../common/atom/Skeleton';
+import Skeleton from '../skeleton/Skeleton';
 
 export default function HomeWeatherInfo({
   currentTemp,
@@ -15,7 +15,7 @@ export default function HomeWeatherInfo({
       {isLoading ? (
         <>
           <Skeleton className="w-[150px] h-5" />
-          <Skeleton className="w-[100px] h-4" />
+          <Skeleton fontSize={14} className="w-[100px]" />
         </>
       ) : (
         <>

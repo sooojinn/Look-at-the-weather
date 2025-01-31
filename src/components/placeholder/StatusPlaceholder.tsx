@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Text from '../atom/Text';
+import Text from '../common/atom/Text';
 
 interface StatusPlaceholderProps {
   ImgComp: React.ComponentType;

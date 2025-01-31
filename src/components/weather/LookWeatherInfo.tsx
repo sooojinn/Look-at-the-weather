@@ -1,6 +1,6 @@
 import { WeatherInfo } from '@/config/types';
 import MinMaxTemps from './MinMaxTemps';
-import Skeleton from '../common/atom/Skeleton';
+import Skeleton from '../skeleton/Skeleton';
 import WeatherMessage from './WeatherMessage';
 
 export default function LookWeatherInfo({

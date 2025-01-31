@@ -6,7 +6,7 @@ import CloseBtn from '@components/icons/CloseBtn';
 import LocationIcon from '@components/icons/LocationIcon';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import Skeleton from '../atom/Skeleton';
+import Skeleton from '../../skeleton/Skeleton';
 
 interface LocationComponentProps {
   city?: string;

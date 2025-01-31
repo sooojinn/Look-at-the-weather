@@ -2,14 +2,14 @@
 
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import { showToast } from '../molecules/ToastProvider';
-import VirtualPostGrid from '@components/post/VirtualPostGrid';
+import PostListStatusHandler from '@/components/post/PostListStatusHandler';
 
 interface VirtualInfiniteScrollProps {
   queryKey: string;
   queryFn: ({ page, size }: { page: number; size: number }) => Promise<any>;
   size?: number;
   headerText: string;
-  placeholderComp: React.ComponentType;
+  placeholderComp: React.FC;
 }
 
 export default function VirtualInfiniteScroll({
@@ -19,7 +19,8 @@ export default function VirtualInfiniteScroll({
   headerText,
   placeholderComp: PlaceholderComp,
 }: VirtualInfiniteScrollProps) {
-  const { isError, error, isSuccess, pageEndRef, postList } = useInfiniteScroll([`${queryKey}`], queryFn, size);
+  const queryResults = useInfiniteScroll([`${queryKey}`], queryFn, size);
+  const { isError, error, pageEndRef, postList } = queryResults;
 
   if (isError) {
     console.error(error.message);
@@ -28,14 +29,7 @@ export default function VirtualInfiniteScroll({
 
   return (
     <>
-      {isSuccess &&
-        (postList.length ? (
-          <VirtualPostGrid postList={postList} />
-        ) : (
-          <div className="w-full h-full flex justify-center items-center">
-            <PlaceholderComp />
-          </div>
-        ))}
+      <PostListStatusHandler postList={postList} queryResults={queryResults} PlaceholderComp={PlaceholderComp} />
       <div ref={pageEndRef}></div>
     </>
   );

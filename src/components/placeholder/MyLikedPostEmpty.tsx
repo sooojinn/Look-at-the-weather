@@ -1,6 +1,6 @@
 'use client';
 
-import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import StatusPlaceholder from '@/components/placeholder/StatusPlaceholder';
 import NoPostImg from '@components/icons/placeholders/NoPostImg';
 import { useRouter } from 'next/navigation';
 

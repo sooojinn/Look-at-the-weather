@@ -1,4 +1,4 @@
-import Skeleton from '../common/atom/Skeleton';
+import Skeleton from '../skeleton/Skeleton';
 import Image from 'next/image';
 
 interface WeatherImgProps {

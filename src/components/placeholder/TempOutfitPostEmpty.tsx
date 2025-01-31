@@ -1,4 +1,4 @@
-import StatusPlaceholder from '../common/organism/StatusPlaceholder';
+import StatusPlaceholder from './StatusPlaceholder';
 import NoPostImg from '../icons/placeholders/NoPostImg';
 
 export default function TempOutfitPostEmpty() {

@@ -1,5 +1,5 @@
 import FooterNavi from '@components/common/FooterNavi';
-import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import StatusPlaceholder from '@/components/placeholder/StatusPlaceholder';
 import OfflineImg from '@components/icons/placeholders/OfflineImg';
 
 export default function Offline() {

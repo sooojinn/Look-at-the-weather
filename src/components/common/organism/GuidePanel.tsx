@@ -1,3 +1,5 @@
+'use client';
+
 import GuideBtn from '../molecules/GuideBtn';
 import LookGuideIcon from '@components/icons/guide/LookGuideIcon';
 import GuideManualIcon from '@components/icons/guide/GuideManualIcon';

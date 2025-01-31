@@ -1,7 +1,7 @@
 'use client';
 
 import NotFoundImg from '@components/icons/placeholders/NotFoundImg';
-import StatusPlaceholder from '@components/common/organism/StatusPlaceholder';
+import StatusPlaceholder from '@/components/placeholder/StatusPlaceholder';
 import { useRouter } from 'next/navigation';
 
 export default function NotFound() {

@@ -8,11 +8,7 @@ import Heart from '@components/common/atom/Heart';
 import PostImgBlind from './PostImgBlind';
 import Link from 'next/link';
 
-interface NewPostMeta extends PostMeta {
-  isHorizontal?: boolean;
-}
-
-export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta) {
+export default function PostItem({ ...post }: PostMeta) {
   const {
     postId,
     thumbnail,
@@ -35,7 +31,7 @@ export default function PostItem({ isHorizontal = false, ...post }: NewPostMeta)
           <Heart liked={likeByUser} postId={postId} />
         </div>
       </div>
-      <div className={`my-2.5 ${isHorizontal ? 'px-1.5' : 'px-5'}`}>
+      <div style={{ paddingInline: '9%' }} className="my-2.5">
         <Text>
           {city} {district}
         </Text>
