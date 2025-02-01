@@ -19,7 +19,7 @@ export const guideContent: GuideContent[] = [
         <strong>지역 날씨 기반 패션 플랫폼</strong>입니다.
       </>
     ),
-    src: '/assets/guide1.png', // public 디렉토리 기준 경로
+    src: '/assets/guide/guide1.png', // public 디렉토리 기준 경로
   },
   {
     page: 2,
@@ -35,7 +35,7 @@ export const guideContent: GuideContent[] = [
         참고해 보세요!
       </>
     ),
-    src: '/assets/guide2.png',
+    src: '/assets/guide/guide2.png',
   },
   {
     page: 3,
@@ -49,7 +49,7 @@ export const guideContent: GuideContent[] = [
         지역과 조건의 룩만 볼 수 있어요
       </>
     ),
-    src: '/assets/guide3.png',
+    src: '/assets/guide/guide3.png',
   },
   {
     page: 4,
@@ -73,6 +73,6 @@ export const guideContent: GuideContent[] = [
         언제든 마이페이지에서 확인할 수 있어요
       </>
     ),
-    src: '/assets/guide4.png',
+    src: '/assets/guide/guide4.png',
   },
 ];

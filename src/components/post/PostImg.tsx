@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import placeholderImg from 'public/assets/placeholder_img.svg';
+import placeholderImg from '@/assets/placeholder_img.png';
 import Image from 'next/image';
 
 interface PostListImgProps {

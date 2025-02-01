@@ -8,7 +8,7 @@ interface WeatherImgProps {
 }
 
 export default function WeatherImg({ weatherType, height, isLoading }: WeatherImgProps) {
-  const weatherImgSrc = `/weatherImages/${weatherType}.png`;
+  const weatherImgSrc = `/assets/weather-image/${weatherType}.png`;
 
   return (
     <div style={{ height: `${height}px` }}>

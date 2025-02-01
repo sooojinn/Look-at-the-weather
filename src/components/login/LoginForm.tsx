@@ -47,8 +47,6 @@ export default function LoginForm() {
 
   const handleLogin = async (data: any) => {
     loginMutation.mutate(data);
-    const img = new Image();
-    img.src = '/assets/user_icon.png';
   };
 
   return (

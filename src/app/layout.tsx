@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     description: '계절별 옷차림, 나만의 스타일북',
   },
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/assets/favicon.png',
+    shortcut: '/assets/favicon.png',
+    apple: '/assets/favicon.png',
   },
 };
 
