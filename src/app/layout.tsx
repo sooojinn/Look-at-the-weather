@@ -4,6 +4,7 @@ import { ToastProvider } from '@/components/common/molecules/ToastProvider';
 import ReactQueryProvider from '@/lib/ReactQueryProvider';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import NetworkBoundary from '@/components/common/NetworkBoundary';
+import { spoqaHanSansNeo } from '@/config/fonts';
 
 export const metadata: Metadata = {
   title: '룩엣더웨더 | Look At The Weather',
@@ -30,7 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div id="root">
           <ReactQueryProvider>
-            <div className="max-w-md m-auto h-screen bg-background-white flex flex-col overflow-y-auto scrollbar-hide">
+            <div
+              className={`max-w-md m-auto h-screen bg-background-white flex flex-col overflow-y-auto scrollbar-hide ${spoqaHanSansNeo.className}`}
+            >
               <ScrollToTop />
               <NetworkBoundary>{children}</NetworkBoundary>
               <ToastProvider />
