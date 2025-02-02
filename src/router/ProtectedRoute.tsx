@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (isLogin === false) {
       router.replace('/login');
     }
   }, [isLogin]);

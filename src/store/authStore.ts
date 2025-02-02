@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface AuthStore {
-  isLogin: boolean;
+  isLogin: boolean | null;
   nickName: string | null;
   setIsLogin: (isLogin: boolean) => void;
   setNickName: (newNickname: string | null) => void;
@@ -12,7 +12,7 @@ interface AuthStore {
 export const useAuthStore = create(
   persist<AuthStore>(
     (set) => ({
-      isLogin: false,
+      isLogin: null,
       nickName: null,
       setIsLogin: (isLogin: boolean) => {
         set((state) => ({
