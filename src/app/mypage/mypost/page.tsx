@@ -13,7 +13,7 @@ export default function MyPost() {
       <Header>내 게시물</Header>
       <div className="flex-grow">
         <VirtualInfiniteScroll
-          queryKey="myPosts"
+          queryKey={['post', 'list', 'myPosts']}
           queryFn={getMyPosts}
           headerText="내 게시물"
           placeholderComp={MyPostEmpty}

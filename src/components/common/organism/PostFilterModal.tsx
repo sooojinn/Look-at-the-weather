@@ -31,7 +31,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   } = usePostStore();
 
   const { data, isSuccess } = useQuery({
-    queryKey: ['getRegion'],
+    queryKey: ['region'],
     queryFn: getRegion,
     staleTime: Infinity,
   });

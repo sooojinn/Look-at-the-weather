@@ -9,7 +9,7 @@ import PostListStatusHandler from './PostListStatusHandler';
 
 export default function TodayBestWearList() {
   const queryResults = useQuery({
-    queryKey: ['topLikedPosts'],
+    queryKey: ['post', 'list', 'topLikedPosts'],
     queryFn: fetchTopLikedPosts,
   });
 

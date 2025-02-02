@@ -5,7 +5,7 @@ import { ImageItem, PostFormData } from '@/config/types';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import PostForm from '@components/form/PostForm';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
 import ProtectedRoute from '@/router/ProtectedRoute';
@@ -13,6 +13,8 @@ import { tagNameToId, tagNamesToIds } from '@/lib/utils';
 
 export default function PostEdit({ postId }: { postId: number }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { postData } = usePostManageStore((state) => ({
     postData: state.postData,
   }));
@@ -51,6 +53,8 @@ export default function PostEdit({ postId }: { postId: number }) {
     mutationFn: editPost,
     onSuccess: () => {
       router.back();
+      queryClient.invalidateQueries({ queryKey: ['post', 'detail', postId], refetchType: 'none' });
+      queryClient.invalidateQueries({ queryKey: ['post', 'list'], refetchType: 'none' });
       showToast('게시물이 수정되었습니다.');
     },
     onError: (error) => {

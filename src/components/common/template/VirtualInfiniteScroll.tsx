@@ -5,7 +5,7 @@ import { showToast } from '../molecules/ToastProvider';
 import PostListStatusHandler from '@/components/post/PostListStatusHandler';
 
 interface VirtualInfiniteScrollProps {
-  queryKey: string;
+  queryKey: string[];
   queryFn: ({ page, size }: { page: number; size: number }) => Promise<any>;
   size?: number;
   headerText: string;
@@ -19,7 +19,7 @@ export default function VirtualInfiniteScroll({
   headerText,
   placeholderComp: PlaceholderComp,
 }: VirtualInfiniteScrollProps) {
-  const queryResults = useInfiniteScroll([`${queryKey}`], queryFn, size);
+  const queryResults = useInfiniteScroll(queryKey, queryFn, size);
   const { isError, error, pageEndRef, postList } = queryResults;
 
   if (isError) {

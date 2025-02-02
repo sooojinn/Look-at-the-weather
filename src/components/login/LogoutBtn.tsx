@@ -3,7 +3,7 @@
 import { postLogout } from '@/api/apis';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { showToast } from '../common/molecules/ToastProvider';
 import Text from '../common/atom/Text';
@@ -17,6 +17,7 @@ export default function LogoutBtn() {
   const { setIsLogin, authStoreClear } = useAuthStore();
   const { postStoreClear } = usePostStore();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
@@ -26,6 +27,7 @@ export default function LogoutBtn() {
       localStorage.removeItem('nickname');
       authStoreClear();
       postStoreClear();
+      queryClient.removeQueries({ queryKey: ['post'] });
       router.push('/');
       showToast('로그아웃되었습니다.');
     },

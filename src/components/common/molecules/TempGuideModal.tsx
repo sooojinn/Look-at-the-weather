@@ -18,7 +18,7 @@ export default function TempGuideModal() {
     isError,
     isSuccess,
   } = useQuery({
-    queryKey: ['getOutfitGuide', currentTemp],
+    queryKey: ['outfitGuide', currentTemp],
     queryFn: () => getOutfitGuide(currentTemp),
     staleTime: Infinity,
   });

@@ -3,13 +3,15 @@
 import { reportPost } from '@/api/apis';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ReportModal from '@/components/modal/ReportModal';
 
 export default function ReportReasonSelector({ postId }: { postId: number }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [reason, setReason] = useState('');
   const [showReportWarningModal, setShowReportWarningModal] = useState(false);
 
@@ -25,6 +27,8 @@ export default function ReportReasonSelector({ postId }: { postId: number }) {
     mutationFn: reportPost,
     onSuccess: () => {
       showToast('해당 게시물 신고가 완료되었습니다.');
+      queryClient.removeQueries({ queryKey: ['post', 'detail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['post', 'list'], refetchType: 'none' });
       window.history.go(-2);
     },
     onError: (error) => {

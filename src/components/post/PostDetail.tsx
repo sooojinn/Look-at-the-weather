@@ -31,8 +31,9 @@ export default function PostDetail({ postId }: { postId: number }) {
     isError,
     error,
   } = useQuery({
-    queryKey: ['postDetail', postId],
+    queryKey: ['post', 'detail', postId],
     queryFn: () => getPostDetail(postId),
+    enabled: !!postId,
     retry: 1,
   });
 

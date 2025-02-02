@@ -3,8 +3,10 @@ import { reissue } from './apis';
 import { useAuthStore } from '@/store/authStore';
 import { showToast } from '@components/common/molecules/ToastProvider';
 import { BASEURL } from '@/config/constants';
+import { QueryClient } from '@tanstack/react-query';
 
 const { setIsLogin } = useAuthStore.getState();
+const queryClient = new QueryClient();
 
 let accessToken: null | string = null;
 
@@ -79,6 +81,7 @@ instance.interceptors.response.use(
             showToast('알 수 없는 에러가 발생했습니다.');
           }
           setIsLogin(false);
+          queryClient.removeQueries({ queryKey: ['post'] });
         }
       }
     } else if (error.request) {

@@ -14,9 +14,9 @@ export default function TodayBestWearCriteriaModal({ onContinue }: AlertModalFun
       }
       regularMessage={
         <>
-          당일 게시물 중 좋아요를
+          오늘 좋아요를 많이 받은
           <br />
-          많이 받은 게시물 기준으로 선정됩니다.
+          게시물순으로 선정됩니다.
         </>
       }
       buttons={

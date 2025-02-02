@@ -12,7 +12,7 @@ export default function OutfitListByTemperature() {
   const { currentTemp } = weatherData;
 
   const queryResults = useQuery({
-    queryKey: ['getOutfitByTemperature'],
+    queryKey: ['post', 'list', 'outfitByTemperature'],
     queryFn: () => getOutfitByTemperature(currentTemp),
     enabled: !!currentTemp,
   });

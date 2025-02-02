@@ -13,7 +13,7 @@ export default function MyLikedPost() {
       <Header>내가 좋아요한 게시물</Header>
       <div className="flex-grow">
         <VirtualInfiniteScroll
-          queryKey="myLikedPosts"
+          queryKey={['post', 'list', 'myLikedPosts']}
           queryFn={getMyLikedPosts}
           headerText="내가 좋아요한 게시물"
           placeholderComp={MyLikedPostEmpty}

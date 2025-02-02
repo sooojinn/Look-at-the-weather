@@ -43,10 +43,13 @@ export default function Heart({
     mutationFn: async () => {
       return isLiked ? await deleteLike(postId) : await postLike(postId);
     },
-    onSuccess: ({ likedCount }) => {
+    onSuccess: ({ likedCount: newLikedCount }) => {
       setIsLiked((prev) => !prev);
-      setLikedCount(likedCount);
-      queryClient.removeQueries({ queryKey: ['myLikedPosts'] });
+      setLikedCount(newLikedCount);
+
+      // 좋아요 여부 동기화를 위해 post 쿼리 무효화
+      queryClient.invalidateQueries({ queryKey: ['post', 'list'], refetchType: 'none' });
+      queryClient.invalidateQueries({ queryKey: ['post', 'detail', postId], refetchType: 'none' });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
       if (error.response) {

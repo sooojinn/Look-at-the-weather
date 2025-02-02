@@ -8,7 +8,7 @@ import { showToast } from '@components/common/molecules/ToastProvider';
 import EmailInput from '@components/form/inputs/EmailInput';
 import PasswordInput from '@components/form/inputs/PasswordInput';
 import KakaoLogin from '@components/login/KakaoLogin';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import LoginTooltip from './LoginTooltip';
 import { useRouter } from 'next/navigation';
@@ -23,6 +23,7 @@ export default function LoginForm() {
   const { handleSubmit, setError } = formMethods;
   const { setIsLogin, setNickName } = useAuthStore();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
@@ -31,6 +32,7 @@ export default function LoginForm() {
       setAccessToken(accessToken);
       setNickName(nickName);
       setIsLogin(true);
+      queryClient.invalidateQueries({ queryKey: ['post'] });
       router.back();
     },
     onError: (error: AxiosError<ErrorResponse>) => {

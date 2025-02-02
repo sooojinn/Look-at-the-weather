@@ -26,7 +26,9 @@ function useInfiniteScroll(
   });
 
   const { hasNextPage, fetchNextPage, isFetchingNextPage, data } = queryResult;
-  const postList = data?.pages.flatMap((page) => page[queryKey[0]]) ?? []; // 모든 페이지의 게시물 병합
+
+  const detailQueryKey = queryKey[queryKey.length - 1];
+  const postList = data?.pages.flatMap((page) => page[detailQueryKey]) ?? []; // 모든 페이지의 게시물 병합
 
   useEffect(() => {
     if (isFetchingNextPage || !hasNextPage) return;

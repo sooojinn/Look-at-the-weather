@@ -5,7 +5,7 @@ import ReportIcon from '@components/icons/post-menu/ReportIcon';
 import DeleteIcon from '@components/icons/post-menu/DeleteIcon';
 import { deletePost, hidePost } from '@/api/apis';
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '../molecules/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
 import PostMenuItem from '../molecules/PostMenuItem';
@@ -33,6 +33,7 @@ export default function PostManageModal({
   isReported,
 }: PostManageModalProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const setPostData = usePostManageStore.getState().setPostData;
 
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
@@ -42,6 +43,8 @@ export default function PostManageModal({
     mutationFn: hidePost,
     onSuccess: () => {
       showToast('해당 게시물이 숨김 처리되었습니다.');
+      queryClient.removeQueries({ queryKey: ['post', 'detail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['post', 'list'], refetchType: 'none' });
       router.back();
     },
     onError: (error) => {
@@ -55,6 +58,8 @@ export default function PostManageModal({
     mutationFn: deletePost,
     onSuccess: () => {
       showToast('해당 게시물이 삭제되었습니다.');
+      queryClient.removeQueries({ queryKey: ['post', 'detail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['post', 'list'], refetchType: 'none' });
       router.back();
     },
     onError: (error) => {
