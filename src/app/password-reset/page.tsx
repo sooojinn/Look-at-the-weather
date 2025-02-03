@@ -13,6 +13,7 @@ import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
 import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import { useEffect } from 'react';
 
 interface PasswordResetForm {
   userId: number | undefined;
@@ -47,6 +48,12 @@ export default function PasswordReset() {
   const onSubmit = async (data: PasswordResetForm) => {
     passwordResetMutation.mutate(data);
   };
+
+  useEffect(() => {
+    if (!userId) {
+      router.back();
+    }
+  }, [userId, router]);
 
   return (
     <LoginRestrictionRoute>

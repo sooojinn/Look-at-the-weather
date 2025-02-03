@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
 import ProtectedRoute from '@/router/ProtectedRoute';
 import { tagNameToId, tagNamesToIds } from '@/lib/utils';
+import { useEffect } from 'react';
 
 export default function PostEdit({ postId }: { postId: number }) {
   const router = useRouter();
@@ -19,6 +20,8 @@ export default function PostEdit({ postId }: { postId: number }) {
     postData: state.postData,
   }));
   const deletedDefaultImageIds = useDeletedImagesStore((state) => state.deletedDefaultImageIds);
+
+  if (!postData) router.back();
 
   const {
     title = '',
@@ -83,6 +86,12 @@ export default function PostEdit({ postId }: { postId: number }) {
     }
     editMutation.mutate({ postId, data });
   };
+
+  useEffect(() => {
+    if (!postData) {
+      router.back();
+    }
+  }, [postData, router]);
 
   return (
     <ProtectedRoute>
