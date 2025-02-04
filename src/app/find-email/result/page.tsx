@@ -1,11 +1,11 @@
 'use client';
 
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import Button from '@components/common/molecules/Button';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 
 export default function FindEmailResult() {
   const router = useRouter();

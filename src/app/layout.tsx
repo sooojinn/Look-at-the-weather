@@ -1,9 +1,9 @@
 import '@/globals.css';
 import type { Metadata } from 'next';
-import { ToastProvider } from '@/components/common/molecules/ToastProvider';
-import ReactQueryProvider from '@/lib/ReactQueryProvider';
-import ScrollToTop from '@/components/common/ScrollToTop';
-import NetworkBoundary from '@/components/common/NetworkBoundary';
+import { ToastProvider } from '@/components/provider/ToastProvider';
+import ReactQueryProvider from '@/components/provider/ReactQueryProvider';
+import ScrollToTop from '@/components/provider/ScrollToTop';
+import NetworkBoundary from '@/components/provider/NetworkBoundary';
 import { spoqaHanSansNeo } from '@/config/fonts';
 
 export const metadata: Metadata = {

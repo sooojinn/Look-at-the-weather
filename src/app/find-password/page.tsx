@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Button from '@components/common/molecules/Button';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
@@ -15,7 +15,7 @@ import AlertModal from '@components/common/organism/AlertModal';
 import { FindPasswordForm } from '@/config/types';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 
 export default function FindPassword() {
   const formMethods = useForm<FindPasswordForm>();

@@ -1,4 +1,4 @@
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import SearchAddressForm from '@/components/search-address/SearchAddressForm';
 import { Suspense } from 'react';

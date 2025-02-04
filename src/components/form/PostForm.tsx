@@ -7,7 +7,7 @@ import TextAreaWithLabel from '@components/form/TextAreaWithLabel';
 import { PostFormData } from '@/config/types';
 import FileWithLabel from './FileWithLabel';
 import { useEffect, useState } from 'react';
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import Button from '@components/common/molecules/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';

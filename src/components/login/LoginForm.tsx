@@ -4,7 +4,7 @@ import { setAccessToken } from '@/api/instance';
 import { ErrorResponse } from '@/config/types';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@components/common/molecules/Button';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import EmailInput from '@components/form/inputs/EmailInput';
 import PasswordInput from '@components/form/inputs/PasswordInput';
 import KakaoLogin from '@components/login/KakaoLogin';

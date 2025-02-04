@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
@@ -10,7 +10,7 @@ import PostFilterModal from '@components/common/organism/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
 import { PostMeta } from '@/config/types';
-import FooterNavi from '@components/common/FooterNavi';
+import FooterNavi from '@/components/common/organism/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import LookWeatherWidget from '@/components/weather/LookWeatherWidget';

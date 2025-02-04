@@ -10,7 +10,7 @@ import NicknameInput from '@components/form/inputs/NicknameInput';
 import Button from '@components/common/molecules/Button';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import EmailInput from '@components/form/inputs/EmailInput';
 import NameInput from '@components/form/inputs/NameInput';
 import { useRouter } from 'next/navigation';

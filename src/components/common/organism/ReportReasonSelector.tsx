@@ -1,7 +1,7 @@
 'use client';
 
 import { reportPost } from '@/api/apis';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';

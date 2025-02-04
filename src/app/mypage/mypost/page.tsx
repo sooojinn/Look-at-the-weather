@@ -1,10 +1,10 @@
 'use client';
 
-import Header from '@components/common/Header';
-import FooterNavi from '@components/common/FooterNavi';
+import Header from '@/components/common/organism/Header';
+import FooterNavi from '@/components/common/organism/FooterNavi';
 import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
 import MyPostEmpty from '@/components/placeholder/MyPostEmpty';
-import ProtectedRoute from '@/router/ProtectedRoute';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
 import { getMyPosts } from '@/api/apis';
 
 export default function MyPost() {

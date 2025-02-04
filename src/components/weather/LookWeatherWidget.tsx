@@ -5,7 +5,7 @@ import useWeatherData from '@/hooks/useWeatherData';
 import WeatherInfoError from './WeatherInfoError';
 import LookWeatherInfo from './LookWeatherInfo';
 import { useEffect } from 'react';
-import { showToast } from '../common/molecules/ToastProvider';
+import { showToast } from '../provider/ToastProvider';
 
 export default function LookWeatherWidget() {
   const { location, isLoading: isLocationLoading } = useLocationData();

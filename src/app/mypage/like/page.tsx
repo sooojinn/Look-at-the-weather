@@ -2,9 +2,9 @@
 
 import { getMyLikedPosts } from '@/api/apis';
 import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
-import FooterNavi from '@components/common/FooterNavi';
-import Header from '@components/common/Header';
-import ProtectedRoute from '@/router/ProtectedRoute';
+import FooterNavi from '@/components/common/organism/FooterNavi';
+import Header from '@/components/common/organism/Header';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
 import MyLikedPostEmpty from '@/components/placeholder/MyLikedPostEmpty';
 
 export default function MyLikedPost() {

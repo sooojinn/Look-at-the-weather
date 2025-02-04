@@ -1,6 +1,6 @@
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
-import ProtectedRoute from '@/router/ProtectedRoute';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
 import ReportReasonSelector from '@/components/common/organism/ReportReasonSelector';
 
 export default async function PostReport({ searchParams }: { searchParams: Promise<{ id: string }> }) {

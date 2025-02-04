@@ -5,7 +5,7 @@ import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { showToast } from '../common/molecules/ToastProvider';
+import { showToast } from '../provider/ToastProvider';
 import Text from '../common/atom/Text';
 import { usePostStore } from '@/store/postStore';
 import { useRouter } from 'next/navigation';

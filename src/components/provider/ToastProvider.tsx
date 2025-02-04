@@ -1,7 +1,7 @@
 'use client';
 
 import { toast, ToastContainer, cssTransition } from 'react-toastify';
-import Text from '../atom/Text';
+import Toast from '../common/molecules/Toast';
 
 const CustomTransition = cssTransition({
   enter: 'animate-slideUp',
@@ -28,22 +28,14 @@ export function ToastProvider() {
 
 export function showToast(message: string, cancelBtnText: string = '', onCancel: () => void = () => {}) {
   const toastId = toast(
-    <div className="w-full flex justify-between items-center">
-      <Text size="s" color="white">
-        {message}
-      </Text>
-      {cancelBtnText && (
-        <button
-          onClick={() => {
-            onCancel();
-            toast.dismiss(toastId); // 버튼 클릭 시 토스트 닫기
-          }}
-          className="underline text-s font-bold ml-2 whitespace-nowrap"
-        >
-          {cancelBtnText}
-        </button>
-      )}
-    </div>,
+    <Toast
+      message={message}
+      cancelBtnText={cancelBtnText}
+      onClose={() => {
+        onCancel();
+        toast.dismiss(toastId); // 버튼 클릭 시 토스트 닫기
+      }}
+    />,
     {
       autoClose: message.length > 20 ? 3000 : 2000, // 계산된 autoClose 적용
     },

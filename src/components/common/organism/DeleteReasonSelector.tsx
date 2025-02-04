@@ -5,7 +5,7 @@ import { setAccessToken } from '@/api/instance';
 import DeleteAccountModal from '@/components/modal/DeleteAccountModal';
 import DeleteAccountSuccessModal from '@/components/modal/DeleteAccountSuccessModal';
 import { useAuthStore } from '@/store/authStore';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';

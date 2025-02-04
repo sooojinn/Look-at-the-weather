@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Button from '@components/common/molecules/Button';
 import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
 import { useRegisterMutation } from '@/lib/signupMutations';
@@ -14,7 +14,7 @@ import NameInput from '@components/form/inputs/NameInput';
 import NicknameInput from '@components/form/inputs/NicknameInput';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 import SignUpExitModal from '@/components/modal/SignUpExitModal';
 
 export default function Signup() {

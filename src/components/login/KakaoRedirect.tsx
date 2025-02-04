@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 import { getKakaoUserInfos } from '@/api/apis';

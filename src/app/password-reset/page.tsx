@@ -1,8 +1,8 @@
 'use client';
 
-import Header from '@/components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Button from '@components/common/molecules/Button';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import PasswordInput from '@components/form/inputs/PasswordInput';
 import { patchPasswordReset } from '@/api/apis';
@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import AlertModal from '@components/common/organism/AlertModal';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 import { useEffect } from 'react';
 
 interface PasswordResetForm {

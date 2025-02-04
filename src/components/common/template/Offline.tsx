@@ -1,4 +1,4 @@
-import FooterNavi from '@components/common/FooterNavi';
+import FooterNavi from '@/components/common/organism/FooterNavi';
 import StatusPlaceholder from '@/components/placeholder/StatusPlaceholder';
 import OfflineImg from '@components/icons/placeholders/OfflineImg';
 

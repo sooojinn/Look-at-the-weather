@@ -1,7 +1,7 @@
 'use client';
 
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { showToast } from '../molecules/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 import PostListStatusHandler from '@/components/post/PostListStatusHandler';
 
 interface VirtualInfiniteScrollProps {

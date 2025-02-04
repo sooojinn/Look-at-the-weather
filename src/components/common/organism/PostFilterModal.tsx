@@ -8,7 +8,7 @@ import { getRegion } from '@/api/apis';
 import { useQuery } from '@tanstack/react-query';
 import OptionBtn from '../molecules/OptionBtn';
 import Button from '../molecules/Button';
-import { showToast } from '../molecules/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
 import useResizeModal from '@/hooks/useResizeModal';
 import ModalHeader from '../molecules/ModalHeader';

@@ -1,12 +1,12 @@
 'use client';
 
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Logo from '@components/common/atom/Logo';
 import Text from '@components/common/atom/Text';
 import LoginForm from '@components/login/LoginForm';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 
 const linkList = [
   { path: '/signup', label: '회원가입', index: 1 },

@@ -6,7 +6,7 @@ import DeleteIcon from '@components/icons/post-menu/DeleteIcon';
 import { deletePost, hidePost } from '@/api/apis';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { showToast } from '../molecules/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
 import PostMenuItem from '../molecules/PostMenuItem';
 import ModalHeader from '../molecules/ModalHeader';

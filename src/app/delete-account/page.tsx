@@ -1,6 +1,6 @@
 import DeleteReasonSelector from '@/components/common/organism/DeleteReasonSelector';
-import ProtectedRoute from '@/router/ProtectedRoute';
-import Header from '@components/common/Header';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 
 export default function DeleteAccount() {

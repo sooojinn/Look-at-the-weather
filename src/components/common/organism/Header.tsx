@@ -3,7 +3,7 @@
 import BackBtn from '@components/icons/BackBtn';
 import CloseBtn from '@components/icons/CloseBtn';
 import { ReactNode } from 'react';
-import Text from './atom/Text';
+import Text from '../atom/Text';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface HeaderProps {

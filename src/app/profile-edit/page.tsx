@@ -1,6 +1,6 @@
-import Header from '@/components/common/Header';
+import Header from '@/components/common/organism/Header';
 import ProfileEditForm from '@/components/form/ProfileEditForm';
-import ProtectedRoute from '@/router/ProtectedRoute';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
 
 export default function ProfileEditPage() {
   return (

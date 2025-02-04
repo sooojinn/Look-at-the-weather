@@ -7,7 +7,7 @@ import WeatherImg from '@components/weather/WeatherImg';
 import HomeWeatherInfo from './HomeWeatherInfo';
 import WeatherInfoError from './WeatherInfoError';
 import { useEffect } from 'react';
-import { showToast } from '../common/molecules/ToastProvider';
+import { showToast } from '../provider/ToastProvider';
 
 export default function HomeWeatherWidget() {
   const { location, isLoading: isLocationLoading } = useLocationData();

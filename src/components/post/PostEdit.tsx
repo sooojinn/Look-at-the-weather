@@ -3,12 +3,12 @@
 import { deleteImage, editPost } from '@/api/apis';
 import { ImageItem, PostFormData } from '@/config/types';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import PostForm from '@components/form/PostForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
-import ProtectedRoute from '@/router/ProtectedRoute';
+import ProtectedRoute from '@/components/route/ProtectedRoute';
 import { tagNameToId, tagNamesToIds } from '@/lib/utils';
 import { useEffect } from 'react';
 

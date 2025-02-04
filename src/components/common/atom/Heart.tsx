@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Text from './Text';
 import { deleteLike, postLike } from '@/api/apis';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { showToast } from '../molecules/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 import { ErrorResponse } from '@/config/types';
 import RedHeartIcon from '@components/icons/hearts/RedHeartIcon';
 import EmptyHeartIcon from '@components/icons/hearts/EmptyHeartIcon';

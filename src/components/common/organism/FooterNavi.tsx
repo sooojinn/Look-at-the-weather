@@ -4,7 +4,7 @@ import HangerIcon from '@components/icons/nav/HangerIcon';
 import HomeIcon from '@components/icons/nav/HomeIcon';
 import MyPageIcon from '@components/icons/nav/MyPageIcon';
 import WriteIcon from '@components/icons/nav/WriteIcon';
-import Text from './atom/Text';
+import Text from '../atom/Text';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 

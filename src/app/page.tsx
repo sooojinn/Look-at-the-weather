@@ -1,5 +1,5 @@
-import FooterNavi from '@/components/common/FooterNavi';
-import Header from '@/components/common/Header';
+import FooterNavi from '@/components/common/organism/FooterNavi';
+import Header from '@/components/common/organism/Header';
 import logo from '@/assets/logo.png';
 import HomeWeatherWidget from '@/components/weather/HomeWeatherWidget';
 import TodayBestWearList from '@/components/post/TodayBestWearList';

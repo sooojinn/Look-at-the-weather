@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Header from '@components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import PostManageModal from '@components/common/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
 import PostImgBlind from '@components/post/PostImgBlind';
 import ImageSlider from '@components/post/ImageSlider';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';

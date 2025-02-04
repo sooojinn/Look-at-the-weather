@@ -2,7 +2,7 @@ import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse, RegisterForm, VerifyCodeProps } from '@/config/types';
 import useSignupStore from '@/store/signupStore';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import { FieldValues, Path, UseFormClearErrors, UseFormSetError } from 'react-hook-form';
 import { checkNickname, registerUser, sendVerificationCode, verifyCode } from '@/api/apis';
 import { useRouter } from 'next/navigation';

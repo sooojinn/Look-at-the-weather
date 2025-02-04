@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/common/Header';
+import Header from '@/components/common/organism/Header';
 import Button from '@components/common/molecules/Button';
 import { useMutation } from '@tanstack/react-query';
 import useProfileManageStore from '@/store/profileManageStore';
@@ -14,7 +14,7 @@ import NicknameInput from '@components/form/inputs/NicknameInput';
 import NameInput from '@components/form/inputs/NameInput';
 import AlertModal from '@components/common/organism/AlertModal';
 import { FindEmailForm } from '@/config/types';
-import LoginRestrictionRoute from '@/router/LoginRestrictionRoute';
+import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 
 interface PostFindEmailResponse {
   email: string;

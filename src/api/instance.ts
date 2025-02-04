@@ -1,12 +1,12 @@
 import axios, { AxiosInstance } from 'axios';
 import { reissue } from './apis';
 import { useAuthStore } from '@/store/authStore';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import { BASEURL } from '@/config/constants';
-import { QueryClient } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/queryClient';
 
 const { setIsLogin } = useAuthStore.getState();
-const queryClient = new QueryClient();
+const queryClient = getQueryClient();
 
 let accessToken: null | string = null;
 

@@ -4,7 +4,7 @@ import ImgDeleteBtn from '@components/icons/ImgDeleteBtn';
 import PlusIcon from '@components/icons/PlusIcon';
 import { useMutation } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react';
-import { showToast } from '@components/common/molecules/ToastProvider';
+import { showToast } from '@/components/provider/ToastProvider';
 import { deleteImage, uploadImage } from '@/api/apis';
 import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
