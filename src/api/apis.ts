@@ -1,5 +1,5 @@
 import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
-import { instance } from './instance';
+import { instance, reissueInstance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 import { AxiosResponse } from 'axios';
 
@@ -162,7 +162,7 @@ export const allPosts = async (page: number, city: string, district: string, sor
 };
 
 export const reissue = async () => {
-  const response = await instance.post(`/auth/reissue`, null, getConfig({ withCredentials: true }));
+  const response = await reissueInstance.post(`/auth/reissue`, null, getConfig({ withCredentials: true }));
   return response.data;
 };
 
