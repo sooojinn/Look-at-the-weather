@@ -32,14 +32,18 @@ export const setAccessToken = (token: null | string) => {
 const REISSUE_REQUIRED_ERROR_CODES = ['ACCESS_TOKEN_EXPIRED', 'INVALID_CREDENTIALS'];
 const SESSION_EXPIRED_ERRORS = ['REFRESH_TOKEN_EXPIRED', 'NOT_FOUND_COOKIE'];
 
-instance.interceptors.response.use(
+instance.interceptors.request.use(
   async (config) => {
     const authState = sessionStorage.getItem('auth-storage');
     const isLogin = authState ? JSON.parse(authState).state?.isLogin : undefined;
     const isToken = !!accessToken;
 
+    console.log('isLogin', isLogin);
+    console.log('token', accessToken);
+
     if (isLogin && !isToken) {
       const response = await reissue();
+      console.log('api 요청 전 토큰 재발급');
       const { accessToken } = response;
       if (accessToken) {
         setAccessToken(accessToken);
@@ -49,7 +53,11 @@ instance.interceptors.response.use(
     }
     return config;
   },
+  (error) => Promise.reject(error),
+);
 
+instance.interceptors.response.use(
+  (response) => response,
   async (error) => {
     const { errorCode } = error.response.data;
 
