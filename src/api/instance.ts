@@ -62,8 +62,7 @@ const handleAccessTokenExpiredError = async (error: any) => {
 // 새로고침 후 토큰 재발급 로직이 필요한 인스턴스
 restoreTokenInstance.interceptors.request.use(
   async (config) => {
-    const authState = sessionStorage.getItem('auth-storage');
-    const isLogin = authState ? JSON.parse(authState).state?.isLogin : undefined;
+    const isLogin = useAuthStore.getState().isLogin;
     const isToken = !!accessToken;
 
     if (isLogin && !isToken) {
