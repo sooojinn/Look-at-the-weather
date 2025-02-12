@@ -2,10 +2,9 @@ import useSignupStore from '@/store/signupStore';
 import InputWithLabel from '../InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import { useVerifyCodeMutation } from '@/lib/signupMutations';
-import { FormMethods } from '@/config/types';
-import { FieldValues, Path, useWatch } from 'react-hook-form';
+import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 
-export default function CodeInput<T extends FieldValues>({ ...formMethods }: FormMethods<T>) {
+export default function CodeInput<T extends FieldValues>({ ...formMethods }: UseFormReturn<T>) {
   const { setError, clearErrors, getValues, control } = formMethods;
   const isEmailVerified = useSignupStore((state) => state.isEmailVerified);
   const isCodeSended = useSignupStore((state) => state.isCodeSended);

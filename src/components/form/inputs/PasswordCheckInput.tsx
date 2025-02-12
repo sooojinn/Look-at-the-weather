@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import InputStatusMessage from '../InputStatusMessage';
 import InputWithLabel from '../InputWithLabel';
-import { FormMethods } from '@/config/types';
-import { FieldValues, Path } from 'react-hook-form';
+import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 
-interface PasswordCheckInputProps<T extends FieldValues> extends FormMethods<T> {
+interface PasswordCheckInputProps<T extends FieldValues> extends UseFormReturn<T> {
   disabled?: boolean;
 }
 
@@ -20,7 +19,7 @@ export default function PasswordCheckInput<T extends FieldValues>({
 
   return (
     <div>
-      <InputWithLabel
+      <InputWithLabel<T>
         name={'confirmPassword' as Path<T>}
         type="password"
         label="비밀번호 확인"

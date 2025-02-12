@@ -1,16 +1,4 @@
-import {
-  Control,
-  FieldErrors,
-  FieldValues,
-  RegisterOptions,
-  UseFormClearErrors,
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetError,
-  UseFormSetValue,
-  UseFormTrigger,
-  UseFormWatch,
-} from 'react-hook-form';
+import { RegisterOptions } from 'react-hook-form';
 
 export interface GeoPoint {
   latitude: number;
@@ -111,40 +99,43 @@ export interface ErrorResponse {
   errorMessage?: string;
 }
 
-export interface VerifyCodeProps {
+export interface EmailField {
   email: string;
+}
+export interface CodeField {
   code: string;
 }
-
-export interface FormMethods<T extends FieldValues> {
-  register: UseFormRegister<T>;
-  setValue: UseFormSetValue<T>;
-  setError: UseFormSetError<T>;
-  clearErrors: UseFormClearErrors<T>;
-  trigger: UseFormTrigger<T>;
-  getValues: UseFormGetValues<T>;
-  watch: UseFormWatch<T>;
-  control: Control<T>;
-  formState: { errors: FieldErrors<T> };
-}
-
-export interface SignupForm {
-  email: string;
-  code: string;
+export interface PasswordField {
   password: string;
+}
+export interface ConfirmPasswordField {
   confirmPassword: string;
+}
+export interface NameField {
   name: string;
+}
+export interface NicknameField {
   nickname: string;
+}
+export interface TermsField {
   terms: boolean;
 }
-
-export interface RegisterForm {
-  email: string;
-  password: string;
-  name: string;
-  nickname: string;
+export interface IsSocialField {
   isSocial: boolean;
 }
+
+export interface VerifyCodeProps extends EmailField, CodeField {}
+
+export interface SignupForm
+  extends EmailField,
+    CodeField,
+    PasswordField,
+    ConfirmPasswordField,
+    NameField,
+    NicknameField,
+    TermsField {}
+
+export interface RegisterForm extends EmailField, PasswordField, NameField, NicknameField, IsSocialField {}
 
 export interface PostFilterState {
   location: { city: number; district: number }[];

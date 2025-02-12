@@ -4,10 +4,9 @@ import InputStatusMessage from '../InputStatusMessage';
 import useSignupStore from '@/store/signupStore';
 import { useSendVerificationMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
-import { FormMethods } from '@/config/types';
-import { FieldValues, Path, useWatch } from 'react-hook-form';
+import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 
-interface EmailInputProps<T extends FieldValues> extends FormMethods<T> {
+interface EmailInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;
   disabled?: boolean;
   defaultValue?: string;

@@ -1,6 +1,5 @@
 'use client';
 
-import InputWithLabel from '../form/InputWithLabel';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useDebounce from '@/hooks/useDebounce';
@@ -9,6 +8,7 @@ import { AddressItem } from '@/config/types';
 import CurrentLocationBtn from './CurrentLocationBtn';
 import AddressList from './AddressList';
 import { useSearchParams } from 'next/navigation';
+import Input from '../form/Input';
 
 interface AddressForm {
   address: string;
@@ -47,7 +47,7 @@ export default function SearchAddressForm() {
   return (
     <>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-        <InputWithLabel name="address" placeholder="지번 or 도로명으로 검색" search {...formMethods} />
+        <Input name="address" placeholder="지번 or 도로명으로 검색" search {...formMethods} />
       </form>
       <CurrentLocationBtn isPostForm={isPostForm} />
       <AddressList addressList={addressList} isPostForm={isPostForm} />

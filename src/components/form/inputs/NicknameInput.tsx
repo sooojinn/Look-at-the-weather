@@ -4,10 +4,9 @@ import InputStatusMessage from '../InputStatusMessage';
 import useSignupStore from '@/store/signupStore';
 import { useCheckNicknameMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
-import { FormMethods } from '@/config/types';
-import { FieldValues, Path, useWatch } from 'react-hook-form';
+import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 
-interface NicknameInputProps<T extends FieldValues> extends FormMethods<T> {
+interface NicknameInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;
   defaultValue?: string;
   isDirty?: boolean;
@@ -64,7 +63,7 @@ export default function NicknameInput<T extends FieldValues>({
 
   return (
     <div>
-      <InputWithLabel
+      <InputWithLabel<T>
         name={'nickname' as Path<T>}
         label="닉네임"
         placeholder={shouldValidate ? '한/영 10자 이내, 특수문자, 공백 불가' : '닉네임을 입력해 주세요.'}
