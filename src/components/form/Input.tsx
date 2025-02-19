@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { FieldValues, Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import SearchIcon from '../icons/input/SearchIcon';
-import PasswordToggleBtn from '../common/atom/PasswordToggleBtn';
-import InputDeleteBtn from '../icons/input/InputDeleteBtn';
 import ErrorMessage from './ErrorMessage';
+import StyledInput from './inputs/StyledInput';
+import InputDeleteBtn from './InputDeleteBtn';
+import useInputDelete from '@/hooks/useInputDelete';
 
 export interface InputProps<T extends FieldValues>
   extends UseFormReturn<T>,
@@ -13,6 +13,7 @@ export interface InputProps<T extends FieldValues>
   hideDeleteBtn?: boolean;
   button?: ReactNode;
   rules?: RegisterOptions<T>;
+  defaultValue?: T[Path<T>];
 }
 
 export default function Input<T extends FieldValues>({
@@ -24,6 +25,7 @@ export default function Input<T extends FieldValues>({
   hideDeleteBtn,
   maxLength,
   button,
+  defaultValue,
   ...formMethods
 }: InputProps<T>) {
   const {
@@ -31,65 +33,33 @@ export default function Input<T extends FieldValues>({
     register,
     setValue,
     getValues,
-    defaultValue,
     formState: { errors },
   } = formMethods;
 
-  const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
-
-  const togglePasswordVisibility = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    setPasswordVisible(!isPasswordVisible);
-  };
-
-  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (hideDeleteBtn) return;
-
-    const value = e.target.value;
-    if (value && !showDeleteBtn) {
-      setShowDeleteBtn(true);
-    } else if (!value && showDeleteBtn) {
-      setShowDeleteBtn(false);
-    }
-  };
-
-  const handleDeleteClick = () => {
-    setValue(name, '' as T[typeof name]);
-  };
-
-  const handleFocus = () => {
-    if (getValues(name)) {
-      setShowDeleteBtn(true);
-    }
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => {
-      setShowDeleteBtn(false);
-    }, 100);
-  };
+  const { showDeleteBtn, handleInputChange, handleDeleteClick, handleFocus, handleBlur } = useInputDelete({
+    name,
+    setValue,
+    getValues,
+    hideDeleteBtn,
+  });
 
   useEffect(() => {
-    if (defaultValue) setValue(name, defaultValue as T[typeof name]);
-  }, [defaultValue]);
+    if (defaultValue) setValue(name, defaultValue);
+  }, [defaultValue, setValue, name]);
 
-  const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
   const hasError = !!errors?.[name];
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex">
         <div className="w-full relative">
-          <input
-            type={inputType}
-            disabled={disabled}
-            autoComplete="off"
+          <StyledInput
+            type={type}
             maxLength={maxLength}
-            className={`input h-12 ${search ? '!pl-8' : ''} ${hasError ? '!border-status-error' : ''} ${
-              disabled ? '!text-gray !bg-background-disabled' : ''
-            } focus:pr-9`}
             placeholder={placeholder}
+            disabled={!!disabled}
+            hasError={hasError}
+            search={!!search}
             {...register(name, {
               ...rules,
               onChange: handleInputChange,
@@ -97,15 +67,9 @@ export default function Input<T extends FieldValues>({
             onFocus={handleFocus}
             onBlur={handleBlur}
           />
-          {search && (
-            <div className="absolute left-3 bottom-1/2 transform translate-y-1/2 flex items-center">
-              <SearchIcon />
-            </div>
-          )}
-          <div className="absolute right-3 bottom-1/2 transform translate-y-1/2 flex items-center gap-5">
-            {type === 'password' && !disabled && showDeleteBtn && (
-              <PasswordToggleBtn onToggle={togglePasswordVisibility} isVisible={isPasswordVisible} />
-            )}
+          <div
+            className={`absolute bottom-1/2 ${type === 'password' ? 'right-12' : 'right-3'} transform translate-y-1/2 flex items-center gap-5`}
+          >
             {showDeleteBtn && !hideDeleteBtn && <InputDeleteBtn onClick={handleDeleteClick} />}
           </div>
         </div>

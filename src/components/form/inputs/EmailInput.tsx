@@ -9,7 +9,7 @@ import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 interface EmailInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;
   disabled?: boolean;
-  defaultValue?: string;
+  defaultValue?: T[Path<T>];
 }
 
 export default function EmailInput<T extends FieldValues>({

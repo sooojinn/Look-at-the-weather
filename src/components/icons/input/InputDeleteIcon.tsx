@@ -1,7 +1,6 @@
-export default function InputDeleteBtn(props: React.SVGProps<SVGSVGElement>) {
+export default function InputDeleteIcon() {
   return (
     <svg
-      {...props}
       className="cursor-pointer"
       width="20"
       height="20"

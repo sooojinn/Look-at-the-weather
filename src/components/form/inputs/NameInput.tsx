@@ -4,7 +4,7 @@ import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
 interface NameInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;
   disabled?: boolean;
-  defaultValue?: string;
+  defaultValue?: T[Path<T>];
 }
 
 export default function NameInput<T extends FieldValues>({

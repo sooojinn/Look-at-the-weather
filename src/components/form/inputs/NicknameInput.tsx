@@ -8,7 +8,7 @@ import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 
 interface NicknameInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;
-  defaultValue?: string;
+  defaultValue?: T[Path<T>];
   isDirty?: boolean;
 }
 
@@ -74,8 +74,8 @@ export default function NicknameInput<T extends FieldValues>({
           }),
         }}
         maxLength={10}
-        hideDeleteBtn
-        defaultValue={defaultValue ? defaultValue : ''}
+        hideDeleteBtn={shouldValidate}
+        defaultValue={defaultValue}
         {...formMethods}
         button={
           shouldValidate && (
