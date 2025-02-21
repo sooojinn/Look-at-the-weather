@@ -1,5 +1,5 @@
-import InputWithLabel from '../InputWithLabel';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import InputWithLabel from '../InputWithLabel';
 
 interface NameInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;

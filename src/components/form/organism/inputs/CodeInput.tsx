@@ -1,8 +1,8 @@
 import useSignupStore from '@/store/signupStore';
-import InputWithLabel from '../InputWithLabel';
 import Button from '@components/common/molecules/Button';
 import { useVerifyCodeMutation } from '@/lib/signupMutations';
 import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
+import InputWithLabel from '../InputWithLabel';
 
 export default function CodeInput<T extends FieldValues>({ ...formMethods }: UseFormReturn<T>) {
   const { setError, clearErrors, getValues, control } = formMethods;

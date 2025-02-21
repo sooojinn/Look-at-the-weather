@@ -1,4 +1,4 @@
-import Label from './Label';
+import Label from '../atom/Label';
 import Text from '@components/common/atom/Text';
 import Select from './Select';
 import { SelectProps } from '@/config/types';

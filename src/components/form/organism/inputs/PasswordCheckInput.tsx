@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import InputStatusMessage from '../InputStatusMessage';
-import InputWithLabel from '../InputWithLabel';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import InputWithLabel from '../InputWithLabel';
+import InputStatusMessage from '../../atom/InputStatusMessage';
 
 interface PasswordCheckInputProps<T extends FieldValues> extends UseFormReturn<T> {
   disabled?: boolean;

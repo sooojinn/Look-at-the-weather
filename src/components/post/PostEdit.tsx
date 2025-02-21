@@ -4,7 +4,7 @@ import { deleteImage, editPost } from '@/api/apis';
 import { ImageItem, PostFormData } from '@/config/types';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
 import { showToast } from '@/components/provider/ToastProvider';
-import PostForm from '@components/form/PostForm';
+import PostForm from '@/components/form/page/PostForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';

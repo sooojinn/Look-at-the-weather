@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 import SearchIcon from '@/components/icons/input/SearchIcon';
-import PasswordToggleBtn from '../PasswordToggleBtn';
+import PasswordToggleBtn from '../atom/PasswordToggleBtn';
 
 interface StyledInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   disabled: boolean;

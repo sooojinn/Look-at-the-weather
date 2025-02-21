@@ -5,13 +5,13 @@ import { ErrorResponse } from '@/config/types';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@/components/provider/ToastProvider';
-import EmailInput from '@components/form/inputs/EmailInput';
-import PasswordInput from '@components/form/inputs/PasswordInput';
 import KakaoLogin from '@components/login/KakaoLogin';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import LoginTooltip from './LoginTooltip';
 import { useRouter } from 'next/navigation';
+import EmailInput from '../form/organism/inputs/EmailInput';
+import PasswordInput from '../form/organism/inputs/PasswordInput';
 
 interface LoginForm {
   email: string;

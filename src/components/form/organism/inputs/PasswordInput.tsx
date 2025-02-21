@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import InputWithLabel from '../InputWithLabel';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
+import InputWithLabel from '../InputWithLabel';
 
 interface PasswordInputProps<T extends FieldValues> extends UseFormReturn<T> {
   isPasswordReset?: boolean;

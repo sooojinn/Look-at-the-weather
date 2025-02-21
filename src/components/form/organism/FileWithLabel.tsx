@@ -1,5 +1,5 @@
 import Text from '@components/common/atom/Text';
-import Label from './Label';
+import Label from '../atom/Label';
 import File from './File';
 import { FileProps } from '@/config/types';
 

@@ -1,5 +1,5 @@
 import { RegisterOptions, useFormContext } from 'react-hook-form';
-import Label from '@components/form/Label';
+import Label from '@/components/form/atom/Label';
 import { PostFormData } from '@/config/types';
 import { useEffect, useState } from 'react';
 import Text from '@components/common/atom/Text';

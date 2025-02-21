@@ -8,7 +8,7 @@ import { AddressItem } from '@/config/types';
 import CurrentLocationBtn from './CurrentLocationBtn';
 import AddressList from './AddressList';
 import { useSearchParams } from 'next/navigation';
-import Input from '../form/Input';
+import Input from '../form/organism/Input';
 
 interface AddressForm {
   address: string;

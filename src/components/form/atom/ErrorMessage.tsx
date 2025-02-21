@@ -1,5 +1,5 @@
 import ExclamationMarkIcon from '@components/icons/ExclamationMarkIcon';
-import Text from '../common/atom/Text';
+import Text from '../../common/atom/Text';
 import { FieldErrors, FieldValues } from 'react-hook-form';
 
 interface ErrorMessageProps<T extends FieldValues> {

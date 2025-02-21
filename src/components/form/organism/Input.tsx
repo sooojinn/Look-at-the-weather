@@ -1,8 +1,8 @@
 import { ReactNode, useEffect } from 'react';
 import { FieldValues, Path, RegisterOptions, UseFormReturn } from 'react-hook-form';
-import ErrorMessage from './ErrorMessage';
-import StyledInput from './inputs/StyledInput';
-import InputDeleteBtn from './InputDeleteBtn';
+import ErrorMessage from '../atom/ErrorMessage';
+import StyledInput from '../molecule/StyledInput';
+import InputDeleteBtn from '../atom/InputDeleteBtn';
 import useInputDelete from '@/hooks/useInputDelete';
 
 export interface InputProps<T extends FieldValues>

@@ -2,18 +2,18 @@
 
 import { useForm } from 'react-hook-form';
 import Text from '@components/common/atom/Text';
-import PasswordInput from '@components/form/inputs/PasswordInput';
-import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
 import { useEffect } from 'react';
 import { getUserInfos, patchEditProfile } from '@/api/apis';
-import NicknameInput from '@components/form/inputs/NicknameInput';
 import Button from '@components/common/molecules/Button';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '@/components/provider/ToastProvider';
-import EmailInput from '@components/form/inputs/EmailInput';
-import NameInput from '@components/form/inputs/NameInput';
 import { useRouter } from 'next/navigation';
+import EmailInput from '../organism/inputs/EmailInput';
+import PasswordInput from '../organism/inputs/PasswordInput';
+import PasswordCheckInput from '../organism/inputs/PasswordCheckInput';
+import NameInput from '../organism/inputs/NameInput';
+import NicknameInput from '../organism/inputs/NicknameInput';
 
 interface ProfileEditType {
   nickname: string;

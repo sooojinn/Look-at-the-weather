@@ -1,10 +1,11 @@
 import Button from '@components/common/molecules/Button';
-import InputWithLabel from '../InputWithLabel';
-import InputStatusMessage from '../InputStatusMessage';
+
 import useSignupStore from '@/store/signupStore';
 import { useSendVerificationMutation } from '@/lib/signupMutations';
 import { useEffect } from 'react';
 import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
+import InputWithLabel from '../InputWithLabel';
+import InputStatusMessage from '../../atom/InputStatusMessage';
 
 interface EmailInputProps<T extends FieldValues> extends UseFormReturn<T> {
   shouldValidate?: boolean;

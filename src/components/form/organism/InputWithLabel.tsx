@@ -1,5 +1,5 @@
 import { FieldValues } from 'react-hook-form';
-import Label from '@components/form/Label';
+import Label from '@/components/form/atom/Label';
 import Input, { InputProps } from './Input';
 
 interface InputWithLabelProps<T extends FieldValues> extends InputProps<T> {

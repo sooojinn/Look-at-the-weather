@@ -1,4 +1,4 @@
-import InputDeleteIcon from '../icons/input/InputDeleteIcon';
+import InputDeleteIcon from '../../icons/input/InputDeleteIcon';
 
 export default function InputDeleteBtn(props: React.HTMLAttributes<HTMLDivElement>) {
   return (

@@ -3,8 +3,8 @@
 import Header from '@/components/common/organism/Header';
 import Button from '@components/common/molecules/Button';
 import { showToast } from '@/components/provider/ToastProvider';
-import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
-import PasswordInput from '@components/form/inputs/PasswordInput';
+import PasswordCheckInput from '@components/form/organism/inputs/PasswordCheckInput';
+import PasswordInput from '@components/form/organism/inputs/PasswordInput';
 import { patchPasswordReset } from '@/api/apis';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
