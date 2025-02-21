@@ -1,5 +1,5 @@
 import { TextColor } from '@/config/types';
-import Text from '../common/atom/Text';
+import Text from '../../common/atom/Text';
 
 export default function WeatherInfoError({ handleRefetch, color }: { handleRefetch: () => void; color?: TextColor }) {
   return (

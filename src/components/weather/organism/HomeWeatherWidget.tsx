@@ -3,11 +3,11 @@
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
 import Location from '@components/common/molecules/LocationComponent';
-import WeatherImg from '@components/weather/WeatherImg';
-import HomeWeatherInfo from './HomeWeatherInfo';
-import WeatherInfoError from './WeatherInfoError';
+import WeatherImg from '@/components/weather/atom/WeatherImg';
+import HomeWeatherInfo from '../molecule/HomeWeatherInfo';
+import WeatherInfoError from '../atom/WeatherInfoError';
 import { useEffect } from 'react';
-import { showToast } from '../provider/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 
 export default function HomeWeatherWidget() {
   const { location, isLoading: isLocationLoading } = useLocationData();

@@ -1,8 +1,8 @@
 import { WeatherInfo } from '@/config/types';
-import Text from '../common/atom/Text';
-import CurrentTemp from './CurrentTemp';
-import MinMaxTemps from './MinMaxTemps';
-import Skeleton from '../skeleton/Skeleton';
+import Text from '../../common/atom/Text';
+import CurrentTemp from '../atom/CurrentTemp';
+import MinMaxTemps from '../atom/MinMaxTemps';
+import Skeleton from '../../skeleton/Skeleton';
 
 export default function HomeWeatherInfo({
   currentTemp,

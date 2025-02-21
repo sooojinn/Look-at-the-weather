@@ -13,7 +13,7 @@ import { PostMeta } from '@/config/types';
 import FooterNavi from '@/components/common/organism/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
-import LookWeatherWidget from '@/components/weather/LookWeatherWidget';
+import LookWeatherWidget from '@/components/weather/organism/LookWeatherWidget';
 import OptionBtn from '@components/common/molecules/OptionBtn';
 // import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';

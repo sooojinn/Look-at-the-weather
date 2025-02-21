@@ -1,11 +1,11 @@
 import LocationComponent from '@components/common/molecules/LocationComponent';
-import WeatherImg from './WeatherImg';
+import WeatherImg from '../atom/WeatherImg';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
-import WeatherInfoError from './WeatherInfoError';
-import LookWeatherInfo from './LookWeatherInfo';
+import WeatherInfoError from '../atom/WeatherInfoError';
+import LookWeatherInfo from '../molecule/LookWeatherInfo';
 import { useEffect } from 'react';
-import { showToast } from '../provider/ToastProvider';
+import { showToast } from '../../provider/ToastProvider';
 
 export default function LookWeatherWidget() {
   const { location, isLoading: isLocationLoading } = useLocationData();
