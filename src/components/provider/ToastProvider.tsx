@@ -1,7 +1,7 @@
 'use client';
 
 import { toast, ToastContainer, cssTransition } from 'react-toastify';
-import Toast from '../common/molecules/Toast';
+import Toast from '../common/atom/Toast';
 
 const CustomTransition = cssTransition({
   enter: 'animate-slideUp',

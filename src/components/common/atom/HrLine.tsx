@@ -1,15 +1,3 @@
-interface HrLineProps {
-  height: number;
-}
-
-export default function HrLine({ height }: HrLineProps) {
-  return (
-    <>
-      {height === 1 ? (
-        <hr className={`-mx-5 bg-gray-200 border-line-lightest`} />
-      ) : (
-        <hr className={`-mx-5 bg-gray-200 border-[4px] border-line-lightest`} />
-      )}
-    </>
-  );
+export default function HrLine({ height }: { height: number }) {
+  return <hr style={{ height: `${height}px` }} className="-mx-5 bg-line-lightest border-none flex-shrink-0" />;
 }
