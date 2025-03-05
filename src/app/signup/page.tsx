@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import Header from '@/components/common/organism/Header';
 import Button from '@/components/common/atom/Button';
-import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
+import LocationTermsCheckBox from '@/components/form/organism/inputs/LocationTermsCheckBox';
 import { useRegisterMutation } from '@/lib/signupMutations';
 import { SignupForm } from '@/config/types';
 import EmailInput from '@components/form/organism/inputs/EmailInput';

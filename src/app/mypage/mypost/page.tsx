@@ -2,7 +2,7 @@
 
 import Header from '@/components/common/organism/Header';
 import FooterNavi from '@/components/common/organism/FooterNavi';
-import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
+import VirtualInfiniteScroll from '@/components/post/VirtualInfiniteScroll';
 import MyPostEmpty from '@/components/placeholder/MyPostEmpty';
 import ProtectedRoute from '@/components/route/ProtectedRoute';
 import { getMyPosts } from '@/api/apis';

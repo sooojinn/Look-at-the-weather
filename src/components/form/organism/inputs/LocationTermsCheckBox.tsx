@@ -1,11 +1,11 @@
 import CheckBoxBtn from '@components/common/atom/CheckBoxBtn';
 import { useEffect, useState } from 'react';
-import Text from '../atom/Text';
+import Text from '../../../common/atom/Text';
 import ToggleBtn from '@components/icons/ToggleBtn';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { SignupForm } from '@/config/types';
-import AlertModal from './AlertModal';
-import Button from '../atom/Button';
+import AlertModal from '../../../common/organism/AlertModal';
+import Button from '../../../common/atom/Button';
 import LocationTerms from '@/components/location/LocationTerms';
 
 interface LocationTermsCheckBoxProps {

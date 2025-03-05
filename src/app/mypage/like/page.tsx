@@ -1,7 +1,7 @@
 'use client';
 
 import { getMyLikedPosts } from '@/api/apis';
-import VirtualInfiniteScroll from '@components/common/template/VirtualInfiniteScroll';
+import VirtualInfiniteScroll from '@/components/post/VirtualInfiniteScroll';
 import FooterNavi from '@/components/common/organism/FooterNavi';
 import Header from '@/components/common/organism/Header';
 import ProtectedRoute from '@/components/route/ProtectedRoute';
