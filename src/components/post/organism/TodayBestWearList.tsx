@@ -2,9 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { fetchTopLikedPosts } from '@/api/apis';
-import TopLikedPostEmpty from '../placeholder/TopLikedPostEmpty';
+import TopLikedPostEmpty from '../../placeholder/TopLikedPostEmpty';
 import TodayBestWearCriteriaBtn from './TodayBestWearCriteriaBtn';
-import HomePostListTitle from './HomePostListTitle';
+import HomePostListTitle from '../atom/HomePostListTitle';
 import PostListStatusHandler from './PostListStatusHandler';
 
 export default function TodayBestWearList() {

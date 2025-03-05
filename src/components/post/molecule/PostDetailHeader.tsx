@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/store/authStore';
-import Text from '../common/atom/Text';
-import Menu from '../icons/post-menu/Menu';
+import Text from '../../common/atom/Text';
+import Menu from '../../icons/post-menu/Menu';
 
 export default function PostDetailHeader({
   nickname,

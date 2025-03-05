@@ -2,7 +2,7 @@ import { SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 import PostItem from './PostItem';
 import { PostMeta } from '@/config/types';
-import HorizonScrollList from '../common/organism/HorizonScrollList';
+import HorizonScrollList from '../../common/organism/HorizonScrollList';
 
 export default function HorizonScrollPostList({ postList }: { postList: PostMeta[] }) {
   return (

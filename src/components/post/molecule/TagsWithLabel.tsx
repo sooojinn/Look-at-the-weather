@@ -1,4 +1,4 @@
-import Text from '../common/atom/Text';
+import Text from '../../common/atom/Text';
 
 export default function TagsWithLabel({ label, children }: { label: string; children: React.ReactNode }) {
   return (

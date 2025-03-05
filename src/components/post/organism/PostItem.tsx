@@ -1,11 +1,11 @@
 'use client';
 
 import { PostMeta } from '@/config/types';
-import PostImg from './PostImg';
+import PostImg from '../atom/PostImg';
 import Text from '@components/common/atom/Text';
-import Tags from './Tags';
-import Heart from '@/components/post/Heart';
-import PostImgBlind from './PostImgBlind';
+import Tags from '../molecule/Tags';
+import Heart from '@/components/post/atom/Heart';
+import PostImgBlind from '../atom/PostImgBlind';
 import Link from 'next/link';
 
 export default function PostItem({ ...post }: PostMeta) {

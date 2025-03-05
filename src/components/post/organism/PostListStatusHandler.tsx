@@ -1,6 +1,6 @@
 import { PostMeta } from '@/config/types';
 import VirtualPostGrid from './VirtualPostGrid';
-import PostListSkeleton from '../skeleton/PostListSkeleton';
+import PostListSkeleton from '../../skeleton/PostListSkeleton';
 import HorizonScrollPostList from './HorizonScrollPostList';
 
 export default function PostListStatusHandler({

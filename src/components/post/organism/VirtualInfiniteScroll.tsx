@@ -1,8 +1,8 @@
 'use client';
 
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { showToast } from '../provider/ToastProvider';
-import PostListStatusHandler from '@/components/post/PostListStatusHandler';
+import { showToast } from '../../provider/ToastProvider';
+import PostListStatusHandler from '@/components/post/organism/PostListStatusHandler';
 
 interface VirtualInfiniteScrollProps {
   queryKey: string[];

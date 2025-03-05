@@ -3,8 +3,8 @@
 import { getOutfitByTemperature } from '@/api/apis';
 import useWeatherData from '@/hooks/useWeatherData';
 import { useQuery } from '@tanstack/react-query';
-import TempOutfitPostEmpty from '../placeholder/TempOutfitPostEmpty';
-import HomePostListTitle from './HomePostListTitle';
+import TempOutfitPostEmpty from '../../placeholder/TempOutfitPostEmpty';
+import HomePostListTitle from '../atom/HomePostListTitle';
 import PostListStatusHandler from './PostListStatusHandler';
 
 export default function OutfitListByTemperature() {

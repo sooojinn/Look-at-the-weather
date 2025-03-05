@@ -3,21 +3,21 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
-import PostManageModal from '@/components/post/PostManageModal';
+import PostManageModal from '@/components/post/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
-import Heart from '@/components/post/Heart';
+import Heart from '@/components/post/atom/Heart';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
-import PostImgBlind from '@components/post/PostImgBlind';
-import ImageSlider from '@components/post/ImageSlider';
+import PostImgBlind from '@/components/post/atom/PostImgBlind';
+import ImageSlider from '@/components/post/molecule/ImageSlider';
 import { showToast } from '@/components/provider/ToastProvider';
 import { AxiosError } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { PostDetailType } from '@/config/types';
-import TagsWithLabel from '@/components/post/TagsWithLabel';
-import PostDetailHeader from '@/components/post/PostDetailHeader';
+import TagsWithLabel from '@/components/post/molecule/TagsWithLabel';
+import PostDetailHeader from '@/components/post/molecule/PostDetailHeader';
 
 export default function PostDetail({ postId }: { postId: number }) {
   const router = useRouter();

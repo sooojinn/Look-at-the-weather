@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PostImg from './PostImg';
+import PostImg from '../atom/PostImg';
 
 export default function ImageSlider({ images }: { images: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
