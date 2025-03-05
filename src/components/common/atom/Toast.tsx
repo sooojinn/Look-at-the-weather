@@ -1,4 +1,4 @@
-import Text from '../atom/Text';
+import Text from './Text';
 
 export default function Toast({
   message,

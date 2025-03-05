@@ -1,5 +1,5 @@
-import Button from '../atom/Button';
-import AlertModal from './AlertModal';
+import Button from '../common/atom/Button';
+import AlertModal from '../common/organism/AlertModal';
 
 export default function LocationPermissionModal({ onClose }: { onClose: () => void }) {
   return (

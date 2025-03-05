@@ -6,7 +6,7 @@ import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
 import { ResetIcon } from '@components/icons/ResetIcon';
-import PostFilterModal from '@components/common/organism/PostFilterModal';
+import PostFilterModal from '@/components/post/PostFilterModal';
 import { PostList } from '@components/post/PostList';
 import { usePostStore } from '@/store/postStore';
 import { PostMeta } from '@/config/types';
@@ -14,8 +14,7 @@ import FooterNavi from '@/components/common/organism/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import LookWeatherWidget from '@/components/weather/organism/LookWeatherWidget';
-import OptionBtn from '@components/common/molecule/OptionBtn';
-// import InfiniteScrollLoading from '@components/common/molecule/InfiniteScrollLoading';
+import OptionBtn from '@/components/common/atom/OptionBtn';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
 import AllPostEmpty from '@/components/placeholder/AllPostEmpty';
 import FilteredPostEmpty from '@/components/placeholder/FilteredPostEmpty';
@@ -271,7 +270,6 @@ export default function Post() {
           <PostList postList={postList} />
         )}
         <div ref={pageEnd}></div>
-        {/* {loading && <InfiniteScrollLoading />} */}
       </div>
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}

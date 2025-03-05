@@ -2,11 +2,11 @@ import CheckBoxBtn from '@components/common/atom/CheckBoxBtn';
 import { useEffect, useState } from 'react';
 import Text from '../atom/Text';
 import ToggleBtn from '@components/icons/ToggleBtn';
-import MarkdownRenderer from './MarkdownRenderer';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { SignupForm } from '@/config/types';
 import AlertModal from './AlertModal';
 import Button from '../atom/Button';
+import LocationTerms from '@/components/location/LocationTerms';
 
 interface LocationTermsCheckBoxProps {
   register: UseFormRegister<SignupForm>;
@@ -62,14 +62,6 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
           }
         />
       )}
-    </div>
-  );
-}
-
-function LocationTerms() {
-  return (
-    <div className="px-3 pt-[14px] pb-10 mb-10 bg-background-light rounded-[10px]">
-      <MarkdownRenderer markdownTitle="location-terms" />
     </div>
   );
 }

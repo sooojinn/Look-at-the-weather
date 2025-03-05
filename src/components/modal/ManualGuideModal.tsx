@@ -1,14 +1,14 @@
 import { useGuideManageStore } from '@/store/guideManageStore';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import Text from '../atom/Text';
+import Text from '../common/atom/Text';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { guideContent } from '@/config/guideContent';
 import Image from 'next/image';
-import BackgroundShadow from '../organism/BackgroundShadow';
+import BackgroundShadow from '../common/atom/BackgroundShadow';
 
-export default function ManualGuide() {
+export default function ManualGuideModal() {
   const { isManualGuideModalOpen, setIsManualGuideModal } = useGuideManageStore();
   return (
     <BackgroundShadow>

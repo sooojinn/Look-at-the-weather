@@ -2,17 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePostStore } from '@/store/postStore';
 import { POSTFILTERTAPLIST, SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
 import { FilterItem, SectionKey, PostFilterModalProps, CityType, DistrictType, FilterItemId } from '@/config/types';
-import Text from '../atom/Text';
-import HrLine from '../atom/HrLine';
+import Text from '../common/atom/Text';
+import HrLine from '../common/atom/HrLine';
 import { getRegion } from '@/api/apis';
 import { useQuery } from '@tanstack/react-query';
-import OptionBtn from '../molecule/OptionBtn';
-import Button from '../atom/Button';
-import { showToast } from '../../provider/ToastProvider';
-import BackgroundShadow from './BackgroundShadow';
+import OptionBtn from '../common/atom/OptionBtn';
+import Button from '../common/atom/Button';
+import { showToast } from '../provider/ToastProvider';
+import BackgroundShadow from '../common/atom/BackgroundShadow';
 import useResizeModal from '@/hooks/useResizeModal';
-import ModalHeader from '../molecule/ModalHeader';
-import ScrollFadeOverlay from '../atom/ScrollFadeOverlay';
+import ModalHeader from '../common/organism/ModalHeader';
+import ScrollFadeOverlay from '../common/atom/ScrollFadeOverlay';
 
 interface CategoryFilterItem extends FilterItem {
   category: 'location' | 'weather' | 'temperature' | 'season';

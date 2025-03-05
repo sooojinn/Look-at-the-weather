@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Text from '../atom/Text';
+import Text from './Text';
 
 interface PostMenuItemProps {
   children: ReactNode;

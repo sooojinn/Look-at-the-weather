@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Header from '../organism/Header';
+import Header from './Header';
 
 interface ModalHeaderProps {
   children?: ReactNode;

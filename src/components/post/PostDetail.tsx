@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
-import PostManageModal from '@components/common/organism/PostManageModal';
+import PostManageModal from '@/components/post/PostManageModal';
 import { getPostDetail } from '@/api/apis';
-import Heart from '@components/common/atom/Heart';
+import Heart from '@/components/post/Heart';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';

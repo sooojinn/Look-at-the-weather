@@ -6,8 +6,8 @@ import GuideManualIcon from '@components/icons/guide/GuideManualIcon';
 import { useGuideManageStore } from '@/store/guideManageStore';
 import PreloadImage from '../atom/PreloadImage';
 import { guideContent } from '@/config/guideContent';
-import TempGuideModal from '../molecule/TempGuideModal';
-import ManualGuide from '../molecule/ManualGuide';
+import TempGuideModal from '../../modal/TempGuideModal';
+import ManualGuideModal from '../../modal/ManualGuideModal';
 
 export default function GuidePanel() {
   const { isLookGuideModalOpen, isManualGuideModalOpen, setIsLookGuideModal, setIsManualGuideModal } =
@@ -40,7 +40,7 @@ export default function GuidePanel() {
         ))}
       </div>
       {isLookGuideModalOpen && <TempGuideModal />}
-      {isManualGuideModalOpen && <ManualGuide />}
+      {isManualGuideModalOpen && <ManualGuideModal />}
     </div>
   );
 }

@@ -21,11 +21,7 @@ export default function OptionBtn({ id, name, isActive, showCloseBtn, onClickFun
       <Text color={isActive ? 'main' : 'gray'} weight={isActive ? 'medium' : 'regular'}>
         {name}
       </Text>
-      {showCloseBtn ? (
-        <div>
-          <CloseBtn width={16} onClick={onClickFunc} fill="rgb(var(--color-primary))" />
-        </div>
-      ) : null}
+      {showCloseBtn ? <CloseBtn width={16} onClick={onClickFunc} fill="rgb(var(--color-primary))" /> : null}
     </div>
   );
 }

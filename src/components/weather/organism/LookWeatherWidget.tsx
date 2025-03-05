@@ -1,4 +1,4 @@
-import LocationComponent from '@components/common/molecule/LocationComponent';
+import LocationComponent from '@/components/location/LocationComponent';
 import WeatherImg from '../atom/WeatherImg';
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';

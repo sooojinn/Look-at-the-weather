@@ -9,7 +9,7 @@ import { deleteImage, uploadImage } from '@/api/apis';
 import { useFormContext } from 'react-hook-form';
 import Spinner from '@components/icons/Spinner';
 import { useDeletedImagesStore } from '@/store/deletedImagesStroe';
-import HorizontalScroll from '@components/common/organism/HorizontalScroll';
+import HorizontalScroll from '@/components/common/atom/HorizontalScroll';
 import Image from 'next/image';
 
 interface PreviewImageProps extends ImageItem {

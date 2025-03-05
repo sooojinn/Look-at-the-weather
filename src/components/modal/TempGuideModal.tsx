@@ -1,5 +1,5 @@
 import { useGuideManageStore } from '@/store/guideManageStore';
-import Text from '../atom/Text';
+import Text from '../common/atom/Text';
 import CloseBtn from '@components/icons/CloseBtn';
 import { useQuery } from '@tanstack/react-query';
 import { getOutfitGuide } from '@/api/apis';

@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import OptionBtn from '../../common/molecule/OptionBtn';
+import OptionBtn from '../../common/atom/OptionBtn';
 import { PostFormData, SelectProps } from '@/config/types';
 
 export default function Select({ name, options, maxSelection = 1, rules }: SelectProps) {
