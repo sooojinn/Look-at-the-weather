@@ -1,5 +1,5 @@
 import { TextColor, TextWeight } from '@/config/types';
-import Text from '../atom/Text';
+import Text from './Text';
 import { ReactNode } from 'react';
 
 type ButtonType = 'main' | 'white' | 'sub';

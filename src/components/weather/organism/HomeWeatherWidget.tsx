@@ -2,7 +2,7 @@
 
 import useLocationData from '@/hooks/useLocationData';
 import useWeatherData from '@/hooks/useWeatherData';
-import Location from '@components/common/molecules/LocationComponent';
+import Location from '@components/common/molecule/LocationComponent';
 import WeatherImg from '@/components/weather/atom/WeatherImg';
 import HomeWeatherInfo from '../molecule/HomeWeatherInfo';
 import WeatherInfoError from '../atom/WeatherInfoError';

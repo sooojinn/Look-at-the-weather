@@ -6,7 +6,7 @@ import MarkdownRenderer from './MarkdownRenderer';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { SignupForm } from '@/config/types';
 import AlertModal from './AlertModal';
-import Button from '../molecules/Button';
+import Button from '../atom/Button';
 
 interface LocationTermsCheckBoxProps {
   register: UseFormRegister<SignupForm>;
@@ -39,7 +39,11 @@ export default function LocationTermsCheckBox({ register, errors, isChecked }: L
               required: true,
             })}
           />
-          <CheckBoxBtn isChecked={!!isChecked} />
+          <CheckBoxBtn
+            isChecked={!!isChecked}
+            fill="rgb(var(--color-label-600))"
+            className="mr-2 w-[18px] flex justify-center items-center"
+          />
           <Text>위치 정보 이용약관(필수)</Text>
         </label>
         <div className={`transition-transform duration-400 ${showTerms ? 'transform rotate-180' : ''}`}>

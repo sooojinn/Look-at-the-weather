@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/common/organism/Header';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { showToast } from '@/components/provider/ToastProvider';
 import PasswordCheckInput from '@components/form/organism/inputs/PasswordCheckInput';
 import PasswordInput from '@components/form/organism/inputs/PasswordInput';

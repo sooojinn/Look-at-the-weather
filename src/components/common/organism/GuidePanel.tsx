@@ -1,13 +1,13 @@
 'use client';
 
-import GuideBtn from '../molecules/GuideBtn';
+import GuideBtn from '../molecule/GuideBtn';
 import LookGuideIcon from '@components/icons/guide/LookGuideIcon';
 import GuideManualIcon from '@components/icons/guide/GuideManualIcon';
 import { useGuideManageStore } from '@/store/guideManageStore';
 import PreloadImage from '../atom/PreloadImage';
 import { guideContent } from '@/config/guideContent';
-import TempGuideModal from '../molecules/TempGuideModal';
-import ManualGuide from '../molecules/ManualGuide';
+import TempGuideModal from '../molecule/TempGuideModal';
+import ManualGuide from '../molecule/ManualGuide';
 
 export default function GuidePanel() {
   const { isLookGuideModalOpen, isManualGuideModalOpen, setIsLookGuideModal, setIsManualGuideModal } =

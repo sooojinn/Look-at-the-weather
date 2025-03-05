@@ -2,7 +2,7 @@
 
 import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
 import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';

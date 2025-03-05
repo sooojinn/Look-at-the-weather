@@ -1,4 +1,4 @@
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 
 import useSignupStore from '@/store/signupStore';
 import { useCheckNicknameMutation } from '@/lib/signupMutations';

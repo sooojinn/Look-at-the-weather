@@ -1,6 +1,6 @@
 import Text from '@components/common/atom/Text';
 import Label from '@/components/form/atom/Label';
-import Location from '@components/common/molecules/LocationComponent';
+import Location from '@components/common/molecule/LocationComponent';
 import { FormProvider, useForm } from 'react-hook-form';
 import SelectWithLabel from '@/components/form/organism/SelectWithLabel';
 import TextAreaWithLabel from '@/components/form/organism/TextAreaWithLabel';
@@ -9,7 +9,7 @@ import FileWithLabel from '../organism/FileWithLabel';
 import { useEffect, useState } from 'react';
 import Header from '@/components/common/organism/Header';
 import { SEASON_TAGS, TEMPERATURE_TAGS, WEATHER_TAGS } from '@/config/constants';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import MarkdownRenderer from '@components/common/organism/MarkdownRenderer';
 import { useGeoLocationStore } from '@/store/locationStore';
 import { useRouter } from 'next/navigation';

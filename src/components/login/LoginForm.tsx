@@ -3,7 +3,7 @@ import { postLogin } from '@/api/apis';
 import { setAccessToken } from '@/api/instance';
 import { ErrorResponse } from '@/config/types';
 import { useAuthStore } from '@/store/authStore';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { showToast } from '@/components/provider/ToastProvider';
 import KakaoLogin from '@components/login/KakaoLogin';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

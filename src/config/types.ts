@@ -178,10 +178,6 @@ export interface CityType {
   district: DistrictType[];
 }
 
-export interface HrLineHeight {
-  height: number;
-}
-
 export interface GuideProps {
   Icon: React.FC;
   title: string;

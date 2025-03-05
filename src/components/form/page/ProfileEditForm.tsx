@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Text from '@components/common/atom/Text';
 import { useEffect } from 'react';
 import { getUserInfos, patchEditProfile } from '@/api/apis';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { showToast } from '@/components/provider/ToastProvider';

@@ -1,5 +1,5 @@
 import { SwiperSlide } from 'swiper/react';
-import HorizonScrollList from '../common/molecules/HorizonScrollList';
+import HorizonScrollList from '../common/molecule/HorizonScrollList';
 import { v4 as uuidv4 } from 'uuid';
 import PostItem from './PostItem';
 import { PostMeta } from '@/config/types';

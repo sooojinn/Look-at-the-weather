@@ -6,12 +6,12 @@ import Text from '../atom/Text';
 import HrLine from '../atom/HrLine';
 import { getRegion } from '@/api/apis';
 import { useQuery } from '@tanstack/react-query';
-import OptionBtn from '../molecules/OptionBtn';
-import Button from '../molecules/Button';
+import OptionBtn from '../molecule/OptionBtn';
+import Button from '../atom/Button';
 import { showToast } from '../../provider/ToastProvider';
 import BackgroundShadow from './BackgroundShadow';
 import useResizeModal from '@/hooks/useResizeModal';
-import ModalHeader from '../molecules/ModalHeader';
+import ModalHeader from '../molecule/ModalHeader';
 import ScrollFadeOverlay from '../atom/ScrollFadeOverlay';
 
 interface CategoryFilterItem extends FilterItem {
@@ -216,7 +216,7 @@ export default function PostFilterModal({ isOpen, btnValue, btnIndex }: PostFilt
   return (
     <BackgroundShadow isBackdropVisible={showModal}>
       <div
-        className={`fixed bottom-0 w-full max-w-md h-4/5 overflow-x-hidden overflow-y-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl ${
+        className={`fixed bottom-0 w-full max-w-md h-4/5 overflow-y-auto scrollbar-hide flex flex-col bg-background-white rounded-t-3xl ${
           showModal ? 'transform translate-y-0' : 'transform translate-y-full'
         } transition-transform duration-500 ease-out`}
         style={{ height: `${modalHeight}px` }} // 동적 높이 설정

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import { useState } from 'react';
 import Header from '@/components/common/organism/Header';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { useMutation } from '@tanstack/react-query';
 import { ErrorResponse } from '@/config/types';
 import { postFindPassword } from '@/api/apis';

@@ -1,5 +1,5 @@
 import useSignupStore from '@/store/signupStore';
-import Button from '@components/common/molecules/Button';
+import Button from '@/components/common/atom/Button';
 import { useVerifyCodeMutation } from '@/lib/signupMutations';
 import { FieldValues, Path, UseFormReturn, useWatch } from 'react-hook-form';
 import InputWithLabel from '../InputWithLabel';

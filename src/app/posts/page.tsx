@@ -14,8 +14,8 @@ import FooterNavi from '@/components/common/organism/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
 import LookWeatherWidget from '@/components/weather/organism/LookWeatherWidget';
-import OptionBtn from '@components/common/molecules/OptionBtn';
-// import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+import OptionBtn from '@components/common/molecule/OptionBtn';
+// import InfiniteScrollLoading from '@components/common/molecule/InfiniteScrollLoading';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
 import AllPostEmpty from '@/components/placeholder/AllPostEmpty';
 import FilteredPostEmpty from '@/components/placeholder/FilteredPostEmpty';
@@ -188,7 +188,7 @@ export default function Post() {
           <HrLine height={1} />
           <div className="relative flex gap-4 items-center py-4">
             <ResetIcon onClick={onClickResetBtn} className="flex-shrink-0 cursor-pointer" />
-            <VeLine height={8} />
+            <VeLine height={16} />
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               <OptionBtn
                 isActive={!!locationIds.length}
@@ -250,7 +250,7 @@ export default function Post() {
                 </Text>
               </div>
               <div className="mx-2">
-                <VeLine height={8} />
+                <VeLine height={16} />
               </div>
               <div onClick={() => setSortOrder('RECOMMENDED')}>
                 <Text
