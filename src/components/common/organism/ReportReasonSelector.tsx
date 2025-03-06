@@ -2,7 +2,7 @@
 
 import { reportPost } from '@/api/apis';
 import { showToast } from '@/components/provider/ToastProvider';
-import UnderlineOptionList from '@components/common/molecules/UnderlineOptionList';
+import UnderlineOptionList from '@components/common/molecule/UnderlineOptionList';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

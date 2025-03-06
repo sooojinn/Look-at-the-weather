@@ -1,9 +1,9 @@
 import FooterNavi from '@/components/common/organism/FooterNavi';
 import Header from '@/components/common/organism/Header';
-import LinkMenu from '@/components/common/molecules/LinkMenu';
+import LinkMenu from '@/components/common/molecule/LinkMenu';
 import LogoutBtn from '@components/login/LogoutBtn';
 import HrLine from '@components/common/atom/HrLine';
-import UserProfile from '@/components/common/molecules/UserProfile';
+import UserProfile from '@/components/common/molecule/UserProfile';
 
 export default function Mypage() {
   const settingList = [{ menu: '내 정보 수정', href: '/profile-edit' }];

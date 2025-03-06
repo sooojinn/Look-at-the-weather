@@ -2,16 +2,16 @@
 
 import { useForm } from 'react-hook-form';
 import Header from '@/components/common/organism/Header';
-import Button from '@components/common/molecules/Button';
-import LocationTermsCheckBox from '@components/common/organism/LocationTermsCheckBox';
+import Button from '@/components/common/atom/Button';
+import LocationTermsCheckBox from '@/components/form/organism/inputs/LocationTermsCheckBox';
 import { useRegisterMutation } from '@/lib/signupMutations';
 import { SignupForm } from '@/config/types';
-import EmailInput from '@components/form/inputs/EmailInput';
-import CodeInput from '@components/form/inputs/CodeInput';
-import PasswordInput from '@components/form/inputs/PasswordInput';
-import PasswordCheckInput from '@components/form/inputs/PasswordCheckInput';
-import NameInput from '@components/form/inputs/NameInput';
-import NicknameInput from '@components/form/inputs/NicknameInput';
+import EmailInput from '@components/form/organism/inputs/EmailInput';
+import CodeInput from '@components/form/organism/inputs/CodeInput';
+import PasswordInput from '@components/form/organism/inputs/PasswordInput';
+import PasswordCheckInput from '@components/form/organism/inputs/PasswordCheckInput';
+import NameInput from '@components/form/organism/inputs/NameInput';
+import NicknameInput from '@components/form/organism/inputs/NicknameInput';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';

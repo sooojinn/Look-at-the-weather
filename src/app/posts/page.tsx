@@ -6,16 +6,15 @@ import Text from '@components/common/atom/Text';
 import HrLine from '@components/common/atom/HrLine';
 import VeLine from '@components/common/atom/VeLine';
 import { ResetIcon } from '@components/icons/ResetIcon';
-import PostFilterModal from '@components/common/organism/PostFilterModal';
-import { PostList } from '@components/post/PostList';
+import PostFilterModal from '@/components/post/organism/PostFilterModal';
+import { PostList } from '@/components/post/organism/PostList';
 import { usePostStore } from '@/store/postStore';
 import { PostMeta } from '@/config/types';
 import FooterNavi from '@/components/common/organism/FooterNavi';
 import useLocationData from '@/hooks/useLocationData';
 import { postFilteredPosts, allPosts } from '@/api/apis';
-import LookWeatherWidget from '@/components/weather/LookWeatherWidget';
-import OptionBtn from '@components/common/molecules/OptionBtn';
-// import InfiniteScrollLoading from '@components/common/molecules/InfiniteScrollLoading';
+import LookWeatherWidget from '@/components/weather/organism/LookWeatherWidget';
+import OptionBtn from '@/components/common/atom/OptionBtn';
 import ScrollFadeOverlay from '@components/common/atom/ScrollFadeOverlay';
 import AllPostEmpty from '@/components/placeholder/AllPostEmpty';
 import FilteredPostEmpty from '@/components/placeholder/FilteredPostEmpty';
@@ -188,7 +187,7 @@ export default function Post() {
           <HrLine height={1} />
           <div className="relative flex gap-4 items-center py-4">
             <ResetIcon onClick={onClickResetBtn} className="flex-shrink-0 cursor-pointer" />
-            <VeLine height={8} />
+            <VeLine height={16} />
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               <OptionBtn
                 isActive={!!locationIds.length}
@@ -250,7 +249,7 @@ export default function Post() {
                 </Text>
               </div>
               <div className="mx-2">
-                <VeLine height={8} />
+                <VeLine height={16} />
               </div>
               <div onClick={() => setSortOrder('RECOMMENDED')}>
                 <Text
@@ -271,7 +270,6 @@ export default function Post() {
           <PostList postList={postList} />
         )}
         <div ref={pageEnd}></div>
-        {/* {loading && <InfiniteScrollLoading />} */}
       </div>
       <FooterNavi />
       {isOpen ? <PostFilterModal isOpen={setIsOpen} btnIndex={btnIndex} btnValue={btnValue} /> : null}

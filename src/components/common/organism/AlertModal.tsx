@@ -3,7 +3,7 @@
 import ReactDOM from 'react-dom';
 import { ReactNode } from 'react';
 import Text from '../atom/Text';
-import BackgroundShadow from './BackgroundShadow';
+import BackgroundShadow from '../atom/BackgroundShadow';
 
 interface AlertModalProps {
   boldMessage: ReactNode;

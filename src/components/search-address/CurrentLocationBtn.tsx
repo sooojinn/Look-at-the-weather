@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useLocationPermission from '@/hooks/useLocationPermission';
 import { fetchCurrentLocation } from '@/lib/utils';
-import LocationPermissionModal from '../common/organism/LocationPermissionModal';
+import LocationPermissionModal from '../modal/LocationPermissionModal';
 
 export default function CurrentLocationBtn({ isPostForm }: { isPostForm: boolean }) {
   const setCustomGeoPoint = useGeoLocationStore((state) => state.setCustomGeoPoint);

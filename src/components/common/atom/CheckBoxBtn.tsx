@@ -3,9 +3,10 @@ import EmptyBoxIcon from '../../icons/input/EmptyBoxIcon';
 
 interface CheckBoxBtnProps {
   isChecked: boolean;
+  fill: string;
+  className: string;
 }
 
-export default function CheckBoxBtn({ isChecked }: CheckBoxBtnProps) {
-  const fill = 'rgb(var(--color-label-600))';
-  return <div className="mr-2">{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</div>;
+export default function CheckBoxBtn({ isChecked, fill, className }: CheckBoxBtnProps) {
+  return <div className={className}>{isChecked ? <CheckedBoxIcon fill={fill} /> : <EmptyBoxIcon fill={fill} />}</div>;
 }
