@@ -5,7 +5,6 @@ import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import PostManageModal from '@/components/post/organism/PostManageModal';
 import { getPostDetail } from '@/api/apis';
-import Heart from '@/components/post/atom/Heart';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '@components/icons/Spinner';
@@ -18,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { PostDetailType } from '@/config/types';
 import TagsWithLabel from '@/components/post/molecule/TagsWithLabel';
 import PostDetailHeader from '@/components/post/molecule/PostDetailHeader';
+import PostHeart from '../organism/PostHeart';
 
 export default function PostDetail({ postId }: { postId: number }) {
   const router = useRouter();
@@ -90,7 +90,7 @@ export default function PostDetail({ postId }: { postId: number }) {
             <ImageSlider images={imgUrlList} />
           </div>
           <div className="p-5 pb-10 flex flex-col gap-4">
-            <Heart
+            <PostHeart
               fill="rgb(var(--color-label-600))"
               liked={likeByUser}
               postId={postId}
