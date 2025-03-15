@@ -28,9 +28,9 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: postLogin,
     onSuccess: (data) => {
-      const { accessToken, nickName } = data;
-      setAccessToken(accessToken);
-      setNickName(nickName);
+      // const { accessToken, nickName } = data;
+      // setAccessToken(accessToken);
+      // setNickName(nickName);
       setIsLogin(true);
       queryClient.invalidateQueries({ queryKey: ['post'] });
       router.back();

@@ -1,41 +1,24 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function middleware(request: NextRequest) {
-  // 로그인 요청인지 확인
-  if (request.nextUrl.pathname === '/api/proxy/login' && request.method === 'POST') {
-    const clonedReq = request.clone();
-
-    // 원래 요청 실행
-    const response = await fetch(clonedReq);
-
-    if (response.ok) {
-      const data = await response.json();
-      const accessToken = data?.accessToken;
-
-      // access token을 쿠키에 저장
-      if (accessToken) {
-        const newResponse = new NextResponse(JSON.stringify(data), {
-          status: response.status,
-          headers: response.headers,
-        });
-
-        newResponse.cookies.set({
-          name: 'accessToken',
-          value: accessToken,
-          httpOnly: true,
-          secure: true,
-          sameSite: 'strict',
-          path: '/',
-          maxAge: 60 * 60,
-        });
-
-        return newResponse;
-      }
-
-      return response;
-    }
+export function middleware(req: NextRequest) {
+  const accessToken = req.cookies.get('accessToken')?.value;
+  if (!accessToken) {
+    return NextResponse.next();
   }
 
-  return NextResponse.next();
+  // 원래 요청의 헤더를 수정
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('Authorization', `Bearer ${accessToken}`);
+
+  // 요청을 리라이트하여 Authorization 헤더 포함
+  return NextResponse.rewrite(req.nextUrl, {
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
+
+// 특정 경로에만 미들웨어 적용
+export const config = {
+  matcher: '/api/:path*', // API 요청에만 적용
+};

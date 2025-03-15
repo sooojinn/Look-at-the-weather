@@ -13,16 +13,16 @@ let accessToken: null | string = null;
 export const setAccessToken = (token: null | string) => {
   accessToken = token;
   if (token) {
-    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    restoreTokenInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    // instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    // restoreTokenInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
-    delete instance.defaults.headers.common['Authorization'];
-    delete restoreTokenInstance.defaults.headers.common['Authorization'];
+    // delete instance.defaults.headers.common['Authorization'];
+    // delete restoreTokenInstance.defaults.headers.common['Authorization'];
   }
 };
 
 export const instance = axios.create({
-  baseURL: BASEURL,
+  baseURL: '/api',
   timeout: 10000,
 });
 
@@ -32,7 +32,7 @@ export const reissueInstance = axios.create({
 });
 
 export const restoreTokenInstance = axios.create({
-  baseURL: BASEURL,
+  baseURL: '/api',
   timeout: 10000,
 });
 
@@ -59,28 +59,28 @@ const handleAccessTokenExpiredError = async (error: any) => {
   return Promise.reject(error);
 };
 
-// 새로고침 후 토큰 재발급 로직이 필요한 인스턴스
-restoreTokenInstance.interceptors.request.use(
-  async (config) => {
-    const isLogin = useAuthStore.getState().isLogin;
-    const isToken = !!accessToken;
+// // 새로고침 후 토큰 재발급 로직이 필요한 인스턴스
+// restoreTokenInstance.interceptors.request.use(
+//   async (config) => {
+//     const isLogin = useAuthStore.getState().isLogin;
+//     const isToken = !!accessToken;
 
-    if (isLogin && !isToken) {
-      const response = await reissue();
-      const { accessToken } = response;
-      if (accessToken) {
-        setAccessToken(accessToken);
-        config.headers.Authorization = `Bearer ${accessToken}`;
-        return config;
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+//     if (isLogin && !isToken) {
+//       const response = await reissue();
+//       const { accessToken } = response;
+//       if (accessToken) {
+//         setAccessToken(accessToken);
+//         config.headers.Authorization = `Bearer ${accessToken}`;
+//         return config;
+//       }
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error),
+// );
 
-instance.interceptors.response.use((response) => response, handleAccessTokenExpiredError);
-restoreTokenInstance.interceptors.response.use((response) => response, handleAccessTokenExpiredError);
+// instance.interceptors.response.use((response) => response, handleAccessTokenExpiredError);
+// restoreTokenInstance.interceptors.response.use((response) => response, handleAccessTokenExpiredError);
 
 // 리이슈 요청 에러 처리
 reissueInstance.interceptors.response.use(
