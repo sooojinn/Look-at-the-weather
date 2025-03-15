@@ -1,7 +1,7 @@
 import { BASEURL } from '@/config/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function proxyRequest(req: NextRequest) {
+async function proxyRequest(req: NextRequest) {
   try {
     const { method, headers } = req;
 
@@ -33,7 +33,7 @@ export async function proxyRequest(req: NextRequest) {
 
     try {
       responseData = responseText ? JSON.parse(responseText) : null;
-    } catch (error) {
+    } catch {
       console.warn('⚠️ JSON 파싱 실패, 응답을 그대로 반환:', responseText);
     }
     return NextResponse.json(responseData, { status: response.status });
