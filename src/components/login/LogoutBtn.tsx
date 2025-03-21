@@ -1,7 +1,6 @@
 'use client';
 
 import { postLogout } from '@/api/apis';
-import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -22,7 +21,6 @@ export default function LogoutBtn() {
   const LogoutMutation = useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
-      setAccessToken(null);
       setIsLogin(false);
       localStorage.removeItem('nickname');
       authStoreClear();
