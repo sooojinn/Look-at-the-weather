@@ -5,16 +5,15 @@ import { useQuery } from '@tanstack/react-query';
 import Text from '@components/common/atom/Text';
 import Spinner from '@components/icons/Spinner';
 import { showToast } from '@/components/provider/ToastProvider';
-import { setAccessToken } from '@/api/instance';
 import { useAuthStore } from '@/store/authStore';
 import { getKakaoUserInfos } from '@/api/apis';
 import { useRouter } from 'next/navigation';
 
 export default function KakaoRedirect({ code }: { code: string }) {
   const router = useRouter();
-  const { setIsLogin, setNickName } = useAuthStore();
+  const { setIsLogin } = useAuthStore();
 
-  const { data, isSuccess, error, isLoading } = useQuery({
+  const { isSuccess, error, isLoading } = useQuery({
     queryKey: ['kakaoUserInfo', code],
     queryFn: () => getKakaoUserInfos(code),
     enabled: !!code,
@@ -22,10 +21,7 @@ export default function KakaoRedirect({ code }: { code: string }) {
 
   useEffect(() => {
     if (isSuccess) {
-      const { accessToken, nickName } = data;
-      setAccessToken(accessToken);
       setIsLogin(true);
-      setNickName(nickName);
       router.push('/');
     }
 

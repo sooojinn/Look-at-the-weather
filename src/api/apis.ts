@@ -1,6 +1,6 @@
 import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
 import { instance, reissueInstance, restoreTokenInstance } from './instance';
-import axios, { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 import { AxiosResponse } from 'axios';
 
 interface ConfigOptions {
@@ -43,16 +43,6 @@ export const registerUser = async (data: RegisterForm) => {
 };
 
 export const postLogin = async (request: RequestBody) => {
-  // const response = await fetch('/api/auth/login', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(request),
-  //   credentials: 'include',
-  // });
-
-  // const data = await response.json();
-
-  // return data;
   const response = await instance.post('/auth/login', request, getConfig({ withCredentials: true }));
   return response.data;
 };
