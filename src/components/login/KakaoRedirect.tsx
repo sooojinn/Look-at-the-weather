@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 export default function KakaoRedirect({ code }: { code: string }) {
   const router = useRouter();
-  const { setIsLogin, setNickName } = useAuthStore();
+  const { setIsLogin } = useAuthStore();
 
   const { data, isSuccess, error, isLoading } = useQuery({
     queryKey: ['kakaoUserInfo', code],
@@ -22,10 +22,9 @@ export default function KakaoRedirect({ code }: { code: string }) {
 
   useEffect(() => {
     if (isSuccess) {
-      const { accessToken, nickName } = data;
+      const { accessToken } = data;
       setAccessToken(accessToken);
       setIsLogin(true);
-      setNickName(nickName);
       router.push('/');
     }
 

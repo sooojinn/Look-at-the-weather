@@ -21,16 +21,15 @@ interface LoginForm {
 export default function LoginForm() {
   const formMethods = useForm<LoginForm>();
   const { handleSubmit, setError } = formMethods;
-  const { setIsLogin, setNickName } = useAuthStore();
+  const { setIsLogin } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
     onSuccess: (data) => {
-      const { accessToken, nickName } = data;
+      const { accessToken } = data;
       setAccessToken(accessToken);
-      setNickName(nickName);
       setIsLogin(true);
       queryClient.invalidateQueries({ queryKey: ['post'] });
       router.back();
