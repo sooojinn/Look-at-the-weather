@@ -3,37 +3,42 @@ import { NextRequest, NextResponse } from 'next/server';
 
 async function proxyRequest(req: NextRequest) {
   try {
-    const { method, headers } = req;
-    const pathname = req.nextUrl.pathname.replace('/api', '');
-    const query = req.nextUrl.search;
-    const apiUrl = `${BASEURL}${pathname}${query}`;
+    const { method } = req;
+    const { pathname, search } = req.nextUrl;
+    const apiUrl = `${BASEURL}${pathname.replace('/api', '')}${search}`;
 
-    let body = null;
-    if (method !== 'GET' && method !== 'HEAD') {
-      body = await req.json();
+    const headers = req.headers;
+    const isJson = headers.get('content-type')?.includes('application/json');
+    const hasBody = headers.get('content-length');
+
+    let body: any = null;
+    if (method !== 'GET' && method !== 'HEAD' && isJson && hasBody) {
+      try {
+        body = await req.json();
+      } catch {
+        console.warn('요청 본문 JSON 파싱 실패');
+      }
     }
 
     const response = await fetch(apiUrl, {
       method,
       headers,
-      body: body ? JSON.stringify(body) : undefined,
       credentials: 'include',
+      body: body ? JSON.stringify(body) : undefined,
     });
 
-    console.log(apiUrl);
-
     const responseText = await response.text();
-    let responseData = null;
 
+    let responseData: any = null;
     try {
       responseData = responseText ? JSON.parse(responseText) : null;
     } catch {
-      console.warn('JSON 파싱 실패, 응답을 그대로 반환:', responseText);
+      console.warn('응답 JSON 파싱 실패, 원본 텍스트 반환:', responseText);
+      responseData = responseText;
     }
 
     const proxyResponse = NextResponse.json(responseData, { status: response.status });
 
-    // Set-Cookie 헤더를 클라이언트에 수동으로 설정
     const setCookie = response.headers.get('set-cookie');
     if (setCookie) {
       proxyResponse.headers.set('set-cookie', setCookie);
@@ -41,23 +46,13 @@ async function proxyRequest(req: NextRequest) {
 
     return proxyResponse;
   } catch (error) {
-    console.error('Error:', error);
+    console.error('프록시 처리 에러:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
-export async function GET(req: NextRequest) {
-  return proxyRequest(req);
-}
-export async function POST(req: NextRequest) {
-  return proxyRequest(req);
-}
-export async function PUT(req: NextRequest) {
-  return proxyRequest(req);
-}
-export async function DELETE(req: NextRequest) {
-  return proxyRequest(req);
-}
-export async function PATCH(req: NextRequest) {
-  return proxyRequest(req);
-}
+export const GET = proxyRequest;
+export const POST = proxyRequest;
+export const PUT = proxyRequest;
+export const DELETE = proxyRequest;
+export const PATCH = proxyRequest;
