@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { postLogin } from '@/api/apis';
-import { setAccessToken } from '@/api/instance';
 import { ErrorResponse } from '@/config/types';
 import { useAuthStore } from '@/store/authStore';
 import Button from '@/components/common/atom/Button';
@@ -27,9 +26,7 @@ export default function LoginForm() {
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
-    onSuccess: (data) => {
-      const { accessToken } = data;
-      setAccessToken(accessToken);
+    onSuccess: () => {
       setIsLogin(true);
       queryClient.invalidateQueries({ queryKey: ['post'] });
       router.back();

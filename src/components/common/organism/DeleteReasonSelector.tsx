@@ -1,7 +1,6 @@
 'use client';
 
 import { deleteAccount } from '@/api/apis';
-import { setAccessToken } from '@/api/instance';
 import DeleteAccountModal from '@/components/modal/DeleteAccountModal';
 import DeleteAccountSuccessModal from '@/components/modal/DeleteAccountSuccessModal';
 import { useAuthStore } from '@/store/authStore';
@@ -57,7 +56,6 @@ export default function DeleteReasonSelector() {
         <DeleteAccountSuccessModal
           onContinue={() => {
             router.push('/');
-            setAccessToken(null);
             setIsLogin(false);
           }}
         />

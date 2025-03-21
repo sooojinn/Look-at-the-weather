@@ -14,7 +14,7 @@ export default function PostListStatusHandler({
   isHorizontal?: boolean;
   PlaceholderComp: React.FC;
 }) {
-  const { isSuccess, isPending } = queryResults;
+  const { isSuccess, isPending, isError } = queryResults;
 
   const ListComponent = isHorizontal ? HorizonScrollPostList : VirtualPostGrid;
 
@@ -28,7 +28,7 @@ export default function PostListStatusHandler({
             <PlaceholderComp />
           </div>
         ))}
-      {isPending && <PostListSkeleton isHorizontal={isHorizontal} />}
+      {(isPending || isError) && <PostListSkeleton isHorizontal={isHorizontal} />}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { GeoPoint } from './types';
 
 export const BASEURL = process.env.NEXT_PUBLIC_BASE_URL;
+// export const BASEURL = '/api';
 
 export const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY;
 

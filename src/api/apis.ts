@@ -1,5 +1,5 @@
 import { GeoPoint, PostFormData, RegisterForm, VerifyCodeProps } from '@/config/types';
-import { instance, reissueInstance, restoreTokenInstance } from './instance';
+import { instance, reissueInstance } from './instance';
 import { AxiosRequestConfig } from 'axios';
 import { AxiosResponse } from 'axios';
 
@@ -93,7 +93,7 @@ export const getMyLikedPosts = async ({ page, size }: RequestBody) => {
 };
 
 export const getPostDetail = async (postId: number) => {
-  const response = await restoreTokenInstance.get(`/posts/${postId}`, getConfig());
+  const response = await instance.get(`/posts/${postId}`, getConfig());
   return response.data;
 };
 
@@ -103,7 +103,7 @@ export const deletePost = async (postId: number) => {
 };
 
 export const fetchTopLikedPosts = async () => {
-  const response = await restoreTokenInstance.get('/posts/top-liked', getConfig());
+  const response = await instance.get('/posts/top-liked', getConfig());
   return response.data;
 };
 
@@ -149,12 +149,12 @@ export const reportPost = async ({ postId, reason }: { postId: number; reason: s
 };
 
 export const postFilteredPosts = async (request: RequestBody) => {
-  const response = await restoreTokenInstance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
+  const response = await instance.post(`/posts/search`, { ...request, size: 10 }, getConfig());
   return response.data;
 };
 
 export const allPosts = async (page: number, city: string, district: string, sort: string) => {
-  const response = await restoreTokenInstance.get(
+  const response = await instance.get(
     `/posts?page=${page}&size=10&city=${city}&district=${district}&sort=${sort}`,
     getConfig(),
   );
@@ -200,6 +200,6 @@ export const getOutfitGuide = async (tmp: number) => {
 };
 
 export const getOutfitByTemperature = async (tmp: number) => {
-  const response = await restoreTokenInstance.get(`/posts/tmp?tmp=${tmp}&page=${1}&size=${10}`);
+  const response = await instance.get(`/posts/tmp?tmp=${tmp}&page=${1}&size=${10}`);
   return response.data;
 };
