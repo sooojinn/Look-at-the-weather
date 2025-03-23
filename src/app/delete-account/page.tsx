@@ -1,11 +1,10 @@
 import DeleteReasonSelector from '@/components/common/organism/DeleteReasonSelector';
-import ProtectedRoute from '@/components/route/ProtectedRoute';
 import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 
 export default function DeleteAccount() {
   return (
-    <ProtectedRoute>
+    <>
       <Header>회원 탈퇴</Header>
       <div className="p-5 pt-10 flex flex-col gap-3">
         <Text size="xl" weight="bold">
@@ -18,6 +17,6 @@ export default function DeleteAccount() {
         </Text>
       </div>
       <DeleteReasonSelector />
-    </ProtectedRoute>
+    </>
   );
 }

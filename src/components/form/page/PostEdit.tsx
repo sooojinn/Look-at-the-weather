@@ -8,7 +8,6 @@ import PostForm from '@/components/form/template/PostForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { usePostManageStore } from '@/store/postManageStore';
-import ProtectedRoute from '@/components/route/ProtectedRoute';
 import { tagNameToId, tagNamesToIds } from '@/lib/utils';
 import { useEffect } from 'react';
 
@@ -93,9 +92,5 @@ export default function PostEdit({ postId }: { postId: number }) {
     }
   }, [postData, router]);
 
-  return (
-    <ProtectedRoute>
-      <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />
-    </ProtectedRoute>
-  );
+  return <PostForm type="수정" defaultValues={defaultValues} onSubmit={onSubmit} />;
 }

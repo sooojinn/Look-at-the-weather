@@ -14,7 +14,6 @@ import NameInput from '@components/form/organism/inputs/NameInput';
 import NicknameInput from '@components/form/organism/inputs/NicknameInput';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 import SignUpExitModal from '@/components/modal/SignUpExitModal';
 
 export default function Signup() {
@@ -52,7 +51,7 @@ export default function Signup() {
   };
 
   return (
-    <LoginRestrictionRoute>
+    <>
       <Header hideBackBtn onClose={handleFormCloseBtn}>
         회원가입
       </Header>
@@ -71,6 +70,6 @@ export default function Signup() {
         </Button>
       </div>
       {showModal && <SignUpExitModal onContinue={() => setShowModal(false)} onCancel={() => router.back()} />}
-    </LoginRestrictionRoute>
+    </>
   );
 }

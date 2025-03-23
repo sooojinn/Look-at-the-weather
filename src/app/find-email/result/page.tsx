@@ -5,7 +5,6 @@ import Text from '@components/common/atom/Text';
 import Button from '@/components/common/atom/Button';
 import { useRouter } from 'next/navigation';
 import useProfileManageStore from '@/store/profileManageStore';
-import LoginRestrictionRoute from '@/components/route/LoginRestrictionRoute';
 
 export default function FindEmailResult() {
   const router = useRouter();
@@ -26,7 +25,7 @@ export default function FindEmailResult() {
   };
 
   return (
-    <LoginRestrictionRoute>
+    <>
       <Header onClose={() => onClickCloseBtn()}>이메일 찾기</Header>
       <div className="flex flex-col justify-between h-screen flex-grow p-5 pb-10">
         <div>
@@ -48,6 +47,6 @@ export default function FindEmailResult() {
           <Button onClick={onClickLoginBtn}>로그인하기</Button>
         </div>
       </div>
-    </LoginRestrictionRoute>
+    </>
   );
 }
