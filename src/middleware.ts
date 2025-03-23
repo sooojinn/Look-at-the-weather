@@ -11,6 +11,9 @@ const protectedRoutes = [
   '/delete-account',
 ];
 
+// 로그인 사용자 접근 제한 경로
+const restrictedRoutesForLoggedInUser = ['/login', '/signup', '/find-email', '/find-password', '/password-reset'];
+
 export function middleware(req: NextRequest) {
   const accessToken = req.cookies.get('accessToken')?.value;
   const { pathname } = req.nextUrl;
@@ -33,14 +36,16 @@ export function middleware(req: NextRequest) {
   }
 
   // 로그인 보호 경로에 미로그인 접근 시 로그인 페이지로 이동
-  const isProtectedPage = protectedRoutes.some((route) => pathname.startsWith(route));
+  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
-  if (isProtectedPage && !isLogin) {
+  if (isProtectedRoute && !isLogin) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
   // 로그인 유저가 로그인/회원가입 등의 페이지 접근 시 홈으로 리디렉션
-  if (isLogin && (pathname === '/login' || pathname === '/signup')) {
+  const isRestrictedProuteForLoggedInUser = restrictedRoutesForLoggedInUser.some((route) => pathname.startsWith(route));
+
+  if (isLogin && isRestrictedProuteForLoggedInUser) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
@@ -53,11 +58,14 @@ export const config = {
     '/post-write',
     '/post/edit',
     '/post/report',
+    '/profile-edit',
     '/mypage/mypost',
     '/mypage/like',
-    '/profile-edit',
     '/delete-account',
     '/login',
     '/signup',
+    '/find-email',
+    '/find-password',
+    '/password-reset',
   ],
 };
