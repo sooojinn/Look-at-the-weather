@@ -1,24 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// 미로그인 사용자 접근 제한 경로
+const protectedRoutes = [
+  '/post-write',
+  '/post/edit',
+  '/post/report',
+  '/profile-edit',
+  '/mypage/mypost',
+  '/mypage/like',
+  '/delete-account',
+];
+
 export function middleware(req: NextRequest) {
   const accessToken = req.cookies.get('accessToken')?.value;
-  if (!accessToken) {
-    return NextResponse.next();
+  const { pathname } = req.nextUrl;
+  const isLogin = Boolean(accessToken);
+
+  // API 요청인 경우: Authorization 헤더 주입
+  if (pathname.startsWith('/api')) {
+    if (!accessToken) {
+      return NextResponse.next();
+    }
+
+    const requestHeaders = new Headers(req.headers);
+    requestHeaders.set('Authorization', `Bearer ${accessToken}`);
+
+    return NextResponse.rewrite(req.nextUrl, {
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
-  // 원래 요청의 헤더를 수정
-  const requestHeaders = new Headers(req.headers);
-  requestHeaders.set('Authorization', `Bearer ${accessToken}`);
+  // 로그인 보호 경로에 미로그인 접근 시 로그인 페이지로 이동
+  const isProtectedPage = protectedRoutes.some((route) => pathname.startsWith(route));
 
-  // 요청을 리라이트하여 Authorization 헤더 포함
-  return NextResponse.rewrite(req.nextUrl, {
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  if (isProtectedPage && !isLogin) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+
+  // 로그인 유저가 로그인/회원가입 등의 페이지 접근 시 홈으로 리디렉션
+  if (isLogin && (pathname === '/login' || pathname === '/signup')) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
+  return NextResponse.next();
 }
 
-// 특정 경로에만 미들웨어 적용
 export const config = {
-  matcher: '/api/:path*', // API 요청에만 적용
+  matcher: [
+    '/api/:path*',
+    '/post-write',
+    '/post/edit',
+    '/post/report',
+    '/mypage/mypost',
+    '/mypage/like',
+    '/profile-edit',
+    '/delete-account',
+    '/login',
+    '/signup',
+  ],
 };
