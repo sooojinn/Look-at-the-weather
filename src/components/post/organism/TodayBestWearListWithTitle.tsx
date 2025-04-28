@@ -3,17 +3,10 @@ import HomePostListTitle from '../atom/HomePostListTitle';
 import TodayBestWearCriteriaBtn from './TodayBestWearCriteriaBtn';
 import TodayBestWearList from './TodayBestWearList';
 import InitQuery from '@/components/provider/InitQuery';
-
-async function fetchTodayBestWearList() {
-  const res = await fetch(`${BASEURL}/posts/top-liked`);
-
-  if (!res.ok) throw new Error('Failed to fetch posts');
-
-  return res.json();
-}
+import { fetchWithAuth } from '@/lib/fetcher';
 
 export default async function TodayBestWearListWithTitle() {
-  const todayBestWearListData = await fetchTodayBestWearList();
+  const todayBestWearListData = await fetchWithAuth(`${BASEURL}/posts/top-liked`);
 
   return (
     <div>
