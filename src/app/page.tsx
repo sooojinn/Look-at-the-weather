@@ -2,10 +2,10 @@ import FooterNavi from '@/components/common/organism/FooterNavi';
 import Header from '@/components/common/organism/Header';
 import logo from '@/assets/logo.png';
 import HomeWeatherWidget from '@/components/weather/organism/HomeWeatherWidget';
-import TodayBestWearList from '@/components/post/organism/TodayBestWearList';
 import GuidePanel from '@components/common/organism/GuidePanel';
 import OutfitListByTemperature from '@/components/post/organism/OutfitListByTemperature';
 import Image from 'next/image';
+import TodayBestWearListWithTitle from '@/components/post/organism/\bTodayBestWearListWithTitle';
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
         <HomeWeatherWidget />
         <GuidePanel />
         <div className="flex flex-col gap-5">
-          <TodayBestWearList />
+          <TodayBestWearListWithTitle />
           <OutfitListByTemperature />
         </div>
       </div>
