@@ -9,6 +9,7 @@ import Text from '../common/atom/Text';
 import { usePostStore } from '@/store/postStore';
 import { useRouter } from 'next/navigation';
 import LogoutModal from '../modal/LogoutModal';
+import { AxiosError } from 'axios';
 
 export default function LogoutBtn() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -29,9 +30,11 @@ export default function LogoutBtn() {
       router.push('/');
       showToast('로그아웃되었습니다.');
     },
-    onError: (error) => {
-      showToast('로그아웃 실패. 다시 시도해주세요.');
-      console.error(error);
+    onError: (error: AxiosError) => {
+      if (error.status !== 401) {
+        showToast('로그아웃 실패. 다시 시도해주세요.');
+        console.error(error);
+      }
     },
   });
 

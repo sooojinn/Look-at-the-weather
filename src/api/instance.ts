@@ -18,7 +18,7 @@ export const reissueInstance = axios.create({
 });
 
 const REISSUE_REQUIRED_ERROR_CODES = ['ACCESS_TOKEN_EXPIRED', 'INVALID_CREDENTIALS'];
-const SESSION_EXPIRED_ERRORS = ['REFRESH_TOKEN_EXPIRED', 'NOT_FOUND_COOKIE'];
+const SESSION_EXPIRED_ERRORS = ['REFRESH_TOKEN_EXPIRED', 'NOT_FOUND_COOKIE', 'REFRESH_TOKEN_INVALID'];
 
 // access token 만료 에러 처리 함수
 const handleAccessTokenExpiredError = async (error: any) => {

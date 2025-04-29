@@ -19,20 +19,23 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const isLogin = Boolean(accessToken);
 
-  // API 요청인 경우: Authorization 헤더 주입
+  // API 요청인 경우
   if (pathname.startsWith('/api')) {
-    if (!accessToken) {
-      return NextResponse.next();
+    // 리이슈 요청이 아닌 경우: Authorization 헤더 주입
+    if (!pathname.endsWith('/auth/reissue')) {
+      if (!accessToken) {
+        return NextResponse.next();
+      }
+
+      const requestHeaders = new Headers(req.headers);
+      requestHeaders.set('Authorization', `Bearer ${accessToken}`);
+
+      return NextResponse.rewrite(req.nextUrl, {
+        request: {
+          headers: requestHeaders,
+        },
+      });
     }
-
-    const requestHeaders = new Headers(req.headers);
-    requestHeaders.set('Authorization', `Bearer ${accessToken}`);
-
-    return NextResponse.rewrite(req.nextUrl, {
-      request: {
-        headers: requestHeaders,
-      },
-    });
   }
 
   // 로그인 보호 경로에 미로그인 접근 시 로그인 페이지로 이동
