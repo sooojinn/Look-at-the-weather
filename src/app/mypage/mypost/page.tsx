@@ -1,23 +1,23 @@
-'use client';
-
 import Header from '@/components/common/organism/Header';
 import FooterNavi from '@/components/common/organism/FooterNavi';
-import VirtualInfiniteScroll from '@/components/post/organism/VirtualInfiniteScroll';
-import MyPostEmpty from '@/components/placeholder/MyPostEmpty';
-import { getMyPosts } from '@/api/apis';
+import MyPosts from '@/components/post/page/MyPosts';
+import { fetchWithAuth } from '@/lib/fetcher';
+import InitQuery from '@/components/provider/InitQuery';
+import { BASEURL } from '@/config/constants';
 
-export default function MyPost() {
+export default async function MyPostsPage() {
+  const myPostsData = await fetchWithAuth(`${BASEURL}/posts/me?page=0&size=10`);
   return (
     <>
       <Header>내 게시물</Header>
-      <div className="flex-grow">
-        <VirtualInfiniteScroll
-          queryKey={['post', 'list', 'myPosts']}
-          queryFn={getMyPosts}
-          headerText="내 게시물"
-          placeholderComp={MyPostEmpty}
-        />
-      </div>
+      <InitQuery
+        queryKey={['post', 'list', 'myPosts']}
+        data={{
+          pages: [myPostsData],
+          pageParams: [0],
+        }}
+      />
+      <MyPosts />
       <FooterNavi />
     </>
   );
