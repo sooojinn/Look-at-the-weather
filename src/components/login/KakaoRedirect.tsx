@@ -8,10 +8,12 @@ import { showToast } from '@/components/provider/ToastProvider';
 import { useAuthStore } from '@/store/authStore';
 import { getKakaoUserInfos } from '@/api/apis';
 import { useRouter } from 'next/navigation';
+import { useFetchAndSetNickname } from '@/hooks/useFetchAndSetNickname';
 
 export default function KakaoRedirect({ code }: { code: string }) {
   const router = useRouter();
   const { setIsLogin } = useAuthStore();
+  const fetchAndSetNickname = useFetchAndSetNickname();
 
   const { isSuccess, error, isLoading } = useQuery({
     queryKey: ['kakaoUserInfo', code],
@@ -20,16 +22,20 @@ export default function KakaoRedirect({ code }: { code: string }) {
   });
 
   useEffect(() => {
-    if (isSuccess) {
-      setIsLogin(true);
-      router.push('/');
-    }
+    const handleLogin = async () => {
+      if (isSuccess) {
+        setIsLogin(true);
+        await fetchAndSetNickname();
+        router.push('/');
+      }
 
-    if (error) {
-      console.error('로그인에 실패했습니다:', error);
-      showToast('카카오 로그인 실패. 다시 시도해 주세요.');
-      router.push('/');
-    }
+      if (error) {
+        console.error('로그인에 실패했습니다:', error);
+        showToast('카카오 로그인 실패. 다시 시도해 주세요.');
+        router.push('/');
+      }
+    };
+    handleLogin();
   }, [isSuccess, error]);
 
   return (

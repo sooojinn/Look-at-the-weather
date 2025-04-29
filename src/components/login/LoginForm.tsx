@@ -11,6 +11,7 @@ import LoginTooltip from './LoginTooltip';
 import { useRouter } from 'next/navigation';
 import EmailInput from '../form/organism/inputs/EmailInput';
 import PasswordInput from '../form/organism/inputs/PasswordInput';
+import { useFetchAndSetNickname } from '@/hooks/useFetchAndSetNickname';
 
 interface LoginForm {
   email: string;
@@ -23,12 +24,14 @@ export default function LoginForm() {
   const { setIsLogin } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const fetchAndSetNickname = useFetchAndSetNickname();
 
   const loginMutation = useMutation({
     mutationFn: postLogin,
-    onSuccess: () => {
+    onSuccess: async () => {
       setIsLogin(true);
       queryClient.invalidateQueries({ queryKey: ['post'] });
+      await fetchAndSetNickname();
       router.back();
     },
     onError: (error: AxiosError<ErrorResponse>) => {
