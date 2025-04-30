@@ -5,7 +5,7 @@ import HomeWeatherWidget from '@/components/weather/organism/HomeWeatherWidget';
 import GuidePanel from '@components/common/organism/GuidePanel';
 import OutfitListByTemperature from '@/components/post/organism/OutfitListByTemperature';
 import Image from 'next/image';
-import TodayBestWearListWithTitle from '@/components/post/organism/TodayBestWearListWithTitle';
+import TodayBestWearListWithTitle from '@/components/post/template/TodayBestWearListWithTitle';
 
 export default function Home() {
   return (

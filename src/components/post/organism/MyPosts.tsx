@@ -1,7 +1,7 @@
 'use client';
 
 import { getMyPosts } from '@/api/apis';
-import VirtualInfiniteScroll from '../organism/VirtualInfiniteScroll';
+import VirtualInfiniteScroll from './VirtualInfiniteScroll';
 import MyPostEmpty from '@/components/placeholder/MyPostEmpty';
 
 export default function MyPosts() {

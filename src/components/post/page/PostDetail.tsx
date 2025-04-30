@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/common/organism/Header';
 import Text from '@components/common/atom/Text';
 import PostManageModal from '@/components/post/organism/PostManageModal';
 import { Navigate } from 'react-router-dom';
@@ -46,7 +45,6 @@ export default function PostDetail({ postId, postData }: { postId: number; postD
 
   return (
     <>
-      <Header />
       <PostDetailHeader nickname={nickname} {...postLocation} modalHandler={modalHandler} />
       <div className="w-full h-full relative">
         {reportPost && <PostImgBlind textSize="l" textWeight="bold" />}

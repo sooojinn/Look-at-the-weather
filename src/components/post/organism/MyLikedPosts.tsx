@@ -1,7 +1,7 @@
 'use client';
 
 import { getMyLikedPosts } from '@/api/apis';
-import VirtualInfiniteScroll from '../organism/VirtualInfiniteScroll';
+import VirtualInfiniteScroll from './VirtualInfiniteScroll';
 import MyLikedPostEmpty from '@/components/placeholder/MyLikedPostEmpty';
 
 export default function MyLikedPosts() {

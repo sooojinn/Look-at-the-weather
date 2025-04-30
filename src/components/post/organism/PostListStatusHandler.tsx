@@ -2,6 +2,7 @@ import { PostMeta } from '@/config/types';
 import VirtualPostGrid from './VirtualPostGrid';
 import PostListSkeleton from '../../skeleton/PostListSkeleton';
 import HorizonScrollPostList from './HorizonScrollPostList';
+import FetchErrorPlaceholder from '@/components/placeholder/FetchErrorPlaceholder';
 
 export default function PostListStatusHandler({
   postList,
@@ -28,7 +29,8 @@ export default function PostListStatusHandler({
             <PlaceholderComp />
           </div>
         ))}
-      {(isPending || isError) && <PostListSkeleton isHorizontal={isHorizontal} />}
+      {isPending && <PostListSkeleton isHorizontal={isHorizontal} />}
+      {isError && <FetchErrorPlaceholder />}
     </>
   );
 }
