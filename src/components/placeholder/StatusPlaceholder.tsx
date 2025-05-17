@@ -5,6 +5,7 @@ interface StatusPlaceholderProps {
   ImgComp: React.ComponentType;
   boldMessage: ReactNode;
   lightMessage: ReactNode;
+  size?: 'm' | 'l';
   btnText?: string;
   btnFunc?: () => void;
 }
@@ -13,16 +14,19 @@ export default function StatusPlaceholder({
   ImgComp,
   boldMessage,
   lightMessage,
+  size = 'l',
   btnText,
   btnFunc,
 }: StatusPlaceholderProps) {
   return (
     <div className="flex flex-col flex-grow justify-center items-center">
-      <ImgComp />
-      <Text weight="bold" size="l" className="mt-5 mb-1.5 text-center">
+      <div className={`${size === 'm' ? 'w-[60px] h-[61px] flex justify-center items-center' : undefined}`}>
+        <ImgComp />
+      </div>
+      <Text weight="bold" size={size === 'm' ? 's' : 'l'} className="mt-5 mb-1.5 text-center">
         {boldMessage}
       </Text>
-      <Text color="gray" className="text-center">
+      <Text color="gray" size={size === 'm' ? 's' : undefined} className="text-center">
         {lightMessage}
       </Text>
       {btnText && btnFunc && (
