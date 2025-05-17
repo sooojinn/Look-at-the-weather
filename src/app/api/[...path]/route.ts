@@ -7,16 +7,24 @@ async function proxyRequest(req: NextRequest) {
     const { pathname, search } = req.nextUrl;
     const apiUrl = `${BASEURL}${pathname.replace('/api', '')}${search}`;
 
-    const headers = req.headers;
-    const isJson = headers.get('content-type')?.includes('application/json');
-    const hasBody = headers.get('content-length');
+    const contentType = req.headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json');
+    const isFile = contentType.includes('multipart/form-data');
 
-    let body: any = null;
-    if (method !== 'GET' && method !== 'HEAD' && isJson && hasBody) {
-      try {
-        body = await req.json();
-      } catch {
-        console.warn('요청 본문 JSON 파싱 실패');
+    const headers = new Headers(req.headers);
+    headers.delete('host');
+    headers.delete('content-length');
+
+    let body: any = undefined;
+
+    if (method !== 'GET' && method !== 'HEAD') {
+      if (isFile) {
+        body = await req.formData();
+        headers.delete('content-type'); // FormData 사용 시 수동 설정 금지
+      } else if (isJson) {
+        const json = await req.json();
+        body = JSON.stringify(json);
+        headers.set('content-type', 'application/json'); // 명시적 설정
       }
     }
 
@@ -24,18 +32,11 @@ async function proxyRequest(req: NextRequest) {
       method,
       headers,
       credentials: 'include',
-      body: body ? JSON.stringify(body) : undefined,
+      body,
     });
 
     const responseText = await response.text();
-
-    let responseData: any = null;
-    try {
-      responseData = responseText ? JSON.parse(responseText) : null;
-    } catch {
-      console.warn('응답 JSON 파싱 실패, 원본 텍스트 반환:', responseText);
-      responseData = responseText;
-    }
+    const responseData = responseText ? JSON.parse(responseText) : null;
 
     const proxyResponse = NextResponse.json(responseData, { status: response.status });
 
@@ -47,7 +48,7 @@ async function proxyRequest(req: NextRequest) {
     return proxyResponse;
   } catch (error) {
     console.error('프록시 처리 에러:', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
