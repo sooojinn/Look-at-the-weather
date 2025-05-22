@@ -38,14 +38,22 @@ async function proxyRequest(req: NextRequest) {
     const responseText = await response.text();
     const responseData = responseText ? JSON.parse(responseText) : null;
 
-    const proxyResponse = NextResponse.json(responseData, { status: response.status });
-
-    const setCookie = response.headers.get('set-cookie');
-    if (setCookie) {
-      proxyResponse.headers.set('set-cookie', setCookie);
+    // 상태 코드 204일 경우
+    if (response.status === 204) {
+      const proxyResponse = new NextResponse(null, { status: 204 });
+      const setCookie = response.headers.get('set-cookie');
+      if (setCookie) {
+        proxyResponse.headers.set('set-cookie', setCookie);
+      }
+      return proxyResponse;
+    } else {
+      const proxyResponse = NextResponse.json(responseData, { status: response.status });
+      const setCookie = response.headers.get('set-cookie');
+      if (setCookie) {
+        proxyResponse.headers.set('set-cookie', setCookie);
+      }
+      return proxyResponse;
     }
-
-    return proxyResponse;
   } catch (error) {
     console.error('프록시 처리 에러:', error);
     return NextResponse.json({ error: error }, { status: 500 });
