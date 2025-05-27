@@ -1,4 +1,4 @@
-# 룩엣더웨더 | Look At The Weather
+# 룩엣더웨더 | Look At The Weather ☀️
 
 <img  width="450"  alt="Image"  src="https://github.com/user-attachments/assets/ba6a7769-d7f2-49fd-b794-13fb5ec4fcef"  />
 
@@ -10,19 +10,35 @@
 
 같은 지역 사람들과 오늘의 옷차림을 공유함으로써 날씨에 맞는 옷차림에 대한 고민을 줄여보자는 의도에서 기획하게 되었습니다.
 
-## 팀원 소개
+## 팀원 소개 👥
 
-> 박수진(FE) : https://github.com/sooojinn
+<table>
+  <thead>
+    <tr>
+      <th>FE</th>
+      <th>BE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        박수진 (<a href="https://github.com/sooojinn" target="_blank">GitHub</a>)<br>
+        구장우 (<a href="https://github.com/plumpsqrl9744" target="_blank">GitHub</a>)
+      </td>
+      <td>
+        이건희 (<a href="https://github.com/dnzp75" target="_blank">GitHub</a>)<br>
+        김양선 (<a href="https://github.com/skyangs" target="_blank">GitHub</a>)
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-> 구장우(FE) : https://github.com/plumpsqrl9744
+## 개발 기간 🗓️
 
-## 개발 기간
+- 2024.07 ~ 2024.11 : 개발
+- 2024.11 ~ 2024.12 : 배포 및 유저 피드백 반영
 
-> 2024.07 ~ 2024.11 : 개발
-
-> 2024.11 ~ 2024.12 : 배포 및 유저 피드백 반영
-
-## 기술 스택
+## 기술 스택 ⚙️
 
 <table>
   <tr>
@@ -70,21 +86,19 @@
   </tr>
 </table>
 
-## 주요 기능
+## 주요 기능 💡
 
-<table>
+<table style="width: 100%;">
   <tr>
-    <th><strong>메인 페이지</strong></th>
-    <th><strong>룩 페이지</strong></th>
+    <th style="width: 50%;"><strong>메인 페이지</strong></th>
+    <th style="width: 50%;"><strong>룩 페이지</strong></th>
   </tr>
   <tr>
     <td>
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/a9c09719-0784-4d4f-8f24-57259d5ac927" />
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/6c9ae6bf-a235-45c7-89eb-532a961d77cf" />
+      <img width="410" alt="Image" src="https://github.com/user-attachments/assets/33a0c259-4631-497b-9952-b06cae9a1bf0" />
     </td>
     <td>
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/c7653b94-b036-4aa4-b2c9-c8a851436e14" />
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/ba4e79ba-fe9c-4f6b-96db-9b8a0f473d22" />
+      <img width="410" alt="Image" src="https://github.com/user-attachments/assets/74aa5379-a559-4376-a2b3-bd38cae8235f" />
     </td>
   </tr>
   <tr>
@@ -102,20 +116,19 @@
 
 <br>
 
-<table>
+<table style="width: 100%;">
   <tr>
-    <th><strong>글쓰기 페이지</strong></th>
-    <th><strong>상세 페이지 및 마이 페이지</strong></th>
+    <th style="width: 50%;"><strong>글쓰기 페이지</strong></th>
+    <th style="width: 50%;"><strong>상세 페이지 및 마이 페이지</strong></th>
   </tr>
   <tr>
     <td>
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/82c58c0b-e4c0-4e79-95e8-4762d96aa5f1" />
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/238874f3-c9cf-4e0e-9450-c95a2c72f9d7" />
+      <img width="410" alt="Image" src="https://github.com/user-attachments/assets/175e1d68-a39b-488e-811d-ad2a46612291" />
     </td>
     <td>
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/a514bf7d-7b24-4cc8-834d-dc4d4f158b18" />
-      <img width="170" alt="Image" src="https://github.com/user-attachments/assets/571b6ecd-0709-4b0a-a9c7-cfc00a78fb2d" />
+      <img width="410" alt="Image" src="https://github.com/user-attachments/assets/32819f03-0b03-458d-9ca0-5ca2422ff07b" />
     </td>
+
   </tr>
   <tr>
     <td>
