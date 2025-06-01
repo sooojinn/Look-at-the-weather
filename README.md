@@ -156,21 +156,31 @@
 
 **1️⃣ Problem**
 
+![Image](https://github.com/user-attachments/assets/83776cbc-0471-429c-b359-b2c7b261acb5)
+
 초기엔 데이터가 많지 않아 성능 문제가 크게 두드러지지 않았지만, 스크롤을 내리며 수백개의 데이터가 쌓일 경우 렌더링 지연 같은 퍼포먼스 문제가 발생할 수 있음을 예측했습니다. 200개의 모의 데이터로 테스트 해본 결과 예상대로 버벅임 현상이 발생했고, 렌더링 최적화의 필요성을 인식하게 되었습니다.
 
 **2️⃣ Action**
 
 - **Virtual Scroll 도입**
   TanStack의 `react-virtual` 라이브러리를 도입하여 **화면에 보이는 요소만 렌더링되도록 구현**했습니다.
-  반응형 요소인 경우 요소 높이를 동적으로 측정하기 위해 라이브러리 내장 함수인 `measureElement`를 사용하는 것이 일반적이지만 이 함수를 사용하면 스크롤을 내릴 때마다 `getBoundingClientRect` 함수가 연속적으로 호출됩니다. 리플로우(Reflow)가 자주 발생해 또다른 성능 문제가 발생할 것이라고 예측했습니다.
-  디자인 특성상 동일한 높이의 요소가 반복되므로 최초 렌더링 이후엔 요소의 높이를 동적으로 측정할 필요가 없다고 판단했습니다. 따라서 최초 렌더링 시 요소의 높이를 한 번만 측정하여 state에 캐시하고, 이후엔 재측정 없이 이 값을 재사용하도록 개선했습니다. 또한 resize 이벤트 발생 시 캐시를 초기화하여 재측정하도록 했습니다.
+
+![Image](https://github.com/user-attachments/assets/906bd139-4414-4cc5-86ca-cd678edf46e1)
+
+반응형 요소인 경우 요소 높이를 동적으로 측정하기 위해 라이브러리 내장 함수인 `measureElement`를 사용하는 것이 일반적이지만 이 함수를 사용하면 스크롤을 내릴 때마다 `getBoundingClientRect` 함수가 연속적으로 호출됩니다. 리플로우(Reflow)가 자주 발생해 또다른 성능 문제가 발생할 것이라고 예측했습니다.
+디자인 특성상 동일한 높이의 요소가 반복되므로 최초 렌더링 이후엔 요소의 높이를 동적으로 측정할 필요가 없다고 판단했습니다. 따라서 최초 렌더링 시 요소의 높이를 한 번만 측정하여 state에 캐시하고, 이후엔 재측정 없이 이 값을 재사용하도록 개선했습니다. 또한 resize 이벤트 발생 시 캐시를 초기화하여 재측정하도록 했습니다.
+
 - **스크롤 위치 복원 기능 구현**
   Virtual Scroll 적용 이후, 게시물 클릭 → 상세 페이지 이동 → 뒤로가기 시 스크롤이 항상 맨 위로 초기화되는 UX 문제가 발생했습니다. 기존에는 window 객체의 스크롤 위치가 자동으로 유지됐지만, virtual scroll은 내부 컨테이너 스크롤을 기준으로 하기 때문에 브라우저가 위치를 기억하지 못하게 되었습니다.
   `History API` 를 이용해 스크롤 위치를 `history.state`에 저장하고 페이지 복귀 시 해당 위치로 복원했습니다.
 
 **3️⃣ Result**
 
+<img width='300' src='https://github.com/user-attachments/assets/b4a33c27-3475-46bc-a379-998dc6ddcec3'/> <img width="300" src="https://github.com/user-attachments/assets/46948eec-0658-44ca-a389-68c2784fd2b9"/>
+
 Virtual Scroll 도입으로 인해 렌더링되는 DOM 수가 급감하면서 화면 진입 지연 및 스크롤 버벅임 현상이 사라졌고, **스크립트 실행 시간이 487ms → 50ms로 약 90% 단축**되었습니다.
+
+[관련 포스팅 보러가기](https://www.soojinpark.co.kr/posts/projects/react-virtual)
 
 ### 2. 불필요한 날씨 API 요청 최소화
 
@@ -223,6 +233,8 @@ const useDailyWeatherQuery = (geoPoint: GeoPoint | undefined) =>
 
 결과적으로 날씨 API 요청의 효율이 크게 개선되었고, 사용자 경험을 해치지 않으면서도 네트워크를 절약할 수 있게 되었습니다.
 
+[관련 포스팅 보러가기](https://www.soojinpark.co.kr/posts/react/react-query-optimization-reducing-unnecessary-api-requests)
+
 ### 3. Next.js로 마이그레이션 및 SSR 적용
 
 **1️⃣ Problem**
@@ -251,6 +263,11 @@ access token은 클라이언트의 private 변수에 저장되고 있었고, ref
 
 **3️⃣ Result**
 
-- **SSR 환경에서도 사용자 인증 기반 API 요청이 가능**해졌고, 빠른 초기 렌더링으로 퍼포먼스가 향상되었습니다.
+<img width="350" src="https://github.com/user-attachments/assets/391a89fa-d33c-4263-af1f-e6d8b4ca7166"/><img width='350' src="https://github.com/user-attachments/assets/d6f5fbc4-00a1-4a04-b3e7-9da545cb628d" />
+
+- SSR 환경에서도 사용자 인증 기반 API 요청이 가능해졌고, 빠른 초기 렌더링으로 **LCP 속도가 3.4초에서 0.9초로 단축**되었습니다.
+
 - API 요청을 Next.js 서버로 중계하고, 미들웨어에서 토큰을 주입하는 구조를 통해 **인증 로직을 일관성 있게 관리**할 수 있었습니다.
 - 결과적으로 기존 인증 방식을 유지하면서도 SSR을 통해 사용자 맞춤형 데이터를 제공할 수 있는 구조로 개선할 수 있었습니다.
+
+[관련 포스팅 보러가기](https://www.soojinpark.co.kr/posts/next.js/nextjs-ssr-reverse-proxy-middleware)
